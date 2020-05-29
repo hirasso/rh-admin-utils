@@ -1,6 +1,7 @@
 #### 1.0.1 (2020-05-29)
 
-- only show admin bar buttons if pendant is visible (#eb55314)
+- hide buttons before load (#d75b1c4)
+- only show admin bar buttons if pendant is visible (#8638d96)
 
 #### 1.0.0 (2020-05-29)
 

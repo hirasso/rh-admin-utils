@@ -1,4 +1,6 @@
 #submitdiv:not(.rhau-enabled) {
-  pointer-events: none;
-  opacity: 0.5;
+  input[type="submit"]  {
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
