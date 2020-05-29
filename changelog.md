@@ -1,6 +1,7 @@
 #### 1.0.1 (2020-05-29)
 
-- hide buttons before load (#d75b1c4)
+- Support for acf-field-groups (#02bf017)
+- hide buttons before load (#c7a1814)
 - only show admin bar buttons if pendant is visible (#8638d96)
 
 #### 1.0.0 (2020-05-29)
