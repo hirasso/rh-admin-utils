@@ -1,8 +1,4 @@
-[data-name="inject_code"] {
-  .CodeMirror {
-    border-radius: 5px;
-    height: auto;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
+#submitdiv:not(.rhau-enabled) {
+  pointer-events: none;
+  opacity: 0.5;
 }

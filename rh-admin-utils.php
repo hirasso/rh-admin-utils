@@ -20,6 +20,8 @@ class AdminUtils extends Singleton {
   public function __construct() {
 
     add_action('plugins_loaded', [$this, 'connect_to_rh_updater']);
+    add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
+    add_action('wp_before_admin_bar_render', [$this, 'admin_bar_buttons'], 10000001, 1);
     
   }
 
@@ -55,6 +57,7 @@ class AdminUtils extends Singleton {
    * @return void
    */
   public function enqueue_admin_assets() {
+    global $pagenow;
     wp_enqueue_style( "$this->prefix-admin", $this->asset_uri("assets/$this->prefix-admin.css"), [], null );
     wp_enqueue_script( "$this->prefix-admin", $this->asset_uri("assets/$this->prefix-admin.js"), ['jquery'], null, true );
   }
@@ -119,6 +122,52 @@ class AdminUtils extends Singleton {
     if( $this->is_dev() ) echo "<!-- Template Path: $path -->";
     include( $path );
     return ob_get_clean();
+  }
+
+  /**
+   * Check if we are on an admin bar edit screen
+   *
+   * @return boolean
+   */
+  private function is_admin_edit_screen() {
+    global $pagenow;
+    if( !in_array($pagenow, ['post.php', 'post-new.php'] ) ) return false;
+    return true;
+  }
+
+  /**
+   * Adds buttons to WP Admin Bar
+   *
+   * @return void
+   */
+  public function admin_bar_buttons() {
+    global $wp_admin_bar;
+    if( !$this->is_admin_edit_screen() ) return;
+    ob_start() ?>
+    <style>
+      #wp-admin-bar-rh-publish > .ab-item.is-disabled,
+      #wp-admin-bar-rh-save > .ab-item.is-disabled {
+        pointer-events: none;
+        opacity: 0.5;
+      }
+    </style>
+    <?php $style = ob_get_clean();
+    $wp_admin_bar->add_node([
+      'id' => 'rh-publish',
+      'parent' => 'top-secondary',
+      'href' => '##',
+      'meta' => [
+        'html' => $style
+      ]
+    ]);
+    $wp_admin_bar->add_node([
+      'id' => 'rh-save',
+      'parent' => 'top-secondary',
+      'href' => '##',
+      'meta' => [
+        'html' => $style
+      ]
+    ]);
   }
 
 }
