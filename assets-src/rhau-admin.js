@@ -35,7 +35,7 @@ export default class RHAU {
    */
   initAdminBarButtons() {
     // publish/update button
-    let $wpPublish = $('#submitdiv input[id="publish"]');
+    let $wpPublish = $('#submitdiv input[id="publish"]:visible');
     let $rhPublish = $('#wp-admin-bar-rh-publish a');
     if( $wpPublish.length ) {
       $rhPublish.text($wpPublish.val()).click(e => {
@@ -45,7 +45,7 @@ export default class RHAU {
       })
     }
     // save draft button
-    let $wpSave = $('#submitdiv input[id="save-post"]');
+    let $wpSave = $('#submitdiv input[id="save-post"]:visible');
     let $rhSave = $('#wp-admin-bar-rh-save a');
     if( $wpSave.length ) {
       $rhSave.text($wpSave.val()).click(e => {
