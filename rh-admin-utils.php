@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: RH Admin Utilities
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress
  * Author URI: https://rassohilber.com
@@ -57,7 +57,6 @@ class AdminUtils extends Singleton {
    * @return void
    */
   public function enqueue_admin_assets() {
-    global $pagenow;
     wp_enqueue_style( "$this->prefix-admin", $this->asset_uri("assets/$this->prefix-admin.css"), [], null );
     wp_enqueue_script( "$this->prefix-admin", $this->asset_uri("assets/$this->prefix-admin.js"), ['jquery'], null, true );
   }

@@ -7,7 +7,7 @@ export default class RHAU {
 
   constructor() {
     jQuery(document).ready(() => this.onDocReady());
-    this.reopenAcfFieldObjects();
+    this.reopenSavedAcfFieldObjects();
     this.restoreScrollTop();
     $('form#post').one( 'submit', (e) => this.beforeSubmitPostForm(e) );
     
@@ -28,7 +28,7 @@ export default class RHAU {
    */
   beforeSubmitPostForm(e) {
     // e.preventDefault();
-    this.storeOpenAcfFieldObjects();
+    this.saveOpenAcfFieldObjects();
     this.addToStore('scrollTop', $(document).scrollTop());
   }
 
@@ -103,7 +103,8 @@ export default class RHAU {
   /**
    * Stores open Field objects
    */
-  storeOpenAcfFieldObjects() {
+  saveOpenAcfFieldObjects() {
+    if( typeof acf === 'undefined' ) return;
     if( typeof acf.getFieldObjects !== 'function' ) return;
     let openFieldObjects = [];
     try {
@@ -118,9 +119,19 @@ export default class RHAU {
   }
 
   /**
+   * 
+   * @param {mixed} obj 
+   * @param  {...any} args 
+   */
+  getNested(obj, ...args) {
+    return args.reduce((obj, level) => obj && obj[level], obj)
+  }
+
+  /**
    * Restores open field objects
    */
-  reopenAcfFieldObjects() {
+  reopenSavedAcfFieldObjects() {
+    if( typeof acf === 'undefined' ) return;
     if( typeof acf.getFieldObjects !== 'function' ) return;
     let openObjects = this.getFromStore('open-acf-field-objects');
     if( !openObjects ) return;
@@ -130,8 +141,8 @@ export default class RHAU {
         const $settings = fieldObject.$el.children('.settings');
         // copied code from acf-field-group.js
         // open
-        $settings.slideDown(0);
         fieldObject.$el.addClass('open');
+        $settings.css({display: 'block'});
         acf.doAction('open_field_object', fieldObject);
         fieldObject.trigger('openFieldObject');
         // action (show)

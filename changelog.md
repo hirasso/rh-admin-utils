@@ -1,6 +1,10 @@
+#### 1.0.2 (2020-06-01)
+
+- fix undefined object 'acf' on some admin pages (#7fa8e46)
+
 #### 1.0.1 (2020-05-29)
 
-- Support for acf-field-groups (#02bf017)
+- Support for acf-field-groups (#546cfd2)
 - hide buttons before load (#c7a1814)
 - only show admin bar buttons if pendant is visible (#8638d96)
 
