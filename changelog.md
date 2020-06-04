@@ -1,6 +1,10 @@
+#### 1.0.3 (2020-06-04)
+
+- Also show update button for acf options pages (#09a7e16)
+
 #### 1.0.2 (2020-06-01)
 
-- fix undefined object 'acf' on some admin pages (#7fa8e46)
+- fix undefined object 'acf' on some admin pages (#e590043)
 
 #### 1.0.1 (2020-05-29)
 

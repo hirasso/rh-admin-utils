@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: RH Admin Utilities
- * Version: 1.0.2
+ * Version: 1.0.3
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress
  * Author URI: https://rassohilber.com
@@ -18,7 +18,7 @@ class AdminUtils extends Singleton {
   private $prefix = 'rhau';
 
   public function __construct() {
-
+    
     add_action('plugins_loaded', [$this, 'connect_to_rh_updater']);
     add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
     add_action('wp_before_admin_bar_render', [$this, 'admin_bar_buttons'], 10000001, 1);
@@ -130,7 +130,22 @@ class AdminUtils extends Singleton {
    */
   private function is_admin_edit_screen() {
     global $pagenow;
-    if( !in_array($pagenow, ['post.php', 'post-new.php'] ) ) return false;
+    if( in_array($pagenow, ['post.php', 'post-new.php'] ) ) return true;
+    if( $this->is_admin_acf_options_page() ) return true;
+    return false;
+  }
+
+  /**
+   * Check if on acf options page
+   *
+   * @return boolean
+   */
+  private function is_admin_acf_options_page() {
+    if( !function_exists('acf_get_options_page') ) return false;
+    if( !$slug = $_GET['page'] ?? null ) return false;
+    if( !$options_page = acf_get_options_page($slug) ) return false;
+    $prepare_slug = preg_replace( "/[\?|\&]page=$slug/", "", basename( $_SERVER['REQUEST_URI'] ) );
+    if( !empty($options_page['parent_slug']) && $options_page['parent_slug'] !== $prepare_slug ) return false;
     return true;
   }
 
