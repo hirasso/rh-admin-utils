@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: RH Admin Utilities
- * Version: 1.0.3
+ * Version: 1.0.4
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress
  * Author URI: https://rassohilber.com
@@ -22,7 +22,7 @@ class AdminUtils extends Singleton {
     add_action('plugins_loaded', [$this, 'connect_to_rh_updater']);
     add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
     add_action('wp_before_admin_bar_render', [$this, 'admin_bar_buttons'], 10000001, 1);
-    
+    add_action('admin_notices', [$this, 'remove_yoast_ads'], 9);
   }
 
   /**
@@ -182,6 +182,35 @@ class AdminUtils extends Singleton {
         'html' => $style
       ]
     ]);
+  }
+
+  /**
+   * Removes YOAST SEO ads from WordPress Admin
+   * Tested with Yoast SEO Version 14.4.1
+   * 
+   * @date 2020/06/25
+   * @return void
+   */
+  public function remove_yoast_ads() {
+    // check if class Yoast_Notification_Center exists
+    if( !class_exists('\Yoast_Notification_Center') ) return;
+    $notification_center = \Yoast_Notification_Center::get();
+    // get all notifications
+    $notifications = $notification_center->get_sorted_notifications();
+    // loop through all YOAST notifications
+    foreach( $notifications as $notification ) {
+      // transform the notification to an array, so that we can access the message
+      $notification_array = $notification->to_array();
+      // get message from array
+      $notification_message = $notification_array['message'] ?? null;
+      // continue to next notification if no message in array
+      if( !$notification_message ) continue;
+      // Remove the notification if it contains a string. 
+      // You could also check for $notification_array['options']['yoast_branding'] === true
+      if( stripos($notification_message, 'Get Yoast SEO Premium') !== false ) {
+        $notification_center->remove_notification($notification);
+      }
+    }
   }
 
 }

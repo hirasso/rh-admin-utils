@@ -1,6 +1,10 @@
+#### 1.0.4 (2020-06-25)
+
+- Remove YOAST SEO ads (#989c4d6)
+
 #### 1.0.3 (2020-06-04)
 
-- Also show update button for acf options pages (#09a7e16)
+- Also show update button for acf options pages (#70de851)
 
 #### 1.0.2 (2020-06-01)
 
