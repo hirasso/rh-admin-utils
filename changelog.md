@@ -1,6 +1,10 @@
+#### 1.0.5 (2020-07-10)
+
+- Make show_notice_missing_rh_updater public (#7fb76dd)
+
 #### 1.0.4 (2020-06-25)
 
-- Remove YOAST SEO ads (#989c4d6)
+- Remove YOAST SEO ads (#9f39e77)
 
 #### 1.0.3 (2020-06-04)
 

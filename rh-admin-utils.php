@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: RH Admin Utilities
- * Version: 1.0.4
+ * Version: 1.0.5
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress
  * Author URI: https://rassohilber.com
@@ -43,7 +43,7 @@ class AdminUtils extends Singleton {
    *
    * @return void
    */
-  private function show_notice_missing_rh_updater() {
+  public function show_notice_missing_rh_updater() {
     global $rh_updater_notice_shown;
     if( !$rh_updater_notice_shown && current_user_can('activate_plugins') ) {
       $rh_updater_notice_shown = true;
