@@ -19,9 +19,9 @@ class RH_Connect_To_Updater {
    *
    * @return void
    */
-  public function connect( $file ) {
+  public function connect() {
     if( class_exists('\RH_Bitbucket_Updater') ) {
-      new \RH_Bitbucket_Updater( $file );
+      new \RH_Bitbucket_Updater( $this->file );
     } else {
       add_action('admin_notices', [$this, 'show_notice_missing_rh_updater']);
       add_action('network_admin_notices', [$this, 'show_notice_missing_rh_updater']);
