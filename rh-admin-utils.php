@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: RH Admin Utilities
- * Version: 1.0.6
+ * Version: 1.0.7
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress
  * Author URI: https://rassohilber.com
@@ -12,6 +12,8 @@ namespace R\AdminUtils;
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 require_once(__DIR__ . '/inc/class.singleton.php');
+require_once(__DIR__ . '/inc/class.connect-to-updater.php');
+new \RH_Connect_To_Updater(__FILE__);
 
 class AdminUtils extends Singleton {
 
@@ -19,41 +21,9 @@ class AdminUtils extends Singleton {
 
   public function __construct() {
     
-    add_action('plugins_loaded', [$this, 'connect_to_rh_updater']);
     add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
     add_action('wp_before_admin_bar_render', [$this, 'admin_bar_buttons'], 10000001, 1);
     add_action('admin_notices', [$this, 'remove_yoast_ads'], 9);
-  }
-
-  /**
-   * Connects the plugin to RH Updater
-   *
-   * @return void
-   */
-  public function connect_to_rh_updater() {
-    if( class_exists('\RH_Bitbucket_Updater') ) {
-      new \RH_Bitbucket_Updater( __FILE__ );
-    } else {
-      add_action('admin_notices', [$this, 'show_notice_missing_rh_updater']);
-      add_action('network_admin_notices', [$this, 'show_notice_missing_rh_updater']);
-    }
-  }
-
-  /**
-   * Shows the missing updater notice
-   *
-   * @return void
-   */
-  public function show_notice_missing_rh_updater() {
-    global $rh_updater_notice_shown;
-    if( !$rh_updater_notice_shown && current_user_can('activate_plugins') ) {
-      $rh_updater_notice_shown = true;
-      ob_start(); ?>
-      <div class="notice notice-warning">
-        <p>RH Updater is not installed. Custom plugins by <a href="https://rassohilber.com" target="_blank">Rasso Hilber</a> won't be updated.</p>
-      </div>
-      <?php echo ob_get_clean();
-    }
   }
 
   /**
