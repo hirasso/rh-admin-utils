@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: RH Admin Utilities
- * Version: 1.0.5
+ * Version: 1.0.6
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress
  * Author URI: https://rassohilber.com
@@ -35,6 +35,7 @@ class AdminUtils extends Singleton {
       new \RH_Bitbucket_Updater( __FILE__ );
     } else {
       add_action('admin_notices', [$this, 'show_notice_missing_rh_updater']);
+      add_action('network_admin_notices', [$this, 'show_notice_missing_rh_updater']);
     }
   }
 
@@ -47,7 +48,11 @@ class AdminUtils extends Singleton {
     global $rh_updater_notice_shown;
     if( !$rh_updater_notice_shown && current_user_can('activate_plugins') ) {
       $rh_updater_notice_shown = true;
-      echo "<div class='notice notice-warning'><p>RH Updater is not installed. Custom plugins won't be updated.</p></div>";
+      ob_start(); ?>
+      <div class="notice notice-warning">
+        <p>RH Updater is not installed. Custom plugins by <a href="https://rassohilber.com" target="_blank">Rasso Hilber</a> won't be updated.</p>
+      </div>
+      <?php echo ob_get_clean();
     }
   }
 
