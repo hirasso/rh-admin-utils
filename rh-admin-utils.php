@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: RH Admin Utilities
- * Version: 1.0.7
+ * Version: 1.0.8
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress
  * Author URI: https://rassohilber.com
@@ -12,8 +12,6 @@ namespace R\AdminUtils;
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 require_once(__DIR__ . '/inc/class.singleton.php');
-require_once(__DIR__ . '/inc/class.connect-to-updater.php');
-new \RH_Connect_To_Updater(__FILE__);
 
 class AdminUtils extends Singleton {
 
