@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: RH Admin Utilities
- * Version: 1.0.8
+ * Version: 1.0.9
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress
  * Author URI: https://rassohilber.com
@@ -16,12 +16,26 @@ require_once(__DIR__ . '/inc/class.singleton.php');
 class AdminUtils extends Singleton {
 
   private $prefix = 'rhau';
+  private $deprecated_plugins = ['rh-wpsc-clear-cache/rh-wpsc-clear-cache.php'];
 
   public function __construct() {
     
     add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
     add_action('wp_before_admin_bar_render', [$this, 'admin_bar_buttons'], 10000001, 1);
     add_action('admin_notices', [$this, 'remove_yoast_ads'], 9);
+    add_action('admin_init', [$this, 'admin_init']);
+    add_action('admin_notices', array( $this, 'show_admin_notices'));
+    
+  }
+
+  /**
+   * Admin init
+   *
+   * @return void
+   */
+  public function admin_init() {
+    $this->delete_deprecated_plugins();
+    $this->wp_super_cache_init();
   }
 
   /**
@@ -184,6 +198,127 @@ class AdminUtils extends Singleton {
         $notification_center->remove_notification($notification);
       }
     }
+  }
+
+  /**
+   * Delete deprecated plugins
+   *
+   * @return void
+   */
+  public function delete_deprecated_plugins() {
+    foreach( $this->deprecated_plugins as $id => $plugin_slug ) {
+      $plugin_file = WP_PLUGIN_DIR . '/' . $plugin_slug;
+      if( file_exists($plugin_file) ) {
+        $plugin_data = get_plugin_data($plugin_file);
+        if( delete_plugins([$plugin_slug]) ) {
+          $this->add_admin_notice("plugin-deleted-$id", "[RH Admin Utils] Deleted deprecated plugin „{$plugin_data['Name']}“.", "success");
+        }
+      }
+    }
+    // 
+  }
+
+  /**
+   * Adds an admin notice
+   *
+   * @param string $key
+   * @param string $message
+   * @param string $type
+   * @return void
+   */
+  private function add_admin_notice( $key, $message, $type = 'warning' ) {
+    $notices = get_transient("$this->prefix-admin-notices");
+    if( !$notices ) $notices = [];
+    $notices[$key] = [
+      'message' => $message,
+      'type' => $type
+    ];
+    set_transient("$this->prefix-admin-notices", $notices);
+  }
+  
+  /**
+   * Shows admin notices from transient
+   *
+   * @return void
+   */
+  public function show_admin_notices() {
+    $notices = get_transient("$this->prefix-admin-notices");
+    delete_transient("$this->prefix-admin-notices");
+    if( !is_array($notices) ) return;
+    foreach( $notices as $notice ) {
+      ob_start() ?>
+      <div class="notice notice-<?= $notice['type'] ?> is-dismissible">
+        <p><?= $notice['message'] ?></p>
+      </div>
+      <?php echo ob_get_clean();
+    }
+  }
+
+  /**
+   * WP Super Cache Init
+   *
+   * @return void
+   */
+  private function wp_super_cache_init() {
+    if( is_plugin_active('wp-super-cache/wp-cache.php') ) {
+      add_action('admin_bar_menu', [$this, 'replace_wp_super_cache_admin_bar_button'], 999 );
+    }
+    if( intval($_GET['rh_clear_cache'] ?? null) === 1 ) $this->clear_cache();
+  }
+
+  /**
+   * Deletes the cache
+   *
+   * @return void
+   */
+  private function clear_cache() {
+    global $cache_path;
+    check_admin_referer( 'rh_clear_cache' );
+    prune_super_cache( $cache_path . 'supercache/', true );
+    prune_super_cache( $cache_path, true );
+
+    do_action('rh/wpsc-cc/clear_cache');
+
+    $redirect_url = remove_query_arg('_wpnonce');
+    $redirect_url = remove_query_arg('rh_clear_cache', $redirect_url);
+
+    $notice = apply_filters('rh/wpsc-cc/cache_deleted_notice', __( 'Cache deleted.' ));
+    $this->add_admin_notice('cache-cleared', $notice, 'success');
+
+    wp_safe_redirect( $redirect_url );
+    exit;
+
+  }
+
+  /**
+   * Adds the Item to the admin bar menu. Replaces WPSC's item
+   *
+   * @param [Class] $wp_admin_bar
+   * @return void
+   */
+  public function replace_wp_super_cache_admin_bar_button( $wp_admin_bar ) {
+    global $super_cache_enabled;
+
+    $wp_admin_bar->remove_menu('delete-cache');
+    if( !current_user_can('edit_others_posts') || !$super_cache_enabled ) {
+      return;
+    }
+
+    $url = $_SERVER['REQUEST_URI'];
+    $url = add_query_arg( 'rh_clear_cache', '1', $url );
+    $text = __( 'Delete Cache', 'wp-super-cache' );
+    $text = apply_filters('rh/wpsc-cc/menu_item_text', $text);
+
+    $args = [
+      'parent' => '',
+      'id' => 'delete-cache',
+      'title' => '<span class="ab-icon"></span>' . $text,
+      'meta' => array( 'title' => __( 'Delete Super Cache cached files', 'wp-super-cache' ), 'target' => '_self' ),
+      'href' => wp_nonce_url( $url, 'rh_clear_cache' )
+    ];
+
+    $wp_admin_bar->add_menu($args);
+
   }
 
 }

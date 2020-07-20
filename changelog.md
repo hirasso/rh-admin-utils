@@ -1,6 +1,23 @@
+#### 1.0.9 (2020-07-20)
+
+- Add WP Super Cache Admin Bar Item (#dbea035)
+
+#### 1.0.8 (2020-07-17)
+
+- Remove rh-updater dependency (#8d1b391)
+
+#### 1.0.7 (2020-07-14)
+
+- fix updater connector (#2a3603b)
+- add connector class (#bb6f509)
+
+#### 1.0.6 (2020-07-14)
+
+- fix notice for missing updater (#59575a1)
+
 #### 1.0.5 (2020-07-10)
 
-- Make show_notice_missing_rh_updater public (#7fb76dd)
+- Make show_notice_missing_rh_updater public (#77b78a1)
 
 #### 1.0.4 (2020-06-25)
 

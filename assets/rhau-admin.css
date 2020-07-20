@@ -1,1 +1,1 @@
-#submitdiv:not(.rhau-enabled) input[type=submit]{visibility:hidden;pointer-events:none}
+@charset "UTF-8";#submitdiv:not(.rhau-enabled) input[type=submit]{visibility:hidden;pointer-events:none}#wpadminbar #wp-admin-bar-delete-cache .ab-icon:before{content:"";top:1px}

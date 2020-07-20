@@ -4,3 +4,7 @@
     pointer-events: none;
   }
 }
+#wpadminbar #wp-admin-bar-delete-cache .ab-icon:before {
+  content: "\f182";
+  top: 1px;
+}
