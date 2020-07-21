@@ -1,6 +1,10 @@
+#### 1.1.0 (2020-07-21)
+
+- Merge all admin util classes (#1919160)
+
 #### 1.0.9 (2020-07-20)
 
-- Add WP Super Cache Admin Bar Item (#dbea035)
+- Add WP Super Cache Admin Bar Item (#d0fead6)
 
 #### 1.0.8 (2020-07-17)
 
