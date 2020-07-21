@@ -1,6 +1,6 @@
 #### 1.1.0 (2020-07-21)
 
-- Merge all admin util classes (#1919160)
+- Merge all admin util classes (#dec7612)
 
 #### 1.0.9 (2020-07-20)
 
