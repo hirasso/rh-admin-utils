@@ -18,6 +18,7 @@ class RemoveAds extends Singleton {
    */
   public function admin_init() {
     $this->hide_duplicate_post_update_notice();
+    $this->hide_email_address_encoder_notices();
   }
 
   /**
@@ -28,6 +29,16 @@ class RemoveAds extends Singleton {
   private function hide_duplicate_post_update_notice() {
     remove_action( 'network_admin_notices', 'duplicate_post_show_update_notice' );
     remove_action( 'admin_notices', 'duplicate_post_show_update_notice' );
+  }
+
+  /**
+   * Hides email address encoder's notices
+   *
+   * @return void
+   */
+  private function hide_email_address_encoder_notices() {
+    // the plugin allows a constant to disable notices. Good plugin. :)
+    define('EAE_DISABLE_NOTICES', true);
   }
 
   /**
