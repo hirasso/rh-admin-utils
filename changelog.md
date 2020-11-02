@@ -1,3 +1,11 @@
+#### 1.1.2 (2020-11-02)
+
+- – Fix Update-Button on ACF validation errors – Add info icon to image fields (#6b77ec0)
+
+#### 1.1.1 (2020-07-22)
+
+- Hide Email Address Encoder's admin notices (#f25cc1e)
+
 #### 1.1.0 (2020-07-21)
 
 - Merge all admin util classes (#dec7612)
