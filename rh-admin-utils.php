@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: RH Admin Utilities
- * Version: 1.1.1
+ * Version: 1.1.2
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress. Removes plugin ads, adds custom buttons to the admin bar (publish, clear cache), allows editors to add users (except administrators).
  * Author URI: https://rassohilber.com
@@ -18,7 +18,8 @@ class AdminUtils extends Singleton {
   private $prefix = 'rhau';
   private $deprecated_plugins = [
     'rh-wpsc-clear-cache/rh-wpsc-clear-cache.php',
-    'rh-editors-add-users/rh-editors-add-users.php'
+    'rh-editors-add-users/rh-editors-add-users.php',
+    'toolbar-publish-button/toolbar-publish-button.php',
   ];
 
   public function __construct() {
@@ -201,6 +202,7 @@ require_once(__DIR__ . '/inc/class.editors-add-users.php');
 require_once(__DIR__ . '/inc/class.wpsc-clear-cache.php');
 require_once(__DIR__ . '/inc/class.remove-ads.php');
 require_once(__DIR__ . '/inc/class.admin-bar-publish-button.php');
+require_once(__DIR__ . '/inc/class.misc.php');
 
 /**
  * Initialize util classes
@@ -209,3 +211,4 @@ EditorsAddUsers::getInstance();
 WpscClearCache::getInstance();
 RemoveAds::getInstance();
 AdminBarPublishButton::getInstance();
+Misc::getInstance();

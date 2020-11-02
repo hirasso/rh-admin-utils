@@ -1,3 +1,5 @@
+@import './inc/mixins';
+
 #submitdiv:not(.rhau-enabled) {
   input[type="submit"]  {
     visibility: hidden;
@@ -7,4 +9,10 @@
 #wpadminbar #wp-admin-bar-delete-cache .ab-icon:before {
   content: "\f182";
   top: 1px;
+}
+.rhau-icon--info {
+  color: rgba(0,0,0,0.3);
+  @include hover {
+    color: rgba(0,0,0,0.7);
+  }
 }

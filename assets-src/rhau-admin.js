@@ -1,7 +1,7 @@
 
 var jQuery = $ = global.jQuery;
 
-import './scss/admin.scss';
+import './scss/rhau.scss';
 
 export default class RHAU {
 
