@@ -1,3 +1,7 @@
+#### 1.1.3 (2020-11-03)
+
+- Minor Fixes (#7c31fba)
+
 #### 1.1.2 (2020-11-02)
 
 - – Fix Update-Button on ACF validation errors – Add info icon to image fields (#6b77ec0)

@@ -18,30 +18,16 @@ class AdminBarPublishButton extends Singleton {
   public function add_buttons() {
     global $wp_admin_bar;
     if( !$this->current_screen_has_publish_button() ) return;
-    ob_start() ?>
-    <style>
-      #wp-admin-bar-rh-publish > .ab-item.is-disabled,
-      #wp-admin-bar-rh-save > .ab-item.is-disabled {
-        pointer-events: none;
-        opacity: 0.5;
-      }
-    </style>
-    <?php $style = ob_get_clean();
+    
     $wp_admin_bar->add_node([
       'id' => 'rh-publish',
       'parent' => 'top-secondary',
       'href' => '##',
-      'meta' => [
-        'html' => $style
-      ]
     ]);
     $wp_admin_bar->add_node([
       'id' => 'rh-save',
       'parent' => 'top-secondary',
       'href' => '##',
-      'meta' => [
-        'html' => $style
-      ]
     ]);
   }
 

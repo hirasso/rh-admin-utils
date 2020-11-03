@@ -6,9 +6,14 @@
     pointer-events: none;
   }
 }
-#wpadminbar #wp-admin-bar-delete-cache .ab-icon:before {
+#wp-admin-bar-delete-cache .ab-icon:before {
   content: "\f182";
   top: 1px;
+}
+#wp-admin-bar-rh-publish > .ab-item.is-disabled,
+#wp-admin-bar-rh-save > .ab-item.is-disabled {
+  pointer-events: none;
+  opacity: 0.5;
 }
 .rhau-icon--info {
   color: rgba(0,0,0,0.3);
