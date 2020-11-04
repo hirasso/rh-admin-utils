@@ -64,8 +64,8 @@ export default class RHAU {
         $rhSave.addClass('is-disabled');
       })
     }
-    if( typeof acf !== 'undefined' ) {
-      acf.add_filter('validation_complete', (json, $form) => {
+    if( typeof acf !== 'undefined' && typeof acf.addFilter !== 'undefined' ) {
+      acf.addFilter('validation_complete', (json, $form) => {
         // check errors
         if( json.errors ) {
           if( $rhPublish.length ) $rhPublish.removeClass('is-disabled');
