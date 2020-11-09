@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: RH Admin Utilities
- * Version: 1.1.4
+ * Version: 1.1.5
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress. Removes plugin ads, adds custom buttons to the admin bar (publish, clear cache), allows editors to add users (except administrators).
  * Author URI: https://rassohilber.com
@@ -26,7 +26,7 @@ class AdminUtils extends Singleton {
     
     add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
     add_action('admin_init', [$this, 'admin_init'], 11);
-    add_action('admin_notices', array( $this, 'show_admin_notices'));
+    add_action('admin_notices', [$this, 'show_admin_notices']);
     
   }
 

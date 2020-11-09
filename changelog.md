@@ -1,6 +1,10 @@
+#### 1.1.5 (2020-11-09)
+
+- Add function for automatically activating ACF PRO license (#03cc93d)
+
 #### 1.1.4 (2020-11-04)
 
-- ACF 5.9.3 compatibility (#f84ad19)
+- ACF 5.9.3 compatibility (#1b62b25)
 
 #### 1.1.3 (2020-11-03)
 
