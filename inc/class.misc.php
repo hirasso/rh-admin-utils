@@ -30,7 +30,11 @@ class Misc extends Singleton {
    * @return string
    */
   public function activate_acf_pro_license() {
-     if ( ! defined( 'ACF_PRO_LICENSE' ) || empty( ACF_PRO_LICENSE ) || acf_pro_get_license_key() ) {
+    if ( 
+      ! function_exists('acf_pro_get_license_key') 
+      || ! defined( 'ACF_PRO_LICENSE' ) 
+      || empty( ACF_PRO_LICENSE ) 
+      || acf_pro_get_license_key() ) {
       return;
     }
     $_POST['acf_pro_licence'] = ACF_PRO_LICENSE;

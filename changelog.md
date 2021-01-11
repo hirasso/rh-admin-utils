@@ -1,6 +1,10 @@
+#### 1.1.6 (2021-01-11)
+
+- Check for function `acf_pro_get_license_key` to prevent server errors (#5151e56)
+
 #### 1.1.5 (2020-11-09)
 
-- Add function for automatically activating ACF PRO license (#03cc93d)
+- Add function for automatically activating ACF PRO license (#4c0e1fc)
 
 #### 1.1.4 (2020-11-04)
 
