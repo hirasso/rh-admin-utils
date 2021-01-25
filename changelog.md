@@ -1,6 +1,7 @@
-#### 1.1.6 (2021-01-11)
+#### 1.1.6 (2021-01-25)
 
-- Check for function `acf_pro_get_license_key` to prevent server errors (#5151e56)
+- add qtranslate admin styles (#80d41c9)
+- Check for function `acf_pro_get_license_key` to prevent server errors (#929b15d)
 
 #### 1.1.5 (2020-11-09)
 

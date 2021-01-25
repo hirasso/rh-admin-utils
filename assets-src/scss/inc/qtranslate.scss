@@ -1,0 +1,50 @@
+/*
+* Qtranslate Admin Language Switcher
+*/
+.qtranxs-lang-switch-wrap {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999999;
+  width: auto;
+  height: 32px; // wpadminbar height
+  display: flex !important;
+  color: #fff;
+}
+.post-php #wp-admin-bar-language,
+#qtranxs-meta-box-lsb {
+  display: none !important;
+}
+.qtranxs-lang-switch {
+  cursor: pointer;
+  padding: 0 0.5em;
+  margin: 0;
+  line-height: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.qtranxs-lang-switch:hover,
+.qtranxs-lang-switch.active {
+  color: #fff;
+  background: #32373c;
+}
+.qtranxs-lang-switch:hover {
+  color: #00b9eb;
+}
+.qtranxs-lang-switch img {
+  display: none;
+}
+
+/*
+* Qtranslate Options Page
+*/
+.qtranxs-form-table {
+  #option_lsb_style > td,
+  #option_highlight_mode > td {
+    opacity: 0.5;
+    pointer-events: none;
+    user-select: none;
+  }
+}

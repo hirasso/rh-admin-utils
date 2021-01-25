@@ -9,6 +9,7 @@ class Misc extends Singleton {
   public function __construct() {
     add_filter('acf/prepare_field/type=image', [$this, 'prepare_image_field']);
     add_filter('admin_init', [$this, 'activate_acf_pro_license']);
+    add_filter('admin_init', [$this, 'overwrite_qtranslate_defaults']);
   }
 
   /**
@@ -41,6 +42,22 @@ class Misc extends Singleton {
     if( $acf_admin_updates = acf_get_instance('ACF_Admin_Updates') ) {
       $acf_admin_updates->activate_pro_licence();
     }
+  }
+
+  /**
+   * Overwrites some qtranslate defaults
+   *
+   * @return void
+   */
+  public function overwrite_qtranslate_defaults() {
+    global $q_config;
+    if( !isset($q_config) ) return;
+    // disable qtranslate styles on the admin LSBs
+    $q_config['lsb_style'] = 'custom';
+    // do not highlight translatable fields
+    $q_config['highlight_mode'] = 0;
+    // hide the 'copy from' button
+    $q_config['hide_lsb_copy_content'] = true;
   }
   
 }
