@@ -50,8 +50,9 @@
 }
 
 /*
-* Fixes WYSIWYG autosize issues
+* compatibility with acf-autosize
 */
-.multi-language-field > .acf-editor-wrap:not(.current-language) {
+.acf-field-qtranslate-wysiwyg .multi-language-field > .acf-editor-wrap:not(.current-language),
+.acf-field-qtranslate-textarea .multi-language-field > textarea:not(.current-language) {
   @include visually-hidden;
 }

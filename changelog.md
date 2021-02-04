@@ -1,6 +1,7 @@
 #### 1.1.8 (2021-02-04)
 
-- fix WYSIWYG autosize issues with qTranslate (#1e29974)
+- optimizations for acf-autosize and qtranslate (#a4e0d0c)
+- fix WYSIWYG autosize issues with qTranslate (#ccabc16)
 
 #### 1.1.6 (2021-01-25)
 
