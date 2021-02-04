@@ -10,6 +10,7 @@ class Misc extends Singleton {
     add_filter('acf/prepare_field/type=image', [$this, 'prepare_image_field']);
     add_filter('admin_init', [$this, 'activate_acf_pro_license']);
     add_filter('admin_init', [$this, 'overwrite_qtranslate_defaults']);
+    add_action('admin_init', [$this, 'redirect_edit_php']);
   }
 
   /**
@@ -58,6 +59,21 @@ class Misc extends Singleton {
     $q_config['highlight_mode'] = 0;
     // hide the 'copy from' button
     $q_config['hide_lsb_copy_content'] = true;
+  }
+
+  /**
+   * Redirects the default edit.php screen
+   *
+   * @return void
+   */
+  public function redirect_edit_php() {
+    global $pagenow, $typenow;
+    if( $pagenow !== 'edit.php') return;
+    if( $typenow ) return;
+    $redirect_url = admin_url('/edit.php?post_type=page');
+    $redirect_url = apply_filters('rhau/edit_php_redirect_url', $redirect_url);
+    wp_safe_redirect($redirect_url);
+    exit;
   }
   
 }

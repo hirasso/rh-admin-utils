@@ -1,6 +1,7 @@
 #### 1.1.8 (2021-02-04)
 
-- optimizations for acf-autosize and qtranslate (#a4e0d0c)
+- Redirect default `edit.php` screen to `edit.php?post_type=page` (#7d85b40)
+- optimizations for acf-autosize and qtranslate (#d697451)
 - fix WYSIWYG autosize issues with qTranslate (#ccabc16)
 
 #### 1.1.6 (2021-01-25)
