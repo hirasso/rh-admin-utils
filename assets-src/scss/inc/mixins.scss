@@ -4,3 +4,13 @@
 @mixin hover {
  @media screen and (hover: hover), screen and (min--moz-device-pixel-ratio: 0), screen and (-ms-high-contrast:none) { &:hover { @content; } }
 }
+
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 100% !important;
+  top: 0 !important;
+  left: -10000px !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  display: block !important;
+}

@@ -48,3 +48,10 @@
     user-select: none;
   }
 }
+
+/*
+* Fixes WYSIWYG autosize issues
+*/
+.multi-language-field > .acf-editor-wrap:not(.current-language) {
+  @include visually-hidden;
+}

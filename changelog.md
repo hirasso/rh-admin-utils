@@ -1,3 +1,7 @@
+#### 1.1.8 (2021-02-04)
+
+- fix WYSIWYG autosize issues with qTranslate (#1e29974)
+
 #### 1.1.6 (2021-01-25)
 
 - add qtranslate admin styles (#1ce43a1)
