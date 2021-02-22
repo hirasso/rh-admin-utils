@@ -139,6 +139,7 @@ class AdminUtils extends Singleton {
       if( file_exists($plugin_file) ) {
         $found_one = true;
         $plugin_data = get_plugin_data($plugin_file);
+        deactivate_plugins([$plugin_slug], true);
         delete_plugins([$plugin_slug]);
         $this->add_admin_notice("plugin-deleted-$id", "[RH Admin Utils] Deleted deprecated plugin „{$plugin_data['Name']}“.", "success");
       }

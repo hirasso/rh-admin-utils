@@ -1,6 +1,7 @@
 #### 1.1.9 (2021-02-22)
 
-- Include environments module (#66389e3)
+- Deactivate deprecated plugins before deleting them (#332d011)
+- Include environments module (#286bbf7)
 
 #### 1.1.8 (2021-02-04)
 
