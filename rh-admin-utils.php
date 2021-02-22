@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: RH Admin Utilities
- * Version: 1.1.8
+ * Version: 1.1.9
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress. Removes plugin ads, adds custom buttons to the admin bar (publish, clear cache), allows editors to add users (except administrators).
  * Author URI: https://rassohilber.com
@@ -20,6 +20,7 @@ class AdminUtils extends Singleton {
     'rh-wpsc-clear-cache/rh-wpsc-clear-cache.php',
     'rh-editors-add-users/rh-editors-add-users.php',
     'toolbar-publish-button/toolbar-publish-button.php',
+    'rh-environments/rh-environments.php'
   ];
 
   public function __construct() {
@@ -55,7 +56,7 @@ class AdminUtils extends Singleton {
    * @param [type] $path
    * @return void
    */
-  private function asset_uri( $path ) {
+  public function asset_uri( $path ) {
     $uri = plugins_url( $path, __FILE__ );
     $file = $this->get_plugin_path( $path );
     if( file_exists( $file ) ) {
@@ -131,16 +132,21 @@ class AdminUtils extends Singleton {
    * @return void
    */
   public function delete_deprecated_plugins() {
+    $found_one = false;
+    $is_redirect = $_GET['rhau-deleted-depreated'] ?? null;
     foreach( $this->deprecated_plugins as $id => $plugin_slug ) {
       $plugin_file = WP_PLUGIN_DIR . '/' . $plugin_slug;
       if( file_exists($plugin_file) ) {
+        $found_one = true;
         $plugin_data = get_plugin_data($plugin_file);
-        if( delete_plugins([$plugin_slug]) ) {
-          $this->add_admin_notice("plugin-deleted-$id", "[RH Admin Utils] Deleted deprecated plugin „{$plugin_data['Name']}“.", "success");
-        }
+        delete_plugins([$plugin_slug]);
+        $this->add_admin_notice("plugin-deleted-$id", "[RH Admin Utils] Deleted deprecated plugin „{$plugin_data['Name']}“.", "success");
       }
     }
-    // 
+    if( $found_one && !$is_redirect ) {
+      wp_safe_redirect(add_query_arg('rhau-deleted-depreated', true));
+      exit;
+    }
   }
 
   /**
@@ -203,6 +209,7 @@ require_once(__DIR__ . '/inc/class.wpsc-clear-cache.php');
 require_once(__DIR__ . '/inc/class.remove-ads.php');
 require_once(__DIR__ . '/inc/class.admin-bar-publish-button.php');
 require_once(__DIR__ . '/inc/class.misc.php');
+require_once(__DIR__ . '/inc/class.environments.php');
 
 /**
  * Initialize util classes
@@ -212,3 +219,4 @@ WpscClearCache::getInstance();
 RemoveAds::getInstance();
 AdminBarPublishButton::getInstance();
 Misc::getInstance();
+RH_Environments::getInstance();

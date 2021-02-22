@@ -1,6 +1,10 @@
+#### 1.1.9 (2021-02-22)
+
+- Include environments module (#66389e3)
+
 #### 1.1.8 (2021-02-04)
 
-- Redirect default `edit.php` screen to `edit.php?post_type=page` (#7d85b40)
+- Redirect default `edit.php` screen to `edit.php?post_type=page` (#d43635c)
 - optimizations for acf-autosize and qtranslate (#d697451)
 - fix WYSIWYG autosize issues with qTranslate (#ccabc16)
 

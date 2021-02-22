@@ -1,5 +1,5 @@
 @import './inc/mixins';
-@import './inc/qtranslate';
+@import './modules/qtranslate';
 
 #submitdiv:not(.rhau-enabled) {
   input[type="submit"]  {
