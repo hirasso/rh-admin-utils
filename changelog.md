@@ -1,6 +1,7 @@
-#### 1.1.9 (2021-02-22)
+#### 1.1.9 (2021-02-23)
 
-- Deactivate deprecated plugins before deleting them (#332d011)
+- Limit `WP_POST_REVISIONS` to 3 (#06b5f1d)
+- Deactivate deprecated plugins before deleting them (#f052ae6)
 - Include environments module (#286bbf7)
 
 #### 1.1.8 (2021-02-04)

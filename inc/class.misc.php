@@ -11,6 +11,18 @@ class Misc extends Singleton {
     add_filter('admin_init', [$this, 'activate_acf_pro_license']);
     add_filter('admin_init', [$this, 'overwrite_qtranslate_defaults']);
     add_action('admin_init', [$this, 'redirect_edit_php']);
+    add_action('plugins_loaded', [$this, 'limit_revisions']);
+  }
+
+  /**
+   * Limit revisions
+   *
+   * @return void
+   */
+  public function limit_revisions() {
+    if( defined('WP_POST_REVISIONS') ) return;
+    $revisions = intval( apply_filters('rhau/settings/post_revisions', 3) );
+    define('WP_POST_REVISIONS', $revisions );
   }
 
   /**
