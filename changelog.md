@@ -1,6 +1,6 @@
 #### 1.1.9 (2021-02-23)
 
-- Limit `WP_POST_REVISIONS` to 3 (#06b5f1d)
+- Limit `WP_POST_REVISIONS` to 3 (#d07aef1)
 - Deactivate deprecated plugins before deleting them (#f052ae6)
 - Include environments module (#286bbf7)
 
