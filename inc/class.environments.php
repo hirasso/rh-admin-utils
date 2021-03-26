@@ -188,6 +188,7 @@ class RH_Environments extends Singleton {
    * @return string
    */
   private function document_title_env_prefix( $title ) {
+    $title = (string) $title;
     switch ($this->env) {
       case 'development':
         return $this->prepend_to_string($title, 'DEV: ');

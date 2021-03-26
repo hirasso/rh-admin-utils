@@ -1,3 +1,7 @@
+#### 1.2.0 (2021-03-26)
+
+- cast document title to string (#19d8bc8)
+
 #### 1.1.9 (2021-02-23)
 
 - Limit `WP_POST_REVISIONS` to 3 (#d07aef1)
