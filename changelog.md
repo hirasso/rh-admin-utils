@@ -1,6 +1,7 @@
 #### 1.2.1 (2021-03-31)
 
-- Disable cap `customize` for all users (#c900b1f)
+- Remove some nodes from WP_Admin_Bar (#4ca8129)
+- Disable cap `customize` for all users (#398e2ff)
 
 #### 1.2.0 (2021-03-26)
 

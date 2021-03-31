@@ -13,6 +13,7 @@ class Misc extends Singleton {
     add_action('admin_init', [$this, 'redirect_edit_php']);
     add_action('plugins_loaded', [$this, 'limit_revisions']);
     add_filter('map_meta_cap', [$this, 'disable_capabilities'], 10, 4);
+    add_action('admin_bar_menu', [$this, 'admin_bar_menu'], 999);
   }
 
   /**
@@ -103,6 +104,18 @@ class Misc extends Singleton {
     if( !in_array($cap, $disabled_capabilities) ) return $caps;
     $caps[] = 'do_not_allow';
     return $caps;
+  }
+
+  /**
+   * Remove some nodes from WP_Admin_Bar
+   *
+   * @param \WP_Admin_Bar $ab
+   * @return void
+   */
+  public function admin_bar_menu( \WP_Admin_Bar $ab ): void {
+    $ab->remove_node( 'wp-logo' );
+    $ab->remove_node( 'new-content' );
+    $ab->remove_node( 'wpseo-menu' );
   }
   
 }
