@@ -1,6 +1,10 @@
+#### 1.2.1 (2021-03-31)
+
+- Disable cap `customize` for all users (#c900b1f)
+
 #### 1.2.0 (2021-03-26)
 
-- cast document title to string (#19d8bc8)
+- cast document title to string (#c7ae4d0)
 
 #### 1.1.9 (2021-02-23)
 

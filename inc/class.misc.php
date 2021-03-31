@@ -12,6 +12,7 @@ class Misc extends Singleton {
     add_filter('admin_init', [$this, 'overwrite_qtranslate_defaults']);
     add_action('admin_init', [$this, 'redirect_edit_php']);
     add_action('plugins_loaded', [$this, 'limit_revisions']);
+    add_filter('map_meta_cap', [$this, 'disable_capabilities'], 10, 4);
   }
 
   /**
@@ -86,6 +87,22 @@ class Misc extends Singleton {
     $redirect_url = apply_filters('rhau/edit_php_redirect_url', $redirect_url);
     wp_safe_redirect($redirect_url);
     exit;
+  }
+
+  /**
+   * Disable some caps for all users
+   *
+   * @param array $caps
+   * @param string $cap
+   * @param int $user_id
+   * @param array $args
+   * @return array
+   */
+  function disable_capabilities( $caps, $cap, $user_id, $args ) {
+    $disabled_capabilities = apply_filters('rhau/disabled_capabilities', ['customize']);
+    if( !in_array($cap, $disabled_capabilities) ) return $caps;
+    $caps[] = 'do_not_allow';
+    return $caps;
   }
   
 }
