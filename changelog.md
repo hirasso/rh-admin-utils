@@ -1,6 +1,7 @@
 #### 1.2.2 (2021-04-13)
 
-- Optimize Admin Menu (#a6c3a02)
+- Do not allow editors to add editos with update capabilities (#b651b74)
+- Optimize Admin Menu (#4e18b9f)
 - Cleanup (#b2c9ede)
 
 #### 1.2.1 (2021-04-13)
