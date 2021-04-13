@@ -1,6 +1,7 @@
-#### 1.2.1 (2021-03-31)
+#### 1.2.1 (2021-04-13)
 
-- Remove some nodes from WP_Admin_Bar (#4ca8129)
+- Add new Role "Editor (+ Run Updates)" (#0f011c5)
+- Remove some nodes from WP_Admin_Bar (#28a832d)
 - Disable cap `customize` for all users (#398e2ff)
 
 #### 1.2.0 (2021-03-26)
