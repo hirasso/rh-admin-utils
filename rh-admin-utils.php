@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: RH Admin Utilities
- * Version: 1.2.1
+ * Version: 1.2.2
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress. Removes plugin ads, adds custom buttons to the admin bar (publish, clear cache), allows editors to add users (except administrators).
  * Author URI: https://rassohilber.com
@@ -211,6 +211,7 @@ require_once(__DIR__ . '/inc/class.remove-ads.php');
 require_once(__DIR__ . '/inc/class.admin-bar-publish-button.php');
 require_once(__DIR__ . '/inc/class.misc.php');
 require_once(__DIR__ . '/inc/class.environments.php');
+require_once(__DIR__ . '/inc/class.editor-can-update.php');
 
 /**
  * Initialize util classes
@@ -220,4 +221,5 @@ WpscClearCache::getInstance();
 RemoveAds::getInstance();
 AdminBarPublishButton::getInstance();
 Misc::getInstance();
-RH_Environments::getInstance();
+Environments::getInstance();
+EditorCanUpdate::getInstance();

@@ -1,6 +1,10 @@
+#### 1.2.2 (2021-04-13)
+
+- Cleanup (#021b485)
+
 #### 1.2.1 (2021-04-13)
 
-- Add new Role "Editor (+ Run Updates)" (#0f011c5)
+- Add new Role "Editor (+ Run Updates)" (#4ddeddd)
 - Remove some nodes from WP_Admin_Bar (#28a832d)
 - Disable cap `customize` for all users (#398e2ff)
 

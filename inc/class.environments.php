@@ -12,7 +12,7 @@ namespace R\AdminUtils;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-class RH_Environments extends Singleton {
+class Environments extends Singleton {
 
   private $env;
 
