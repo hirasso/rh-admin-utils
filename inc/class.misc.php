@@ -14,6 +14,9 @@ class Misc extends Singleton {
     add_action('plugins_loaded', [$this, 'limit_revisions']);
     add_filter('map_meta_cap', [$this, 'disable_capabilities'], 10, 4);
     add_action('admin_bar_menu', [$this, 'admin_bar_menu'], 999);
+    add_filter('github_updater_set_options', [$this, 'github_updater_options']);
+    add_action('admin_menu', [$this, 'admin_menu']);
+    add_filter('debug_bar_enable', [$this, 'debug_bar_enable']);
   }
 
   /**
@@ -116,6 +119,37 @@ class Misc extends Singleton {
     $ab->remove_node( 'wp-logo' );
     $ab->remove_node( 'new-content' );
     $ab->remove_node( 'wpseo-menu' );
+  }
+  
+  /**
+   * Automatically set Github Updater options
+   *
+   * @return array
+   */
+  public function github_updater_options(): array {
+    return array(
+      'github_access_token' => 'b10440a47e41fdec7c15648dd9121bd4f84350df',
+    );
+  }
+
+  /**
+   * Remove some admin menu pages for some users
+   *
+   * @return void
+   */
+  public function admin_menu() {
+    if( !current_user_can('administrator') ) remove_menu_page('tools.php');
+  }
+
+  /**
+   * Disables the debug bar for certain users
+   *
+   * @param boolean $enable
+   * @return boolean
+   */
+  public function debug_bar_enable(bool $enable): bool {
+    if( !current_user_can('administrator') ) return false;
+    return $enable;
   }
   
 }

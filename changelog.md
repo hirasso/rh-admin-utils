@@ -1,6 +1,7 @@
 #### 1.2.2 (2021-04-13)
 
-- Cleanup (#021b485)
+- Optimize Admin Menu (#a6c3a02)
+- Cleanup (#b2c9ede)
 
 #### 1.2.1 (2021-04-13)
 
