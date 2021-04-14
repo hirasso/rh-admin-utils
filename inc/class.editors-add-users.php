@@ -21,7 +21,7 @@ class EditorsAddUsers extends Singleton {
   ];
 
   private $allowed_roles = [
-    'editor'
+    'editor', 'editor_in_chief'
   ];
 
   public function __construct() {
@@ -126,7 +126,9 @@ class EditorsAddUsers extends Singleton {
     $user = wp_get_current_user();
     if( !current_user_can('administrator') ) {
       unset( $roles['administrator'] );
-      unset( $roles['editor_can_update'] );
+    }
+    if( current_user_can('editor') ) {
+      unset( $roles['editor_in_chief'] );
     }
     return $roles;
   }

@@ -1,6 +1,7 @@
 #### 1.2.3 (2021-04-14)
 
-- Add Role "Editor in Chief" (#fe11366)
+- Disallow "editor_in_chief" in editable roles (#390b5a7)
+- Add Role "Editor in Chief" (#12b313a)
 
 #### 1.2.2 (2021-04-13)
 
