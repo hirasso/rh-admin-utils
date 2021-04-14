@@ -1,12 +1,12 @@
 <?php 
 
-namespace R\AdminUtils;
+namespace RH\AdminUtils;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-class EditorCanUpdate extends Singleton {
+class EditorInChief extends Singleton {
 
-  public $role_name = 'editor_can_update';
+  public $role_name = 'editor_in_chief';
 
   public function __construct() {
     add_action('admin_init', [$this, 'add_role']);
@@ -25,7 +25,7 @@ class EditorCanUpdate extends Singleton {
       'update_core' => true,
       'update_plugins' => true,
     ], $editor_role->capabilities);
-    add_role($this->role_name, sprintf("%s (%s)", translate_user_role('Editor'),  __("+ Run Updates")), $caps);
+    add_role($this->role_name, translate_user_role('Editor in Chief', 'rh'), $caps);
   }
   
 }

@@ -1,6 +1,6 @@
 <?php 
 
-namespace R\AdminUtils;
+namespace RH\AdminUtils;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 

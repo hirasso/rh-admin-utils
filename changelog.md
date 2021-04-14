@@ -1,6 +1,10 @@
+#### 1.2.3 (2021-04-14)
+
+- Add Role "Editor in Chief" (#fe11366)
+
 #### 1.2.2 (2021-04-13)
 
-- Do not allow editors to add editos with update capabilities (#b651b74)
+- Do not allow editors to add editos with update capabilities (#63a9e6f)
 - Optimize Admin Menu (#4e18b9f)
 - Cleanup (#b2c9ede)
 
