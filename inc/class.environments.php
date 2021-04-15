@@ -23,9 +23,10 @@ class Environments extends Singleton {
 
     if( !$this->globals_defined() ) return;
 
-    $this->env = $this->get_environment();
+    $this->env = $this->get_environment_type();
     add_action('admin_init', [$this, 'update_network_sites']);
     add_filter('network_admin_url', [$this, 'network_admin_url'], 10, 2);
+    add_filter('auth_cookie_expiration', [$this, 'auth_cookie_expiration'], PHP_INT_MAX - 1, 3 );
 
     if( $this->env && $this->env !== 'production' ) {
       $this->add_non_production_hooks();
@@ -106,8 +107,9 @@ class Environments extends Singleton {
    *
    * @return void
    */
-  private function get_environment() {
-    return defined('WP_ENV') ? WP_ENV : null;
+  private function get_environment_type() {
+    if( defined('WP_ENV') ) return WP_ENV;
+    return wp_get_environment_type();
   }
 
   /**
@@ -289,5 +291,22 @@ class Environments extends Singleton {
     $headline = "<strong>This site is still in private mode, so search engines are being blocked.</strong>";
     $body = "If you want to go live, please <a href='mailto:$admin_email'>notify your site's administrator</a>.";
     echo "<div class='notice notice-warning'><p><span class='dashicons dashicons-hidden'></span> {$headline} {$body}</p></div>";
+  }
+
+  /**
+   * Set the auth cookie expiration to one year if in development
+   *
+   * @param int $ttl            time to live. default DAY_IN_SECOND*2
+   * @param int $user_id
+   * @param bool $remember
+   * @return int
+   */
+  public function auth_cookie_expiration(int $ttl, int $user_id, bool $remember ): int {
+
+    // Adjust to your working environment needs.
+    $dev_types = [ 'development', 'local' ];
+    $dev_ttl   = YEAR_IN_SECONDS;
+    
+    return in_array( $this->env, $dev_types, true ) ? $dev_ttl : $ttl;
   }
 }

@@ -1,6 +1,10 @@
+#### 1.2.4 (2021-04-15)
+
+- Stay logged in in dev environments (#585cddc)
+
 #### 1.2.3 (2021-04-14)
 
-- Disallow "editor_in_chief" in editable roles (#390b5a7)
+- Disallow "editor_in_chief" in editable roles (#2525ec8)
 - Add Role "Editor in Chief" (#12b313a)
 
 #### 1.2.2 (2021-04-13)
