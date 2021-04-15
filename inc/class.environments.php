@@ -304,9 +304,11 @@ class Environments extends Singleton {
   public function auth_cookie_expiration(int $ttl, int $user_id, bool $remember ): int {
 
     // Adjust to your working environment needs.
-    $dev_types = [ 'development', 'local' ];
-    $dev_ttl   = YEAR_IN_SECONDS;
+    $dev_environment_types = [ 'development', 'local' ];
+
+    if( in_array( $this->env, $dev_environment_types, true ) ) $ttl = YEAR_IN_SECONDS;
     
-    return in_array( $this->env, $dev_types, true ) ? $dev_ttl : $ttl;
+    return $ttl;
   }
+
 }
