@@ -12,11 +12,15 @@ class Misc extends Singleton {
     add_filter('admin_init', [$this, 'overwrite_qtranslate_defaults']);
     add_action('admin_init', [$this, 'redirect_edit_php']);
     add_action('plugins_loaded', [$this, 'limit_revisions']);
-    add_filter('map_meta_cap', [$this, 'disable_capabilities'], 10, 4);
+    add_action('after_setup_theme', [$this, 'after_setup_theme']);
     add_action('admin_bar_menu', [$this, 'admin_bar_menu'], 999);
     add_filter('github_updater_set_options', [$this, 'github_updater_options']);
     add_action('admin_menu', [$this, 'admin_menu']);
     add_filter('debug_bar_enable', [$this, 'debug_bar_enable']);
+  }
+
+  public function after_setup_theme() {
+    add_filter('map_meta_cap', [$this, 'disable_capabilities'], 10, 4);
   }
 
   /**

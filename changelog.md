@@ -1,6 +1,10 @@
+#### 1.2.5 (2021-04-19)
+
+- Late initialization for `map_meta_cap` (#26832a0)
+
 #### 1.2.4 (2021-04-15)
 
-- cleanup (#eb38aac)
+- cleanup (#e89b99b)
 - Stay logged in in dev environments (#acad660)
 
 #### 1.2.3 (2021-04-14)
