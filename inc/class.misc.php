@@ -17,6 +17,7 @@ class Misc extends Singleton {
     add_filter('github_updater_set_options', [$this, 'github_updater_options']);
     add_action('admin_menu', [$this, 'admin_menu']);
     add_filter('debug_bar_enable', [$this, 'debug_bar_enable']);
+    add_action('map_meta_cap', [$this, 'map_meta_cap_privacy_options'], 1, 4);
   }
 
   public function after_setup_theme() {
@@ -154,6 +155,28 @@ class Misc extends Singleton {
   public function debug_bar_enable(bool $enable): bool {
     if( !current_user_can('administrator') ) return false;
     return $enable;
+  }
+
+  /**
+   * Allows administrators and editors to manage the privacy page
+   *
+   * @param array $caps
+   * @param string $cap
+   * @param integer $user_id
+   * @param [type] $args
+   * @return array
+   */
+  public function map_meta_cap_privacy_options(array $caps, string $cap, int $user_id, $args): array {
+    if (!is_user_logged_in()) return $caps;
+
+    $user_meta = get_userdata($user_id);
+    if (array_intersect(['editor', 'administrator'], $user_meta->roles)) {
+      if ('manage_privacy_options' === $cap) {
+        $manage_name = is_multisite() ? 'manage_network' : 'manage_options';
+        $caps = array_diff($caps, [ $manage_name ]);
+      }
+    }
+    return $caps;
   }
   
 }

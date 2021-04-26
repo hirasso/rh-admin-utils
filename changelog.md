@@ -1,6 +1,10 @@
+#### 1.2.6 (2021-04-26)
+
+- Allow Editors to edit the privacy page (#221142b)
+
 #### 1.2.5 (2021-04-19)
 
-- Late initialization for `map_meta_cap` (#26832a0)
+- Late initialization for `map_meta_cap` (#851ef10)
 
 #### 1.2.4 (2021-04-15)
 
