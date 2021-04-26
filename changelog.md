@@ -1,6 +1,6 @@
 #### 1.2.6 (2021-04-26)
 
-- Allow Editors to edit the privacy page (#221142b)
+- Allow Editors to edit the privacy page (#9cc96e5)
 
 #### 1.2.5 (2021-04-19)
 
