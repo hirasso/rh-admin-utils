@@ -1,0 +1,13 @@
+// https://github.com/AdvancedCustomFields/acf/issues/503
+.acf-hidden {
+  /* I only needed this to overwrite ACF's default style for .acf-hidden: */
+  display: block !important; 
+  /* Take the element out of the stacking context: */
+  position: fixed !important; 
+}
+/* Remove tab focus and pointer events from the acf-field and all it's children */
+.acf-hidden,
+.acf-hidden * {
+  pointer-events: none !important;
+  visibility: hidden !important;
+}

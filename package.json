@@ -31,6 +31,10 @@
       "autoprefixer": true
     }
   },
+  "browserslist": [
+    "> 1%",
+    "not dead"
+  ],
   "author": "Rasso Hilber",
   "license": "ISC",
   "devDependencies": {

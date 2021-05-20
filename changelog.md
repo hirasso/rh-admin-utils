@@ -1,3 +1,7 @@
+#### 1.2.7 (2021-05-20)
+
+- More sensible styles for hidden ACF fields (#0e2e7ad)
+
 #### 1.2.6 (2021-04-26)
 
 - Allow Editors to edit the privacy page (#9cc96e5)
