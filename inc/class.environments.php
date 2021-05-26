@@ -128,8 +128,9 @@ class Environments extends Singleton {
     }
     if( is_multisite() ) {
       $dev_root = home_url();
-      $remote_root_production = str_replace( WP_HOME_DEV, WP_HOME_PROD, home_url());
-      $remote_root_staging = str_replace( WP_HOME_DEV, WP_HOME_STAGING, home_url());
+      $home_dev = defined('WP_HOME_DEV') ? WP_HOME_DEV : false;
+      $remote_root_production = str_replace( $home_dev, $remote_root_production, home_url());
+      $remote_root_staging = str_replace( $home_dev, $remote_root_staging, home_url());
     }
     ?>
     <div class="rh-environment-links" data-dev-root="<?= $dev_root ?>">
