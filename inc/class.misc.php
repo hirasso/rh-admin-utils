@@ -8,8 +8,8 @@ class Misc extends Singleton {
 
   public function __construct() {
     add_filter('acf/prepare_field/type=image', [$this, 'prepare_image_field']);
-    add_filter('admin_init', [$this, 'activate_acf_pro_license']);
-    add_filter('admin_init', [$this, 'overwrite_qtranslate_defaults']);
+    add_action('admin_init', [$this, 'activate_acf_pro_license']);
+    add_action('admin_init', [$this, 'overwrite_qtranslate_defaults']);
     add_action('admin_init', [$this, 'redirect_edit_php']);
     add_action('plugins_loaded', [$this, 'limit_revisions']);
     add_action('after_setup_theme', [$this, 'after_setup_theme']);
@@ -18,10 +18,16 @@ class Misc extends Singleton {
     add_action('admin_menu', [$this, 'admin_menu']);
     add_filter('debug_bar_enable', [$this, 'debug_bar_enable']);
     add_action('map_meta_cap', [$this, 'map_meta_cap_privacy_options'], 1, 4);
+    add_action('admin_init', [$this, 'remove_privacy_policy_notice']);
+    add_action('init', [$this, 'edit_screen_columns']);
   }
 
   public function after_setup_theme() {
     add_filter('map_meta_cap', [$this, 'disable_capabilities'], 10, 4);
+  }
+
+  public function remove_privacy_policy_notice() {
+    remove_action('admin_notices', ['WP_Privacy_Policy_Content', 'notice'] );
   }
 
   /**
@@ -176,4 +182,39 @@ class Misc extends Singleton {
     return $caps;
   }
   
+  /**
+   * Create custom columns for each post type
+   *
+   * @return void
+   */
+  public function edit_screen_columns() {
+    $post_types = get_post_types(['show_ui' => true]);
+    foreach($post_types as $pt) {
+      add_filter( "manage_edit-{$pt}_columns", [$this, 'default_edit_columns'] );
+      add_action( "manage_{$pt}_posts_custom_column" , [$this, 'render_edit_column'], 10, 2 );
+    }
+  }
+
+  /**
+   * Adjust default edit columns
+   *
+   * @param array $columns
+   * @return array
+   */
+  public function default_edit_columns(array $columns): array {
+    unset($columns['language']);
+    return $columns;
+  }
+
+  /**
+   * Render custom edit column
+   *
+   * @param string $column
+   * @param int $post_id
+   * @return void
+   */
+  public function render_edit_column(string $column, int $post_id): void {
+
+  }
+
 }
