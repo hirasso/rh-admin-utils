@@ -1,6 +1,14 @@
+#### 1.2.9 (2021-06-28)
+
+- Compatibility with Git Updater 10.3.4 (#5c0450a)
+
+#### 1.2.8 (2021-05-26)
+
+- Multisite compat (#012dd1e)
+
 #### 1.2.7 (2021-05-20)
 
-- More sensible styles for hidden ACF fields (#0e2e7ad)
+- More sensible styles for hidden ACF fields (#0442114)
 
 #### 1.2.6 (2021-04-26)
 
