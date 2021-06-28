@@ -1,6 +1,7 @@
 #### 1.2.9 (2021-06-28)
 
-- Compatibility with Git Updater 10.3.4 (#5c0450a)
+- Change cap to to manage the privacy page  from `manage_options` to `edit_others_posts` (#54edb23)
+- Compatibility with Git Updater 10.3.4 (#50054d1)
 
 #### 1.2.8 (2021-05-26)
 

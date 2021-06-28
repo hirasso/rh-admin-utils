@@ -158,7 +158,7 @@ class Misc extends Singleton {
   }
 
   /**
-   * Allows administrators and editors to manage the privacy page
+   * Changes cap to to manage the privacy page from manage_options to edit_others_posts
    *
    * @param array $caps
    * @param string $cap
@@ -169,13 +169,10 @@ class Misc extends Singleton {
   public function map_meta_cap_privacy_options(array $caps, string $cap, int $user_id, $args): array {
     if (!is_user_logged_in()) return $caps;
 
-    $user_meta = get_userdata($user_id);
-    if (array_intersect(['editor', 'administrator'], $user_meta->roles)) {
-      if ('manage_privacy_options' === $cap) {
-        $manage_name = is_multisite() ? 'manage_network' : 'manage_options';
-        $caps = array_diff($caps, [ $manage_name ]);
-      }
-    }
+    if ($cap !== 'manage_privacy_options') return $caps;
+
+    $caps = ['edit_others_posts'];
+
     return $caps;
   }
   
