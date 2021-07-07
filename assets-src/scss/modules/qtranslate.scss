@@ -6,7 +6,7 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 999999;
+  z-index: 159900 - 1;
   width: auto;
   height: 32px; // wpadminbar height
   display: flex !important;

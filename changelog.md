@@ -1,6 +1,7 @@
-#### 1.2.9 (2021-06-28)
+#### 1.2.9 (2021-07-07)
 
-- Hide `Languages` from edit columns (#aeca24b)
+- Fix z-index for language switch (#a2c2eab)
+- Hide `Languages` from edit columns (#51385f7)
 - Change cap to to manage the privacy page  from `manage_options` to `edit_others_posts` (#e1db0bb)
 - Compatibility with Git Updater 10.3.4 (#50054d1)
 
