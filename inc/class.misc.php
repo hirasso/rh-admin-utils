@@ -19,7 +19,7 @@ class Misc extends Singleton {
     add_filter('debug_bar_enable', [$this, 'debug_bar_enable']);
     add_action('map_meta_cap', [$this, 'map_meta_cap_privacy_options'], 1, 4);
     add_action('admin_init', [$this, 'remove_privacy_policy_notice']);
-    add_action('init', [$this, 'edit_screen_columns']);
+    add_action('init', [$this, 'edit_screen_columns'], 999);
   }
 
   public function after_setup_theme() {
