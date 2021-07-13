@@ -1,6 +1,10 @@
+#### 1.3.0 (2021-07-13)
+
+- Late init for `reopenSavedAcfFieldObjects` (#d0fc84a)
+
 #### 1.2.9 (2021-07-08)
 
-- Late init for edit columns (#3743e86)
+- Late init for edit columns (#e7b80fa)
 - Fix z-index for language switch (#60a60dc)
 - Hide `Languages` from edit columns (#51385f7)
 - Change cap to to manage the privacy page  from `manage_options` to `edit_others_posts` (#e1db0bb)

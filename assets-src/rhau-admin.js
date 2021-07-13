@@ -7,8 +7,7 @@ export default class RHAU {
 
   constructor() {
     jQuery(document).ready(() => this.onDocReady());
-    this.reopenSavedAcfFieldObjects();
-    this.restoreScrollTop();
+    
     $('form#post').one( 'submit', (e) => this.beforeSubmitPostForm(e) );
     
   }
@@ -19,6 +18,7 @@ export default class RHAU {
   onDocReady() {
     this.enableSubmitDiv();
     this.initAdminBarButtons();
+    this.reopenSavedAcfFieldObjects();
     this.restoreScrollTop();
     this.removeFromStore('scrollTop');
   }
@@ -149,6 +149,7 @@ export default class RHAU {
     if( !openObjects ) return;
     try {
       for( const key of openObjects ) {
+        
         const fieldObject = acf.getFieldObject(key);
         const $settings = fieldObject.$el.children('.settings');
         // copied code from acf-field-group.js
