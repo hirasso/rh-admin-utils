@@ -139,7 +139,7 @@ class Misc extends Singleton {
    */
   public function github_updater_options(): array {
     return array(
-      'github_access_token' => 'b10440a47e41fdec7c15648dd9121bd4f84350df',
+      'github_access_token' => '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',
     );
   }
 

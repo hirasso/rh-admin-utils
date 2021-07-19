@@ -1,6 +1,10 @@
+#### 1.3.1 (2021-07-19)
+
+- Update GitHub Updater Token (#a9c9615)
+
 #### 1.3.0 (2021-07-13)
 
-- Late init for `reopenSavedAcfFieldObjects` (#d0fc84a)
+- Late init for `reopenSavedAcfFieldObjects` (#c0e35df)
 
 #### 1.2.9 (2021-07-08)
 
