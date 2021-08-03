@@ -1,6 +1,7 @@
-#### 1.3.1 (2021-07-19)
+#### 1.3.1 (2021-08-03)
 
-- Update GitHub Updater Token (#a9c9615)
+- add boolean filter `rhau/redirect_edit_php` (#5b6b5d9)
+- Update GitHub Updater Token (#411290f)
 
 #### 1.3.0 (2021-07-13)
 

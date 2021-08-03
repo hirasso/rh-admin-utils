@@ -98,8 +98,15 @@ class Misc extends Singleton {
     global $pagenow, $typenow;
     if( $pagenow !== 'edit.php') return;
     if( $typenow ) return;
+    
+    // Allow themes to deactivate the redirect
+    if( !apply_filters('rhau/redirect_edit_php', true) ) return;
+
     $redirect_url = admin_url('/edit.php?post_type=page');
+    
+    // Allow themes to filter the redirect url
     $redirect_url = apply_filters('rhau/edit_php_redirect_url', $redirect_url);
+    
     wp_safe_redirect($redirect_url);
     exit;
   }
