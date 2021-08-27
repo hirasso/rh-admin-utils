@@ -1,6 +1,7 @@
-#### 1.3.1 (2021-07-19)
+#### 1.3.1 (2021-08-27)
 
-- Update GitHub Updater Token (#a9c9615)
+- optimize qTranslate admin language switchers (#c20d68f)
+- Update GitHub Updater Token (#411290f)
 
 #### 1.3.0 (2021-07-13)
 

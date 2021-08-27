@@ -21,6 +21,7 @@ export default class RHAU {
     this.reopenSavedAcfFieldObjects();
     this.restoreScrollTop();
     this.removeFromStore('scrollTop');
+    this.initQtranslateSwitcher();
   }
 
   /**
@@ -172,6 +173,12 @@ export default class RHAU {
   getStorageKey(key) {
     var path = window.location.pathname;
     return key + ":" + path.replace(/^\/+/g, '').split('/').join('-');
+  }
+
+  initQtranslateSwitcher() {
+    const $switcher = $('<li id="rhau-lsbs" />');
+    $switcher.insertAfter($('#wp-admin-bar-root-default li:last-child'));
+    $('.qtranxs-lang-switch-wrap:first').appendTo($switcher);
   }
 
 }
