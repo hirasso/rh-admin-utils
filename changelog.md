@@ -1,6 +1,7 @@
-#### 1.3.2 (2021-08-03)
+#### 1.3.2 (2021-08-27)
 
-- V 1.3.2 (#e1db27a)
+- optimize qTranslate admin language switchers (#a3c9c13)
+- V 1.3.2 (#ba58e37)
 
 #### 1.3.1 (2021-08-03)
 
