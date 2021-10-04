@@ -15,7 +15,7 @@ require_once(__DIR__ . '/inc/class.singleton.php');
 
 class AdminUtils extends Singleton {
 
-  private $prefix = 'rhau';
+  
   private $deprecated_plugins = [
     'rh-wpsc-clear-cache/rh-wpsc-clear-cache.php',
     'rh-editors-add-users/rh-editors-add-users.php',
@@ -46,8 +46,8 @@ class AdminUtils extends Singleton {
    * @return void
    */
   public function enqueue_admin_assets() {
-    wp_enqueue_style( "$this->prefix-admin", $this->asset_uri("assets/$this->prefix-admin.css"), [], null );
-    wp_enqueue_script( "$this->prefix-admin", $this->asset_uri("assets/$this->prefix-admin.js"), ['jquery'], null, true );
+    wp_enqueue_style( "rhau-admin", $this->asset_uri("assets/rhau-admin.css"), [], null );
+    wp_enqueue_script( "rhau-admin", $this->asset_uri("assets/rhau-admin.js"), ['jquery'], null, true );
   }
 
   /**
@@ -104,7 +104,7 @@ class AdminUtils extends Singleton {
   public function get_template($template_name, $value = null) {
     $value = $this->to_object($value);
     $path = $this->get_plugin_path("templates/$template_name.php");
-    $path = apply_filters("$this->prefix/template/$template_name", $path);
+    $path = apply_filters("rhau/template/$template_name", $path);
     if( !file_exists($path) ) return "<p>$template_name: Template doesn't exist</p>";
     ob_start();
     if( $this->is_dev() ) echo "<!-- Template Path: $path -->";
@@ -159,14 +159,14 @@ class AdminUtils extends Singleton {
    * @return void
    */
   public function add_admin_notice( $key, $message, $type = 'warning', $is_dismissible = false ) {
-    $notices = get_transient("$this->prefix-admin-notices");
+    $notices = get_transient("rhau-admin-notices");
     if( !$notices ) $notices = [];
     $notices[$key] = [
       'message' => $message,
       'type' => $type,
       'is_dismissible' => $is_dismissible
     ];
-    set_transient("$this->prefix-admin-notices", $notices);
+    set_transient("rhau-admin-notices", $notices);
   }
   
   /**
@@ -175,8 +175,8 @@ class AdminUtils extends Singleton {
    * @return void
    */
   public function show_admin_notices() {
-    $notices = get_transient("$this->prefix-admin-notices");
-    delete_transient("$this->prefix-admin-notices");
+    $notices = get_transient("rhau-admin-notices");
+    delete_transient("rhau-admin-notices");
     if( !is_array($notices) ) return;
     foreach( $notices as $notice ) {
       ob_start() ?>
