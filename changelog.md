@@ -1,3 +1,7 @@
+#### 1.3.3 (2021-10-04)
+
+- qTranslate Switcher on ACF options pages (#c1f9835)
+
 #### 1.3.2 (2021-08-27)
 
 - optimize qTranslate admin language switchers (#a3c9c13)
@@ -17,7 +21,7 @@
 - Late init for edit columns (#e7b80fa)
 - Fix z-index for language switch (#60a60dc)
 - Hide `Languages` from edit columns (#51385f7)
-- Change cap to to manage the privacy page  from `manage_options` to `edit_others_posts` (#e1db0bb)
+- Change cap to to manage the privacy page (#e1db0bb)
 - Compatibility with Git Updater 10.3.4 (#50054d1)
 
 #### 1.2.8 (2021-05-26)
@@ -70,18 +74,18 @@
 
 #### 1.1.8 (2021-02-04)
 
-- Redirect default `edit.php` screen to `edit.php?post_type=page` (#d43635c)
+- Redirect default `edit.php` screen to (#d43635c)
 - optimizations for acf-autosize and qtranslate (#d697451)
 - fix WYSIWYG autosize issues with qTranslate (#ccabc16)
 
 #### 1.1.6 (2021-01-25)
 
 - add qtranslate admin styles (#1ce43a1)
-- Check for function `acf_pro_get_license_key` to prevent server errors (#929b15d)
+- Check for function `acf_pro_get_license_key` (#929b15d)
 
 #### 1.1.5 (2020-11-09)
 
-- Add function for automatically activating ACF PRO license (#4c0e1fc)
+- Add function for automatically activating (#4c0e1fc)
 
 #### 1.1.4 (2020-11-04)
 
@@ -93,7 +97,7 @@
 
 #### 1.1.2 (2020-11-02)
 
-- – Fix Update-Button on ACF validation errors – Add info icon to image fields (#6b77ec0)
+- – Fix Update-Button on ACF validation errors (#6b77ec0)
 
 #### 1.1.1 (2020-07-22)
 

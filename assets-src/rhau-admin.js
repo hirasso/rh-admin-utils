@@ -21,7 +21,7 @@ export default class RHAU {
     this.reopenSavedAcfFieldObjects();
     this.restoreScrollTop();
     this.removeFromStore('scrollTop');
-    this.initQtranslateSwitcher();
+    requestAnimationFrame(() => this.initQtranslateSwitcher());
   }
 
   /**
@@ -176,9 +176,14 @@ export default class RHAU {
   }
 
   initQtranslateSwitcher() {
-    const $switcher = $('<li id="rhau-lsbs" />');
-    $switcher.insertAfter($('#wp-admin-bar-root-default li:last-child'));
-    $('.qtranxs-lang-switch-wrap:first').appendTo($switcher);
+    const $switcher = $('.qtranxs-lang-switch-wrap:first');
+    // bail early if no switcher could be found
+    if( !$switcher.length ) return;
+    // create the wrapper
+    const $wrap = $('<li id="wp-admin-bar-rhau-lsbs" class="rhau-lsbs" />');
+    $wrap.appendTo($('#wp-admin-bar-root-default') );
+    // append the switcher to the wrap
+    $switcher.appendTo($wrap);
   }
 
 }

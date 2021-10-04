@@ -48,7 +48,9 @@ function getCommits() {
   
   const commits = output.split(`\n${delimiter}`).map(commit => {
     let [message, hash, date] = commit.split('###');
-    message = message.replace(/(?:\r\n|\r|\n)/g, ' ').trim();
+    message = message.trim()
+    // only add the first line of the commit to the changelog
+    message = message.split('\n', 1)[0].trim()
     return { message, hash, date };
   }).filter(commit => Boolean(commit.hash));
   return commits;
