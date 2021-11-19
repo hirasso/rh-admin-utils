@@ -1,6 +1,7 @@
-#### 1.3.3 (2021-10-04)
+#### 1.3.3 (2021-11-19)
 
-- qTranslate Switcher on ACF options pages (#c1f9835)
+- Skip `activate_acf_pro_license` for ACF >= 5.11.0 (#a32f0e3)
+- qTranslate Switcher on ACF options pages (#eda535d)
 
 #### 1.3.2 (2021-08-27)
 

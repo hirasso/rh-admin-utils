@@ -53,6 +53,11 @@ class Misc extends Singleton {
     return $field;
   }
 
+  private function get_acf_version(): ?string {
+    if( !function_exists('acf') ) return null;
+    return acf()->version;
+  }
+
   /**
    * Automatically inject ACF pro license key
    *
@@ -60,6 +65,13 @@ class Misc extends Singleton {
    * @return string
    */
   public function activate_acf_pro_license() {
+    /**
+     * ACF 5.11.0 introduced built-in support for the license in wp-config.php
+     * 
+     * @see https://www.advancedcustomfields.com/blog/acf-5-11-release-rest-api/#license-key-improvements
+     */
+    if( version_compare($this->get_acf_version(), '5.11.0') >= 0 ) return;
+
     if ( 
       ! function_exists('acf_pro_get_license_key') 
       || ! defined( 'ACF_PRO_LICENSE' ) 
