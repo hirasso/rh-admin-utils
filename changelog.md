@@ -1,3 +1,7 @@
+#### 1.3.5 (2021-11-22)
+
+- Make qtranslate switchter work on edit-tags.php (#249342a)
+
 #### 1.3.4 (2021-11-19)
 
 - Skip `activate_acf_pro_license` for ACF >= 5.11.0 (#b35b601)

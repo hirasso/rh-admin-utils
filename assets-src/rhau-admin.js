@@ -21,7 +21,7 @@ export default class RHAU {
     this.reopenSavedAcfFieldObjects();
     this.restoreScrollTop();
     this.removeFromStore('scrollTop');
-    requestAnimationFrame(() => this.initQtranslateSwitcher());
+    setTimeout(() => this.initQtranslateSwitcher(), 100);
   }
 
   /**
