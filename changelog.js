@@ -3,7 +3,13 @@ const child = require('child_process');
 const argv = require('minimist')(process.argv.slice(2));
 
 const pluginFiles = ['rh-admin-utils.php'];
-const blacklist = ['Merge branch ', 'prepare-commit-msg', 'pre-commit-msg', '#ignore'];
+const blacklist = [
+  'Merge branch ', 
+  'prepare-commit-msg', 
+  'pre-commit-msg', 
+  '#ignore',
+  'documentation'
+];
 
 /**
  * Get the plugin version from a file
@@ -36,7 +42,7 @@ function addCommitMessageToChangelog( pluginVersion, message, changelog = {}, da
  */
 function isMessageBlacklisted(message) {
   for( const substring of blacklist ) {
-    if( message.indexOf(substring) !== -1 ) return true;
+    if( message.toLowerCase().indexOf(substring.toLowerCase()) !== -1 ) return true;
   }
   return false;
 }

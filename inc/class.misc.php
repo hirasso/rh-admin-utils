@@ -53,6 +53,12 @@ class Misc extends Singleton {
     return $field;
   }
 
+  /**
+   * Get currently installed version of Advanced Custom Fields PRO
+   *
+   * @return string|null
+   * @author Rasso Hilber <mail@rassohilber.com>
+   */
   private function get_acf_version(): ?string {
     if( !function_exists('acf') ) return null;
     return acf()->version;
