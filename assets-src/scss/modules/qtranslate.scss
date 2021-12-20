@@ -22,8 +22,8 @@
 }
 #wp-admin-bar-rhau-lsbs .qtranxs-lang-switch:hover,
 #wp-admin-bar-rhau-lsbs .qtranxs-lang-switch.active {
-  color: #fff !important;
-  background: #2271b1 !important;
+  color: var(--rhau-button-primary-color, #fff) !important;
+  background: var(--rhau-button-primary-background, #2271b1) !important;
 }
 
 #wp-admin-bar-rhau-lsbs .qtranxs-lang-switch img {

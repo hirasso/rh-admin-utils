@@ -9,7 +9,24 @@ export default class RHAU {
     jQuery(document).ready(() => this.onDocReady());
     
     $('form#post').one( 'submit', (e) => this.beforeSubmitPostForm(e) );
+
+    this.injectColorThemeVars()
     
+  }
+
+  injectColorThemeVars() {
+    const button = document.createElement('a')
+    button.classList.add('button', 'button-primary')
+    document.body.prepend(button)
+    const buttonStyle = window.getComputedStyle(button)
+    this.setCssVar('--rhau-button-primary-color', buttonStyle.color)
+    this.setCssVar('--rhau-button-primary-background', buttonStyle.backgroundColor)
+    button.remove()
+  }
+
+  setCssVar(name, value) {
+    console.log(name, value)
+    document.documentElement.style.setProperty(name, value)
   }
 
   /**
