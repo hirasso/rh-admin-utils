@@ -25,7 +25,6 @@ export default class RHAU {
   }
 
   setCssVar(name, value) {
-    console.log(name, value)
     document.documentElement.style.setProperty(name, value)
   }
 

@@ -1,6 +1,6 @@
 #### 1.3.7 (2021-12-20)
 
-- Respect WordPress color profiles (#4ca305f)
+- Respect WordPress color profiles (#0093512)
 
 #### 1.3.6 (2021-11-24)
 
