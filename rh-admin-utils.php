@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: RH Admin Utilities
- * Version: 1.3.8
+ * Version: 1.3.9
  * Author: Rasso Hilber
- * Description: Admin Utilities for WordPress. Removes plugin ads, adds custom buttons to the admin bar (publish, clear cache), allows editors to add users (except administrators).
+ * Description: Admin Utilities for WordPress. Removes plugin ads, adds custom buttons to the admin bar (publish, clear cache), allows editors to add users (except administrators), disables comments. Provides filters to adjust functionality.
  * Author URI: https://rassohilber.com
 **/
 
@@ -20,7 +20,8 @@ class AdminUtils extends Singleton {
     'rh-wpsc-clear-cache/rh-wpsc-clear-cache.php',
     'rh-editors-add-users/rh-editors-add-users.php',
     'toolbar-publish-button/toolbar-publish-button.php',
-    'rh-environments/rh-environments.php'
+    'rh-environments/rh-environments.php',
+    'disable-comments/disable-comments.php'
   ];
 
   public function __construct() {
@@ -37,7 +38,7 @@ class AdminUtils extends Singleton {
    * @return void
    */
   public function admin_init() {
-    $this->delete_deprecated_plugins();
+    $this->delete_conflicting_plugins();
   }
 
   /**
@@ -131,7 +132,7 @@ class AdminUtils extends Singleton {
    *
    * @return void
    */
-  public function delete_deprecated_plugins() {
+  public function delete_conflicting_plugins() {
     $found_one = false;
     $is_redirect = $_GET['rhau-deleted-depreated'] ?? null;
     foreach( $this->deprecated_plugins as $id => $plugin_slug ) {
@@ -141,7 +142,7 @@ class AdminUtils extends Singleton {
         $plugin_data = get_plugin_data($plugin_file);
         deactivate_plugins([$plugin_slug], true);
         delete_plugins([$plugin_slug]);
-        $this->add_admin_notice("plugin-deleted-$id", "[RH Admin Utils] Deleted deprecated plugin „{$plugin_data['Name']}“.", "success");
+        $this->add_admin_notice("plugin-deleted-$id", "[RH Admin Utils] Deleted conflicting plugin „{$plugin_data['Name']}“.", "success");
       }
     }
     if( $found_one && !$is_redirect ) {
@@ -212,6 +213,7 @@ require_once(__DIR__ . '/inc/class.admin-bar-publish-button.php');
 require_once(__DIR__ . '/inc/class.misc.php');
 require_once(__DIR__ . '/inc/class.environments.php');
 require_once(__DIR__ . '/inc/class.editor-in-chief.php');
+require_once(__DIR__ . '/inc/class.disable-comments.php');
 
 /**
  * Initialize util classes
@@ -223,3 +225,4 @@ AdminBarPublishButton::getInstance();
 Misc::getInstance();
 Environments::getInstance();
 EditorInChief::getInstance();
+DisableComments::getInstance();

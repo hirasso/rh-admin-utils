@@ -1,3 +1,11 @@
+#### 1.3.9 (2022-01-23)
+
+- Add class to disable comments (#d2e9710)
+
+#### 1.3.8 (2022-01-16)
+
+- v 1.3.8 (#4009b8e)
+
 #### 1.3.7 (2021-12-20)
 
 - Respect WordPress color profiles (#0093512)

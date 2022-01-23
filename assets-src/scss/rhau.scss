@@ -23,3 +23,18 @@
     color: rgba(0,0,0,0.7);
   }
 }
+
+/*
+* Desaturate overwritten options on options-discussion.php
+*/
+.options-discussion-php {
+  [for=default_comment_status],
+  [for=close_comments_for_old_posts],
+  [for=close_comments_days_old],
+  [for=comment_registration],
+  [for=default_ping_status] {
+    opacity: 0.2;
+    pointer-events: none;
+    user-select: none;
+  }
+}
