@@ -1,6 +1,10 @@
+#### 1.4.0 (2022-01-23)
+
+- Add more hooks to completely disable WP comments (#487efb7)
+
 #### 1.3.9 (2022-01-23)
 
-- Add class to disable comments (#d2e9710)
+- Add class to disable comments (#0546672)
 
 #### 1.3.8 (2022-01-16)
 

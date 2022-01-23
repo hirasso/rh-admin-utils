@@ -7,8 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 class DisableComments extends Singleton {
 
   public function __construct() {
-    // disable xmlrpc forever
-    add_filter( 'xmlrpc_enabled', '__return_false' );
     add_action('after_setup_theme', [$this, 'init']);
   }
 
@@ -28,8 +26,79 @@ class DisableComments extends Singleton {
     add_action('admin_bar_menu', [$this, 'admin_bar_menu'], 999);
     // other hooks
     add_action('admin_init', [$this, 'admin_init']);
+
+    // Filters taken from the plugin "Disable Comments"
+    // @link https://github.com/WPDevelopers/disable-comments/blob/master/disable-comments.php 
+    add_filter('wp_headers', [$this, 'filter_wp_headers']);
+    add_filter('xmlrpc_methods', [$this, 'disable_xmlrc_comments']);
+    add_filter('rest_endpoints', [$this, 'filter_rest_endpoints']);
+    add_filter('rest_pre_insert_comment', [$this, 'disable_rest_API_comments']);
+    add_action('template_redirect', [$this, 'filter_query'], 9);   // before redirect_canonical.
   }
 
+  /**
+   * Remove the X-Pingback HTTP header
+   *
+   * @param array $headers
+   * @return array
+   * @author Rasso Hilber <mail@rassohilber.com>
+   */
+  public function filter_wp_headers(array $headers): array {
+    unset($headers['X-Pingback']);
+    return $headers;
+  }
+
+  /**
+   * Remove method wp.newComment
+   *
+   * @param array $methods
+   * @return array
+   * @author Rasso Hilber <mail@rassohilber.com>
+   */
+  public function disable_xmlrc_comments(array $methods): array {
+    unset($methods['wp.newComment']);
+    return $methods;
+  }
+
+  /**
+   * Remove the comments endpoint for the REST API
+   *
+   * @param array $endpoints
+   * @return array
+   * @author Rasso Hilber <mail@rassohilber.com>
+   */
+  public function filter_rest_endpoints(array $endpoints): array {
+    unset($endpoints['comments']);
+    return $endpoints;
+  }
+
+  /**
+   * Disable Rest API Comments
+   *
+   * @param [type] $prepared_comment
+   * @param [type] $request
+   * @return void
+   * @author Rasso Hilber <mail@rassohilber.com>
+   */
+  public function disable_rest_API_comments($prepared_comment, $request): void{
+    return;
+  }
+
+  /**
+   * Issue a 403 for all comment feed requests.
+   */
+  public function filter_query() {
+    if (is_comment_feed()) {
+      wp_die(__('Comments are closed.', 'disable-comments'), '', array('response' => 403));
+    }
+  }
+
+  /**
+   * Admin INIT
+   *
+   * @return void
+   * @author Rasso Hilber <mail@rassohilber.com>
+   */
   public function admin_init(): void {
     global $pagenow;
     if( $pagenow === 'options-discussion.php' ) {
