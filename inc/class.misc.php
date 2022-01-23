@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 class Misc extends Singleton {
 
   public function __construct() {
+    add_filter( 'xmlrpc_enabled', '__return_false' );
     add_filter('acf/prepare_field/type=image', [$this, 'prepare_image_field']);
     add_action('admin_init', [$this, 'activate_acf_pro_license']);
     add_action('admin_init', [$this, 'overwrite_qtranslate_defaults']);

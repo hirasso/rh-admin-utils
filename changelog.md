@@ -1,6 +1,10 @@
+#### 1.4.1 (2022-01-23)
+
+- Removes 'comments' support for all post types. Completely disable xmlrpc (#4669d53)
+
 #### 1.4.0 (2022-01-23)
 
-- Add more hooks to completely disable WP comments (#487efb7)
+- Add more hooks to completely disable WP comments (#51ffbcd)
 
 #### 1.3.9 (2022-01-23)
 

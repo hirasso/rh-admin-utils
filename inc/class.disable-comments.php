@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 class DisableComments extends Singleton {
 
   public function __construct() {
-    add_action('after_setup_theme', [$this, 'init']);
+    add_action('after_setup_theme', [$this, 'after_setup_theme']);
   }
 
   /**
@@ -16,7 +16,7 @@ class DisableComments extends Singleton {
    * @return void
    * @author Rasso Hilber <mail@rassohilber.com>
    */
-  public function init(): void {
+  public function after_setup_theme(): void {
     // allow re-activating comments
     if( !apply_filters('rhau/disable_comments', true ) ) return;
 
@@ -26,6 +26,7 @@ class DisableComments extends Singleton {
     add_action('admin_bar_menu', [$this, 'admin_bar_menu'], 999);
     // other hooks
     add_action('admin_init', [$this, 'admin_init']);
+    add_action('init', [$this, 'remove_post_type_support'], 999);
 
     // Filters taken from the plugin "Disable Comments"
     // @link https://github.com/WPDevelopers/disable-comments/blob/master/disable-comments.php 
@@ -34,6 +35,8 @@ class DisableComments extends Singleton {
     add_filter('rest_endpoints', [$this, 'filter_rest_endpoints']);
     add_filter('rest_pre_insert_comment', [$this, 'disable_rest_API_comments']);
     add_action('template_redirect', [$this, 'filter_query'], 9);   // before redirect_canonical.
+
+    
   }
 
   /**
@@ -147,5 +150,19 @@ class DisableComments extends Singleton {
   public function admin_menu(): void {
     remove_menu_page('edit-comments.php');
   }
-  
+
+  /**
+   * Removes 'comments' support for all post types
+   *
+   * @return void
+   * @author Rasso Hilber <mail@rassohilber.com>
+   */
+  public function remove_post_type_support(): void {
+    $post_types = get_post_types([
+      'public' => true
+    ]);
+    foreach( $post_types as $pt ) {
+      remove_post_type_support($pt, 'comments');
+    }
+  }
 }
