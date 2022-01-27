@@ -1,6 +1,15 @@
-#### 1.4.1 (2022-01-23)
+#### 1.4.3 (2022-01-27)
 
-- Removes 'comments' support for all post types. Completely disable xmlrpc (#4669d53)
+- Fix wp_robots_no_robots for staging environments (#b3253b0)
+
+#### 1.4.2 (2022-01-25)
+
+- V 1.4.2 (#b019719)
+
+#### 1.4.1 (2022-01-25)
+
+- Clear WP Super Cache when updating ACF options pages (#b8fa670)
+- Removes 'comments' support for all post types. Completely disable xmlrpc (#05130ce)
 
 #### 1.4.0 (2022-01-23)
 
