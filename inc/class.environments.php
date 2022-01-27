@@ -96,10 +96,9 @@ class Environments extends Singleton {
     add_filter( 'wp_get_attachment_url', array(&$this, 'get_attachment_url') );
     add_filter( 'document_title_parts', array( $this, 'document_title_parts') );
     add_filter( 'admin_title', array( $this, 'admin_title' ) );
-    add_action( 'wp_head', array( $this, 'staging_robots' ) );
     add_action( 'wp_footer', array( $this, 'environment_quick_links' ) );
     add_action( 'admin_footer', array( $this, 'environment_quick_links' ) );
-    
+    if( $this->env === 'staging' ) add_filter('wp_robots', 'wp_robots_no_robots');
   }
   
   /**
@@ -150,17 +149,6 @@ class Environments extends Singleton {
   public function assets() {
     wp_enqueue_style( 'rh-staging-server', au()->asset_uri("assets/rhau-environments.css"), [], null );
     wp_enqueue_script( 'rh-staging-server', au()->asset_uri("assets/rhau-environments.js"), array("jquery"), null, true );
-  }
-
-  /**
-   * nofollow if on staging
-   *
-   * @return void
-   */
-  public function staging_robots() {
-    if( $this->env === 'staging' ) {
-      wp_no_robots();
-    }
   }
 
   /**
