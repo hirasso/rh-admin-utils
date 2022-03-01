@@ -1,6 +1,10 @@
+#### 1.4.4 (2022-03-01)
+
+- Disable `https_ssl_verify` in `dev` environment (#9eb4979)
+
 #### 1.4.3 (2022-01-27)
 
-- Fix wp_robots_no_robots for staging environments (#b3253b0)
+- Fix wp_robots_no_robots for staging environments (#7735e6f)
 
 #### 1.4.2 (2022-01-25)
 

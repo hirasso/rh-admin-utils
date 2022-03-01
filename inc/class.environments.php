@@ -98,7 +98,10 @@ class Environments extends Singleton {
     add_filter( 'admin_title', array( $this, 'admin_title' ) );
     add_action( 'wp_footer', array( $this, 'environment_quick_links' ) );
     add_action( 'admin_footer', array( $this, 'environment_quick_links' ) );
-    if( $this->env === 'staging' ) add_filter('wp_robots', 'wp_robots_no_robots');
+    if( $this->env === 'staging' ) {
+      add_filter('wp_robots', 'wp_robots_no_robots');
+      add_filter('https_ssl_verify', '__return_false');
+    }
   }
   
   /**
