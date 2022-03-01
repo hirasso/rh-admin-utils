@@ -1,6 +1,7 @@
 #### 1.4.4 (2022-03-01)
 
-- Disable `https_ssl_verify` in `dev` environment (#9eb4979)
+- Actually disable `https_ssl_verify` in `development`, not `staging` (#4996a91)
+- Disable `https_ssl_verify` in `dev` environment (#960067f)
 
 #### 1.4.3 (2022-01-27)
 

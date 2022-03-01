@@ -100,6 +100,8 @@ class Environments extends Singleton {
     add_action( 'admin_footer', array( $this, 'environment_quick_links' ) );
     if( $this->env === 'staging' ) {
       add_filter('wp_robots', 'wp_robots_no_robots');
+    }
+    if( $this->env === 'development' ) {
       add_filter('https_ssl_verify', '__return_false');
     }
   }
