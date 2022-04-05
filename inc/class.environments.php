@@ -92,7 +92,7 @@ class Environments extends Singleton {
   private function add_non_production_hooks() {
     add_action( 'wp_enqueue_scripts', array( $this, 'assets' ) );
     add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
-    add_filter( 'wp_calculate_image_srcset', array(&$this, 'calculate_image_srcset') );
+    add_filter( 'wp_calculate_image_srcset', array(&$this, 'calculate_image_srcset'), 11 );
     add_filter( 'wp_get_attachment_url', array(&$this, 'get_attachment_url'), 11 );
     add_filter( 'document_title_parts', array( $this, 'document_title_parts') );
     add_filter( 'admin_title', array( $this, 'admin_title' ) );

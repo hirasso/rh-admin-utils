@@ -1,6 +1,7 @@
 #### 1.4.5 (2022-04-05)
 
-- don't rewrite attachment urls for external attachment urls (#488729e)
+- change prio for wp_calculate_image_srcset to `11` (#28579bf)
+- don't rewrite attachment urls for external attachment urls (#b0a1cc6)
 
 #### 1.4.4 (2022-03-01)
 
