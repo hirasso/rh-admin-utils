@@ -1,6 +1,10 @@
+#### 1.4.5 (2022-04-05)
+
+- don't rewrite attachment urls for external attachment urls (#488729e)
+
 #### 1.4.4 (2022-03-01)
 
-- Actually disable `https_ssl_verify` in `development`, not `staging` (#4996a91)
+- Actually disable `https_ssl_verify` in `development`, not `staging` (#6042abb)
 - Disable `https_ssl_verify` in `dev` environment (#960067f)
 
 #### 1.4.3 (2022-01-27)

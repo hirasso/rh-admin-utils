@@ -93,7 +93,7 @@ class Environments extends Singleton {
     add_action( 'wp_enqueue_scripts', array( $this, 'assets' ) );
     add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
     add_filter( 'wp_calculate_image_srcset', array(&$this, 'calculate_image_srcset') );
-    add_filter( 'wp_get_attachment_url', array(&$this, 'get_attachment_url') );
+    add_filter( 'wp_get_attachment_url', array(&$this, 'get_attachment_url'), 11 );
     add_filter( 'document_title_parts', array( $this, 'document_title_parts') );
     add_filter( 'admin_title', array( $this, 'admin_title' ) );
     add_action( 'wp_footer', array( $this, 'environment_quick_links' ) );
@@ -247,6 +247,9 @@ class Environments extends Singleton {
    * @return string
    */
   function maybe_get_remote_url( $url ) {
+
+    // bail early if the $url is external
+    if( !str_starts_with($url, home_url()) ) return $url;
 
     $upload_dir = wp_upload_dir();
     $file = $upload_dir["basedir"] . str_replace( $upload_dir["baseurl"], "", $url );
