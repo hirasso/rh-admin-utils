@@ -1,6 +1,10 @@
+#### 1.5.0 (2022-06-29)
+
+- Add email notifications for pending reviews (#292c802)
+
 #### 1.4.5 (2022-04-05)
 
-- change prio for wp_calculate_image_srcset to `11` (#28579bf)
+- change prio for wp_calculate_image_srcset to `11` (#5256e1a)
 - don't rewrite attachment urls for external attachment urls (#b0a1cc6)
 
 #### 1.4.4 (2022-03-01)
