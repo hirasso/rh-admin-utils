@@ -21,6 +21,7 @@ class Misc extends Singleton {
     add_action('map_meta_cap', [$this, 'map_meta_cap_privacy_options'], 1, 4);
     add_action('admin_init', [$this, 'remove_privacy_policy_notice']);
     add_action('init', [$this, 'edit_screen_columns'], 999);
+    add_filter('admin_body_class', [$this, 'admin_body_class']);
   }
 
   public function after_setup_theme() {
@@ -235,6 +236,24 @@ class Misc extends Singleton {
    */
   public function render_edit_column(string $column, int $post_id): void {
 
+  }
+
+  /**
+   * Add custom classes to the admin body
+   *
+   * @param string $class
+   * @return string
+   */
+  public function admin_body_class(string $class): string {
+    global $pagenow;
+    if( $pagenow !== 'user-edit.php' ) return $class;
+
+    // allows for themes to disable hiding the application passwords
+    if( apply_filters('rhau/misc/hide-application-passwords', true) ) {
+      $class = "hide-application-passwords $class";
+    }
+    
+    return $class;
   }
 
 }

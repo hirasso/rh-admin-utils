@@ -1,6 +1,7 @@
 @import './inc/mixins';
 @import './modules/qtranslate';
 @import './modules/acf';
+@import './modules/user-forms';
 
 #submitdiv:not(.rhau-enabled) {
   input[type="submit"]  {

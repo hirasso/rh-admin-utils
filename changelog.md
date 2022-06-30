@@ -1,6 +1,10 @@
+#### 1.5.1 (2022-06-30)
+
+- Optimizations for `edit-user.php` (#63975e0)
+
 #### 1.5.0 (2022-06-29)
 
-- Add email notifications for pending reviews (#292c802)
+- Add email notifications for pending reviews (#3ace8b4)
 
 #### 1.4.5 (2022-04-05)
 

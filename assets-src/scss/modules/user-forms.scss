@@ -1,0 +1,12 @@
+.user-edit-php {
+  #your-profile > h2,
+  .user-rich-editing-wrap,
+  .user-url-wrap,
+  .user-description-wrap,
+  .user-comment-shortcuts-wrap,
+  .show-admin-bar,
+  // This can be disabled using the php filter "rhau/misc/hide-application-passwords":
+  &.hide-application-passwords .application-passwords {
+    display: none;
+  }
+}

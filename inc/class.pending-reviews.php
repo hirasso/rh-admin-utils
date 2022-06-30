@@ -9,6 +9,7 @@ class PendingReviews extends Singleton {
   public function __construct() {
     add_action('save_post', [$this, 'save_post']);
     add_action('acf/init', [$this, 'acf_init']);
+    add_filter('acf/location/rule_match', [__CLASS__, 'acf_location_rule_match'], 10, 4);
   }
 
   /**
@@ -45,47 +46,43 @@ class PendingReviews extends Singleton {
       'location' => array(
         array(
           array(
-            'param' => 'user_form',
+            'param' => 'rhau_user_form_capability',
             'operator' => '==',
-            'value' => 'edit',
-          ),
-          array(
-            'param' => 'user_role',
-            'operator' => '==',
-            'value' => 'administrator',
-          ),
-        ),
-        array(
-          array(
-            'param' => 'user_form',
-            'operator' => '==',
-            'value' => 'edit',
-          ),
-          array(
-            'param' => 'user_role',
-            'operator' => '==',
-            'value' => 'editor',
-          ),
-        ),
-        array(
-          array(
-            'param' => 'user_form',
-            'operator' => '==',
-            'value' => 'edit',
-          ),
-          array(
-            'param' => 'user_role',
-            'operator' => '==',
-            'value' => 'editor_in_chief',
+            'value' => 'edit_others_posts',
           ),
         ),
       ),
       'menu_order' => 0,
       'position' => 'acf_after_title',
       'active' => true,
-      'description' => '',
       'show_in_rest' => 0,
     ));
+  }
+
+  /**
+   * Undocumented function
+   *
+   * @param boolean $match
+   * @param array $rule
+   * @param array $screen
+   * @param array $field_group
+   * @return boolean
+   */
+  public static function acf_location_rule_match(bool $match, array $rule, array $screen, array $field_group): bool {
+    
+    $rule_param = $rule['param'] ?? null;
+    if( $rule_param !== 'rhau_user_form_capability' ) return $match;
+
+    $cap = $rule['value'] ?? null;
+    if( !$cap ) return $match;
+
+    $user_form = $screen['user_form'] ?? null;
+    if( $user_form !== 'edit' ) return $match;
+
+    global $user_id;
+    if( !$user = get_userdata( $user_id ) ) return $match;
+
+    return $user->has_cap($cap);
   }
 
   /**
