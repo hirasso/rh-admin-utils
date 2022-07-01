@@ -1,6 +1,10 @@
+#### 1.6.0 (2022-07-01)
+
+- Utilities for ACF password field: reveal, generate & copy (#ac4c50b)
+
 #### 1.5.1 (2022-06-30)
 
-- Optimizations for `edit-user.php` (#63975e0)
+- Optimizations for `edit-user.php` (#ba186aa)
 
 #### 1.5.0 (2022-06-29)
 

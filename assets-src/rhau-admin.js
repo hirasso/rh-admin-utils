@@ -1,7 +1,10 @@
 
-var jQuery = $ = global.jQuery;
+const $ = window.jQuery
 
-import './scss/rhau.scss';
+import './scss/rhau.scss'
+
+import Alpine from 'alpinejs'
+import ACFPasswordUtilities from './components/alpine/ACFPasswordUtilities/ACFPasswordUtilities.js'
 
 export default class RHAU {
 
@@ -11,6 +14,18 @@ export default class RHAU {
     $('form#post').one( 'submit', (e) => this.beforeSubmitPostForm(e) );
 
     this.injectColorThemeVars()
+
+    this.initAlpine()
+    
+  }
+
+  initAlpine() {
+
+    Alpine.prefix('rhau-x-')
+
+    Alpine.data('ACFPasswordUtilities', options => ACFPasswordUtilities(options))
+
+    Alpine.start()
     
   }
 
