@@ -101,7 +101,7 @@ class PendingReviews extends Singleton {
 
     // Only send notifications each 5 minutes
     $transient_name = "block_pending_review_notification_for_{$post_id}";
-    delete_transient($transient_name);
+    // delete_transient($transient_name);
     if( get_transient($transient_name) ) return;
     set_transient($transient_name, true, MINUTE_IN_SECONDS * 5);
 

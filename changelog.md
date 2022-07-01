@@ -1,6 +1,7 @@
 #### 1.6.0 (2022-07-01)
 
-- Utilities for ACF password field: reveal, generate & copy (#ac4c50b)
+- Only send pending notifications each 5 minutes (#978115d)
+- Utilities for ACF password field: reveal, generate & copy (#0a95ad5)
 
 #### 1.5.1 (2022-06-30)
 
