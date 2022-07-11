@@ -1,6 +1,10 @@
+#### 1.6.1 (2022-07-11)
+
+- Fix conflict with WP Super Cache delete cache button (#8c3774d)
+
 #### 1.6.0 (2022-07-01)
 
-- Only send pending notifications each 5 minutes (#978115d)
+- Only send pending notifications each 5 minutes (#7d04c22)
 - Utilities for ACF password field: reveal, generate & copy (#0a95ad5)
 
 #### 1.5.1 (2022-06-30)

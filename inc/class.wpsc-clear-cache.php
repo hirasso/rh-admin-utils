@@ -68,7 +68,7 @@ class WpscClearCache extends Singleton {
 
     $args = [
       'parent' => '',
-      'id' => 'delete-cache',
+      'id' => 'rhau-delete-cache',
       'title' => '<span class="ab-icon"></span>' . $text,
       'meta' => array( 'title' => __( 'Delete Super Cache cached files', 'wp-super-cache' ), 'target' => '_self' ),
       'href' => wp_nonce_url( $url, 'rh_clear_cache' )
