@@ -1,12 +1,5 @@
 <?php
-/**
- * Plugin Name: RH Environments
- * Description: Tweaks for development and staging environments in WordPress
- * Version: 1.2.8
- * Author: Rasso Hilber
- * Author URI: https://rassohilber.com
- *
-**/
+
 
 namespace RH\AdminUtils;
 
