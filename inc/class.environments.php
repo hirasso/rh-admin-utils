@@ -115,7 +115,7 @@ class Environments extends Singleton {
    * @return void
    */
   public function environment_quick_links() {
-    $dev_root = home_url();
+    $dev_root = get_option('home');
     $remote_root_production = defined("WP_HOME_PROD") ? WP_HOME_PROD : false;
     $remote_root_staging = defined("WP_HOME_STAGING") ? WP_HOME_STAGING : false;
     if( is_admin() ) {
@@ -124,10 +124,10 @@ class Environments extends Singleton {
       $remote_root_staging = defined("WP_SITEURL_STAGING") ? WP_SITEURL_STAGING : false;
     }
     if( is_multisite() ) {
-      $dev_root = home_url();
+      $dev_root = get_option('home');
       $home_dev = defined('WP_HOME_DEV') ? WP_HOME_DEV : false;
-      $remote_root_production = str_replace( $home_dev, $remote_root_production, home_url());
-      $remote_root_staging = str_replace( $home_dev, $remote_root_staging, home_url());
+      $remote_root_production = str_replace( $home_dev, $remote_root_production, get_option('home'));
+      $remote_root_staging = str_replace( $home_dev, $remote_root_staging, get_option('home'));
     }
     ?>
     <div class="rh-environment-links" data-dev-root="<?= $dev_root ?>">
@@ -242,7 +242,7 @@ class Environments extends Singleton {
   function maybe_get_remote_url( $url ) {
 
     // bail early if the $url is external
-    if( !str_starts_with($url, home_url()) ) return $url;
+    if( !str_starts_with($url, get_option('home')) ) return $url;
 
     $upload_dir = wp_upload_dir();
     $file = $upload_dir["basedir"] . str_replace( $upload_dir["baseurl"], "", $url );
