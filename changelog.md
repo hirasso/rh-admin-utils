@@ -1,6 +1,10 @@
+#### 1.6.5 (2022-10-25)
+
+- Check user role before rendering pending badges (#913f06c)
+
 #### 1.6.4 (2022-10-25)
 
-- Render `pending` badges in the admin menu for all post types that support `rhau-pending-badge` (#7727535)
+- Render `pending` badges in the admin menu for all post types that support `rhau-pending-badge` (#504bab1)
 
 #### 1.6.3 (2022-10-25)
 

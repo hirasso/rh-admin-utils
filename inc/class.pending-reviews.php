@@ -186,10 +186,19 @@ class PendingReviews extends Singleton
   public function admin_menu_add_pending_badges(): void
   {
     global $menu;
+    /**
+     * Only show the badge to users that can actually
+     * edit and approve pending posts
+     */
+    if( !current_user_can('edit_others_pages') ) return;
+
     $post_types = get_post_types_by_support('rhau-pending-badge');
+
     foreach( $post_types as $post_type ) {
       $count = wp_count_posts($post_type);
+
       if( empty($count->pending) ) continue;
+
       foreach ($menu as &$menu_item) {
         if ($menu_item[2] === "edit.php?post_type=$post_type") {
           $menu_item[0] .= " <span class='awaiting-mod' title='{$count->pending} pending reviews'><span>{$count->pending}</span></span>";
