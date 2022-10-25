@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace RH\AdminUtils;
 
@@ -69,7 +69,7 @@ class PendingReviews extends Singleton {
    * @return boolean
    */
   public static function acf_location_rule_match(bool $match, array $rule, array $screen, array $field_group): bool {
-    
+
     $rule_param = $rule['param'] ?? null;
     if( $rule_param !== 'rhau_user_form_capability' ) return $match;
 
@@ -92,12 +92,16 @@ class PendingReviews extends Singleton {
    * @return void
    */
   public function save_post(int $post_id): void {
-    
+
     $post = get_post($post_id);
     if( in_array($post->post_type, ['revision']) ) return;
     if( !in_array($post->post_status, ['pending']) ) return;
     if( !is_post_type_viewable($post->post_type) ) return;
     if( wp_doing_ajax() ) return;
+    if( !is_user_logged_in() ) return;
+
+    if( !apply_filters('rhau/send_pending_review_notifications', true) ) return;
+    if( !apply_filters("rhau/send_pending_review_notifications/post_type=$post->post_type", true) ) return;
 
     // Only send notifications each 5 minutes
     $transient_name = "block_pending_review_notification_for_{$post_id}";
@@ -128,16 +132,16 @@ class PendingReviews extends Singleton {
     $edit_link = get_edit_post_link($post_id);
 
     add_filter('wp_mail_content_type', [$this, 'wp_mail_content_type']);
-    
+
     $emails = $this->get_subscriber_emails();
     if( empty($emails) ) return false;
 
     $user = wp_get_current_user();
     $post_title = get_the_title($post_id);
-    
+
     $result = wp_mail(
-      implode(',', $emails), 
-      '[hdm] New pending review', 
+      implode(',', $emails),
+      'New pending review',
       "<p>$user->display_name just submitted a post for review.</p> <p>Title: $post_title  <br>Edit Link: $edit_link"
     );
 

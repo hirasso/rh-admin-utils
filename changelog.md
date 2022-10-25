@@ -1,6 +1,16 @@
-#### 1.6.1 (2022-07-11)
+#### 1.6.3 (2022-10-25)
 
-- Fix conflict with WP Super Cache delete cache button (#8c3774d)
+- Optimize Pending Review Emails (check for user, add filters) (#230eb5c)
+
+#### 1.6.2 (2022-09-21)
+
+- bump version (#fabf6e1)
+
+#### 1.6.1 (2022-09-21)
+
+- Get home url directly (#f1135aa)
+- Remove plugin header from class.environments (#4dbadad)
+- Fix conflict with WP Super Cache delete cache button (#6008c8f)
 
 #### 1.6.0 (2022-07-01)
 
