@@ -1,6 +1,10 @@
+#### 1.6.4 (2022-10-25)
+
+- Render `pending` badges in the admin menu for all post types that support `rhau-pending-badge` (#7727535)
+
 #### 1.6.3 (2022-10-25)
 
-- Optimize Pending Review Emails (check for user, add filters) (#230eb5c)
+- Optimize Pending Review Emails (check for user, add filters) (#c899670)
 
 #### 1.6.2 (2022-09-21)
 
