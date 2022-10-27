@@ -1,6 +1,10 @@
+#### 1.6.6 (2022-10-27)
+
+- Remove unnecessary dashboard widgets (#f74df43)
+
 #### 1.6.5 (2022-10-25)
 
-- Check user role before rendering pending badges (#913f06c)
+- Check user role before rendering pending badges (#3f7e487)
 
 #### 1.6.4 (2022-10-25)
 
