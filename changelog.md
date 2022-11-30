@@ -1,6 +1,7 @@
 #### 1.6.8 (2022-11-30)
 
-- Optimize `Limit Login Attempts Reloaded` ads prevention (#67a1433)
+- Hide top-level menu item from `Limit Login Attempts Reloaded` (#59b1921)
+- Optimize `Limit Login Attempts Reloaded` ads prevention (#2a37f42)
 
 #### 1.6.6 (2022-11-30)
 

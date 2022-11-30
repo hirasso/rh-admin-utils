@@ -11,6 +11,7 @@ class LimitLoginAttemptsReloadedHelper
     {
         add_action('admin_init', [__CLASS__, 'bypass_dashboard_tab']);
         add_action("wp_dashboard_setup", [__CLASS__, "disable_dashboard_widget"], 9999);
+        add_filter('pre_option_limit_login_show_top_level_menu_item', '__return_zero');
     }
 
     /**
