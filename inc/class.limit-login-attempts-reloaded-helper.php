@@ -21,13 +21,18 @@ class LimitLoginAttemptsReloadedHelper
      */
     public static function bypass_dashboard_tab(): void
     {
-        global $pagenow;
-        if ($pagenow !== 'options-general.php') return;
+        $page = $_GET['page'] ?? null;
+        if ($page !== 'limit-login-attempts') return;
 
-        if (($_GET['page'] ?? null) !== 'limit-login-attempts') return;
-        if (($_GET['tab'] ?? null) !== 'dashboard') return;
+        // An empty "tab" is also being redirected to "dashboard"
+        $tab = $_GET['tab'] ?? 'dashboard';
+        if ($tab !== 'dashboard') return;
 
-        $new_url = add_query_arg(['tab' => 'settings']);
+        $new_url = add_query_arg([
+            'page' => 'limit-login-attempts',
+            'tab' => 'settings'
+        ], admin_url('options-general.php'));
+
         wp_safe_redirect($new_url, 301);
         exit;
     }

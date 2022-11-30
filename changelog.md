@@ -1,3 +1,7 @@
+#### 1.6.8 (2022-11-30)
+
+- Optimize `Limit Login Attempts Reloaded` ads prevention (#67a1433)
+
 #### 1.6.6 (2022-11-30)
 
 - Prevent admin ads from Limit Login Attempts Reloaded (#c4ef87e)
