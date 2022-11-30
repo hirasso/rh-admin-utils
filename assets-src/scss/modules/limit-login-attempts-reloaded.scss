@@ -1,0 +1,5 @@
+#llar-header-upgrade-message,
+.limit-login-page-settings .nav-tab:first-child,
+#llar-apps-accordion .ui-accordion-header:not(:first-child) {
+  display: none !important;
+}

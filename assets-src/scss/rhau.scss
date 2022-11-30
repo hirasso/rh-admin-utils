@@ -2,6 +2,7 @@
 @import './modules/qtranslate';
 @import './modules/acf';
 @import './modules/user-forms';
+@import './modules/limit-login-attempts-reloaded';
 
 #submitdiv:not(.rhau-enabled) {
   input[type="submit"]  {

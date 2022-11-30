@@ -218,6 +218,7 @@ require_once(__DIR__ . '/inc/class.disable-comments.php');
 require_once(__DIR__ . '/inc/class.pending-reviews.php');
 require_once(__DIR__ . '/inc/class.acf-password-utilities.php');
 require_once(__DIR__ . '/inc/class.admin-dashboard.php');
+require_once(__DIR__ . '/inc/class.limit-login-attempts-reloaded-helper.php');
 
 /**
  * Initialize util classes
@@ -233,3 +234,4 @@ DisableComments::getInstance();
 PendingReviews::getInstance();
 ACFPasswordUtilities::init();
 AdminDashboard::init();
+LimitLoginAttemptsReloadedHelper::init();

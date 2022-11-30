@@ -1,6 +1,7 @@
 #### 1.6.6 (2022-11-30)
 
-- Add `search-and-replace` to deprecated plugins (#bfe8650)
+- Prevent admin ads from Limit Login Attempts Reloaded (#030c777)
+- Add `search-and-replace` to deprecated plugins (#e8494f2)
 - Remove unnecessary dashboard widgets (#81ab211)
 
 #### 1.6.5 (2022-10-25)
