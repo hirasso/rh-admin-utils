@@ -1,6 +1,7 @@
-#### 1.6.6 (2022-10-27)
+#### 1.6.6 (2022-11-30)
 
-- Remove unnecessary dashboard widgets (#f74df43)
+- Add `search-and-replace` to deprecated plugins (#bfe8650)
+- Remove unnecessary dashboard widgets (#81ab211)
 
 #### 1.6.5 (2022-10-25)
 

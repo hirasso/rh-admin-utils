@@ -21,7 +21,8 @@ class AdminUtils extends Singleton {
     'rh-editors-add-users/rh-editors-add-users.php',
     'toolbar-publish-button/toolbar-publish-button.php',
     'rh-environments/rh-environments.php',
-    'disable-comments/disable-comments.php'
+    'disable-comments/disable-comments.php',
+    'search-and-replace/inpsyde-search-replace'
   ];
 
   public function __construct() {
