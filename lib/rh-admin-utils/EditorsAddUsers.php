@@ -10,13 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 class EditorsAddUsers extends Singleton {
 
   private $caps = [
-    'create_users', 
-    'edit_users', 
-    'edit_user', 
-    'delete_user', 
-    'delete_users', 
-    'list_users', 
-    'promote_user', 
+    'create_users',
+    'edit_users',
+    'edit_user',
+    'delete_user',
+    'delete_users',
+    'list_users',
+    'promote_user',
     'promote_users'
   ];
 
@@ -28,7 +28,7 @@ class EditorsAddUsers extends Singleton {
 
     register_activation_hook( __FILE__, array( $this, 'activation_hook' ) );
     register_deactivation_hook( __FILE__, array( $this, 'deactivation_hook' ) );
-    
+
     add_action('admin_init', array( $this, 'admin_init' ) );
     add_filter('editable_roles', array( $this, 'filter_editable_roles' ) );
     add_action('admin_footer', array( $this, 'admin_footer') );

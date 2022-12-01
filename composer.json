@@ -1,0 +1,11 @@
+{
+  "name": "rh/admin-utils",
+  "config": {
+    "vendor-dir": "./lib/vendor"
+  },
+  "autoload": {
+    "psr-4": {
+      "RH\\AdminUtils\\": "lib/rh-admin-utils"
+    }
+  }
+}

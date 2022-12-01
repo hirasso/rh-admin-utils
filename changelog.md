@@ -1,6 +1,7 @@
 #### 1.6.9 (2022-12-01)
 
-- Remove `Limit Login Attempts Reloaded` tweaks. The plugin should NOT BE USED ☠️ (#f8b909c)
+- Introduce PSR-4 autoloading using Composer (#3647c50)
+- Remove `Limit Login Attempts Reloaded` tweaks. The plugin should NOT BE USED ☠️ (#afdd8ed)
 
 #### 1.6.8 (2022-11-30)
 
