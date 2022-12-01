@@ -98,7 +98,7 @@ class Environments extends Singleton {
       add_filter('https_ssl_verify', '__return_false');
     }
   }
-  
+
   /**
    * Get the value of WP_ENV
    *
@@ -138,15 +138,15 @@ class Environments extends Singleton {
     </div>
     <?php
   }
-  
+
   /**
    * Enqueue assets
    *
    * @return void
    */
   public function assets() {
-    wp_enqueue_style( 'rh-staging-server', au()->asset_uri("assets/rhau-environments.css"), [], null );
-    wp_enqueue_script( 'rh-staging-server', au()->asset_uri("assets/rhau-environments.js"), array("jquery"), null, true );
+    wp_enqueue_style( 'rh-staging-server', rhau()->asset_uri("assets/rhau-environments.css"), [], null );
+    wp_enqueue_script( 'rh-staging-server', rhau()->asset_uri("assets/rhau-environments.js"), array("jquery"), null, true );
   }
 
   /**
@@ -297,7 +297,7 @@ class Environments extends Singleton {
     $dev_environment_types = [ 'development', 'local' ];
 
     if( in_array( $this->env, $dev_environment_types, true ) ) $ttl = YEAR_IN_SECONDS;
-    
+
     return $ttl;
   }
 

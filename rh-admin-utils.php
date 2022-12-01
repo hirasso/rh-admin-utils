@@ -29,7 +29,7 @@ AdminUtils::getInstance();
  *
  * @return AdminUtils
  */
-function au() {
+function rhau() {
   return AdminUtils::getInstance();
 }
 

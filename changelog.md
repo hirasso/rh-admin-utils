@@ -1,6 +1,7 @@
 #### 1.6.9 (2022-12-01)
 
-- Fix `asset_uri` with new folder structure (#a07cca1)
+- Refactor main class access (#438e30b)
+- Fix `asset_uri` with new folder structure (#115b46e)
 - Introduce PSR-4 autoloading using Composer (#91cc238)
 - Remove `Limit Login Attempts Reloaded` tweaks. The plugin should NOT BE USED ☠️ (#afdd8ed)
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace RH\AdminUtils;
 
@@ -40,7 +40,7 @@ class WpscClearCache extends Singleton {
     $redirect_url = remove_query_arg('rh_clear_cache', $redirect_url);
 
     $notice = apply_filters('rh/wpsc-cc/cache_deleted_notice', __( 'Cache deleted.' ));
-    au()->add_admin_notice('cache-cleared', $notice, 'success');
+    rhau()->add_admin_notice('cache-cleared', $notice, 'success');
 
     wp_safe_redirect( $redirect_url );
     exit;
@@ -82,7 +82,7 @@ class WpscClearCache extends Singleton {
    * Clears WP Super Cache cache directory on acf save post of options pages
    *
    * @see https://support.advancedcustomfields.com/forums/topic/clear-wp-super-cache-on-update/
-   * 
+   *
    * @param mixed $post_id
    * @return void
    * @author Rasso Hilber <mail@rassohilber.com>

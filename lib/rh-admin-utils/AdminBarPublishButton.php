@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace RH\AdminUtils;
 
@@ -18,7 +18,7 @@ class AdminBarPublishButton extends Singleton {
   public function add_buttons() {
     global $wp_admin_bar;
     if( !$this->current_screen_has_publish_button() ) return;
-    
+
     $wp_admin_bar->add_node([
       'id' => 'rh-publish',
       'parent' => 'top-secondary',
@@ -39,8 +39,8 @@ class AdminBarPublishButton extends Singleton {
   private function current_screen_has_publish_button() {
     global $pagenow;
     if( in_array($pagenow, ['post.php', 'post-new.php'] ) ) return true;
-    if( au()->is_admin_acf_options_page() ) return true;
+    if( rhau()->is_admin_acf_options_page() ) return true;
     return false;
   }
-  
+
 }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace RH\AdminUtils;
 
@@ -29,14 +29,14 @@ class DisableComments extends Singleton {
     add_action('init', [$this, 'remove_post_type_support'], 999);
 
     // Filters taken from the plugin "Disable Comments"
-    // @link https://github.com/WPDevelopers/disable-comments/blob/master/disable-comments.php 
+    // @link https://github.com/WPDevelopers/disable-comments/blob/master/disable-comments.php
     add_filter('wp_headers', [$this, 'filter_wp_headers']);
     add_filter('xmlrpc_methods', [$this, 'disable_xmlrc_comments']);
     add_filter('rest_endpoints', [$this, 'filter_rest_endpoints']);
     add_filter('rest_pre_insert_comment', [$this, 'disable_rest_API_comments']);
     add_action('template_redirect', [$this, 'filter_query'], 9);   // before redirect_canonical.
 
-    
+
   }
 
   /**
@@ -105,9 +105,9 @@ class DisableComments extends Singleton {
   public function admin_init(): void {
     global $pagenow;
     if( $pagenow === 'options-discussion.php' ) {
-      au()->add_admin_notice('comments-disabled', __( '[RH Admin Utils] Comments are disabled. Some settings on this page are being ignored and/or overwritten.' ));
+      rhau()->add_admin_notice('comments-disabled', __( '[RH Admin Utils] Comments are disabled. Some settings on this page are being ignored and/or overwritten.' ));
     }
-    
+
   }
 
   /**
