@@ -17,6 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 require_once(__DIR__ . '/lib/vendor/autoload.php');
 
 
+define('RHAU_PLUGIN_DIR', plugin_dir_path( __FILE__ ));
+
 /**
  * Initialize main class
  */

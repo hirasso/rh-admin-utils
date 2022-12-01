@@ -51,24 +51,15 @@ class AdminUtils extends Singleton {
    * @return void
    */
   public function asset_uri( $path ) {
-    $uri = plugins_url( $path, __FILE__ );
-    $file = $this->get_plugin_path( $path );
+
+    $uri = plugins_url( $path, 'rh-admin-utils/rh-admin-utils' );
+    $file = RHAU_PLUGIN_DIR . ltrim( $path, '/' );
+
     if( file_exists( $file ) ) {
       $version = filemtime( $file );
       $uri .= "?v=$version";
     }
     return $uri;
-  }
-
-  /**
-   * Helper function to get a file path inside this plugin's folder
-   *
-   * @return void
-   */
-  function get_plugin_path( $path ) {
-    $path = ltrim( $path, '/' );
-    $file = plugin_dir_path( __FILE__ ) . $path;
-    return $file;
   }
 
   /**
