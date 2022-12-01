@@ -1,6 +1,7 @@
 #### 1.6.9 (2022-12-01)
 
-- Apply formatting according to PSR-2 (#0f66291)
+- Add lib/vendor to repo (#19fe95b)
+- Apply formatting according to PSR-2 (#954b696)
 - Refactor main class access (#d531c60)
 - Fix `asset_uri` with new folder structure (#115b46e)
 - Introduce PSR-4 autoloading using Composer (#91cc238)
