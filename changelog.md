@@ -1,6 +1,10 @@
+#### 1.6.9 (2022-12-01)
+
+- Remove `Limit Login Attempts Reloaded` tweaks. The plugin should NOT BE USED ☠️ (#f8b909c)
+
 #### 1.6.8 (2022-11-30)
 
-- Hide top-level menu item from `Limit Login Attempts Reloaded` (#59b1921)
+- Hide top-level menu item from `Limit Login Attempts Reloaded` (#f276e74)
 - Optimize `Limit Login Attempts Reloaded` ads prevention (#2a37f42)
 
 #### 1.6.6 (2022-11-30)
