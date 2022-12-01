@@ -1,29 +1,37 @@
-<?php 
+<?php
 
 namespace RH\AdminUtils;
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 /**
  * Singleton Abstract
- * 
+ *
  * @url reference https://blog.cotten.io/how-to-screw-up-singletons-in-php-3e8c83b63189
  */
-abstract class Singleton {
+abstract class Singleton
+{
 
-  private static $instances = array();
+    private static $instances = array();
 
-  protected function __construct() {}
-
-  public static function getInstance() {
-    $class = get_called_class();
-    if (!isset(self::$instances[$class])) {
-      self::$instances[$class] = new static();
+    protected function __construct()
+    {
     }
-    return self::$instances[$class];
-  }
 
-  private function __clone() {}
+    public static function getInstance()
+    {
+        $class = get_called_class();
+        if (!isset(self::$instances[$class])) {
+            self::$instances[$class] = new static();
+        }
+        return self::$instances[$class];
+    }
 
-  public function __wakeup() {}
+    private function __clone()
+    {
+    }
+
+    public function __wakeup()
+    {
+    }
 }
