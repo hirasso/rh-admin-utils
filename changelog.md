@@ -1,6 +1,7 @@
 #### 1.7.0 (2022-12-15)
 
-- New Class `WpscHtaccessHelper` (#248cacd)
+- Add filters for WP Super Caches `Cache-Control` and (#5d8599a)
+- New Class `WpscHtaccessHelper` (#8eb77a8)
 
 #### 1.6.9 (2022-12-01)
 
