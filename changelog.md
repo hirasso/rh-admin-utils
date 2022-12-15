@@ -1,6 +1,10 @@
+#### 1.7.0 (2022-12-15)
+
+- New Class `WpscHtaccessHelper` (#248cacd)
+
 #### 1.6.9 (2022-12-01)
 
-- Add lib/vendor to repo (#19fe95b)
+- Add lib/vendor to repo (#ddf55b1)
 - Apply formatting according to PSR-2 (#954b696)
 - Refactor main class access (#d531c60)
 - Fix `asset_uri` with new folder structure (#115b46e)

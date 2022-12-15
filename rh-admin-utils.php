@@ -1,15 +1,16 @@
 <?php
+
 /**
  * Plugin Name: RH Admin Utilities
- * Version: 1.6.9
+ * Version: 1.7.0
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress. Removes plugin ads, adds custom buttons to the admin bar (publish, clear cache), allows editors to add users (except administrators), disables comments. Provides filters to adjust functionality.
  * Author URI: https://rassohilber.com
-**/
+ **/
 
 namespace RH\AdminUtils;
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 /**
  * Require composer autoloader
@@ -17,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 require_once(__DIR__ . '/lib/vendor/autoload.php');
 
 
-define('RHAU_PLUGIN_DIR', plugin_dir_path( __FILE__ ));
+define('RHAU_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
 /**
  * Initialize main class
@@ -29,8 +30,9 @@ AdminUtils::getInstance();
  *
  * @return AdminUtils
  */
-function rhau() {
-  return AdminUtils::getInstance();
+function rhau()
+{
+    return AdminUtils::getInstance();
 }
 
 /**
@@ -47,3 +49,4 @@ DisableComments::getInstance();
 PendingReviews::getInstance();
 ACFPasswordUtilities::init();
 AdminDashboard::init();
+WpscHtaccessHelper::init();
