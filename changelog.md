@@ -1,3 +1,7 @@
+#### 1.7.2 (2022-12-15)
+
+- New wp cli command: `wp rhau acf-sync-field-groups` (#281e9e6)
+
 #### 1.7.0 (2022-12-15)
 
 - Add filters for WP Super Caches `Cache-Control` and (#9047233)
