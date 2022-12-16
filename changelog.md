@@ -1,6 +1,7 @@
-#### 1.7.2 (2022-12-15)
+#### 1.7.2 (2022-12-16)
 
-- New wp cli command: `wp rhau acf-sync-field-groups` (#281e9e6)
+- Add plugin headers (#3bc2472)
+- New wp cli command: `wp rhau acf-sync-field-groups` (#83b66f4)
 
 #### 1.7.0 (2022-12-15)
 
