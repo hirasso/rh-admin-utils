@@ -1,6 +1,10 @@
+#### 1.7.3 (2023-01-20)
+
+- Add WP CLI command `rhau do-action-save-post` (#2be8192)
+
 #### 1.7.2 (2023-01-20)
 
-- Make `is_wp_cli()` available throughout the plugin (#465d34e)
+- Make `is_wp_cli()` available throughout the plugin (#69618f7)
 - Add plugin headers (#e267b86)
 - New wp cli command: `wp rhau acf-sync-field-groups` (#83b66f4)
 
