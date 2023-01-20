@@ -1,6 +1,7 @@
-#### 1.7.2 (2022-12-16)
+#### 1.7.2 (2023-01-20)
 
-- Add plugin headers (#3bc2472)
+- Make `is_wp_cli()` available throughout the plugin (#465d34e)
+- Add plugin headers (#e267b86)
 - New wp cli command: `wp rhau acf-sync-field-groups` (#83b66f4)
 
 #### 1.7.0 (2022-12-15)

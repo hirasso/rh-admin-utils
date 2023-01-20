@@ -180,4 +180,14 @@ class AdminUtils extends Singleton
 <?php echo ob_get_clean();
         }
     }
+
+    /**
+     * Conditional to check if inside WP_CLI
+     *
+     * @return boolean
+     */
+    public function is_wp_cli(): bool
+    {
+        return defined('WP_CLI') && WP_CLI;
+    }
 }

@@ -33,23 +33,13 @@ class ACFSyncFieldGroups
     }
 
     /**
-     * Conditional to check if inside WP_CLI
-     *
-     * @return boolean
-     */
-    private static function is_wp_cli(): bool
-    {
-        return defined('WP_CLI') && WP_CLI;
-    }
-
-    /**
      * Add the WP_CLI command
      *
      * @return void
      */
     public static function add_wp_cli_command(): void
     {
-        if (self::is_wp_cli()) {
+        if (rhau()->is_wp_cli()) {
             \WP_CLI::add_command('rhau acf-sync-field-groups', [__CLASS__, 'wp_cli_acf_sync_field_groups']);
         }
     }
@@ -66,7 +56,7 @@ class ACFSyncFieldGroups
     public static function wp_cli_acf_sync_field_groups(array $args = [], array $assoc_args = []): void
     {
         // Only allow this if invoked from WP CLI
-        if (!self::is_wp_cli()) return;
+        if (!rhau()->is_wp_cli()) return;
 
         acf_include('includes/admin/admin-field-groups.php');
         /**
