@@ -12,7 +12,7 @@ class WpscClearCache extends Singleton
         add_action('admin_init', [$this, 'wp_super_cache_init']);
         add_action('acf/save_post', [$this, 'acf_save_post']);
         if (rhau()->is_wp_cli()) {
-            \WP_CLI::add_command('rhau wpsc-clear-cache', [$this, 'clear_cache']);
+            \WP_CLI::add_command('rhau wpsc-clear-cache', [$this, 'wp_cli_clear_cache']);
         }
     }
 
@@ -99,15 +99,34 @@ class WpscClearCache extends Singleton
     }
 
     /**
+     * Clear the cache from WP CLI
+     */
+    public function wp_cli_clear_cache(): void
+    {
+        $parsed_home_url = parse_url(home_url());
+        $host = $parsed_home_url['host'];
+
+        \WP_CLI::log("🔥 Clearing cache on $host...");
+
+        if ($this->clear_cache()) {
+            \WP_CLI::log('✅ Successfully cleared the cache!');
+            return;
+        }
+
+        \WP_CLI::log("❌ Couldn't clear the cache, WP Super Cache is not active.");
+    }
+
+    /**
      * Calls the WP Super Cache API function to clear the full cache directory
      *
-     * @return void
+     * @return boolean
      * @author Rasso Hilber <mail@rassohilber.com>
      */
-    public function clear_cache(): void
+    private function clear_cache(): bool
     {
         // bail early if wp super cache isn't installed
-        if (!function_exists('wp_cache_clear_cache')) return;
+        if (!function_exists('wp_cache_clear_cache')) return false;
         wp_cache_clear_cache();
+        return true;
     }
 }

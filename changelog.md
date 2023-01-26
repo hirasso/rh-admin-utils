@@ -1,6 +1,7 @@
 #### 1.7.4 (2023-01-26)
 
-- Add command `wp rhau wpsc-clear-cache` (#43d9154)
+- Optimize `wp_cli_clear_cache` (#1dd62ff)
+- Add command `wp rhau wpsc-clear-cache` (#c23eacc)
 
 #### 1.7.3 (2023-01-20)
 
