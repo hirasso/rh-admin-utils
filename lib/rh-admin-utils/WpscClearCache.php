@@ -11,6 +11,9 @@ class WpscClearCache extends Singleton
     {
         add_action('admin_init', [$this, 'wp_super_cache_init']);
         add_action('acf/save_post', [$this, 'acf_save_post']);
+        if (rhau()->is_wp_cli()) {
+            \WP_CLI::add_command('rhau wpsc-clear-cache', [$this, 'clear_cache']);
+        }
     }
 
     /**
@@ -101,7 +104,7 @@ class WpscClearCache extends Singleton
      * @return void
      * @author Rasso Hilber <mail@rassohilber.com>
      */
-    private function clear_cache(): void
+    public function clear_cache(): void
     {
         // bail early if wp super cache isn't installed
         if (!function_exists('wp_cache_clear_cache')) return;

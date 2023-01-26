@@ -1,6 +1,10 @@
+#### 1.7.4 (2023-01-26)
+
+- Add command `wp rhau wpsc-clear-cache` (#43d9154)
+
 #### 1.7.3 (2023-01-20)
 
-- Add WP CLI command `rhau do-action-save-post` (#2be8192)
+- Add WP CLI command `rhau do-action-save-post` (#f29fc0f)
 
 #### 1.7.2 (2023-01-20)
 
