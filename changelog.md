@@ -1,6 +1,10 @@
+#### 1.7.5 (2023-01-26)
+
+- Version 1.7.5 (#cca77f8)
+
 #### 1.7.4 (2023-01-26)
 
-- Optimize `wp_cli_clear_cache` (#1dd62ff)
+- Optimize `wp_cli_clear_cache` (#3173065)
 - Add command `wp rhau wpsc-clear-cache` (#c23eacc)
 
 #### 1.7.3 (2023-01-20)
