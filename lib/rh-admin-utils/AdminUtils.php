@@ -70,7 +70,7 @@ class AdminUtils extends Singleton
      * @param array $array
      * @return stdClass
      */
-    private function to_object($array)
+    public function to_object($array)
     {
         return json_decode(json_encode($array));
     }
@@ -81,25 +81,6 @@ class AdminUtils extends Singleton
     private function is_dev()
     {
         return defined('WP_ENV') && WP_ENV === 'development';
-    }
-
-    /**
-     * Get a template
-     *
-     * @param string $template_name
-     * @param mixed $value
-     * @return string
-     */
-    public function get_template($template_name, $value = null)
-    {
-        $value = $this->to_object($value);
-        $path = $this->get_plugin_path("templates/$template_name.php");
-        $path = apply_filters("rhau/template/$template_name", $path);
-        if (!file_exists($path)) return "<p>$template_name: Template doesn't exist</p>";
-        ob_start();
-        if ($this->is_dev()) echo "<!-- Template Path: $path -->";
-        include($path);
-        return ob_get_clean();
     }
 
     /**

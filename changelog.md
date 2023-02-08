@@ -1,6 +1,10 @@
+#### 1.7.6 (2023-02-08)
+
+- New ACF field setting to render textareas as code editors (#02cbe66)
+
 #### 1.7.5 (2023-01-26)
 
-- Version 1.7.5 (#cca77f8)
+- Version 1.7.5 (#db87e40)
 
 #### 1.7.4 (2023-01-26)
 

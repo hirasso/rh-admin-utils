@@ -1,15 +1,4 @@
 <?php
-/*
-* Plugin Name: ACFSyncFieldGroups
-* Plugin URI: https://gist.github.com/hirasso/254c5ca2f7464d7b65d3905524bb755d
-* Description: Allows to sync ACF field groups via WP CLI
-* Version: 0.0.1
-* Author: Rasso Hilber
-* Author URI: https://rassohilber.com/
-* License: GPL2+
-* License URI: https://www.gnu.org/licenses/gpl-2.0.txt
-* Requires PHP: 8.0
-*/
 
 namespace RH\AdminUtils;
 
