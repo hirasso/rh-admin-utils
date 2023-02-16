@@ -1,6 +1,10 @@
+#### 1.7.7 (2023-02-16)
+
+- Remove `WpscHtaccessHelper`, since it's now all possible with WP Super Cache itself (#2d74514)
+
 #### 1.7.6 (2023-02-08)
 
-- New ACF field setting to render textareas as code editors (#02cbe66)
+- New ACF field setting to render textareas as code editors (#172fedf)
 
 #### 1.7.5 (2023-01-26)
 

@@ -7,6 +7,7 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'RH\\AdminUtils\\ACFCodeField' => $baseDir . '/lib/rh-admin-utils/ACFCodeField.php',
     'RH\\AdminUtils\\ACFPasswordUtilities' => $baseDir . '/lib/rh-admin-utils/ACFPasswordUtilities.php',
     'RH\\AdminUtils\\ACFSyncFieldGroups' => $baseDir . '/lib/rh-admin-utils/ACFSyncFieldGroups.php',
     'RH\\AdminUtils\\AdminBarPublishButton' => $baseDir . '/lib/rh-admin-utils/AdminBarPublishButton.php',
@@ -22,5 +23,4 @@ return array(
     'RH\\AdminUtils\\Singleton' => $baseDir . '/lib/rh-admin-utils/Singleton.php',
     'RH\\AdminUtils\\WpCliCommands' => $baseDir . '/lib/rh-admin-utils/WpCliCommands.php',
     'RH\\AdminUtils\\WpscClearCache' => $baseDir . '/lib/rh-admin-utils/WpscClearCache.php',
-    'RH\\AdminUtils\\WpscHtaccessHelper' => $baseDir . '/lib/rh-admin-utils/WpscHtaccessHelper.php',
 );

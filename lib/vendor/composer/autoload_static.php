@@ -22,6 +22,7 @@ class ComposerStaticInit1c7337a595277b47ad5cb8dc6c00251a
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'RH\\AdminUtils\\ACFCodeField' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/ACFCodeField.php',
         'RH\\AdminUtils\\ACFPasswordUtilities' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/ACFPasswordUtilities.php',
         'RH\\AdminUtils\\ACFSyncFieldGroups' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/ACFSyncFieldGroups.php',
         'RH\\AdminUtils\\AdminBarPublishButton' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/AdminBarPublishButton.php',
@@ -37,7 +38,6 @@ class ComposerStaticInit1c7337a595277b47ad5cb8dc6c00251a
         'RH\\AdminUtils\\Singleton' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/Singleton.php',
         'RH\\AdminUtils\\WpCliCommands' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/WpCliCommands.php',
         'RH\\AdminUtils\\WpscClearCache' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/WpscClearCache.php',
-        'RH\\AdminUtils\\WpscHtaccessHelper' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/WpscHtaccessHelper.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
