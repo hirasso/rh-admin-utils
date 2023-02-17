@@ -1,6 +1,10 @@
+#### 1.7.8 (2023-02-17)
+
+- Only render the ACF field setting `Code Field` for fields of type `textarea` (#38d6e28)
+
 #### 1.7.7 (2023-02-16)
 
-- Remove `WpscHtaccessHelper`, since it's now all possible with WP Super Cache itself (#2d74514)
+- Remove `WpscHtaccessHelper`, since it's now all possible with WP Super Cache itself (#ad12041)
 
 #### 1.7.6 (2023-02-08)
 

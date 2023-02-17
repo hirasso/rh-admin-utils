@@ -12,7 +12,7 @@ class ACFCodeField
      */
     public static function init()
     {
-        add_action('acf/render_field_settings', [__CLASS__, 'render_field_settings']);
+        add_action('acf/render_field_settings/type=textarea', [__CLASS__, 'render_field_settings']);
         add_filter('acf/prepare_field/type=textarea', [__CLASS__, 'prepare_acf_code_field']);
     }
 
@@ -25,19 +25,17 @@ class ACFCodeField
     public static function render_field_settings(array $field): void
     {
 
-        if (in_array($field['type'], ['textarea'])) {
-            acf_render_field_setting($field, array(
-                'label'  => __('Code field'),
-                'instructions'  => 'Convert to a code field for the selected language',
-                'name' => 'rhau_code_field',
-                'type' => 'select',
-                'allow_null' => 1,
-                'choices' => [
-                    'json' => 'JSON',
-                    'html' => 'HTML'
-                ],
-            ), true);
-        }
+        acf_render_field_setting($field, array(
+            'label'  => __('Code field'),
+            'instructions'  => 'Convert to a code field for the selected language',
+            'name' => 'rhau_code_field',
+            'type' => 'select',
+            'allow_null' => 1,
+            'choices' => [
+                'json' => 'JSON',
+                'html' => 'HTML'
+            ],
+        ));
     }
 
     /**
