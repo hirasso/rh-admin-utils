@@ -5,6 +5,8 @@ import "./scss/rhau.scss";
 import Alpine from "alpinejs";
 import ACFPasswordUtilities from "./components/alpine/ACFPasswordUtilities/ACFPasswordUtilities.js";
 import ACFCodeField from "./components/alpine/ACFCodeField/ACFCodeField.js";
+import ACFRelationshipField from "./components/alpine/ACFRelationshipField/ACFRelationshipField.js";
+// import acfRelationshipAddOrderControl from "./components/vanilla/acfRelationshipAddOrderControl.js";
 
 export default class RHAU {
   constructor() {
@@ -15,6 +17,8 @@ export default class RHAU {
     this.injectColorThemeVars();
 
     this.initAlpine();
+
+    // acfRelationshipAddOrderControl();
   }
 
   initAlpine() {
@@ -24,6 +28,7 @@ export default class RHAU {
       ACFPasswordUtilities(options)
     );
     Alpine.data("ACFCodeField", (options) => ACFCodeField(options));
+    Alpine.data("ACFRelationshipField", (options) => ACFRelationshipField(options));
 
     Alpine.start();
   }

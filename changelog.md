@@ -1,6 +1,10 @@
+#### 1.7.9 (2023-02-20)
+
+- Add enhancements for ACF relationship field (#dff569a)
+
 #### 1.7.8 (2023-02-17)
 
-- Only render the ACF field setting `Code Field` for fields of type `textarea` (#38d6e28)
+- Only render the ACF field setting `Code Field` for fields of type `textarea` (#8a573ba)
 
 #### 1.7.7 (2023-02-16)
 
