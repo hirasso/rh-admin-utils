@@ -1,6 +1,7 @@
 #### 1.8.0 (2023-02-20)
 
-- Optimize `ACFCodeField` for usage in repeater/flexible content fields (#6a6b5b5)
+- Optimize `ACFRelationshipField` for usage in repeater/flexible content fields (#2480795)
+- Optimize `ACFCodeField` for usage in repeater/flexible content fields (#a2a38b1)
 
 #### 1.7.9 (2023-02-20)
 

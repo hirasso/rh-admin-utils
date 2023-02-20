@@ -4,7 +4,8 @@
 export default () => {
   return {
     init() {
-      this.renderSelect();
+      const isClone = this.$root.closest(".acf-clone") !== null;
+      if (!isClone) this.renderSelect();
     },
 
     renderSelect() {
