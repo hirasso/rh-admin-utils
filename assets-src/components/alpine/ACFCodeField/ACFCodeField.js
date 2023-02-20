@@ -7,10 +7,18 @@ import { html } from "@codemirror/lang-html";
  * Converts an ACF textarea field to a code field
  */
 export default () => {
-
   return {
+    get codeLanguage() {
+      return this.$root.getAttribute("data-rhau-code-language");
+    },
+
     init() {
-      const textarea = this.$el.querySelector("textarea");
+      const isClone = this.$root.closest(".acf-clone") !== null;
+      if (!isClone) this.renderEditor();
+    },
+
+    renderEditor() {
+      const textarea = this.$root.querySelector("textarea");
       textarea.style.display = "none";
 
       const extensions = [
@@ -29,11 +37,11 @@ export default () => {
         }),
       ];
 
-      switch(this.codeLanguage) {
-        case 'json':
+      switch (this.codeLanguage) {
+        case "json":
           extensions.push(json());
           break;
-        case 'html':
+        case "html":
           extensions.push(html());
           break;
         default:
@@ -48,9 +56,5 @@ export default () => {
         extensions,
       });
     },
-
-    get codeLanguage() {
-      return this.$root.getAttribute('data-rhau-code-language');
-    }
   };
 };
