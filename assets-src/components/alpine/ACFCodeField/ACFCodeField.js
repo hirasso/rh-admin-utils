@@ -12,6 +12,15 @@ export default () => {
       return this.$root.getAttribute("data-rhau-code-language");
     },
 
+    get lineWrappingEnabled() {
+      return (
+        parseInt(
+          this.$root.getAttribute("data-rhau-code-line-wrapping"),
+          10
+        ) === 1
+      );
+    },
+
     init() {
       const isClone = this.$root.closest(".acf-clone") !== null;
       if (!isClone) this.renderEditor();
@@ -36,6 +45,14 @@ export default () => {
           textarea.value = viewUpdate.state.doc.toString();
         }),
       ];
+
+      /**
+       * Allow line wrapping
+       * @see https://discuss.codemirror.net/t/word-wrapping/4512
+       */
+      if (this.lineWrappingEnabled) {
+        extensions.push(EditorView.lineWrapping);
+      }
 
       switch (this.codeLanguage) {
         case "json":

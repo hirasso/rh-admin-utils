@@ -36,6 +36,22 @@ class ACFCodeField
                 'html' => 'HTML'
             ],
         ));
+
+        acf_render_field_setting($field, array(
+            'label'  => __('Code Field: Allow Line Wrapping'),
+            'instructions'  => '',
+            'name' => 'rhau_code_field_line_wrapping',
+            'type' => 'true_false',
+            'ui' => 1,
+            'conditional_logic' => array(
+                [
+                    [
+                        'field' => 'rhau_code_field',
+                        'operator' => '!=empty',
+                    ],
+                ],
+            ),
+        ));
     }
 
     /**
@@ -51,6 +67,7 @@ class ACFCodeField
 
         $field['wrapper']['rhau-x-data'] = 'ACFCodeField';
         $field['wrapper']['data-rhau-code-language'] = esc_attr($language);
+        $field['wrapper']['data-rhau-code-line-wrapping'] = esc_attr($field['rhau_code_field_line_wrapping'] ?? 0);
         $field['new_lines'] = '';
 
         return $field;

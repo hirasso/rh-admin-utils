@@ -1,6 +1,10 @@
+#### 1.8.1 (2023-02-21)
+
+- Allow Line Wrapping for Code Field (#ee38459)
+
 #### 1.8.0 (2023-02-20)
 
-- Optimize `ACFRelationshipField` for usage in repeater/flexible content fields (#2480795)
+- Optimize `ACFRelationshipField` for usage in repeater/flexible content fields (#8814a51)
 - Optimize `ACFCodeField` for usage in repeater/flexible content fields (#a2a38b1)
 
 #### 1.7.9 (2023-02-20)
