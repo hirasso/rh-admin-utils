@@ -1,5 +1,5 @@
 
-var jQuery = $ = global.jQuery;
+const $ = window.jQuery;
 
 export default class Cookie {
 
@@ -18,8 +18,8 @@ export default class Cookie {
     document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
   }
 
-  static delete( name ) { 
-    Cookie.set(name, '', 0); 
+  static delete( name ) {
+    Cookie.set(name, '', 0);
   }
 }
 

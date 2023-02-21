@@ -1,17 +1,17 @@
 
-var jQuery = $ = global.jQuery;
+const $ = window.jQuery;
 
 import './scss/modules/environments.scss';
 
 (function($){
-  
+
   $(document).ready(function(){
 
     var $wrap = $(".rh-environment-links");
 
     if( !$wrap.length ) {
       return;
-    }    
+    }
 
     var devRoot = $wrap.attr('data-dev-root');
 
@@ -37,7 +37,7 @@ import './scss/modules/environments.scss';
           }
           break;
       }
-      
+
     });
     $(document).on('click', 'a.rh-environment-link', function(e) {
       e.preventDefault();
@@ -77,10 +77,10 @@ import './scss/modules/environments.scss';
           $next.focus();
           break;
       }
-      
+
     }
 
-    
+
   });
-  
+
 })(jQuery);
