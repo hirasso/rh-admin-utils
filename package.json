@@ -51,6 +51,7 @@
     "sass": "^1.26.5"
   },
   "dependencies": {
+    "@alpinejs/mask": "^3.11.1",
     "@codemirror/lang-html": "^6.4.1",
     "@codemirror/lang-json": "^6.0.1",
     "@codemirror/state": "^6.2.0",

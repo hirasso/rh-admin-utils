@@ -1,6 +1,10 @@
+#### 1.8.2 (2023-02-21)
+
+- Add Alpine.js mask support for ACF text fields (#3d3c754)
+
 #### 1.8.1 (2023-02-21)
 
-- Allow Line Wrapping for Code Field (#ee38459)
+- Allow Line Wrapping for Code Field (#a3235b9)
 
 #### 1.8.0 (2023-02-20)
 

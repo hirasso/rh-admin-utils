@@ -3,10 +3,14 @@ const $ = window.jQuery;
 import "./scss/rhau.scss";
 
 import Alpine from "alpinejs";
+import mask from "@alpinejs/mask";
+Alpine.plugin(mask);
+
 import ACFPasswordUtilities from "./components/alpine/ACFPasswordUtilities/ACFPasswordUtilities.js";
 import ACFCodeField from "./components/alpine/ACFCodeField/ACFCodeField.js";
 import ACFRelationshipField from "./components/alpine/ACFRelationshipField/ACFRelationshipField.js";
-// import acfRelationshipAddOrderControl from "./components/vanilla/acfRelationshipAddOrderControl.js";
+import ACFTextField from "./components/alpine/ACFTextField/ACFTextField.js";
+
 
 export default class RHAU {
   constructor() {
@@ -28,7 +32,10 @@ export default class RHAU {
       ACFPasswordUtilities(options)
     );
     Alpine.data("ACFCodeField", (options) => ACFCodeField(options));
-    Alpine.data("ACFRelationshipField", (options) => ACFRelationshipField(options));
+    Alpine.data("ACFRelationshipField", (options) =>
+      ACFRelationshipField(options)
+    );
+    Alpine.data("ACFTextField", () => ACFTextField());
 
     Alpine.start();
   }
