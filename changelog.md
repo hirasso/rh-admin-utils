@@ -1,6 +1,23 @@
+#### 1.8.6 (2023-03-20)
+
+- Fix changelog generator (commonjs in `type=modue`) (#c20fe8e)
+
+#### 1.8.5 (2023-03-20)
+
+- Also allow searching for `id:12345` on list view of `upload.php` (#f869981)
+
+#### 1.8.4 (2023-03-20)
+
+- Allow searching for attachments IDs using `id:12345` (#f35cf83)
+
+#### 1.8.3 (2023-02-21)
+
+- v1.8.3 (#04a768e)
+
 #### 1.8.2 (2023-02-21)
 
-- Add Alpine.js mask support for ACF text fields (#3d3c754)
+- Migrate from Parcel to WebPack (#2b0cc3a)
+- Add Alpine.js mask support for ACF text fields (#1225f3a)
 
 #### 1.8.1 (2023-02-21)
 
