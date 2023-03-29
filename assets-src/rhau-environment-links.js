@@ -43,11 +43,10 @@ class EnvironmentLinks extends HTMLElement {
       return this.openEnvironmentLink(e.target);
     }
 
-    e.stopPropagation();
-
     if (e.target.closest("rhau-environment-links")) return;
     if (!this.isVisible()) return;
 
+    e.stopPropagation();
     this.hide();
   };
 

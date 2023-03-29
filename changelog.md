@@ -1,6 +1,10 @@
+#### 1.8.8 (2023-03-29)
+
+- Only stop propagation of clicks if environment links are open (#78d378b)
+
 #### 1.8.7 (2023-03-29)
 
-- v1.8.7 (#a14f993)
+- v1.8.7 (#aaf72fa)
 
 #### 1.8.6 (2023-03-29)
 
