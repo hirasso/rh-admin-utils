@@ -137,12 +137,13 @@ class Environments extends Singleton
             $remote_root_staging = str_replace($home_dev, $remote_root_staging, get_option('home'));
         }
 ?>
-        <div class="rh-environment-links" data-dev-root="<?= $dev_root ?>">
-            <a class="rh-environment-link bypass-router" data-remote-root="<?= $remote_root_production ?>" href="">Production</a>
+        <rhau-environment-links data-dev-root="<?= $dev_root ?>">
+            <rhau-environment-link tabindex="0" data-remote-root="<?= $remote_root_production ?>">Production</rhau-environment-link>
             <?php if ($remote_root_staging) : ?>
-                <a class="rh-environment-link bypass-router" data-remote-root="<?= $remote_root_staging ?>" href="">Staging</a>
+                <rhau-environment-link tabindex="0" class="rhau-environment-link" data-remote-root="<?= $remote_root_staging ?>">Staging</rhau-environment-link>
             <?php endif; ?>
-        </div>
+        </rhau-environment-links>
+
 <?php
     }
 
@@ -153,8 +154,8 @@ class Environments extends Singleton
      */
     public function assets()
     {
-        wp_enqueue_style('rh-staging-server', rhau()->asset_uri("assets/rhau-environments.css"), [], null);
-        wp_enqueue_script('rh-staging-server', rhau()->asset_uri("assets/rhau-environments.js"), array("jquery"), null, true);
+        wp_enqueue_style('rh-staging-server', rhau()->asset_uri("assets/rhau-environment-links.css"), [], null);
+        wp_enqueue_script('rh-staging-server', rhau()->asset_uri("assets/rhau-environment-links.js"), array("jquery"), null, true);
     }
 
     /**

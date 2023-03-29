@@ -1,6 +1,7 @@
-#### 1.8.6 (2023-03-20)
+#### 1.8.6 (2023-03-29)
 
-- Fix changelog generator (commonjs in `type=modue`) (#c20fe8e)
+- Refactor Environment Links UI (#375acf2)
+- Fix changelog generator (commonjs in `type=modue`) (#6aaf6c5)
 
 #### 1.8.5 (2023-03-20)
 

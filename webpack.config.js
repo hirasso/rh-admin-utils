@@ -43,7 +43,7 @@ dotenv.config({ path: findup(".env") });
 const settings = {
   entryPoints: {
     "rhau-admin": ["./assets-src/rhau-admin.js"],
-    "rhau-environments": ["./assets-src/rhau-environments.js"],
+    "rhau-environment-links": ["./assets-src/rhau-environment-links.js"],
   },
   hostname: process.env.DEV_HOST,
   key: `/Applications/MAMP/Library/OpenSSL/certs/${process.env.DEV_HOST}.key`,
