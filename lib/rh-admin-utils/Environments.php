@@ -138,10 +138,12 @@ class Environments extends Singleton
         }
 ?>
         <rhau-environment-links data-dev-root="<?= $dev_root ?>">
+            <i tabindex="0"></i>
             <rhau-environment-link tabindex="0" data-remote-root="<?= $remote_root_production ?>">Production</rhau-environment-link>
             <?php if ($remote_root_staging) : ?>
                 <rhau-environment-link tabindex="0" class="rhau-environment-link" data-remote-root="<?= $remote_root_staging ?>">Staging</rhau-environment-link>
             <?php endif; ?>
+            <i tabindex="0"></i>
         </rhau-environment-links>
 
 <?php

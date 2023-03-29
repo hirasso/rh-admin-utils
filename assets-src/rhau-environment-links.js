@@ -13,13 +13,16 @@ class EnvironmentLinks extends HTMLElement {
   }
 
   connectedCallback() {
-    window.addEventListener("keydown", this.onKeyDown);
-    window.addEventListener("click", this.onClick, { capture: true });
+    document.addEventListener("focusin", this.onFocusIn, { capture: true });
+    document.addEventListener("keydown", this.onKeyDown, { capture: true });
+    document.addEventListener("click", this.onClick, { capture: true });
+
   }
 
   disconnectedCallback() {
-    window.removeEventListener("keydown", this.onKeyDown);
-    window.removeEventListener("click", this.onClick);
+    document.removeEventListener("focusin", this.onFocusIn);
+    document.removeEventListener("keydown", this.onKeyDown);
+    document.removeEventListener("click", this.onClick);
   }
 
   onKeyDown = (e) => {
@@ -28,14 +31,24 @@ class EnvironmentLinks extends HTMLElement {
         this.handleSpaceDown(e);
         break;
       case "Escape":
-        e.preventDefault();
-        e.stopPropagation();
-        this.hide();
-        break;
-      case "Tab":
-        this.handleTabDown(e);
+        this.handleEscapeDown(e);
         break;
     }
+  };
+
+  onFocusIn = (e) => {
+    if (!this.isVisible()) return;
+
+    e.stopPropagation();
+
+    if (e.target.matches('rhau-environment-link')) return;
+
+    if (e.target.matches(":first-child")) {
+      return this.focusLastLink();
+    }
+
+    this.focusFirstLink();
+
   };
 
   onClick = (e) => {
@@ -74,16 +87,6 @@ class EnvironmentLinks extends HTMLElement {
     this.show();
   };
 
-  handleTabDown = (e) => {
-    if (this.isInputElement(e.target)) return;
-
-    if (e.target.matches("rhau-environment-link:last-child")) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.focusFirstLink();
-    }
-  };
-
   show() {
     if (this.isVisible()) return;
     this.classList.add("is-visible");
@@ -91,11 +94,21 @@ class EnvironmentLinks extends HTMLElement {
   }
 
   focusFirstLink() {
-    this.querySelector("rhau-environment-link:first-child").focus();
+    this.querySelector("rhau-environment-link:first-of-type").focus();
+  }
+
+  focusLastLink() {
+    this.querySelector("rhau-environment-link:last-of-type").focus();
+  }
+
+  handleEscapeDown(e) {
+    if (!this.isVisible()) return;
+    e.preventDefault();
+    e.stopPropagation();
+    this.hide();
   }
 
   hide() {
-    if (!this.isVisible()) return;
     this.classList.remove("is-visible");
   }
 
@@ -114,7 +127,7 @@ class EnvironmentLinks extends HTMLElement {
   }
 
   trapFocus(e) {
-    if (!e.target.matches("rhau-environment-link:last-child")) {
+    if (!e.target.matches("rhau-environment-link:last-of-type")) {
       e.preventDefault();
       e.stopPropagation();
     }

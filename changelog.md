@@ -1,6 +1,10 @@
+#### 1.8.9 (2023-03-29)
+
+- Environment links: Optimize focus trapping (#914f473)
+
 #### 1.8.8 (2023-03-29)
 
-- Only stop propagation of clicks if environment links are open (#78d378b)
+- Only stop propagation of clicks if environment links are open (#d865d0a)
 
 #### 1.8.7 (2023-03-29)
 
