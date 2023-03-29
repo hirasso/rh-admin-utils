@@ -1,6 +1,10 @@
+#### 1.8.7 (2023-03-29)
+
+- v1.8.7 (#a14f993)
+
 #### 1.8.6 (2023-03-29)
 
-- Refactor Environment Links UI (#375acf2)
+- Refactor Environment Links UI (#9672227)
 - Fix changelog generator (commonjs in `type=modue`) (#6aaf6c5)
 
 #### 1.8.5 (2023-03-20)
