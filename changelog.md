@@ -1,6 +1,10 @@
+#### 1.9.0 (2023-04-12)
+
+- Disable Siteground Security logs (#b8325f0)
+
 #### 1.8.9 (2023-03-29)
 
-- Environment links: Optimize focus trapping (#914f473)
+- Environment links: Optimize focus trapping (#400ade8)
 
 #### 1.8.8 (2023-03-29)
 

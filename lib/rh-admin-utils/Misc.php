@@ -24,6 +24,8 @@ class Misc extends Singleton
         add_action('admin_init', [$this, 'remove_privacy_policy_notice']);
         add_action('init', [$this, 'edit_screen_columns'], 999);
         add_filter('admin_body_class', [$this, 'admin_body_class']);
+        // Disable Siteground Security logs
+        add_filter('pre_option_sg_security_disable_activity_log', '__return_true');
     }
 
     public function after_setup_theme()
