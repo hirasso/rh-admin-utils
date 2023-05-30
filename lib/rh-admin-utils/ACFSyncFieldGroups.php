@@ -47,7 +47,12 @@ class ACFSyncFieldGroups
         // Only allow this if invoked from WP CLI
         if (!rhau()->is_wp_cli()) return;
 
-        acf_include('includes/admin/admin-field-groups.php');
+        acf_include('includes/admin/admin-internal-post-type-list.php');
+        if (!class_exists('ACF_Admin_Internal_Post_Type_List')) {
+            \WP_CLI::error('Some required ACF classes could not be found. Please update ACF to the latest version.');
+        }
+        acf_include('includes/admin/post-types/admin-field-groups.php');
+
         /**
          * @var \ACF_Admin_Field_Groups $field_groups_class
          */

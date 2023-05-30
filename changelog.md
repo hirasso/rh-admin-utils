@@ -1,6 +1,10 @@
+#### 1.9.1 (2023-05-30)
+
+- Compatibility with ACF `6.1` (#9f487af)
+
 #### 1.9.0 (2023-04-12)
 
-- Disable Siteground Security logs (#b8325f0)
+- Disable Siteground Security logs (#d752608)
 
 #### 1.8.9 (2023-03-29)
 
