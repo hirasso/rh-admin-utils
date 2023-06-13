@@ -1,6 +1,6 @@
 #### 1.9.2 (2023-06-13)
 
-- Fix for qTranslate on ACF options pages (#2a47800)
+- Fix for qTranslate on ACF options pages (#02ddacc)
 
 #### 1.9.1 (2023-05-30)
 
