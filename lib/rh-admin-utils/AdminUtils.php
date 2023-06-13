@@ -18,7 +18,6 @@ class AdminUtils extends Singleton
 
     public function __construct()
     {
-
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
         add_action('admin_init', [$this, 'admin_init'], 11);
         add_action('admin_notices', [$this, 'show_admin_notices']);

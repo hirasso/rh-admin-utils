@@ -67,6 +67,8 @@ export default class RHAU {
     this.restoreScrollTop();
     this.removeFromStore("scrollTop");
     requestAnimationFrame(() => this.initQtranslateSwitcher());
+    // Try again, in case qtranslate took a while to initialize
+    setTimeout(() => this.initQtranslateSwitcher(), 1000);
   }
 
   /**
@@ -223,10 +225,18 @@ export default class RHAU {
     return key + ":" + path.replace(/^\/+/g, "").split("/").join("-");
   }
 
+  /**
+   * Copy the qtranslate language switcher to the admin bar.
+   * This function is being called twice, to make sure it works everywehre.
+   */
   initQtranslateSwitcher() {
+    // Bail early if it already ran successfully
+    const alreadyRendered = $('#wp-admin-bar-rhau-lsbs').length > 0;
+    if (alreadyRendered) return;
+
     const $switcher = $(".qtranxs-lang-switch-wrap:first");
     // bail early if no switcher could be found
-    if (!$switcher.length) return;
+    if ($switcher.length === 0) return;
     // create the wrapper
     const $wrap = $('<li id="wp-admin-bar-rhau-lsbs" class="rhau-lsbs" />');
     $wrap.appendTo($("#wp-admin-bar-root-default"));
