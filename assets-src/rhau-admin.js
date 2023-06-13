@@ -69,6 +69,7 @@ export default class RHAU {
     requestAnimationFrame(() => this.initQtranslateSwitcher());
     // Try again, in case qtranslate took a while to initialize
     setTimeout(() => this.initQtranslateSwitcher(), 1000);
+    setTimeout(() => this.initQtranslateSwitcher(), 2000);
   }
 
   /**
