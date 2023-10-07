@@ -22,13 +22,23 @@ class ACFSyncFieldGroups
     }
 
     /**
+     * Conditional to check if inside WP_CLI
+     *
+     * @return boolean
+     */
+    private static function is_wp_cli(): bool
+    {
+        return defined('WP_CLI') && WP_CLI;
+    }
+
+    /**
      * Add the WP_CLI command
      *
      * @return void
      */
     public static function add_wp_cli_command(): void
     {
-        if (rhau()->is_wp_cli()) {
+        if (self::is_wp_cli()) {
             \WP_CLI::add_command('rhau acf-sync-field-groups', [__CLASS__, 'wp_cli_acf_sync_field_groups']);
         }
     }
@@ -45,13 +55,14 @@ class ACFSyncFieldGroups
     public static function wp_cli_acf_sync_field_groups(array $args = [], array $assoc_args = []): void
     {
         // Only allow this if invoked from WP CLI
-        if (!rhau()->is_wp_cli()) return;
+        if (!self::is_wp_cli()) return;
 
         acf_include('includes/admin/admin-internal-post-type-list.php');
         if (!class_exists('ACF_Admin_Internal_Post_Type_List')) {
             \WP_CLI::error('Some required ACF classes could not be found. Please update ACF to the latest version.');
         }
         acf_include('includes/admin/post-types/admin-field-groups.php');
+
 
         /**
          * @var \ACF_Admin_Field_Groups $field_groups_class
@@ -64,6 +75,7 @@ class ACFSyncFieldGroups
 
         // Sync field groups and generate array of new IDs.
         $files = acf_get_local_json_files();
+        $counter = 0;
 
         foreach ($field_groups_class->sync as $key => $field_group) {
             $local_field_group = json_decode(file_get_contents($files[$key]), true);
@@ -71,6 +83,10 @@ class ACFSyncFieldGroups
 
             $imported_field_group = acf_import_field_group($local_field_group);
             \WP_CLI::success("Synced ACF field group: {$imported_field_group["title"]}");
+            $counter ++;
+        }
+        if ($counter === 0) {
+            \WP_CLI::warning("No ACF field groups available for syncing.");
         }
     }
 }

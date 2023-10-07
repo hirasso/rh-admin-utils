@@ -1,6 +1,10 @@
+#### 1.9.3 (2023-10-07)
+
+- Refactor ACFSyncFieldGroups (#6677079)
+
 #### 1.9.2 (2023-06-13)
 
-- Repeat `initQtranslateSwitcher` three times (#528c154)
+- Repeat `initQtranslateSwitcher` three times (#feab125)
 - Fix for qTranslate on ACF options pages (#02ddacc)
 
 #### 1.9.1 (2023-05-30)
