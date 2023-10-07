@@ -1,6 +1,7 @@
 #### 1.9.3 (2023-10-07)
 
-- Refactor ACFSyncFieldGroups (#6677079)
+- npm update (#2b27a62)
+- Refactor ACFSyncFieldGroups (#a519599)
 
 #### 1.9.2 (2023-06-13)
 
