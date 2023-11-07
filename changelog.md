@@ -1,6 +1,10 @@
+#### 1.9.4 (2023-11-07)
+
+- Ensure compatibilty with paged.js `counter(pages)` (#24869ff)
+
 #### 1.9.3 (2023-10-07)
 
-- npm update (#2b27a62)
+- npm update (#7551cf2)
 - Refactor ACFSyncFieldGroups (#a519599)
 
 #### 1.9.2 (2023-06-13)

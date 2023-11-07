@@ -156,8 +156,8 @@ class Environments extends Singleton
      */
     public function assets()
     {
-        wp_enqueue_style('rh-staging-server', rhau()->asset_uri("assets/rhau-environment-links.css"), [], null);
-        wp_enqueue_script('rh-staging-server', rhau()->asset_uri("assets/rhau-environment-links.js"), array("jquery"), null, true);
+        wp_enqueue_style('rhau-environment-links', rhau()->asset_uri("assets/rhau-environment-links.css"), [], null);
+        wp_enqueue_script('rhau-environment-links', rhau()->asset_uri("assets/rhau-environment-links.js"), array("jquery"), null, true);
     }
 
     /**
