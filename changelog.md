@@ -1,6 +1,7 @@
 #### 1.9.5 (2024-01-18)
 
-- Make filters more granular: `rhau/force_lowercase_urls`, (#5ed151b)
+- Fix usage example (#f2dbf4f)
+- Make filters more granular: `rhau/force_lowercase_urls`, (#5e05aca)
 - Force lowercase URLs when serving a cached file (JavaScript) (#f0a106f)
 - Add Filter `rhau/force_lowercase_urls` (#04dda67)
 - Add hook to force lowercase URLs in the frontend (#38894f6)

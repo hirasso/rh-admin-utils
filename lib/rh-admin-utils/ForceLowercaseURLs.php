@@ -23,7 +23,7 @@
  * Initialize the plugin by requiring the file and then calling this in your functions.php or wherever:
  *
  * ```php
- * require_once('/path/to/ForceLowercaseURLs');
+ * require_once('/path/to/ForceLowercaseURLs.php');
  * \RH\AdminUtils\ForceLowercaseURLs::init()
  * ```
  */
