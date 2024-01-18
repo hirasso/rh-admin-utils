@@ -43,16 +43,18 @@ class ForceLowercaseURLs
      */
     public static function init()
     {
-        add_action('template_redirect', array(__CLASS__, 'force_lowercase_urls'));
+        add_action('template_redirect', [__CLASS__, 'server_side_redirect']);
+        add_action('wp_head', [__CLASS__, 'client_side_redirect'], 1);
     }
 
     /**
      * Changes the requested URL to lowercase and redirects if necessary
      */
-    public static function force_lowercase_urls()
+    public static function server_side_redirect()
     {
+        return;
         // Allow to opt-out of this functionality
-        if (!apply_filters('rhau/force_lowercase_urls', true)) return;
+        if (!apply_filters('rhau/force_lowercase_urls/server', true)) return;
 
         // Grab URL information for the current request
         $parsed = wp_parse_url($_SERVER['REQUEST_URI'] ?? '/');
@@ -73,5 +75,34 @@ class ForceLowercaseURLs
         // Perform a permanent redirect
         wp_safe_redirect($redirect_uri, 301);
         exit;
+    }
+
+    /**
+     * Static Cache plugins like WP Super Cache check for matching HTML files for the current request.
+     * This check is case-insensitive, since that's how file systems work.
+     * The only way to force lowercase URLs here is using JavaScript to change the URL
+     */
+    public static function client_side_redirect()
+    {
+        // Allow to opt-out of this functionality
+        if (!apply_filters('rhau/force_lowercase_urls/client', true)) return;
+
+        ob_start() ?>
+        <!-- Injected by ForceLowercaseURLs -->
+        <script>
+            function forceLowercaseURL() {
+                // Grab relevant info from the current URL
+                const { pathname, search, hash } = window.location;
+                // Construct a lowercase version of the URL
+                const lowerCaseURL = new URL(pathname.toLowerCase() + search + hash, document.baseURI).toString();
+                // Bail early if the URL already is lowercase
+                if (lowerCaseURL === window.location.href) return;
+                // Replace the current URL without a hard reload
+                const state = window.history.state || {};
+                window.history.replaceState(state, '', lowerCaseURL);
+            }
+            forceLowercaseURL();
+        </script>
+        <?php echo ob_get_clean();
     }
 }
