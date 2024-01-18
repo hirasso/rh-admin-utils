@@ -43,14 +43,17 @@ class ForceLowercaseURLs
      */
     public static function init()
     {
-        add_action('template_redirect', array(__CLASS__, 'maybe_redirect_to_lowercase'));
+        add_action('template_redirect', array(__CLASS__, 'force_lowercase_urls'));
     }
 
     /**
      * Changes the requested URL to lowercase and redirects if necessary
      */
-    public static function maybe_redirect_to_lowercase()
+    public static function force_lowercase_urls()
     {
+        // Allow to opt-out of this functionality
+        if (!apply_filters('rhau/force_lowercase_urls', true)) return;
+
         // Grab URL information for the current request
         $parsed = wp_parse_url($_SERVER['REQUEST_URI'] ?? '/');
 

@@ -1,6 +1,7 @@
 #### 1.9.5 (2024-01-18)
 
-- Add hook to force lowercase URLs in the frontend (#b460185)
+- Add Filter `rhau/force_lowercase_urls` (#7b07a19)
+- Add hook to force lowercase URLs in the frontend (#38894f6)
 
 #### 1.9.4 (2023-11-07)
 
