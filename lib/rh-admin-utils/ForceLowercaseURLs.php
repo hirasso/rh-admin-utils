@@ -4,6 +4,7 @@
  * Plugin Name:     Force Lowercase URLs
  * Description:     Redirect uppercase URLs to their lowercase counterpart.
  * Version:         1.0.0
+ * Requires PHP:    8.0
  * Author:          Rasso Hilber
  * Author URI:      http://rassohilber.com/
  */

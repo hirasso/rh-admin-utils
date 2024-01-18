@@ -1,6 +1,7 @@
 #### 1.9.5 (2024-01-18)
 
-- Fix usage example (#f2dbf4f)
+- Add PHP header (#4341822)
+- Fix usage example (#0baba5d)
 - Make filters more granular: `rhau/force_lowercase_urls`, (#5e05aca)
 - Force lowercase URLs when serving a cached file (JavaScript) (#f0a106f)
 - Add Filter `rhau/force_lowercase_urls` (#04dda67)
