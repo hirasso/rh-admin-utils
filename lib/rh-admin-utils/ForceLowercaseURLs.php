@@ -52,21 +52,21 @@ class ForceLowercaseURLs
      */
     public static function server_side_redirect()
     {
-        return;
         // Allow to opt-out of this functionality
+        if (!apply_filters('rhau/force_lowercase_urls', true)) return;
         if (!apply_filters('rhau/force_lowercase_urls/server', true)) return;
 
         // Grab URL information for the current request
         $parsed = wp_parse_url($_SERVER['REQUEST_URI'] ?? '/');
 
-        // Grab the relevant parts from the parsed url
+        // Grab the relevant parts from the parsed URL
         $path = $parsed['path'] ?? '/';
         $query = $parsed['query'] ?? null;
 
-        // Create a lowercase copy of the URI
+        // Create a lowercase copy of the path
         $lowercase_path = strtolower($path);
 
-        // Bail early if the url already is lowercase
+        // Bail early if the path already is lowercase
         if ($path === $lowercase_path) return;
 
         // Construct the redirect url
@@ -85,6 +85,7 @@ class ForceLowercaseURLs
     public static function client_side_redirect()
     {
         // Allow to opt-out of this functionality
+        if (!apply_filters('rhau/force_lowercase_urls', true)) return;
         if (!apply_filters('rhau/force_lowercase_urls/client', true)) return;
 
         ob_start() ?>
