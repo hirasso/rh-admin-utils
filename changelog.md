@@ -1,6 +1,10 @@
+#### 1.9.5 (2024-01-18)
+
+- Add hook to force lowercase URLs in the frontend (#b460185)
+
 #### 1.9.4 (2023-11-07)
 
-- Ensure compatibilty with paged.js `counter(pages)` (#24869ff)
+- Ensure compatibilty with paged.js `counter(pages)` (#189c912)
 
 #### 1.9.3 (2023-10-07)
 
