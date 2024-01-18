@@ -1,6 +1,7 @@
 #### 1.9.5 (2024-01-18)
 
-- Add PHP header (#4341822)
+- Remove client-side redirect (#9e64faa)
+- Add PHP header (#d7506c9)
 - Fix usage example (#0baba5d)
 - Make filters more granular: `rhau/force_lowercase_urls`, (#5e05aca)
 - Force lowercase URLs when serving a cached file (JavaScript) (#f0a106f)
