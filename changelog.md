@@ -1,6 +1,12 @@
+#### 1.6.0 (2024-01-23)
+
+- Remove automatic ACF PRO activation (#3cc485f)
+- Only send pending notifications each 5 minutes (#7d04c22)
+- Utilities for ACF password field: reveal, generate & copy (#0a95ad5)
+
 #### 1.9.5 (2024-01-18)
 
-- Remove client-side redirect (#9e64faa)
+- Remove client-side redirect (#6a6e430)
 - Add PHP header (#d7506c9)
 - Fix usage example (#0baba5d)
 - Make filters more granular: `rhau/force_lowercase_urls`, (#5e05aca)
@@ -154,11 +160,6 @@
 - Get home url directly (#f1135aa)
 - Remove plugin header from class.environments (#4dbadad)
 - Fix conflict with WP Super Cache delete cache button (#6008c8f)
-
-#### 1.6.0 (2022-07-01)
-
-- Only send pending notifications each 5 minutes (#7d04c22)
-- Utilities for ACF password field: reveal, generate & copy (#0a95ad5)
 
 #### 1.5.1 (2022-06-30)
 
