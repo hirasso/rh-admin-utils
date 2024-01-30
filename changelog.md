@@ -1,6 +1,10 @@
+#### 1.9.7 (2024-01-23)
+
+- Fix version number (#dc3fe05)
+
 #### 1.6.0 (2024-01-23)
 
-- Remove automatic ACF PRO activation (#3cc485f)
+- Remove automatic ACF PRO activation (#0b935ff)
 - Only send pending notifications each 5 minutes (#7d04c22)
 - Utilities for ACF password field: reveal, generate & copy (#0a95ad5)
 

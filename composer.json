@@ -1,5 +1,5 @@
 {
-  "name": "rh/admin-utils",
+  "name": "rhilber/rh-admin-utils",
   "config": {
     "vendor-dir": "./lib/vendor"
   },
@@ -7,5 +7,9 @@
     "psr-4": {
       "RH\\AdminUtils\\": "lib/rh-admin-utils"
     }
+  },
+  "type": "wordpress-plugin",
+  "require": {
+    "php": ">=8.0"
   }
 }
