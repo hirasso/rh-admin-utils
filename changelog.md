@@ -1,3 +1,8 @@
+#### 1.2.0 (2024-01-30)
+
+- V1.2.0 (#e099b82)
+- cast document title to string (#c7ae4d0)
+
 #### 1.9.7 (2024-01-23)
 
 - Fix version number (#dc3fe05)
@@ -287,10 +292,6 @@
 - Add new Role "Editor (+ Run Updates)" (#4ddeddd)
 - Remove some nodes from WP_Admin_Bar (#28a832d)
 - Disable cap `customize` for all users (#398e2ff)
-
-#### 1.2.0 (2021-03-26)
-
-- cast document title to string (#c7ae4d0)
 
 #### 1.1.9 (2021-02-23)
 
