@@ -38,8 +38,6 @@ class DisableComments extends Singleton
         add_filter('rest_endpoints', [$this, 'filter_rest_endpoints']);
         add_filter('rest_pre_insert_comment', [$this, 'disable_rest_API_comments']);
         add_action('template_redirect', [$this, 'filter_query'], 9);   // before redirect_canonical.
-
-
     }
 
     /**
@@ -137,6 +135,9 @@ class DisableComments extends Singleton
         add_filter('pre_option_comment_registration', '__return_true');
         // additional measure: All comments must be approved
         add_filter('pre_option_comment_moderation', '__return_true');
+        // don't allow pings or comments
+        add_filter('pings_open', '__return_false');
+        add_filter('comments_open', '__return_false');
     }
 
     /**

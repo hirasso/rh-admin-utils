@@ -1,6 +1,10 @@
+#### 2.0.2 (2024-02-13)
+
+- More filters to disable comments (#e42478f)
+
 #### 2.0.1 (2024-02-09)
 
-- Restrict access to ACF fields by role (#1b4eeb6)
+- Restrict access to ACF fields by role (#81462da)
 
 #### 2.0.0 (2024-01-30)
 
