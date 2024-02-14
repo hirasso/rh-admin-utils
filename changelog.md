@@ -1,6 +1,10 @@
+#### 2.0.3 (2024-02-14)
+
+- Make sure comments and trackbacks are always disallowed (#ec5d2a9)
+
 #### 2.0.2 (2024-02-13)
 
-- More filters to disable comments (#e42478f)
+- More filters to disable comments (#6f5c256)
 
 #### 2.0.1 (2024-02-09)
 

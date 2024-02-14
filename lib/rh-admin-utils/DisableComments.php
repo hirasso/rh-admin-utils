@@ -29,7 +29,7 @@ class DisableComments extends Singleton
         add_action('admin_bar_menu', [$this, 'admin_bar_menu'], 999);
         // other hooks
         add_action('admin_init', [$this, 'admin_init']);
-        add_action('init', [$this, 'remove_post_type_support'], 999);
+        add_action('registered_post_type', [$this, 'registered_post_type'], 999);
 
         // Filters taken from the plugin "Disable Comments"
         // @link https://github.com/WPDevelopers/disable-comments/blob/master/disable-comments.php
@@ -164,18 +164,11 @@ class DisableComments extends Singleton
     }
 
     /**
-     * Removes 'comments' support for all post types
-     *
-     * @return void
-     * @author Rasso Hilber <mail@rassohilber.com>
+     * Removes 'comments' and 'trackbacks' support for all post types
      */
-    public function remove_post_type_support(): void
+    public function registered_post_type(string $post_type): void
     {
-        $post_types = get_post_types([
-            'public' => true
-        ]);
-        foreach ($post_types as $pt) {
-            remove_post_type_support($pt, 'comments');
-        }
+        remove_post_type_support($post_type, 'comments');
+        remove_post_type_support($post_type, 'trackbacks');
     }
 }
