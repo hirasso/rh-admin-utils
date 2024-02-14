@@ -29,7 +29,7 @@ class PagePermissions
 		add_filter('page_attributes_dropdown_pages_args', [__CLASS__, 'post_parent_dropdown_args']);
 		add_filter('quick_edit_dropdown_pages_args', [__CLASS__, 'post_parent_dropdown_args']);
         add_filter('theme_page_templates', [__CLASS__, 'filter_page_templates'], 10, 4);
-		add_action('page_attributes_misc_attributes', [__CLASS__, 'page_attributes_misc_attributes']);
+		add_action('page_attributes_misc_attributes', [__CLASS__, 'render_protected_page_template']);
 	}
 
 	/**
@@ -333,9 +333,9 @@ class PagePermissions
 	}
 
 	/**
-	 * Render the template if it's locked for the current user
+	 * Render the template if it's protected for the current user
 	 */
-	public static function page_attributes_misc_attributes(\WP_Post $post): void
+	public static function render_protected_page_template(\WP_Post $post): void
 	{
 		if (current_user_can('administrator')) return;
 
@@ -345,28 +345,13 @@ class PagePermissions
 
 		$template =  self::get_page_template($post);
 		$template_name = $all_templates[$template] ?? $template;
-        // $title = __('Template');
-        // $locked_icon = self::get_locked_icon();
+        $title = __('Template');
+        $locked_icon = self::get_locked_icon();
 
-		// echo "<p><strong>$title</strong>: $template_name $locked_icon</p>";
-        // return;
-
-        $default_title = apply_filters( 'default_page_template_title', __( 'Default template' ), 'meta-box' );
-        ob_start() ?>
-        <p class="post-attributes-label-wrapper page-template-label-wrapper">
-            <label class="post-attributes-label" for="page_template"><?= __('Template') ?></label>
-        </p>
-        <select disabled="disabled" name="page_template" id="page_template">
-            <option value="default"><?php echo esc_html( $default_title ); ?></option>
-            <?php
-                remove_filter('theme_page_templates', [__CLASS__, 'filter_page_templates'], 10, 4);
-                page_template_dropdown( $template, $post->post_type );
-                add_filter('theme_page_templates', [__CLASS__, 'filter_page_templates'], 10, 4);
-            ?>
-        </select>
-        <?= self::get_locked_icon() ?>
-
-        <?php echo ob_get_clean();
+		$out = "<p class=\"post-attributes-label-wrapper\"><strong>$title</strong>: $template_name $locked_icon</p>";
+        // Just to make sure WordPress doesn't delete the value, add a hidden input with the current page template
+        $out .= "<input type='hidden' name='page_template' value='$template'></input>";
+        echo $out;
 	}
 
 	/**

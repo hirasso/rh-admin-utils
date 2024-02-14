@@ -1,6 +1,7 @@
 #### 2.0.4 (2024-02-14)
 
-- New module: Page Permissions (#bdffe3a)
+- Simplify `render_protected_page_template` (#91d33e0)
+- New module: Page Permissions (#132db4d)
 
 #### 2.0.3 (2024-02-14)
 
