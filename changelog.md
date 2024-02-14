@@ -1,6 +1,7 @@
 #### 2.0.4 (2024-02-14)
 
-- Use `get_current_screen` for page templates restriction (#28ff053)
+- Add PHP Requirement to plugin headers (#a9d8315)
+- Use `get_current_screen` for page templates restriction (#665cf02)
 - Optimizations for the PagePermissions module (#f0a5077)
 - Simplify `render_protected_page_template` (#ffc8244)
 - New module: Page Permissions (#132db4d)
