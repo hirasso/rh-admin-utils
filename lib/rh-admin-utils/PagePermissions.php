@@ -30,6 +30,11 @@ class PagePermissions
         add_filter('quick_edit_dropdown_pages_args', [__CLASS__, 'post_parent_dropdown_args']);
         add_action('page_attributes_misc_attributes', [__CLASS__, 'render_protected_page_template']);
         add_action('current_screen', [__CLASS__, 'restrict_page_templates_for_screen']);
+
+        add_action('save_post', [__CLASS__, 'on_post_state_change']);
+        add_action('deleted_post', [__CLASS__, 'on_post_state_change']);
+        add_action('trashed_post', [__CLASS__, 'on_post_state_change']);
+        add_action('untrash_post', [__CLASS__, 'on_post_state_change']);
     }
 
     /**
@@ -266,22 +271,30 @@ class PagePermissions
     }
 
     /**
-     * Adjust the args for the post object field "parent_page"
-     *
-     * This is meant to be used for filters in themes, for example:
-     *
-     * add_filter(
-     *      'acf/fields/post_object/query/name=parent_page',
-     *      '\RH\AdminUtils\PagePermissions::query_args_children_allowed'
-     * );
+     * Get all pages that aren't allowed to have children
      */
-    public static function query_args_children_allowed(array $args): array
+    public static function get_pages_with_no_children_allowed(bool $use_cache = true): array
     {
-        $post__not_in = $args['post__not_in'] ?? [];
-        $children_disallowed = self::query_pages_by_meta_key('_rhau_disallow_children', '1');
+        $transient = get_transient('pages_with_no_children_allowed');
 
-        $args['post__not_in'] = array_merge($post__not_in, $children_disallowed);
-        return $args;
+        if ($use_cache && is_array($transient)) return $transient;
+
+        $result = self::query_pages_by_meta_key('_rhau_disallow_children', '1');
+
+        set_transient('pages_with_no_children_allowed', $result, WEEK_IN_SECONDS);
+
+        return $result;
+    }
+
+    /**
+     * Recreate caches when saving or deleting posts
+     */
+    public static function on_post_state_change(int $post_id): void
+    {
+        if (get_post_type($post_id) !== 'page') return;
+        if (get_post_status($post_id) === 'auto-draft') return;
+
+        self::get_pages_with_no_children_allowed(use_cache: false);
     }
 
     /**
@@ -323,9 +336,10 @@ class PagePermissions
         $exclude_tree = $args['exclude_tree'] ?? [];
         if (is_int($exclude_tree)) $exclude_tree = [$exclude_tree];
 
-        $children_disallowed = self::query_pages_by_meta_key('_rhau_disallow_children', '1');
-
-        $args['exclude_tree'] = array_merge($exclude_tree, $children_disallowed);
+        $args['exclude_tree'] = array_merge(
+            $exclude_tree,
+            self::get_pages_with_no_children_allowed()
+        );
 
         return $args;
     }
