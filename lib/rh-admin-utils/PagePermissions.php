@@ -29,8 +29,7 @@ class PagePermissions
         add_filter('page_attributes_dropdown_pages_args', [__CLASS__, 'post_parent_dropdown_args']);
         add_filter('quick_edit_dropdown_pages_args', [__CLASS__, 'post_parent_dropdown_args']);
         add_action('page_attributes_misc_attributes', [__CLASS__, 'render_protected_page_template']);
-        add_action('admin_head', [__CLASS__, 'filter_page_templates_dropdown_on_post_screen']);
-        add_action('admin_head', [__CLASS__, 'hide_page_templates_dropdown_on_edit_screen']);
+        add_action('current_screen', [__CLASS__, 'restrict_page_templates_for_screen']);
     }
 
     /**
@@ -157,27 +156,27 @@ class PagePermissions
     }
 
     /**
-     * Hides the page templates select in the bulk edit UI on post list screens
+     * Restrict page templates for specific admin screens
      */
-    public static function hide_page_templates_dropdown_on_edit_screen(): void
+    public static function restrict_page_templates_for_screen(): void
     {
-        global $pagenow, $post_type;
+        $screen = get_current_screen();
 
-        if ($pagenow === 'edit.php' && $post_type === 'page') {
+        /**
+         * Completely hide the page templates dropdown in the bulk edit UI on post list screens
+         */
+        if ($screen->id === 'edit-page') {
             add_filter('theme_page_templates', '__return_empty_array');
+            return;
         }
-    }
 
-    /**
-     * Adjust the page template dropown on post edit screens
-     */
-    public static function filter_page_templates_dropdown_on_post_screen()
-    {
-        global $pagenow;
-
-        if (!in_array($pagenow, ['post.php', 'post-new.php'])) return;
-
-        add_filter('theme_page_templates', [__CLASS__, 'filter_page_templates'], 10, 4);
+        /**
+         * Filter the allowed page templates on post edit screens
+         */
+        if ($screen->id === 'page') {
+            add_filter('theme_page_templates', [__CLASS__, 'filter_page_templates'], 10, 4);
+            return;
+        }
     }
 
     /**
