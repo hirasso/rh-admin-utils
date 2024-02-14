@@ -1,6 +1,10 @@
+#### 2.0.4 (2024-02-14)
+
+- New module: Page Permissions (#bdffe3a)
+
 #### 2.0.3 (2024-02-14)
 
-- Make sure comments and trackbacks are always disallowed (#ec5d2a9)
+- Make sure comments and trackbacks are always disallowed (#1c7b3ee)
 
 #### 2.0.2 (2024-02-13)
 
