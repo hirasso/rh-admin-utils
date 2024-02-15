@@ -1,6 +1,6 @@
 #### 2.0.4 (2024-02-15)
 
-- Optimize WP queries if `__rhau_optimize_query` is set as a query arg (#663b8a2)
+- Optimize WP queries if `__rhau_optimize_query` is set as a query arg (#3b53259)
 - Cache `get_pages_with_no_children_allowed` (#c36b0d0)
 - Add PHP Requirement to plugin headers (#b33c2dc)
 - Use `get_current_screen` for page templates restriction (#665cf02)

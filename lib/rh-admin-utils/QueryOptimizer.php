@@ -4,7 +4,7 @@
  * https://rassohilber.com
  *
  * Optimizes the WP_Query based on recommendations found here;
- * @see
+ * @see https://wpvip.com/2023/04/28/wp-query-performance/
  *
  */
 
