@@ -1,6 +1,6 @@
 #### 2.0.4 (2024-02-15)
 
-- Add option to sync ACF `date_picker` and `date_time_picker` fields with the `post_date` (#538e8d1)
+- Add option to sync ACF `date_picker` and `date_time_picker` fields with the `post_date` (#22e0de7)
 - Optimize WP queries if `__rhau_optimize_query` is set as a query arg (#3b53259)
 - Cache `get_pages_with_no_children_allowed` (#c36b0d0)
 - Add PHP Requirement to plugin headers (#b33c2dc)

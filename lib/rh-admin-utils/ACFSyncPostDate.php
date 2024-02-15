@@ -90,6 +90,9 @@ class ACFSyncPostDate
         return $value;
     }
 
+    /**
+     * Hide the built-in post date UI for synced posts
+     */
     public static function render_field(array $field): void
     {
         if (empty($field['rhau_sync_post_date'])) return;
