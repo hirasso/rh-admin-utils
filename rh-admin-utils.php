@@ -53,6 +53,7 @@ ForceLowercaseURLs::init();
 AttachmentsHelper::init();
 RemoveAds::getInstance();
 PagePermissions::init();
+QueryOptimizer::init();
 AdminDashboard::init();
 WpCliCommands::init();
 ACFCodeField::init();
