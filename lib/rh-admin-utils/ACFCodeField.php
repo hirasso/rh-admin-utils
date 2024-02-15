@@ -18,9 +18,6 @@ class ACFCodeField
 
     /**
      * Render custom ACF field settings
-     *
-     * @param array $field
-     * @return void
      */
     public static function render_field_settings(array $field): void
     {
@@ -56,9 +53,6 @@ class ACFCodeField
 
     /**
      * Handle ACF code fields
-     *
-     * @param array $field
-     * @return array
      */
     public static function prepare_acf_code_field(array $field): array
     {
