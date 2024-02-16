@@ -1,6 +1,7 @@
 #### 2.0.5 (2024-02-16)
 
-- Version 2.0.5 (#b915f2a)
+- Add (non-functioning) vanilla options page (#17bcef6)
+- Version 2.0.5 (#f347234)
 
 #### 2.0.4 (2024-02-16)
 

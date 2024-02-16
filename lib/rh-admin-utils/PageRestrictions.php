@@ -20,6 +20,7 @@ class PageRestrictions
 
     public static function init()
     {
+        // PageRestrictionsOptionsPage::init();
         add_action('acf/init', [__CLASS__, 'add_options_page']);
         add_action('acf/init', [__CLASS__, 'add_page_field_group']);
         add_action('add_meta_boxes', [__CLASS__, 'adjust_meta_boxes']);
