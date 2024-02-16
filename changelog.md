@@ -1,5 +1,6 @@
-#### 2.0.4 (2024-02-15)
+#### 2.0.4 (2024-02-16)
 
+- Leave `post_date_modified` untouched when syncing date fields (#b4a41a1)
 - Add option to sync ACF `date_picker` and `date_time_picker` fields with the `post_date` (#22e0de7)
 - Optimize WP queries if `__rhau_optimize_query` is set as a query arg (#3b53259)
 - Cache `get_pages_with_no_children_allowed` (#c36b0d0)

@@ -57,7 +57,7 @@ class ACFSyncPostDate
 
         if (get_post_status($post_id) === 'auto-draft') return $value;
 
-        return match($field['type']) {
+        return match ($field['type']) {
             'date_picker' => get_post_datetime($post_id)->format("Ymd"),
             'date_time_picker' => get_post_datetime($post_id)->format("Y-m-d H:i:s"),
             default => $value
@@ -74,7 +74,7 @@ class ACFSyncPostDate
         if (!self::should_sync($field, $post_id)) return $value;
 
         /** Ensure the post_date has a format of 'Y-m-d H:i:s' */
-        $post_date = match($field['type']) {
+        $post_date = match ($field['type']) {
             'date_picker' => date_create_immutable_from_format('Ymd', $value, wp_timezone())->format('Y-m-d H:i:s'),
             'date_time_picker' => $value,
         };
@@ -82,9 +82,7 @@ class ACFSyncPostDate
         wp_update_post([
             'ID'                => $post_id,
             'post_date'         => $post_date,
-            'post_date_gmt'     => get_gmt_from_date($post_date),
-            'post_modified'     => $post_date,
-            'post_modified_gmt' => get_gmt_from_date($post_date)
+            'post_date_gmt'     => get_gmt_from_date($post_date)
         ]);
 
         return $value;
