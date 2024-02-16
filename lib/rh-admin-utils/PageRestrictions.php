@@ -20,8 +20,7 @@ class PageRestrictions
 
     public static function init()
     {
-        // PageRestrictionsOptionsPage::init();
-        add_action('acf/init', [__CLASS__, 'add_options_page']);
+        PageRestrictionsOptionsPage::init();
         add_action('acf/init', [__CLASS__, 'add_page_field_group']);
         add_action('add_meta_boxes', [__CLASS__, 'adjust_meta_boxes']);
         add_filter('get_sample_permalink_html', [__CLASS__, 'get_sample_permalink_html'], 10, 5);
@@ -127,56 +126,9 @@ class PageRestrictions
     }
 
     /**
-     * Add global options
-     */
-    public static function add_options_page()
-    {
-
-        acf_add_options_page([
-            'page_title' => "Global Page Restrictions",
-            'menu_title' => "Restrictions",
-            'menu_slug' =>  self::get_options_slug(),
-            'post_id' =>  self::get_options_slug(),
-            'parent_slug' => "edit.php?post_type=page",
-        ]);
-
-        $group_key = "group_" . self::$prefix . "_options";
-
-        acf_add_local_field_group(array(
-            'key' => $group_key,
-            'title' => 'Global Page Restrictions',
-            'location' => array(
-                array(
-                    array(
-                        "param" => "options_page",
-                        "operator" => "==",
-                        "value" =>  self::get_options_slug()
-                    ),
-                ),
-            ),
-        ));
-
-        $templates =  self::get_unfiltered_page_templates();
-
-        acf_add_local_field([
-            'parent' => $group_key,
-            'key' => "field_rhau_protected_page_templates",
-            'label' => 'Protected Page Templates',
-            'instructions' => 'Protected templates can\'t be selected or changed by users with a role lower than <code>administrator</code>',
-            'name' => '_protected_page_templates',
-            'return_format' => 'array',
-            'translations' => 'sync',
-            'type' => 'select',
-            'multiple' => true,
-            'ui' => true,
-            'choices' => $templates
-        ]);
-    }
-
-    /**
      * Get all theme templates
      */
-    private static function get_unfiltered_page_templates(): array
+    public static function get_unfiltered_page_templates(): array
     {
         if (!function_exists('\wp_get_theme')) {
             require_once ABSPATH . WPINC . '/class-wp-theme.php';
@@ -263,7 +215,7 @@ class PageRestrictions
     /**
      * Get the slug for the restrictions options page
      */
-    private static function get_options_slug(): string
+    public static function get_options_slug(): string
     {
         return 'rhau-page-restrictions';
     }
@@ -515,33 +467,10 @@ class PageRestrictions
 
     /**
      * Return an associative array of protected page templates
-     *
-     * Converts the ACF value from this:
-     * [
-     *  [
-     *   'value' => 'my-template.php',
-     *   'label' => 'My Template'
-     *  ]
-     * ]
-     *
-     * ...to this:
-     * [
-     *  'my-template.php' => 'My Template'
-     * ]
      */
-    private static function get_protected_page_templates(): ?array
+    public static function get_protected_page_templates(): ?array
     {
-        $field_value = get_field('_protected_page_templates',  self::get_options_slug()) ?: [];
-
-        if (empty($field_value)) return [];
-
-        $result = [];
-        foreach ($field_value as $value_and_label) {
-            ['value' => $key, 'label' => $label] = $value_and_label;
-            $result[$key] = $label;
-        }
-
-        return $result;
+        return (array) get_option('rhau_protected_templates', []);
     }
 
     /**

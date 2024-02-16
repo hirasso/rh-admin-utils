@@ -1,6 +1,7 @@
 #### 2.0.5 (2024-02-16)
 
-- Add (non-functioning) vanilla options page (#17bcef6)
+- Remove the ACF dependency for the global page restrictions options page (#8775acf)
+- Add (non-functioning) vanilla options page (#55ab126)
 - Version 2.0.5 (#f347234)
 
 #### 2.0.4 (2024-02-16)
