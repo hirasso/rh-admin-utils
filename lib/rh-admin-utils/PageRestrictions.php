@@ -3,7 +3,7 @@
  * Copyright (c) Rasso Hilber
  * https://rassohilber.com
  *
- * Adds support for custom permissions on a per-page level:
+ * Adds support for custom restrictions on a per-page level:
  *
  *  - Lock the slug of a page
  *  - Prevent the deletion of a page
@@ -14,9 +14,9 @@
 
 namespace RH\AdminUtils;
 
-class PagePermissions
+class PageRestrictions
 {
-    private static string $prefix = 'rhau_page_permissions';
+    private static string $prefix = 'rhau_page_restrictions';
 
     public static function init()
     {
@@ -26,8 +26,9 @@ class PagePermissions
         add_filter('get_sample_permalink_html', [__CLASS__, 'get_sample_permalink_html'], 10, 5);
         add_action('admin_head', [__CLASS__, 'inject_styles']);
         add_filter('map_meta_cap', [__CLASS__, 'disallow_deletion'], 10, 4);
-        add_filter('page_attributes_dropdown_pages_args', [__CLASS__, 'post_parent_dropdown_args']);
-        add_filter('quick_edit_dropdown_pages_args', [__CLASS__, 'post_parent_dropdown_args']);
+        add_filter('page_attributes_dropdown_pages_args', [__CLASS__, 'page_dropdown_args_lock_post_parent'], 20, 2);
+        add_filter('page_attributes_dropdown_pages_args', [__CLASS__, 'page_dropdown_args_no_children_allowed']);
+        add_filter('quick_edit_dropdown_pages_args', [__CLASS__, 'quick_edit_dropdown_pages_args']);
         add_action('page_attributes_misc_attributes', [__CLASS__, 'render_protected_page_template']);
         add_action('current_screen', [__CLASS__, 'restrict_page_templates_for_screen']);
 
@@ -38,7 +39,7 @@ class PagePermissions
     }
 
     /**
-     * Render the field group for the page permissions
+     * Render the field group for the page restrictions
      */
     public static function add_page_field_group(): void
     {
@@ -46,7 +47,7 @@ class PagePermissions
 
         acf_add_local_field_group(array(
             'key' => $group_key,
-            'title' => 'Permissions',
+            'title' => 'Restrictions',
             'location' => array(
                 array(
                     array(
@@ -79,8 +80,19 @@ class PagePermissions
             'parent' => $group_key,
             'key' => "field_rhau_lock_slug",
             'label' => 'Slug',
-            'message' => 'Lock the slug',
+            'message' => 'Lock slug',
             'name' => '_rhau_lock_slug',
+            'translations' => 'sync',
+            'type' => 'true_false',
+            'default_value' => 0
+        ]);
+
+        acf_add_local_field([
+            'parent' => $group_key,
+            'key' => "field_rhau_lock_post_parent",
+            'label' => 'Children',
+            'message' => 'Lock parent',
+            'name' => '_rhau_lock_post_parent',
             'translations' => 'sync',
             'type' => 'true_false',
             'default_value' => 0
@@ -105,8 +117,8 @@ class PagePermissions
     {
 
         acf_add_options_page([
-            'page_title' => "Global Page Permissions",
-            'menu_title' => "Permissions",
+            'page_title' => "Global Page Restrictions",
+            'menu_title' => "Restrictions",
             'menu_slug' =>  self::get_options_slug(),
             'post_id' =>  self::get_options_slug(),
             'parent_slug' => "edit.php?post_type=page",
@@ -116,7 +128,7 @@ class PagePermissions
 
         acf_add_local_field_group(array(
             'key' => $group_key,
-            'title' => 'Global Page Permissions',
+            'title' => 'Global Page Restrictions',
             'location' => array(
                 array(
                     array(
@@ -184,6 +196,12 @@ class PagePermissions
         }
     }
 
+    private static function apply_restrictions(): bool
+    {
+        return true;
+        return !current_user_can('administrator');
+    }
+
     /**
      * Restrict page templates
      */
@@ -197,7 +215,7 @@ class PagePermissions
         /**
          * Administrators can select and change all templates
          */
-        if (current_user_can('administrator')) return $templates;
+        if (!self::apply_restrictions()) return $templates;
 
         /**
          * Completely hide the templates dropdown if the current page is protected
@@ -214,11 +232,11 @@ class PagePermissions
     }
 
     /**
-     * Get the slug for the permissions options page
+     * Get the slug for the restrictions options page
      */
     private static function get_options_slug(): string
     {
-        return 'rhau-page-permissions';
+        return 'rhau-page-restrictions';
     }
 
     /**
@@ -298,18 +316,18 @@ class PagePermissions
     }
 
     /**
-     * Inject custom styles for the permissions field group
+     * Inject custom styles for the restrictions field group
      */
     public static function inject_styles(): void
     {
         ob_start() ?>
         <style>
-            #acf-group_rhau_page_permissions .acf-field-true-false .acf-label,
-            #acf-group_rhau_page_permissions_options .acf-field-true-false .acf-label {
+            #acf-group_<?= self::$prefix ?> .acf-field-true-false .acf-label,
+            #acf-group_<?= self::$prefix ?>_options .acf-field-true-false .acf-label {
                 display: none !important;
             }
         </style>
-<?php echo ob_get_clean();
+    <?php echo ob_get_clean();
     }
 
     /**
@@ -329,9 +347,36 @@ class PagePermissions
     }
 
     /**
+     * Hide the parent page dropdown if a page's post parent is locked
+     */
+    public static function page_dropdown_args_lock_post_parent(array $args, \WP_Post $post): array
+    {
+        if (!get_field('_rhau_lock_post_parent', $post)) return $args;
+
+        /** no post is a child of -1 */
+        $args['child_of'] = -1;
+
+        $parent_id = $post->post_parent;
+        $parent_title = $args['show_option_none'];
+
+        if ($parent_id !== 0) {
+            $parent_title = get_the_title($parent_id);
+        }
+
+        self::render_locked_page_attribute(
+            __('Parent'),
+            $parent_title,
+            'parent_id',
+            $parent_id
+        );
+
+        return $args;
+    }
+
+    /**
      * Exclude pages disallowed as parent pages
      */
-    public static function post_parent_dropdown_args(array $args): array
+    public static function page_dropdown_args_no_children_allowed(array $args): array
     {
         $exclude_tree = $args['exclude_tree'] ?? [];
         if (is_int($exclude_tree)) $exclude_tree = [$exclude_tree];
@@ -341,6 +386,17 @@ class PagePermissions
             self::get_pages_with_no_children_allowed()
         );
 
+        return $args;
+    }
+
+    /**
+     * Completely hide the parent page dropdown in the bulk UI as it doesn't
+     * play nicely with locked post parents
+     */
+    public static function quick_edit_dropdown_pages_args(array $args): array {
+        $args['child_of'] = -1;
+        $locked_icon = self::get_locked_icon();
+        echo "$locked_icon";
         return $args;
     }
 
@@ -365,7 +421,7 @@ class PagePermissions
      */
     public static function render_protected_page_template(\WP_Post $post): void
     {
-        if (current_user_can('administrator')) return;
+        if (!self::apply_restrictions()) return;
 
         if (!self::is_template_protected($post)) return;
 
@@ -373,12 +429,29 @@ class PagePermissions
 
         $template =  self::get_page_template($post);
         $template_name = $all_templates[$template] ?? $template;
-        $title = __('Template');
-        $locked_icon = self::get_locked_icon();
 
-        $out = "<p class=\"post-attributes-label-wrapper\"><strong>$title</strong>: $template_name $locked_icon</p>";
-        // Just to make sure WordPress doesn't delete the value, add a hidden input with the current page template
-        $out .= "<input type='hidden' name='page_template' value='$template'></input>";
+        self::render_locked_page_attribute(
+            __('Template'),
+            $template_name,
+            'page_template',
+            $template
+        );
+    }
+
+    /**
+     * Render a locked page attribute
+     * Also renders a hidden field to make sure the value is being preserved
+     * (even though this might not be necessary)
+     */
+    private static function render_locked_page_attribute(
+        string $label_prefix,
+        string $label_title,
+        string $hidden_field_name,
+        string $hidden_field_value
+    ): void {
+        $locked_icon = self::get_locked_icon();
+        $out = "<p class=\"post-attributes-label-wrapper\"><strong>$label_prefix</strong>: $label_title $locked_icon</p>";
+        $out .= "<input type='hidden' name='$hidden_field_name' value='$hidden_field_value'></input>";
         echo $out;
     }
 

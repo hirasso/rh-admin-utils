@@ -52,7 +52,7 @@ ACFSyncFieldGroups::init();
 ForceLowercaseURLs::init();
 AttachmentsHelper::init();
 RemoveAds::getInstance();
-PagePermissions::init();
+PageRestrictions::init();
 ACFSyncPostDate::init();
 QueryOptimizer::init();
 AdminDashboard::init();
