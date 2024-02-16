@@ -1,6 +1,10 @@
+#### 2.0.5 (2024-02-16)
+
+- Version 2.0.5 (#b915f2a)
+
 #### 2.0.4 (2024-02-16)
 
-- Make sure `is_post_status_restricted` returns a `boolean` (#f70d05b)
+- Make sure `is_post_status_restricted` returns a `boolean` (#dd3be70)
 - Render more info about locked pages, allow to lock the post status (#22a0861)
 - Render a hint for administrators that a template is locked (#8e40c4c)
 - Rename `PagePermissions` to `PageRestrictions` (#666f6f3)
