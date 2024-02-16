@@ -33,6 +33,9 @@ class PageRestrictions
         add_action('current_screen', [__CLASS__, 'restrict_page_templates_for_screen']);
         add_action('page_attributes_meta_box_template', [__CLASS__, 'render_protected_template_hint'], 10, 2);
 
+        add_filter('manage_pages_columns', [__CLASS__, 'pages_list_col']);
+        add_action('manage_pages_custom_column', [__CLASS__, 'pages_list_col_value'], 10, 2);
+
         add_action('save_post', [__CLASS__, 'on_post_state_change']);
         add_action('deleted_post', [__CLASS__, 'on_post_state_change']);
         add_action('trashed_post', [__CLASS__, 'on_post_state_change']);
@@ -94,6 +97,17 @@ class PageRestrictions
             'label' => 'Children',
             'message' => 'Lock parent',
             'name' => '_rhau_lock_post_parent',
+            'translations' => 'sync',
+            'type' => 'true_false',
+            'default_value' => 0
+        ]);
+
+        acf_add_local_field([
+            'parent' => $group_key,
+            'key' => "field_rhau_lock_post_status",
+            'label' => 'Post Status',
+            'message' => 'Lock post status',
+            'name' => '_rhau_lock_post_status',
             'translations' => 'sync',
             'type' => 'true_false',
             'default_value' => 0
@@ -336,10 +350,16 @@ class PageRestrictions
     {
         ob_start() ?>
         <style>
-            #acf-group_<?= self::$prefix ?> .acf-field-true-false .acf-label,
-            #acf-group_<?= self::$prefix ?>_options .acf-field-true-false .acf-label {
+            #acf-group_rhau_page_restrictions .acf-field-true-false .acf-label,
+            #acf-group_rhau_page_restrictions_options .acf-field-true-false .acf-label {
                 display: none !important;
             }
+
+            <?php if (self::is_post_status_restricted()) : ?>.edit-post-status {
+                display: none !important;
+            }
+
+            <?php endif; ?>
         </style>
 <?php echo ob_get_clean();
     }
@@ -371,7 +391,7 @@ class PageRestrictions
         $args['child_of'] = -1;
 
         $parent_id = $post->post_parent;
-        $parent_title = __( 'Main Page (no parent)' );
+        $parent_title = __('Main Page (no parent)');
 
         if ($parent_id !== 0) {
             $parent_title = get_the_title($parent_id);
@@ -521,5 +541,69 @@ class PageRestrictions
         }
 
         return $result;
+    }
+
+    /**
+     * Render a column with a lock for locked posts
+     */
+    public static function pages_list_col($cols, $post_type = 'page'): array
+    {
+        if ($post_type !== 'page') return $cols;
+
+        $cols["rhau_is_locked"] = __('Locked');
+
+        return $cols;
+    }
+
+    /**
+     * Render a lock for locked pages
+     */
+    public static function pages_list_col_value(string $column_name, int $post_id): void
+    {
+        if ($column_name !== "rhau_is_locked") return;
+
+        $locks = [
+            [
+                'label' => 'Parent',
+                'active' => get_field('_rhau_lock_post_parent', $post_id),
+            ],
+            [
+                'label' => 'Slug',
+                'active' => get_field('_rhau_lock_slug', $post_id),
+            ],
+            [
+                'label' => 'Deletion',
+                'active' => get_field('_rhau_prevent_deletion', $post_id),
+            ],
+            [
+                'label' => 'Status',
+                'active' => get_field('_rhau_lock_post_status', $post_id),
+            ],
+            [
+                'label' => 'Children',
+                'active' => get_field('_rhau_disallow_children', $post_id),
+            ]
+        ];
+        $active_locks = array_filter($locks, fn ($lock) => (bool) $lock['active']);
+
+        if (empty($active_locks)) return;
+
+        $active_locks_string = implode(', ', array_column($active_locks, 'label'));
+
+        echo self::get_locked_icon() . "$active_locks_string";
+    }
+
+    /**
+     * Is the provided post or the global post restricted?
+     */
+    private static function is_post_status_restricted(?int $post_id = null): bool
+    {
+        if ($post_id) return get_field('_rhau_lock_post_status', $post_id);
+
+        $screen = get_current_screen();
+
+        if (!$screen || $screen->id !== 'page') return false;
+
+        return get_field('_rhau_lock_post_status', get_post());
     }
 }

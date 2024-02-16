@@ -1,6 +1,7 @@
 #### 2.0.4 (2024-02-16)
 
-- Render a hint for administrators that a template is locked (#8e3f37f)
+- Render more info about locked pages, allow to lock the post status (#c122862)
+- Render a hint for administrators that a template is locked (#8e40c4c)
 - Rename `PagePermissions` to `PageRestrictions` (#666f6f3)
 - New Page Permission: Lock parent (#f34f316)
 - Leave `post_date_modified` untouched when syncing date fields (#c3439e9)
