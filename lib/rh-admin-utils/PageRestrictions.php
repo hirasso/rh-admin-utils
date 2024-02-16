@@ -598,12 +598,12 @@ class PageRestrictions
      */
     private static function is_post_status_restricted(?int $post_id = null): bool
     {
-        if ($post_id) return get_field('_rhau_lock_post_status', $post_id);
+        if ($post_id) return (bool) get_field('_rhau_lock_post_status', $post_id);
 
         $screen = get_current_screen();
 
         if (!$screen || $screen->id !== 'page') return false;
 
-        return get_field('_rhau_lock_post_status', get_post());
+        return (bool) get_field('_rhau_lock_post_status', get_post());
     }
 }
