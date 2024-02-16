@@ -196,9 +196,11 @@ class PageRestrictions
         }
     }
 
+    /**
+     * Should the restrictions be applied?
+     */
     private static function apply_restrictions(): bool
     {
-        return true;
         return !current_user_can('administrator');
     }
 

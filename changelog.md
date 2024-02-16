@@ -1,6 +1,7 @@
 #### 2.0.4 (2024-02-16)
 
-- New Page Permission: Lock parent (#85e1bf9)
+- Rename `PagePermissions` to `PageRestrictions` (#319e324)
+- New Page Permission: Lock parent (#f34f316)
 - Leave `post_date_modified` untouched when syncing date fields (#c3439e9)
 - Add option to sync ACF `date_picker` and `date_time_picker` fields with the `post_date` (#22e0de7)
 - Optimize WP queries if `__rhau_optimize_query` is set as a query arg (#3b53259)
