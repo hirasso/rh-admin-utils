@@ -1,6 +1,7 @@
 #### 2.0.4 (2024-02-16)
 
-- Rename `PagePermissions` to `PageRestrictions` (#319e324)
+- Render a hint for administrators that a template is locked (#8e3f37f)
+- Rename `PagePermissions` to `PageRestrictions` (#666f6f3)
 - New Page Permission: Lock parent (#f34f316)
 - Leave `post_date_modified` untouched when syncing date fields (#c3439e9)
 - Add option to sync ACF `date_picker` and `date_time_picker` fields with the `post_date` (#22e0de7)

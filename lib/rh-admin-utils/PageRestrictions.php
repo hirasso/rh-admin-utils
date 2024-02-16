@@ -31,6 +31,7 @@ class PageRestrictions
         add_filter('quick_edit_dropdown_pages_args', [__CLASS__, 'quick_edit_dropdown_pages_args']);
         add_action('page_attributes_misc_attributes', [__CLASS__, 'render_protected_page_template']);
         add_action('current_screen', [__CLASS__, 'restrict_page_templates_for_screen']);
+        add_action('page_attributes_meta_box_template', [__CLASS__, 'render_protected_template_hint'], 10, 2);
 
         add_action('save_post', [__CLASS__, 'on_post_state_change']);
         add_action('deleted_post', [__CLASS__, 'on_post_state_change']);
@@ -197,6 +198,17 @@ class PageRestrictions
     }
 
     /**
+     * Renders a hint for administrators that a template is protected
+     */
+    public static function render_protected_template_hint(string $template, \WP_Post $post): void
+    {
+        if (!self::is_template_protected($post)) return;
+        if (!self::apply_restrictions()) {
+            echo self::get_locked_icon('Only editable for administrators');
+        }
+    }
+
+    /**
      * Should the restrictions be applied?
      */
     private static function apply_restrictions(): bool
@@ -329,7 +341,7 @@ class PageRestrictions
                 display: none !important;
             }
         </style>
-    <?php echo ob_get_clean();
+<?php echo ob_get_clean();
     }
 
     /**
@@ -359,7 +371,7 @@ class PageRestrictions
         $args['child_of'] = -1;
 
         $parent_id = $post->post_parent;
-        $parent_title = $args['show_option_none'];
+        $parent_title = __( 'Main Page (no parent)' );
 
         if ($parent_id !== 0) {
             $parent_title = get_the_title($parent_id);
@@ -395,7 +407,8 @@ class PageRestrictions
      * Completely hide the parent page dropdown in the bulk UI as it doesn't
      * play nicely with locked post parents
      */
-    public static function quick_edit_dropdown_pages_args(array $args): array {
+    public static function quick_edit_dropdown_pages_args(array $args): array
+    {
         $args['child_of'] = -1;
         $locked_icon = self::get_locked_icon();
         echo "$locked_icon";
@@ -423,9 +436,9 @@ class PageRestrictions
      */
     public static function render_protected_page_template(\WP_Post $post): void
     {
-        if (!self::apply_restrictions()) return;
-
         if (!self::is_template_protected($post)) return;
+
+        if (!self::apply_restrictions()) return;
 
         $all_templates = self::get_unfiltered_page_templates();
 
