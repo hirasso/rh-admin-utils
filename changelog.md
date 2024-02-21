@@ -1,6 +1,6 @@
 #### 2.0.6 (2024-02-21)
 
-- Only format files inside lib/rh-admin-utils (#fa3e85f)
+- Only format files inside lib/rh-admin-utils (#f486682)
 - Set `$wp_embed->post_ID` when caching ACF oEmbed fields (#1bee29d)
 - Format using PHP_CodeSniffer (#7a737ed)
 - Cache ACF oEmbed fields (#1464d97)
