@@ -1,6 +1,11 @@
+#### 2.0.6 (2024-02-21)
+
+- Format using PHP_CodeSniffer (#7a737ed)
+- Cache ACF oEmbed fields (#1464d97)
+
 #### 2.0.5 (2024-02-16)
 
-- Remove the ACF dependency for the global page restrictions options page (#8775acf)
+- Remove the ACF dependency for the global page restrictions options page (#5d56ad3)
 - Add (non-functioning) vanilla options page (#55ab126)
 - Version 2.0.5 (#f347234)
 
