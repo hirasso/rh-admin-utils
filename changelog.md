@@ -1,6 +1,6 @@
 #### 2.0.6 (2024-02-21)
 
-- Make sure restricted page fields can't be changed programmatically (#7b26a62)
+- Make sure restricted page fields can't be changed programmatically (#f5a404d)
 - Don't assume `get_current_screen` is defined (#5561f0a)
 - Visually hide restricted page settings in block editor view (#b75acb6)
 - Clean-up permission checks (#1068e48)

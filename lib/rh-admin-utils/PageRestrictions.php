@@ -303,15 +303,11 @@ class PageRestrictions
      */
     private static function is_template_protected(?\WP_Post $post): bool
     {
-        if (self::user_can_manage_restrictions()) return false;
+        if ($post && self::is_locked($post)) return true;
 
         $current_template = self::get_page_template($post);
-
         if ($current_template === 'default') return false;
-
         $protected_templates = self::get_protected_page_templates();
-
-        if ($post && self::is_locked($post)) return true;
 
         return array_key_exists($current_template, $protected_templates);
     }
