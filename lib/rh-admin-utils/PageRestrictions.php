@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) Rasso Hilber
  * https://rassohilber.com
@@ -308,13 +309,14 @@ class PageRestrictions
                 display: none !important;
             }
 
-            <?php if (self::is_post_status_restricted()) : ?>.edit-post-status {
+            <?php if (self::is_post_status_restricted()) :
+                ?>.edit-post-status {
                 display: none !important;
             }
 
             <?php endif; ?>
         </style>
-<?php echo ob_get_clean();
+        <?php echo ob_get_clean();
     }
 
     /**

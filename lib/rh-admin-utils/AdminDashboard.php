@@ -6,7 +6,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class AdminDashboard
 {
-
     public static function init()
     {
         add_action("wp_dashboard_setup", [__CLASS__, "wp_dashboard_setup"], 20);

@@ -7,20 +7,4 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'RH\\AdminUtils\\ACFCodeField' => $baseDir . '/lib/rh-admin-utils/ACFCodeField.php',
-    'RH\\AdminUtils\\ACFPasswordUtilities' => $baseDir . '/lib/rh-admin-utils/ACFPasswordUtilities.php',
-    'RH\\AdminUtils\\ACFSyncFieldGroups' => $baseDir . '/lib/rh-admin-utils/ACFSyncFieldGroups.php',
-    'RH\\AdminUtils\\AdminBarPublishButton' => $baseDir . '/lib/rh-admin-utils/AdminBarPublishButton.php',
-    'RH\\AdminUtils\\AdminDashboard' => $baseDir . '/lib/rh-admin-utils/AdminDashboard.php',
-    'RH\\AdminUtils\\AdminUtils' => $baseDir . '/lib/rh-admin-utils/AdminUtils.php',
-    'RH\\AdminUtils\\DisableComments' => $baseDir . '/lib/rh-admin-utils/DisableComments.php',
-    'RH\\AdminUtils\\EditorInChief' => $baseDir . '/lib/rh-admin-utils/EditorInChief.php',
-    'RH\\AdminUtils\\EditorsAddUsers' => $baseDir . '/lib/rh-admin-utils/EditorsAddUsers.php',
-    'RH\\AdminUtils\\Environments' => $baseDir . '/lib/rh-admin-utils/Environments.php',
-    'RH\\AdminUtils\\Misc' => $baseDir . '/lib/rh-admin-utils/Misc.php',
-    'RH\\AdminUtils\\PendingReviews' => $baseDir . '/lib/rh-admin-utils/PendingReviews.php',
-    'RH\\AdminUtils\\RemoveAds' => $baseDir . '/lib/rh-admin-utils/RemoveAds.php',
-    'RH\\AdminUtils\\Singleton' => $baseDir . '/lib/rh-admin-utils/Singleton.php',
-    'RH\\AdminUtils\\WpCliCommands' => $baseDir . '/lib/rh-admin-utils/WpCliCommands.php',
-    'RH\\AdminUtils\\WpscClearCache' => $baseDir . '/lib/rh-admin-utils/WpscClearCache.php',
 );

@@ -1,4 +1,5 @@
 <?php
+
 /*
 * Copyright (c) 2022 Rasso Hilber
 * https://rassohilber.com
@@ -13,7 +14,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
  */
 class ACFPasswordUtilities
 {
-
     /**
      * Init
      */
@@ -39,7 +39,7 @@ class ACFPasswordUtilities
                 <span><a href="##" rhau-x-on:click.prevent="onCopyClick" rhau-x-ref="copy" rhau-x-text="copyText"></a></span>
             </template>
         </div>
-    <?php echo ob_get_clean();
+        <?php echo ob_get_clean();
     }
 
     public static function acf_admin_footer()
@@ -73,6 +73,6 @@ class ACFPasswordUtilities
                 margin: 0 0.5em;
             }
         </style>
-<?php echo ob_get_clean();
+        <?php echo ob_get_clean();
     }
 }

@@ -6,7 +6,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class ACFRestrictFieldAccess
 {
-
     /**
      * Init
      */
@@ -48,7 +47,8 @@ class ACFRestrictFieldAccess
     /**
      * Restrict access to a field
      */
-    public static function prepare_field($field) {
+    public static function prepare_field($field)
+    {
 
         if (empty($field)) return $field;
 

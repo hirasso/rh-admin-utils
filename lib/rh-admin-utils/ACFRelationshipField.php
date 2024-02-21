@@ -6,7 +6,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class ACFRelationshipField
 {
-
     /**
      * Init
      */
@@ -26,6 +25,4 @@ class ACFRelationshipField
         $field['wrapper']['rhau-x-data'] = 'ACFRelationshipField';
         return $field;
     }
-
-
 }

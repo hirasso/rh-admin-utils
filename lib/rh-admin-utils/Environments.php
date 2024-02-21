@@ -1,13 +1,11 @@
 <?php
 
-
 namespace RH\AdminUtils;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class Environments extends Singleton
 {
-
     private $env;
 
     /**
@@ -136,7 +134,7 @@ class Environments extends Singleton
             $remote_root_production = str_replace($home_dev, $remote_root_production, get_option('home'));
             $remote_root_staging = str_replace($home_dev, $remote_root_staging, get_option('home'));
         }
-?>
+        ?>
         <rhau-environment-links data-dev-root="<?= $dev_root ?>">
             <i tabindex="0"></i>
             <rhau-environment-link tabindex="0" data-remote-root="<?= $remote_root_production ?>">Production</rhau-environment-link>
@@ -146,7 +144,7 @@ class Environments extends Singleton
             <i tabindex="0"></i>
         </rhau-environment-links>
 
-<?php
+        <?php
     }
 
     /**
@@ -220,11 +218,8 @@ class Environments extends Singleton
 
     /**
      * Filter attachments
-     *
-     * @param string $url
-     * @return string
      */
-    function get_attachment_url($url)
+    public function get_attachment_url(string $url): string
     {
         $url = $this->maybe_get_remote_url($url);
         return $url;
@@ -232,11 +227,8 @@ class Environments extends Singleton
 
     /**
      * Filter srcsets
-     *
-     * @param [type] $sources
-     * @return void
      */
-    function calculate_image_srcset($sources)
+    public function calculate_image_srcset($sources)
     {
 
         foreach ($sources as &$source) {
@@ -252,11 +244,8 @@ class Environments extends Singleton
 
     /**
      * Try to load remote file url if missing locally
-     *
-     * @param string $url
-     * @return string
      */
-    function maybe_get_remote_url($url)
+    private function maybe_get_remote_url($url)
     {
 
         // bail early if the $url is external
@@ -288,10 +277,8 @@ class Environments extends Singleton
 
     /**
      * Show a notice if the site is private (blog_public is set to 0)
-     *
-     * @return void
      */
-    function site_private_notice()
+    public function site_private_notice()
     {
         if (get_option('blog_public') !== '0') {
             return;

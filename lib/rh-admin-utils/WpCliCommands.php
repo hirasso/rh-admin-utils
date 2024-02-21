@@ -9,13 +9,12 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
  */
 class WpCliCommands
 {
-
     /**
      * Static init function instead of a constructor
      */
     public static function init()
     {
-        if(!rhau()->is_wp_cli()) return;
+        if (!rhau()->is_wp_cli()) return;
         \WP_CLI::add_command('rhau do-action-save-post', [__CLASS__, 'wp_cli_do_action_save_post']);
     }
 
@@ -54,5 +53,4 @@ class WpCliCommands
             do_action('save_post', $post->ID, $post, true);
         }
     }
-
 }

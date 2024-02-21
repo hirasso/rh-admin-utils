@@ -6,7 +6,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class AdminUtils extends Singleton
 {
-
     private $deprecated_plugins = [
         'rh-wpsc-clear-cache/rh-wpsc-clear-cache.php',
         'rh-editors-add-users/rh-editors-add-users.php',
@@ -157,7 +156,7 @@ class AdminUtils extends Singleton
             <div class="notice notice-<?= $notice['type'] ?> <?= $notice['is_dismissible'] ? 'is-dismissible' : '' ?>">
                 <p><?= $notice['message'] ?></p>
             </div>
-<?php echo ob_get_clean();
+            <?php echo ob_get_clean();
         }
     }
 

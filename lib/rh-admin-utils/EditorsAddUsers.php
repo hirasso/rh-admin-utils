@@ -9,7 +9,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
  */
 class EditorsAddUsers extends Singleton
 {
-
     private $caps = [
         'create_users',
         'edit_users',
@@ -39,10 +38,8 @@ class EditorsAddUsers extends Singleton
 
     /**
      * Admin init hook
-     *
-     * @return void
      */
-    function admin_init()
+    public function admin_init(): void
     {
         if ($this->plugin_version_changed()) {
             $this->activation_hook();
@@ -51,10 +48,8 @@ class EditorsAddUsers extends Singleton
 
     /**
      * Check if the plugin version has changed
-     *
-     * @return void
      */
-    function plugin_version_changed()
+    private function plugin_version_changed(): bool
     {
         $option_key = 'rh_editors_add_users_version';
         $plugin = get_plugin_data(__FILE__);
@@ -66,30 +61,24 @@ class EditorsAddUsers extends Singleton
 
     /**
      * Plugin activation hook
-     *
-     * @return void
      */
-    function activation_hook()
+    public function activation_hook(): void
     {
         $this->add_caps();
     }
 
     /**
      * Plugin deactivation hook
-     *
-     * @return void
      */
-    function deactivation_hook()
+    public function deactivation_hook(): void
     {
         $this->remove_caps();
     }
 
     /**
      * Remove caps
-     *
-     * @return void
      */
-    function remove_caps()
+    private function remove_caps()
     {
         foreach ($this->allowed_roles as $r) {
             $role = get_role($r);
@@ -105,10 +94,8 @@ class EditorsAddUsers extends Singleton
 
     /**
      * Add caps
-     *
-     * @return void
      */
-    function add_caps()
+    private function add_caps(): void
     {
         $this->remove_caps();
         foreach ($this->allowed_roles as $r) {
@@ -120,16 +107,12 @@ class EditorsAddUsers extends Singleton
                 $role->add_cap($cap);
             }
         }
-        return  $this;
     }
 
     /**
      * Remove Administrators from editable roles for users lower than editors
-     *
-     * @param array $roles
-     * @return array
      */
-    function filter_editable_roles($roles)
+    public function filter_editable_roles(array $roles): array
     {
         $user = wp_get_current_user();
         if (!current_user_can('administrator')) {
@@ -143,10 +126,8 @@ class EditorsAddUsers extends Singleton
 
     /**
      * Uncheck 'Send user notification'-checkbox
-     *
-     * @return void
      */
-    function admin_footer()
+    public function admin_footer(): void
     {
         global $pagenow;
         if (current_user_can('administrator')) return;
@@ -154,7 +135,7 @@ class EditorsAddUsers extends Singleton
             <script>
                 document.getElementById("send_user_notification").checked = false;
             </script>
-<?php endif;
+        <?php endif;
     }
 
     /**
@@ -169,7 +150,7 @@ class EditorsAddUsers extends Singleton
      * @param int      $user_id The user ID.
      * @param array    $args    Adds the context to the cap. Typically the object ID.
      */
-    function map_meta_cap($caps, $cap, $user_id, $args)
+    public function map_meta_cap(array $caps, string $cap, $user_id, $args)
     {
         $check_caps = [
             'edit_user',
@@ -179,7 +160,6 @@ class EditorsAddUsers extends Singleton
             'delete_user',
             'delete_users',
         ];
-        // $check_caps = $this->caps;
         if (!in_array($cap, $check_caps) || current_user_can('administrator')) {
             return $caps;
         }

@@ -6,7 +6,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class ACFSyncPostDate
 {
-
     /**
      * Init
      */
@@ -100,6 +99,6 @@ class ACFSyncPostDate
                 display: none !important;
             }
         </style>
-<?php echo ob_get_clean();
+        <?php echo ob_get_clean();
     }
 }

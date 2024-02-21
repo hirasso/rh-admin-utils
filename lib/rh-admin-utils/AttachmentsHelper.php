@@ -1,4 +1,5 @@
 <?php
+
 /*
 * Copyright (c) 2023 Rasso Hilber
 * https://rassohilber.com
@@ -13,7 +14,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
  */
 class AttachmentsHelper
 {
-
     /**
      * Init
      */

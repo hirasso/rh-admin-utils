@@ -6,7 +6,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class AdminBarPublishButton extends Singleton
 {
-
     public function __construct()
     {
         add_action('wp_before_admin_bar_render', [$this, 'add_buttons'], 10000001, 1);

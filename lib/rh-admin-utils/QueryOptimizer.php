@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) Rasso Hilber
  * https://rassohilber.com
@@ -12,7 +13,6 @@ namespace RH\AdminUtils;
 
 class QueryOptimizer
 {
-
     public static function init()
     {
         add_action('pre_get_posts', [__CLASS__, 'optimize_query']);

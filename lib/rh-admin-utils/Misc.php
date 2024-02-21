@@ -6,7 +6,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class Misc extends Singleton
 {
-
     public function __construct()
     {
         add_filter('xmlrpc_enabled', '__return_false');
@@ -111,7 +110,7 @@ class Misc extends Singleton
      * @param array $args
      * @return array
      */
-    function disable_capabilities($caps, $cap, $user_id, $args)
+    public function disable_capabilities($caps, $cap, $user_id, $args)
     {
         $disabled_capabilities = apply_filters('rhau/disabled_capabilities', ['customize']);
         if (!in_array($cap, $disabled_capabilities)) return $caps;

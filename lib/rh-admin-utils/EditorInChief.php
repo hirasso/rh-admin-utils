@@ -6,7 +6,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class EditorInChief extends Singleton
 {
-
     public $role_name = 'editor_in_chief';
 
     public function __construct()

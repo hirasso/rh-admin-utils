@@ -6,7 +6,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class PendingReviews extends Singleton
 {
-
     public function __construct()
     {
         add_action('save_post', [$this, 'save_post']);

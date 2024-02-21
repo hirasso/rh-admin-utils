@@ -9,7 +9,9 @@
     "preinstall": "git config core.hooksPath .githooks",
     "watch": "webpack --watch --mode=development --progress --stats minimal",
     "build": "webpack --mode=production  --progress --stats minimal",
-    "lint": "npx prettier --write ./assets-src/"
+    "lint:assets": "npx prettier --write ./assets-src/",
+    "lint:php": "./lib/vendor/bin/phpcs",
+    "format:php": "./lib/vendor/bin/phpcbf"
   },
   "author": "Rasso Hilber",
   "license": "ISC",

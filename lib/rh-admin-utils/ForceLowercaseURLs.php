@@ -38,7 +38,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class ForceLowercaseURLs
 {
-
     /**
      * Initialize this plugin
      */

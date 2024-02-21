@@ -22,22 +22,6 @@ class ComposerStaticInit1c7337a595277b47ad5cb8dc6c00251a
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'RH\\AdminUtils\\ACFCodeField' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/ACFCodeField.php',
-        'RH\\AdminUtils\\ACFPasswordUtilities' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/ACFPasswordUtilities.php',
-        'RH\\AdminUtils\\ACFSyncFieldGroups' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/ACFSyncFieldGroups.php',
-        'RH\\AdminUtils\\AdminBarPublishButton' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/AdminBarPublishButton.php',
-        'RH\\AdminUtils\\AdminDashboard' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/AdminDashboard.php',
-        'RH\\AdminUtils\\AdminUtils' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/AdminUtils.php',
-        'RH\\AdminUtils\\DisableComments' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/DisableComments.php',
-        'RH\\AdminUtils\\EditorInChief' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/EditorInChief.php',
-        'RH\\AdminUtils\\EditorsAddUsers' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/EditorsAddUsers.php',
-        'RH\\AdminUtils\\Environments' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/Environments.php',
-        'RH\\AdminUtils\\Misc' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/Misc.php',
-        'RH\\AdminUtils\\PendingReviews' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/PendingReviews.php',
-        'RH\\AdminUtils\\RemoveAds' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/RemoveAds.php',
-        'RH\\AdminUtils\\Singleton' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/Singleton.php',
-        'RH\\AdminUtils\\WpCliCommands' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/WpCliCommands.php',
-        'RH\\AdminUtils\\WpscClearCache' => __DIR__ . '/../../..' . '/lib/rh-admin-utils/WpscClearCache.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

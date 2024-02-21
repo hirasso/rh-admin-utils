@@ -6,7 +6,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class RemoveAds extends Singleton
 {
-
     public function __construct()
     {
         add_action('admin_init', [$this, 'admin_init'], 11);

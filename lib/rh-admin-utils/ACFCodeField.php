@@ -6,7 +6,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class ACFCodeField
 {
-
     /**
      * Init
      */
@@ -66,6 +65,4 @@ class ACFCodeField
 
         return $field;
     }
-
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) Rasso Hilber
  * https://rassohilber.com
@@ -9,7 +10,6 @@ namespace RH\AdminUtils;
 
 class PageRestrictionsOptionsPage
 {
-
     private static string $page_title;
     private static string $menu_title;
 
@@ -54,7 +54,7 @@ class PageRestrictionsOptionsPage
      */
     public static function render_options_page()
     {
-?>
+        ?>
         <div class="wrap">
             <h2><?= self::$page_title ?></h2>
             <form method="post" action="options.php">
@@ -63,7 +63,7 @@ class PageRestrictionsOptionsPage
                 <?php submit_button(__('Save Settings')); ?>
             </form>
         </div>
-    <?php
+        <?php
     }
 
     /**
@@ -108,7 +108,7 @@ class PageRestrictionsOptionsPage
     {
         $protected_templates = PageRestrictions::get_protected_page_templates();
         $page_templates = PageRestrictions::get_unfiltered_page_templates();
-    ?>
+        ?>
         <fieldset>
             <?php foreach ($page_templates as $file => $name) : ?>
                 <?php
@@ -127,7 +127,7 @@ class PageRestrictionsOptionsPage
                 jQuery('.rhau-multiselect').select2();
             });
         </script>
-<?php
+        <?php
     }
 
     /**

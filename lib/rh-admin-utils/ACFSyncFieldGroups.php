@@ -12,7 +12,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
  */
 class ACFSyncFieldGroups
 {
-
     /**
      * Init
      */
@@ -83,7 +82,7 @@ class ACFSyncFieldGroups
 
             $imported_field_group = acf_import_field_group($local_field_group);
             \WP_CLI::success("Synced ACF field group: {$imported_field_group["title"]}");
-            $counter ++;
+            $counter++;
         }
         if ($counter === 0) {
             \WP_CLI::warning("No ACF field groups available for syncing.");

@@ -6,7 +6,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class WpscClearCache extends Singleton
 {
-
     public function __construct()
     {
         add_action('admin_init', [$this, 'wp_super_cache_init']);

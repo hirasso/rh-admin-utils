@@ -6,7 +6,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class DisableComments extends Singleton
 {
-
     public function __construct()
     {
         add_action('after_setup_theme', [$this, 'after_setup_theme']);
