@@ -1,6 +1,7 @@
 #### 2.0.6 (2024-02-21)
 
-- Add better tooltips for page restrictions (#58614a1)
+- Clean-up permission checks (#0605fca)
+- Add better tooltips for page restrictions (#cf1856f)
 - Fix saving page restrictions (#37d7b40)
 - Remove over-engineered query for posts without children allowed (#8c85391)
 - Simplify Page permissions (#106c048)

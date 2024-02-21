@@ -6,8 +6,11 @@
  *
  * Adds support for custom restrictions on a per-page level:
  *
- *  - Lock the slug of a page
- *  - Prevent the deletion of a page
+ *  - Prevent changing the slug
+ *  - Prevent deletion
+ *  - Prevent changing the post status
+ *  - Prevent changing the visibility
+ *  - Prevent changing the post date
  *  - Disallow children for a page
  *  - Protect selected page templates so that they can only be selected and changed by administrators
  *
@@ -17,29 +20,39 @@ namespace RH\AdminUtils;
 
 class PageRestrictions
 {
-    private static string $prefix = 'rhau_page_restrictions';
 
     public static function init()
     {
-        PageRestrictionsMetaBox::init();
-        PageRestrictionsOptionsPage::init();
-        add_action('add_meta_boxes', [__CLASS__, 'adjust_meta_boxes']);
-        add_filter('get_sample_permalink_html', [__CLASS__, 'get_sample_permalink_html'], 10, 5);
-        add_filter('map_meta_cap', [__CLASS__, 'disallow_deletion'], 10, 4);
-        add_filter('page_attributes_dropdown_pages_args', [__CLASS__, 'page_dropdown_args_lock_post_parent'], 20, 2);
-        add_filter('page_attributes_dropdown_pages_args', [__CLASS__, 'page_dropdown_args_no_children_allowed']);
+        add_action('plugins_loaded', [__CLASS__, 'on_plugins_loaded']);
+    }
 
-        add_action('page_attributes_misc_attributes', [__CLASS__, 'render_protected_page_template']);
-        add_action('current_screen', [__CLASS__, 'restrict_page_templates_for_screen']);
-        // add_action('page_attributes_meta_box_template', [__CLASS__, 'render_protected_template_hint'], 10, 2);
-
+    /**
+     * Initialize the plugin on plugins_loaded, so that we can check for permissions
+     */
+    public static function on_plugins_loaded(): void
+    {
+        // This applies to all users
         add_filter('manage_pages_columns', [__CLASS__, 'pages_list_col']);
         add_action('manage_pages_custom_column', [__CLASS__, 'pages_list_col_value'], 10, 2);
-
         add_filter('bulk_actions-edit-page', [__CLASS__, 'remove_page_bulk_action_edit']);
 
-        add_filter('admin_body_class', [__CLASS__, 'admin_body_class']);
-        add_action('admin_head', [__CLASS__, 'inject_styles']);
+        // Admins only
+        if (self::user_can_manage_restrictions()) {
+            PageRestrictionsMetaBox::init();
+            PageRestrictionsOptionsPage::init();
+        }
+
+        // Non-Admins only
+        if (!self::user_can_manage_restrictions()) {
+            add_action('add_meta_boxes', [__CLASS__, 'adjust_meta_boxes']);
+            add_filter('get_sample_permalink_html', [__CLASS__, 'get_sample_permalink_html'], 10, 5);
+            add_filter('map_meta_cap', [__CLASS__, 'disallow_deletion'], 10, 4);
+            add_filter('page_attributes_dropdown_pages_args', [__CLASS__, 'page_dropdown_args_lock_post_parent'], 20, 2);
+            add_filter('page_attributes_dropdown_pages_args', [__CLASS__, 'page_dropdown_args_no_children_allowed']);
+            add_action('page_attributes_misc_attributes', [__CLASS__, 'render_protected_page_template']);
+            add_filter('theme_page_templates', [__CLASS__, 'filter_page_templates'], 10, 4);
+            add_action('admin_head', [__CLASS__, 'inject_styles']);
+        }
     }
 
     /**
@@ -58,47 +71,11 @@ class PageRestrictions
     }
 
     /**
-     * Restrict page templates for specific admin screens
+     * Can the current user set page restrictions
      */
-    public static function restrict_page_templates_for_screen(): void
+    public static function user_can_manage_restrictions(): bool
     {
-        $screen = get_current_screen();
-
-        /**
-         * Completely hide the page templates dropdown in the bulk edit UI on post list screens
-         */
-        if ($screen->id === 'edit-page') {
-            add_filter('theme_page_templates', '__return_empty_array');
-            return;
-        }
-
-        /**
-         * Filter the allowed page templates on post edit screens
-         */
-        if ($screen->id === 'page') {
-            add_filter('theme_page_templates', [__CLASS__, 'filter_page_templates'], 10, 4);
-            return;
-        }
-    }
-
-    /**
-     * Renders a hint for administrators that a template is protected
-     */
-    public static function render_protected_template_hint(string $template, \WP_Post $post): void
-    {
-        if (!self::is_template_protected($post)) return;
-
-        if (!self::apply_restrictions()) {
-            echo self::get_locked_icon('Only editable for administrators');
-        }
-    }
-
-    /**
-     * Should the restrictions be applied?
-     */
-    private static function apply_restrictions(): bool
-    {
-        return !current_user_can('administrator');
+        return current_user_can('administrator');
     }
 
     /**
@@ -107,14 +84,14 @@ class PageRestrictions
     public static function filter_page_templates(array $templates, \WP_Theme $theme, ?\WP_Post $post, string $post_type): array
     {
         /**
-         * Make sure this never runs during a post save of the like
+         * Only page templates can be restricted
          */
-        if (!empty($_POST)) return $templates;
+        if (get_current_screen()->id !== 'page') return $templates;
 
         /**
-         * Administrators can select and change all templates
+         * Make sure this never runs during a post save or the like
          */
-        if (!self::apply_restrictions()) return $templates;
+        if (!empty($_POST)) return $templates;
 
         /**
          * Completely hide the templates dropdown if the current page is protected
@@ -157,7 +134,7 @@ class PageRestrictions
      */
     public static function get_sample_permalink_html(string $html, int $post_id, ?string $new_title, ?string $new_slug, ?\WP_Post $post): string
     {
-        if (!self::is_locked($post_id) || !self::apply_restrictions()) return $html;
+        if (!self::is_locked($post_id)) return $html;
 
         $title = __('Permalink:');
         $permalink = get_permalink($post_id);
@@ -221,7 +198,6 @@ class PageRestrictions
     public static function page_dropdown_args_lock_post_parent(array $args, \WP_Post $post): array
     {
         if (!self::is_locked($post)) return $args;
-        if (!self::apply_restrictions()) return $args;
 
         /** no post is a child of -1 */
         $args['child_of'] = -1;
@@ -327,13 +303,13 @@ class PageRestrictions
      */
     private static function is_template_protected(?\WP_Post $post): bool
     {
-        if (!self::apply_restrictions()) return false;
+        if (self::user_can_manage_restrictions()) return false;
 
         $current_template = self::get_page_template($post);
 
         if ($current_template === 'default') return false;
 
-        $protected_templates =  self::get_protected_page_templates();
+        $protected_templates = self::get_protected_page_templates();
 
         if ($post && self::is_locked($post)) return true;
 
@@ -445,24 +421,11 @@ class PageRestrictions
     }
 
     /**
-     * Adds an admin body class for locked posts
-     */
-    public static function admin_body_class(string $class): string
-    {
-        if (!self::is_editing_locked_post()) return $class;
-
-        $class .= ' rhau-locked-post';
-
-        return $class;
-    }
-
-    /**
      * Inject custom styles for hiding some UI elements for locked posts
      */
     public static function inject_styles(): void
     {
         if (!self::is_editing_locked_post()) return;
-        if (!self::apply_restrictions()) return;
         ?>
         <style>
             .misc-pub-visibility .edit-visibility,

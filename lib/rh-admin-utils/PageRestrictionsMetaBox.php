@@ -31,7 +31,8 @@ class PageRestrictionsMetaBox
     /** Add the meta box */
     public static function add_meta_box(): void
     {
-        if (!current_user_can('manage_options')) return;
+        if (!PageRestrictions::user_can_manage_restrictions()) return;
+
         \add_meta_box(
             id: self::$meta_box_id,
             title: __('Restrictions', RHAU_TEXT_DOMAIN),
@@ -118,7 +119,7 @@ class PageRestrictionsMetaBox
         if (($_POST['originalaction'] ?? null) !== 'editpost') return;
 
         /** Check user caps */
-        if (!current_user_can('manage_options')) return;
+        if (!PageRestrictions::user_can_manage_restrictions()) return;
 
         /** Update the locked status of the post */
         $locked = $_POST[PageRestrictions::get_locked_meta_key()] ?? 0;
