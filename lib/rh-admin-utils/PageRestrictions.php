@@ -86,7 +86,7 @@ class PageRestrictions
         /**
          * Only page templates can be restricted
          */
-        if (get_current_screen()->id !== 'page') return $templates;
+        if (get_current_screen()?->id !== 'page') return $templates;
 
         /**
          * Make sure this never runs during a post save or the like

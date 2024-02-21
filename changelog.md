@@ -1,6 +1,7 @@
 #### 2.0.6 (2024-02-21)
 
-- Visually hide restricted page settings in block editor view (#594ee04)
+- Don't assume `get_current_screen` is defined (#a2e078b)
+- Visually hide restricted page settings in block editor view (#b75acb6)
 - Clean-up permission checks (#1068e48)
 - Add better tooltips for page restrictions (#cf1856f)
 - Fix saving page restrictions (#37d7b40)
