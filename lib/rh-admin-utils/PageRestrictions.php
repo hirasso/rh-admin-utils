@@ -21,15 +21,14 @@ class PageRestrictions
 
     public static function init()
     {
+        PageRestrictionsMetaBox::init();
         PageRestrictionsOptionsPage::init();
-        add_action('acf/init', [__CLASS__, 'add_page_field_group']);
         add_action('add_meta_boxes', [__CLASS__, 'adjust_meta_boxes']);
         add_filter('get_sample_permalink_html', [__CLASS__, 'get_sample_permalink_html'], 10, 5);
-        add_action('admin_head', [__CLASS__, 'inject_styles']);
         add_filter('map_meta_cap', [__CLASS__, 'disallow_deletion'], 10, 4);
         add_filter('page_attributes_dropdown_pages_args', [__CLASS__, 'page_dropdown_args_lock_post_parent'], 20, 2);
         add_filter('page_attributes_dropdown_pages_args', [__CLASS__, 'page_dropdown_args_no_children_allowed']);
-        add_filter('quick_edit_dropdown_pages_args', [__CLASS__, 'quick_edit_dropdown_pages_args']);
+
         add_action('page_attributes_misc_attributes', [__CLASS__, 'render_protected_page_template']);
         add_action('current_screen', [__CLASS__, 'restrict_page_templates_for_screen']);
         add_action('page_attributes_meta_box_template', [__CLASS__, 'render_protected_template_hint'], 10, 2);
@@ -37,93 +36,15 @@ class PageRestrictions
         add_filter('manage_pages_columns', [__CLASS__, 'pages_list_col']);
         add_action('manage_pages_custom_column', [__CLASS__, 'pages_list_col_value'], 10, 2);
 
+        add_filter('bulk_actions-edit-page', [__CLASS__, 'remove_page_bulk_action_edit']);
+
+        add_filter('admin_body_class', [__CLASS__, 'admin_body_class']);
+        add_action('admin_head', [__CLASS__, 'inject_styles']);
+
         add_action('save_post', [__CLASS__, 'on_post_state_change']);
         add_action('deleted_post', [__CLASS__, 'on_post_state_change']);
         add_action('trashed_post', [__CLASS__, 'on_post_state_change']);
         add_action('untrash_post', [__CLASS__, 'on_post_state_change']);
-    }
-
-    /**
-     * Render the field group for the page restrictions
-     */
-    public static function add_page_field_group(): void
-    {
-        $group_key = "group_" . self::$prefix;
-
-        acf_add_local_field_group(array(
-            'key' => $group_key,
-            'title' => 'Restrictions',
-            'location' => array(
-                array(
-                    array(
-                        'param' => 'post_type',
-                        'operator' => '==',
-                        'value' => 'page',
-                    ),
-                    array(
-                        'param' => 'current_user_role',
-                        'operator' => '==',
-                        'value' => 'administrator',
-                    ),
-                ),
-            ),
-            'position' => 'side',
-        ));
-
-        acf_add_local_field([
-            'parent' => $group_key,
-            'key' => "field_rhau_prevent_deletion",
-            'label' => 'Deletion',
-            'message' => 'Prevent deletion',
-            'name' => '_rhau_prevent_deletion',
-            'translations' => 'sync',
-            'type' => 'true_false',
-            'default_value' => 0
-        ]);
-
-        acf_add_local_field([
-            'parent' => $group_key,
-            'key' => "field_rhau_lock_slug",
-            'label' => 'Slug',
-            'message' => 'Lock slug',
-            'name' => '_rhau_lock_slug',
-            'translations' => 'sync',
-            'type' => 'true_false',
-            'default_value' => 0
-        ]);
-
-        acf_add_local_field([
-            'parent' => $group_key,
-            'key' => "field_rhau_lock_post_parent",
-            'label' => 'Children',
-            'message' => 'Lock parent',
-            'name' => '_rhau_lock_post_parent',
-            'translations' => 'sync',
-            'type' => 'true_false',
-            'default_value' => 0
-        ]);
-
-        acf_add_local_field([
-            'parent' => $group_key,
-            'key' => "field_rhau_lock_post_status",
-            'label' => 'Post Status',
-            'message' => 'Lock post status',
-            'name' => '_rhau_lock_post_status',
-            'translations' => 'sync',
-            'type' => 'true_false',
-            'default_value' => 0
-        ]);
-
-        acf_add_local_field([
-            'parent' => $group_key,
-            'key' => "field_rhau_disallow_children",
-            'label' => 'Children',
-            'message' => 'Disallow children',
-            'name' => '_rhau_disallow_children',
-            'translations' => 'sync',
-            'type' => 'true_false',
-            'default_value' => 0
-        ]);
     }
 
     /**
@@ -171,6 +92,7 @@ class PageRestrictions
     public static function render_protected_template_hint(string $template, \WP_Post $post): void
     {
         if (!self::is_template_protected($post)) return;
+
         if (!self::apply_restrictions()) {
             echo self::get_locked_icon('Only editable for administrators');
         }
@@ -230,7 +152,7 @@ class PageRestrictions
 
         if ($pagenow !== 'post.php') return;
 
-        if (get_field('_rhau_lock_slug', $post_id)) {
+        if (self::is_locked($post_id)) {
             remove_meta_box('slugdiv', 'page', 'normal');
         }
     }
@@ -240,7 +162,7 @@ class PageRestrictions
      */
     public static function get_sample_permalink_html(string $html, int $post_id, ?string $new_title, ?string $new_slug, ?\WP_Post $post): string
     {
-        if (!get_field('_rhau_lock_slug', $post_id)) return $html;
+        if (!self::is_locked($post_id)) return $html;
 
         $title = __('Permalink:');
         $permalink = get_permalink($post_id);
@@ -257,16 +179,20 @@ class PageRestrictions
      */
     private static function get_locked_icon(string $title = 'Locked'): string
     {
+        $title = esc_attr__($title, RHAU_TEXT_DOMAIN);
         return "<span
-            class=\"dashicons dashicons-lock acf-js-tooltip rhau-lock\"
+            class=\"dashicons dashicons-lock rhau-lock\"
             title=\"$title\"
             aria-label=\"locked\"
             style=\"
                 display: inline-block;
-                font-size: 1.3em;
+                font-size: 1em;
                 vertical-align: middle;
+                position: relative;
+                top: -0.05em;
                 height: 1.1em;
                 line-height: 1;
+                margin-left: -0.3em;
                 color: rgb(0 0 0 / 0.4);\"></span>";
     }
 
@@ -298,28 +224,6 @@ class PageRestrictions
     }
 
     /**
-     * Inject custom styles for the restrictions field group
-     */
-    public static function inject_styles(): void
-    {
-        ob_start() ?>
-        <style>
-            #acf-group_rhau_page_restrictions .acf-field-true-false .acf-label,
-            #acf-group_rhau_page_restrictions_options .acf-field-true-false .acf-label {
-                display: none !important;
-            }
-
-            <?php if (self::is_post_status_restricted()) :
-                ?>.edit-post-status {
-                display: none !important;
-            }
-
-            <?php endif; ?>
-        </style>
-        <?php echo ob_get_clean();
-    }
-
-    /**
      * Restrict deletion
      */
     public static function disallow_deletion(array $caps, string $cap, int $user_id, mixed $args): array
@@ -330,7 +234,7 @@ class PageRestrictions
 
         if (!$post_id) return $caps;
 
-        if (get_field('_rhau_prevent_deletion', $post_id)) $caps[] = 'do_not_allow';
+        if (self::is_locked($post_id)) $caps[] = 'do_not_allow';
 
         return $caps;
     }
@@ -340,7 +244,7 @@ class PageRestrictions
      */
     public static function page_dropdown_args_lock_post_parent(array $args, \WP_Post $post): array
     {
-        if (!get_field('_rhau_lock_post_parent', $post)) return $args;
+        if (!self::is_locked($post)) return $args;
 
         /** no post is a child of -1 */
         $args['child_of'] = -1;
@@ -372,21 +276,9 @@ class PageRestrictions
 
         $args['exclude_tree'] = array_merge(
             $exclude_tree,
-            self::get_pages_with_no_children_allowed()
+            self::get_pages_with_no_children_allowed(use_cache: true)
         );
 
-        return $args;
-    }
-
-    /**
-     * Completely hide the parent page dropdown in the bulk UI as it doesn't
-     * play nicely with locked post parents
-     */
-    public static function quick_edit_dropdown_pages_args(array $args): array
-    {
-        $args['child_of'] = -1;
-        $locked_icon = self::get_locked_icon();
-        echo "$locked_icon";
         return $args;
     }
 
@@ -440,7 +332,7 @@ class PageRestrictions
         string $hidden_field_value
     ): void {
         $locked_icon = self::get_locked_icon();
-        $out = "<p class=\"post-attributes-label-wrapper\"><strong>$label_prefix</strong>: $label_title $locked_icon</p>";
+        $out = "<p class=\"post-attributes-label-wrapper\"><strong>$label_prefix</strong>:<br>$label_title $locked_icon</p>";
         $out .= "<input type='hidden' name='$hidden_field_name' value='$hidden_field_value'></input>";
         echo $out;
     }
@@ -458,7 +350,7 @@ class PageRestrictions
      */
     private static function is_template_protected(?\WP_Post $post): bool
     {
-        $current_template =  self::get_page_template($post);
+        $current_template = self::get_page_template($post);
 
         if ($current_template === 'default') return false;
 
@@ -494,35 +386,9 @@ class PageRestrictions
     {
         if ($column_name !== "rhau_is_locked") return;
 
-        $locks = [
-            [
-                'label' => 'Parent',
-                'active' => get_field('_rhau_lock_post_parent', $post_id),
-            ],
-            [
-                'label' => 'Slug',
-                'active' => get_field('_rhau_lock_slug', $post_id),
-            ],
-            [
-                'label' => 'Deletion',
-                'active' => get_field('_rhau_prevent_deletion', $post_id),
-            ],
-            [
-                'label' => 'Status',
-                'active' => get_field('_rhau_lock_post_status', $post_id),
-            ],
-            [
-                'label' => 'Children',
-                'active' => get_field('_rhau_disallow_children', $post_id),
-            ]
-        ];
-        $active_locks = array_filter($locks, fn ($lock) => (bool) $lock['active']);
-
-        if (empty($active_locks)) return;
-
-        $active_locks_string = implode(', ', array_column($active_locks, 'label'));
-
-        echo self::get_locked_icon() . "$active_locks_string";
+        if (self::is_locked($post_id)) {
+            echo self::get_locked_icon();
+        }
     }
 
     /**
@@ -530,12 +396,105 @@ class PageRestrictions
      */
     private static function is_post_status_restricted(?int $post_id = null): bool
     {
-        if ($post_id) return (bool) get_field('_rhau_lock_post_status', $post_id);
+        if ($post_id) return self::is_locked($post_id);
 
         $screen = get_current_screen();
 
         if (!$screen || $screen->id !== 'page') return false;
 
-        return (bool) get_field('_rhau_lock_post_status', get_post());
+        return self::is_locked(get_post());
+    }
+
+    /**
+     * Return the meta key for locked posts, publicly
+     */
+    public static function get_locked_meta_key(): string
+    {
+        return '_rhau_locked';
+    }
+
+    /**
+     * Return the meta key for locked posts, publicly
+     */
+    public static function get_disallow_children_meta_key(): string
+    {
+        return '_rhau_disallow_children';
+    }
+
+    /**
+     * Check if a post is locked
+     */
+    public static function is_locked(int|\WP_Post $post): bool
+    {
+        $post_id = $post->ID ?? $post;
+
+        return (bool) get_post_meta($post_id, self::get_locked_meta_key(), true);
+    }
+
+    /**
+     * Check if a post is allowed to have children
+     */
+    public static function is_children_disallowed(int|\WP_Post $post): bool
+    {
+        $post_id = $post->ID ?? $post;
+
+        return (bool) get_post_meta($post_id, self::get_disallow_children_meta_key(), true);
+    }
+
+    /**
+     * Remove the bulk "Edit" action for the post type "page"
+     */
+    public static function remove_page_bulk_action_edit(?array $actions): ?array
+    {
+        if (empty($actions)) return $actions;
+        unset($actions['edit']);
+        return $actions;
+    }
+
+    /**
+     * Check if currently editing a locked post
+     */
+    private static function is_editing_locked_post(): bool {
+        global $post;
+        if (get_current_screen()->id !== 'page') return false;
+        if (get_post_status($post) === 'auto-draft') return false;
+
+        return self::is_locked($post);
+    }
+
+    /**
+     * Adds an admin body class for locked posts
+     */
+    public static function admin_body_class(string $class): string
+    {
+        if (!self::is_editing_locked_post()) return $class;
+
+        $class .= ' rhau-locked-post';
+
+        return $class;
+    }
+
+    public static function inject_styles(): void {
+        if (!self::is_editing_locked_post()) return;
+        ?>
+        <style>
+            .misc-pub-visibility .edit-visibility,
+            .misc-pub-post-status .edit-post-status,
+            .misc-pub-curtime .edit-timestamp,
+            .post-type-switcher {
+                display: none !important;
+            }
+            #post-status-display:after,
+            #post-visibility-display:after {
+                content: "\f160";
+                font-family: "dashicons";
+                color: rgb(0 0 0 / 0.4);
+                font-size: 1em;
+                display: inline-block;
+                position: relative;
+                top: 0.15em;
+            }
+        </style>
+        <?php
     }
 }
