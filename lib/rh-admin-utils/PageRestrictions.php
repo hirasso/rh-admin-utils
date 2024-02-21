@@ -31,7 +31,7 @@ class PageRestrictions
 
         add_action('page_attributes_misc_attributes', [__CLASS__, 'render_protected_page_template']);
         add_action('current_screen', [__CLASS__, 'restrict_page_templates_for_screen']);
-        add_action('page_attributes_meta_box_template', [__CLASS__, 'render_protected_template_hint'], 10, 2);
+        // add_action('page_attributes_meta_box_template', [__CLASS__, 'render_protected_template_hint'], 10, 2);
 
         add_filter('manage_pages_columns', [__CLASS__, 'pages_list_col']);
         add_action('manage_pages_custom_column', [__CLASS__, 'pages_list_col_value'], 10, 2);
@@ -283,8 +283,6 @@ class PageRestrictions
     {
         if (!self::is_template_protected($post)) return;
 
-        if (!self::apply_restrictions()) return;
-
         $all_templates = self::get_unfiltered_page_templates();
 
         $template =  self::get_page_template($post);
@@ -328,11 +326,15 @@ class PageRestrictions
      */
     private static function is_template_protected(?\WP_Post $post): bool
     {
+        if (!self::apply_restrictions()) return false;
+
         $current_template = self::get_page_template($post);
 
         if ($current_template === 'default') return false;
 
         $protected_templates =  self::get_protected_page_templates();
+
+        if ($post && self::is_locked($post)) return true;
 
         return array_key_exists($current_template, $protected_templates);
     }

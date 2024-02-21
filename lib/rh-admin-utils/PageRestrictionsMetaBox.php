@@ -29,7 +29,7 @@ class PageRestrictionsMetaBox
     }
 
     /** Add the meta box */
-    public static function add_meta_box(\WP_Post $post): void
+    public static function add_meta_box(): void
     {
         if (!current_user_can('manage_options')) return;
         \add_meta_box(
@@ -111,27 +111,27 @@ class PageRestrictionsMetaBox
         /** Bail early if this is an autosave */
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
 
+        /** Bail early if not coming from the edit screen */
+        if (($_POST['originalaction'] ?? null) !== 'editpost') return;
+
         /** Check user caps */
-        if (!current_user_can('mange_options', $post_id)) return;
+        if (!current_user_can('manage_options')) return;
 
         /** Update the locked status of the post */
-        $locked = $_POST[PageRestrictions::get_locked_meta_key()] ?? null;
-        if (!is_null($locked)) {
-            update_post_meta(
-                $post_id,
-                PageRestrictions::get_locked_meta_key(),
-                (int) $locked
-            );
-        }
+        $locked = $_POST[PageRestrictions::get_locked_meta_key()] ?? 0;
+
+        update_post_meta(
+            $post_id,
+            PageRestrictions::get_locked_meta_key(),
+            (int) $locked
+        );
 
         /** Update the disallow children setting for the post */
-        $disallow_children = $_POST[PageRestrictions::get_disallow_children_meta_key()] ?? null;
-        if (!is_null($disallow_children)) {
-            update_post_meta(
-                $post_id,
-                PageRestrictions::get_disallow_children_meta_key(),
-                (int) $disallow_children
-            );
-        }
+        $children_disalled = $_POST[PageRestrictions::get_disallow_children_meta_key()] ?? 0;
+        update_post_meta(
+            $post_id,
+            PageRestrictions::get_disallow_children_meta_key(),
+            (int) $children_disalled
+        );
     }
 }
