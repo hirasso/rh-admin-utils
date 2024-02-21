@@ -157,7 +157,7 @@ class PageRestrictions
      */
     public static function get_sample_permalink_html(string $html, int $post_id, ?string $new_title, ?string $new_slug, ?\WP_Post $post): string
     {
-        if (!self::is_locked($post_id)) return $html;
+        if (!self::is_locked($post_id) || !self::apply_restrictions()) return $html;
 
         $title = __('Permalink:');
         $permalink = get_permalink($post_id);
@@ -221,6 +221,7 @@ class PageRestrictions
     public static function page_dropdown_args_lock_post_parent(array $args, \WP_Post $post): array
     {
         if (!self::is_locked($post)) return $args;
+        if (!self::apply_restrictions()) return $args;
 
         /** no post is a child of -1 */
         $args['child_of'] = -1;
@@ -455,9 +456,13 @@ class PageRestrictions
         return $class;
     }
 
+    /**
+     * Inject custom styles for hiding some UI elements for locked posts
+     */
     public static function inject_styles(): void
     {
         if (!self::is_editing_locked_post()) return;
+        if (!self::apply_restrictions()) return;
         ?>
         <style>
             .misc-pub-visibility .edit-visibility,

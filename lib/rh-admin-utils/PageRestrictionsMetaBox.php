@@ -45,7 +45,8 @@ class PageRestrictionsMetaBox
     /* Render the meta box */
     public static function render_custom_meta_box(\WP_Post $post): void
     {
-
+        $tooltip_lock = __('Lock the slug, parent, status, visiblity and template for users without administrator privileges.', RHAU_TEXT_DOMAIN);
+        $tooltip_children = __('Don\'t allow children for this page (applied to all users).', RHAU_TEXT_DOMAIN);
         ?>
         <style type="text/css">
             #rhau-page-restrictions-metabox .inside {
@@ -70,7 +71,7 @@ class PageRestrictionsMetaBox
         <p>
             <label for="rhau_locked_field"
                 class="acf-js-tooltip"
-                title="<?= esc_attr__('Lock the slug, parent, post status, visiblity and post template for this page', RHAU_TEXT_DOMAIN) ?>">
+                title="<?= esc_attr($tooltip_lock) ?>">
                 <input
                     type="checkbox"
                     id="rhau_locked_field"
@@ -81,7 +82,9 @@ class PageRestrictionsMetaBox
             </label>
         </p>
         <p>
-            <label for="rhau_disallow_children_field">
+            <label for="rhau_disallow_children_field"
+                class="acf-js-tooltip"
+                title="<?= esc_attr($tooltip_children) ?>">
                 <input
                     type="checkbox"
                     id="rhau_disallow_children_field"

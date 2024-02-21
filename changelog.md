@@ -1,6 +1,7 @@
 #### 2.0.6 (2024-02-21)
 
-- Fix saving page restrictions (#8bb1f50)
+- Add better tooltips for page restrictions (#58614a1)
+- Fix saving page restrictions (#37d7b40)
 - Remove over-engineered query for posts without children allowed (#8c85391)
 - Simplify Page permissions (#106c048)
 - Only format files inside lib/rh-admin-utils (#f486682)
