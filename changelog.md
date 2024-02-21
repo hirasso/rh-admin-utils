@@ -1,6 +1,7 @@
 #### 2.0.6 (2024-02-21)
 
-- Simplify Page permissions (#5a1a50a)
+- Remove over-engineered query for posts without children allowed (#6233e8c)
+- Simplify Page permissions (#106c048)
 - Only format files inside lib/rh-admin-utils (#f486682)
 - Set `$wp_embed->post_ID` when caching ACF oEmbed fields (#1bee29d)
 - Format using PHP_CodeSniffer (#7a737ed)

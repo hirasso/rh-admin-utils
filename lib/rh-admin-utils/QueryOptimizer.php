@@ -28,5 +28,21 @@ class QueryOptimizer
         $query->set('no_found_rows', true);
         $query->set('ignore_sticky_posts', true);
         $query->set('update_meta_cache', false);
+        $query->set('__rhau_optimized', true);
+        $query->set('__rhau_optimize_query', false);
+    }
+
+    /**
+     * Directly optimize query args for queries that use 'suppress_filters'
+     */
+    public static function optimize_query_args(array $args): array
+    {
+        return array_merge($args, [
+            // only setting this to signal that the query was optimized by Admin Utils
+            '__rhau_optimized' => true,
+            'no_found_rows' => true,
+            'ignore_sticky_posts' => true,
+            'update_meta_cache' => true
+        ]);
     }
 }
