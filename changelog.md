@@ -1,6 +1,7 @@
 #### 2.0.6 (2024-02-21)
 
-- Clean-up permission checks (#0605fca)
+- Visually hide restricted page settings in block editor view (#594ee04)
+- Clean-up permission checks (#1068e48)
 - Add better tooltips for page restrictions (#cf1856f)
 - Fix saving page restrictions (#37d7b40)
 - Remove over-engineered query for posts without children allowed (#8c85391)

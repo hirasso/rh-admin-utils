@@ -431,7 +431,9 @@ class PageRestrictions
             .misc-pub-visibility .edit-visibility,
             .misc-pub-post-status .edit-post-status,
             .misc-pub-curtime .edit-timestamp,
-            .post-type-switcher {
+            .post-type-switcher,
+            .editor-post-switch-to-draft,
+            .editor-page-attributes__parent {
                 display: none !important;
             }
             #post-status-display:after,
@@ -443,6 +445,11 @@ class PageRestrictions
                 display: inline-block;
                 position: relative;
                 top: 0.15em;
+            }
+            .edit-post-post-visibility__toggle,
+            .edit-post-post-schedule__toggle,
+            .edit-post-post-url__toggle {
+                pointer-events: none !important;
             }
         </style>
         <?php
