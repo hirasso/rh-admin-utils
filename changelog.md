@@ -1,5 +1,6 @@
 #### 2.0.6 (2024-02-21)
 
+- Set `$wp_embed->post_ID` when caching ACF oEmbed fields (#6e57414)
 - Format using PHP_CodeSniffer (#7a737ed)
 - Cache ACF oEmbed fields (#1464d97)
 

@@ -76,12 +76,19 @@ class ACFOembedCache
 
         remove_filter('embed_oembed_html', 'Roots\\Soil\\CleanUp\\embed_wrap');
 
+        /**
+         * Overwrite $wp_embed->post_ID with the field's $post_id (if it's an integer)
+         */
+        $__wp_embed_post_id = $wp_embed->post_ID;
+        if (is_int($post_id)) $wp_embed->post_ID = $post_id;
+
         $html = $wp_embed->shortcode($attr, $value);
+
+        /** Reset $wp_embed->post_ID to it's previous value */
+        $wp_embed->post_ID = $__wp_embed_post_id;
 
         add_filter('embed_oembed_html', 'Roots\\Soil\\CleanUp\\embed_wrap');
 
-        if ($html) return $html;
-
-        return $value;
+        return $html ?: $value;
     }
 }
