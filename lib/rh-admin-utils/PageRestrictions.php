@@ -20,7 +20,6 @@ namespace RH\AdminUtils;
 
 class PageRestrictions
 {
-
     public static function init()
     {
         add_action('plugins_loaded', [__CLASS__, 'on_plugins_loaded']);
@@ -52,6 +51,7 @@ class PageRestrictions
             add_action('page_attributes_misc_attributes', [__CLASS__, 'render_protected_page_template']);
             add_filter('theme_page_templates', [__CLASS__, 'filter_page_templates'], 10, 4);
             add_action('admin_head', [__CLASS__, 'inject_styles']);
+            add_filter('wp_insert_post_data', [__CLASS__, 'wp_insert_post_data'], 10, 4);
         }
     }
 
@@ -453,5 +453,32 @@ class PageRestrictions
             }
         </style>
         <?php
+    }
+
+    /**
+     * Makes sure locked pages won't be changed programmatically
+     */
+    public static function wp_insert_post_data(
+        array $data,
+        array $postdata,
+        array $raw_postdata,
+        bool $is_updating
+    ): array {
+        if (!$is_updating) return $data;
+
+        $post_id = $postdata['ID'] ?? null;
+        if (!$post_id) return $data;
+
+        if (!self::is_locked($post_id)) return $data;
+
+        if (!$old_post = get_post($post_id)) return $data;
+
+        $data['post_status'] = $old_post->post_status;
+        $data['post_date'] = $old_post->post_date;
+        $data['post_type'] = $old_post->post_type;
+        $data['post_parent'] = $old_post->post_parent;
+        $data['post_name'] = $old_post->post_name;
+
+        return $data;
     }
 }
