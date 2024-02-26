@@ -12,6 +12,7 @@ class Misc extends Singleton
         add_filter('acf/prepare_field/type=image', [$this, 'prepare_image_field']);
         add_action('admin_init', [$this, 'overwrite_qtranslate_defaults']);
         add_action('admin_init', [$this, 'redirect_edit_php']);
+        add_action('current_screen', [$this, 'redirect_initial_admin_url']);
         add_action('plugins_loaded', [$this, 'limit_revisions']);
         add_action('after_setup_theme', [$this, 'after_setup_theme']);
         add_action('admin_bar_menu', [$this, 'admin_bar_menu'], 999);
@@ -98,6 +99,28 @@ class Misc extends Singleton
         $redirect_url = apply_filters('rhau/edit_php_redirect_url', $redirect_url);
 
         wp_safe_redirect($redirect_url);
+        exit;
+    }
+
+    /**
+     * Redirects from the dashboard to another admin page
+     * You can deactivate this using this filter:
+     * add_filter('rhau/initial_admin_url', fn() => 'index.php');
+     * ...or customize it:
+     * add_filter('rhau/initial_admin_url', fn() => 'my-admin-page.php');
+     */
+    public function redirect_initial_admin_url()
+    {
+        if (get_current_screen()->id !== 'dashboard') return;
+
+        $initial_admin_url = trim(
+            apply_filters('rhau/initial_admin_url', 'edit.php?post_type=page'),
+            '/'
+        );
+
+        if ($initial_admin_url === 'index.php') return;
+
+        wp_safe_redirect(admin_url("/$initial_admin_url"));
         exit;
     }
 

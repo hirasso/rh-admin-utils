@@ -1,6 +1,10 @@
+#### 2.0.7 (2024-02-26)
+
+- Redirect the dashboard to a (customizable) other admin url (#98568fc)
+
 #### 2.0.6 (2024-02-26)
 
-- Restrict changing the post type to administrators (#adba1b0)
+- Restrict changing the post type to administrators (#0e86051)
 - Make sure restricted page fields can't be changed programmatically (#f5a404d)
 - Don't assume `get_current_screen` is defined (#5561f0a)
 - Visually hide restricted page settings in block editor view (#b75acb6)
