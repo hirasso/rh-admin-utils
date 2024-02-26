@@ -1,5 +1,6 @@
-#### 2.0.6 (2024-02-21)
+#### 2.0.6 (2024-02-26)
 
+- Restrict changing the post type to administrators (#adba1b0)
 - Make sure restricted page fields can't be changed programmatically (#f5a404d)
 - Don't assume `get_current_screen` is defined (#5561f0a)
 - Visually hide restricted page settings in block editor view (#b75acb6)

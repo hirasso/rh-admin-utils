@@ -52,6 +52,8 @@ class PageRestrictions
             add_filter('theme_page_templates', [__CLASS__, 'filter_page_templates'], 10, 4);
             add_action('admin_head', [__CLASS__, 'inject_styles']);
             add_filter('wp_insert_post_data', [__CLASS__, 'wp_insert_post_data'], 10, 4);
+            /** Only allow administrators to change the post status using the plugin "Post Type Switcher" */
+            add_filter('pts_allowed_pages', '__return_empty_array');
         }
     }
 
