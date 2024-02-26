@@ -1,6 +1,6 @@
 #### 2.0.7 (2024-02-26)
 
-- Redirect the dashboard to a (customizable) other admin url (#98568fc)
+- Redirect the dashboard to a (customizable) other admin url (#395db65)
 
 #### 2.0.6 (2024-02-26)
 
