@@ -6,8 +6,22 @@
  */
 
 /**
- * This class helps with caching ACF oEmbed fields
+ * This class helps with caching ACF oEmbed fields.
+ *
+ * It makes use of the fact that WordPress stores oEmbed responses in post meta.
+ * For global fields (from ACF options pages or similar), this plugin creates
+ * a custom post type with exactly ONE post in it. That post will be used as the
+ * cache container for the oEmbed responses. You can see and flush the global cache
+ * by going to /wp-admin/edit.php?post_type=rhau-oembed-cache
+ *
+ * I also recommend you install the plugin wp-sweep to flush ALL your oEmbed caches
+ * @see https://wordpress.org/plugins/wp-sweep/
+ *
+ * Inspiration, Discussion:
+ * @see https://core.trac.wordpress.org/ticket/14759
  * @see https://support.advancedcustomfields.com/forums/topic/oembed-cache/
+ * @see https://salferrarello.com/caching-wordpress-oembed-calls/
+ * @see https://support.advancedcustomfields.com/forums/topic/watch-out-for-cache-issues-with-the-oembed-field/
  */
 
 namespace RH\AdminUtils;
