@@ -1,3 +1,7 @@
+#### 2.0.8 (2024-02-27)
+
+- Make `ACFOembedCache` more robust for iframe embeds (#12e7e32)
+
 #### 2.0.7 (2024-02-26)
 
 - Redirect the dashboard to a (customizable) other admin url (#395db65)

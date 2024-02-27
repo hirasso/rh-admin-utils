@@ -19,16 +19,24 @@ class ACFOembedCache
     /** Init */
     public static function init()
     {
+        add_action('after_setup_theme', [__CLASS__, 'after_setup_theme']);
+    }
+
+    public static function after_setup_theme() {
+        if (class_exists('\RAH\ThemeBase\OembedHelper')) {
+            throw new \Error('[rh-admin-utils] Please remove the class \RAH\ThemeBase\OembedHelper. It conflicts with this plugin.');
+        }
         add_action('acf/init', [__CLASS__, 'disable_default_oembed_format_value'], 1);
-        add_filter('acf/format_value/type=oembed', [__CLASS__, 'format_value_oembed'], 10, 3);
+        add_filter('acf/format_value/type=oembed', [__CLASS__, 'format_value_oembed'], 20, 3);
         add_filter('acf/update_value/type=oembed', [__CLASS__, 'cache_value_oembed'], 10, 3);
     }
 
     /** Disables the built-in formatting for oembed fields */
     public static function disable_default_oembed_format_value(): void
     {
-        $field_type = acf_get_field_type('oembed');
-        remove_filter('acf/format_value/type=oembed', [ $field_type, 'format_value' ]);
+        /** @var \acf_field_oembed $field_type */
+        $oembed_field = acf_get_field_type('oembed');
+        remove_filter('acf/format_value/type=oembed', [ $oembed_field, 'format_value' ]);
     }
 
     /** Fetch the cached oEmbed HTML; Replaces the original method */
@@ -36,7 +44,16 @@ class ACFOembedCache
     {
         if (empty($value)) return $value;
 
-        return self::acf_oembed_get($value, $post_id, $field);
+        $value = self::acf_oembed_get($value, $post_id, $field);
+
+        if (
+            str_contains($value, '<iframe')
+            && preg_match('/(vimeo.com|youtube.com)/', $value)
+        ) {
+            return strip_tags($value, '<iframe>');
+        }
+
+        return $value;
     }
 
     /** Cache the oEmbed HTML */
