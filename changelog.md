@@ -1,6 +1,7 @@
 #### 2.0.8 (2024-02-27)
 
-- Add a global cache for ACF oEmbed fields used outside of the loop (#5ca6adb)
+- Update Explanation for the global ACFOembedCache helper post (#19393b1)
+- Add a global cache for ACF oEmbed fields used outside of the loop (#1d65ee8)
 - Prevent accidental deletion of locked posts for *everyone* (#23fa2d3)
 - Make `ACFOembedCache` more robust for iframe embeds (#76f1cff)
 

@@ -67,7 +67,7 @@ class ACFOembedCache
 
         \add_meta_box(
             id: 'rhau-oembed-cache-metabox',
-            title: __('RH Admin Utils oEmbed cache', RHAU_TEXT_DOMAIN),
+            title: __('RH Admin Utils: Global oEmbed cache', RHAU_TEXT_DOMAIN),
             callback: [__CLASS__, 'render_custom_meta_box'],
             screen: 'rhau-oembed-cache"',
             context: 'normal',
@@ -211,7 +211,7 @@ class ACFOembedCache
         ?>
         <p>
             <?php printf(
-                __('Currently, there are %d oEmbed requests cached globally.', RHAU_TEXT_DOMAIN),
+                __('Currently, there are %d oEmbed responses cached globally (from fields in options pages or similar).', RHAU_TEXT_DOMAIN),
                 count($cache_entries)
             ) ?>
         </p>
