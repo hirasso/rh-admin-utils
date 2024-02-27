@@ -1,6 +1,7 @@
 #### 2.0.8 (2024-02-27)
 
-- Make `ACFOembedCache` more robust for iframe embeds (#12e7e32)
+- Prevent accidental deletion of locked posts for *everyone* (#a78cdeb)
+- Make `ACFOembedCache` more robust for iframe embeds (#76f1cff)
 
 #### 2.0.7 (2024-02-26)
 

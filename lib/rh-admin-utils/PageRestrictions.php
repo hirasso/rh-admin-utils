@@ -34,6 +34,8 @@ class PageRestrictions
         add_filter('manage_pages_columns', [__CLASS__, 'pages_list_col']);
         add_action('manage_pages_custom_column', [__CLASS__, 'pages_list_col_value'], 10, 2);
         add_filter('bulk_actions-edit-page', [__CLASS__, 'remove_page_bulk_action_edit']);
+        add_filter('map_meta_cap', [__CLASS__, 'disallow_deletion'], 10, 4);
+        add_action('before_delete_post', [__CLASS__, 'before_delete_post'], 10, 2);
 
         // Admins only
         if (self::user_can_manage_restrictions()) {
@@ -45,7 +47,6 @@ class PageRestrictions
         if (!self::user_can_manage_restrictions()) {
             add_action('add_meta_boxes', [__CLASS__, 'adjust_meta_boxes']);
             add_filter('get_sample_permalink_html', [__CLASS__, 'get_sample_permalink_html'], 10, 5);
-            add_filter('map_meta_cap', [__CLASS__, 'disallow_deletion'], 10, 4);
             add_filter('page_attributes_dropdown_pages_args', [__CLASS__, 'page_dropdown_args_lock_post_parent'], 20, 2);
             add_filter('page_attributes_dropdown_pages_args', [__CLASS__, 'page_dropdown_args_no_children_allowed']);
             add_action('page_attributes_misc_attributes', [__CLASS__, 'render_protected_page_template']);
@@ -192,6 +193,16 @@ class PageRestrictions
         if (self::is_locked($post_id)) $caps[] = 'do_not_allow';
 
         return $caps;
+    }
+
+    /**
+     * Die if ANYONE (even scripts) is trying to delete a locked post
+     */
+    public static function before_delete_post(int $post_id, \WP_Post $post): void
+    {
+        if (self::is_locked($post)) {
+            wp_die(__("Can't delete post <strong>#$post->ID</strong> as it is locked."));
+        }
     }
 
     /**
@@ -344,20 +355,6 @@ class PageRestrictions
         if (self::is_locked($post_id)) {
             echo self::get_locked_icon();
         }
-    }
-
-    /**
-     * Is the provided post or the global post restricted?
-     */
-    private static function is_post_status_restricted(?int $post_id = null): bool
-    {
-        if ($post_id) return self::is_locked($post_id);
-
-        $screen = get_current_screen();
-
-        if (!$screen || $screen->id !== 'page') return false;
-
-        return self::is_locked(get_post());
     }
 
     /**
