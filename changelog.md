@@ -1,6 +1,7 @@
 #### 2.0.8 (2024-02-27)
 
-- Prevent accidental deletion of locked posts for *everyone* (#a78cdeb)
+- Add a global cache for ACF oEmbed fields used outside of the loop (#5ca6adb)
+- Prevent accidental deletion of locked posts for *everyone* (#23fa2d3)
 - Make `ACFOembedCache` more robust for iframe embeds (#76f1cff)
 
 #### 2.0.7 (2024-02-26)
