@@ -1,12 +1,16 @@
 <?php
 
-/*
- * Copyright (c) Rasso Hilber
- * https://rassohilber.com
- */
+/**
+* Plugin Name:     ACF oEmbed Cache
+* Description:     Cache ALL ACF oEmbed responses, no matter in what context
+* Version:         1.0.0
+* Requires PHP:    8.0
+* Author:          Rasso Hilber
+* Author URI:      http://rassohilber.com/
+*/
 
 /**
- * This class helps with caching ACF oEmbed fields.
+ * This plugin helps with caching ACF oEmbed fields.
  *
  * It makes use of the fact that WordPress stores oEmbed responses in post meta.
  * For global fields (from ACF options pages or similar), this plugin creates
@@ -34,7 +38,6 @@ class ACFOembedCache
     /** Init */
     public static function init()
     {
-        // add_filter('pre_delete_post', [__CLASS__, 'prevent_cache_post_deletion'], 10, 2);
         add_action('after_setup_theme', [__CLASS__, 'after_setup_theme']);
     }
 
@@ -195,16 +198,16 @@ class ACFOembedCache
             'fields' => 'ids'
         ]);
 
-        return $query->posts[0] ?? self::create_cache_post();
-    }
-
-    /**
-     * Prevents the oembed cache post to be deleted, like, ever
-     */
-    public static function prevent_cache_post_deletion(mixed $check, \WP_Post $post): mixed
-    {
-        if ($post->post_type === self::$cache_post_type) return false;
-        return $check;
+        $post_id = $query->posts[0] ?? wp_insert_post([
+            'post_title' => 'oEmbed cache',
+            'post_type' => self::$cache_post_type,
+            'post_status' => 'publish'
+        ]);
+        if ($post_id instanceof \WP_Error) {
+            $error_message = $post_id->get_error_message();
+            throw new \Error("[acf-oembed-cache] Couldn't create the global acf oembed post. $error_message");
+        }
+        return $post_id;
     }
 
     /**
@@ -223,12 +226,6 @@ class ACFOembedCache
         );
 
         ?>
-        <p>
-            <?php printf(
-                __('Currently, there are %d oEmbed responses cached globally (from fields in options pages or similar).', RHAU_TEXT_DOMAIN),
-                count($cache_entries)
-            ) ?>
-        </p>
         <style>
             #rhau-oembed-cache-output {
                 width: 100%;
@@ -240,13 +237,23 @@ class ACFOembedCache
             }
             .post-type-rhau-oembed-cache #post-body-content,
             .post-type-rhau-oembed-cache .page-title-action,
+            .post-type-rhau-oembed-cache #screen-meta-links,
             .post-type-rhau-oembed-cache .wp-heading-inline {
                 display: none !important;
             }
-            .post-type-rhau-oembed-cache #poststuff #post-body {
-                /* margin-right: 0; */
-            }
         </style>
+
+        <?php if (empty($cache_entries)) : ?>
+        <p>
+            <?php _e('There global ACF oEmbed cache is currently empty.', RHAU_TEXT_DOMAIN) ?>
+        </p>
+        <?php else : ?>
+        <p>
+            <?php printf(
+                __('There are %d oEmbed responses cached globally.', RHAU_TEXT_DOMAIN),
+                count($cache_entries)
+            ) ?>
+        </p>
         <pre id="rhau-oembed-cache-output"><?= var_dump($cache_entries) ?></pre>
 
         <a
@@ -255,7 +262,7 @@ class ACFOembedCache
             Flush oEmbed Cache
         </a>
 
-        <?php
+        <?php endif;
     }
 
     /**
@@ -266,18 +273,6 @@ class ACFOembedCache
         if ($post->post_type !== self::$cache_post_type) return;
         /** recreates the cache post if none exists */
         self::get_oembed_cache_post_id();
-    }
-
-    /**
-     * Create the cache post
-     */
-    private static function create_cache_post(): int
-    {
-        return wp_insert_post([
-            'post_title' => 'oEmbed cache',
-            'post_type' => self::$cache_post_type,
-            'post_status' => 'publish'
-        ]);
     }
 
     /**

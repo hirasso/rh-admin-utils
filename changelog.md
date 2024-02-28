@@ -1,6 +1,7 @@
-#### 2.0.8 (2024-02-27)
+#### 2.0.8 (2024-02-28)
 
-- Update documentation (#8209004)
+- Various optimizations (#c948b9c)
+- Update documentation (#2dbac72)
 - Update Explanation for the global ACFOembedCache helper post (#68fd898)
 - Add a global cache for ACF oEmbed fields used outside of the loop (#1d65ee8)
 - Prevent accidental deletion of locked posts for *everyone* (#23fa2d3)
