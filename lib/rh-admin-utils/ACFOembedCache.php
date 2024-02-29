@@ -6,7 +6,7 @@
 * Version:         1.0.0
 * Requires PHP:    8.0
 * Author:          Rasso Hilber
-* Author URI:      http://rassohilber.com/
+* Author URI:      https://rassohilber.com/
 */
 
 /**

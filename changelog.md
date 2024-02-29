@@ -1,6 +1,6 @@
 #### 2.0.8 (2024-02-29)
 
-- Don't allow ACF custom fields to be attached to the cache post type (#8d86282)
+- Don't allow ACF custom fields to be attached to the cache post type (#31b4742)
 - Various optimizations (#20e9575)
 - Update documentation (#2dbac72)
 - Update Explanation for the global ACFOembedCache helper post (#68fd898)
