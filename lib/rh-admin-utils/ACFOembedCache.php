@@ -59,20 +59,33 @@ class ACFOembedCache
     {
         $post_type = self::$cache_post_type;
         register_post_type($post_type, [
-        'public' => false,
-        'show_ui' => true,
-        'labels' => [
-            'name' => 'oEmbed Cache'
-        ],
-        'supports' => ['nothing'],
-        'menu_position' => 1000,
-        'show_in_menu' => "edit.php?post_type=acf-field-group",
-        'show_in_rest' => false
+            'public' => false,
+            'show_ui' => current_user_can('administrator'),
+            'labels' => [
+                'name' => 'oEmbed Cache'
+            ],
+            'supports' => ['nothing'],
+            'menu_position' => 1000,
+            'show_in_menu' => "edit.php?post_type=acf-field-group",
+            'show_in_rest' => false
         ]);
         add_action('add_meta_boxes', [__CLASS__, 'meta_boxes']);
         add_action('deleted_post', [__CLASS__, 'deleted_cache_post'], 10, 2);
         add_filter("get_user_option_screen_layout_{$post_type}", fn($columns) => 1);
         add_action('current_screen', [__CLASS__, 'redirect_cache_post_edit_php']);
+        add_filter('acf/get_post_types', [__CLASS__, 'acf_get_post_types'], 10, 2);
+    }
+
+    /**
+     * Don't allow ACF custom fields to be attached to the cache post type
+     */
+    public static function acf_get_post_types(array $post_types, array $args): array
+    {
+        $post_types = array_filter(
+            $post_types,
+            fn($post_type) => $post_type !== self::$cache_post_type
+        );
+        return $post_types;
     }
 
     /**

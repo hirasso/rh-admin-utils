@@ -1,6 +1,7 @@
-#### 2.0.8 (2024-02-28)
+#### 2.0.8 (2024-02-29)
 
-- Various optimizations (#c948b9c)
+- Don't allow ACF custom fields to be attached to the cache post type (#8d86282)
+- Various optimizations (#20e9575)
 - Update documentation (#2dbac72)
 - Update Explanation for the global ACFOembedCache helper post (#68fd898)
 - Add a global cache for ACF oEmbed fields used outside of the loop (#1d65ee8)
