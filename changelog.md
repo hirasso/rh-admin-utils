@@ -1,3 +1,7 @@
+#### 2.0.9 (2024-03-18)
+
+- New helper class: `ACFOembedWhitelist` (#9b5bd96)
+
 #### 2.0.8 (2024-02-29)
 
 - Don't allow ACF custom fields to be attached to the cache post type (#31b4742)
