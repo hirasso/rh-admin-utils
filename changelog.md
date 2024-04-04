@@ -1,6 +1,7 @@
 #### 2.0.9 (2024-04-04)
 
-- Adjust the environments module to Bedrock-Like setups (#fee7e52)
+- Support for `REMOTE_ASSETS_ORIGIN` (#4c5f3be)
+- Adjust the environments module to Bedrock-Like setups (#f376b6d)
 - New helper class: `ACFOembedWhitelist` (#85741d3)
 
 #### 2.0.8 (2024-02-29)

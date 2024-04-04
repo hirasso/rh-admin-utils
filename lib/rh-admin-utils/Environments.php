@@ -239,6 +239,11 @@ class Environments extends Singleton
      */
     private function maybe_get_remote_url(string $url): string
     {
+        $remote_origin = $this->environments['production'];
+        if (defined('REMOTE_ASSETS_ORIGIN')) {
+            $remote_origin = REMOTE_ASSETS_ORIGIN;
+        }
+
         // bail early if the $url is external
         if (!str_starts_with($url, get_option('home'))) return $url;
 
@@ -249,12 +254,11 @@ class Environments extends Singleton
             return  $url;
         }
 
-        $local_url = $this->environments[$this->env];
-        $remote_url = $this->environments['production'];
+        $local_origin = $this->environments[$this->env];
 
-        if ($local_url === $remote_url) return $url;
+        if ($local_origin === $remote_origin) return $url;
 
-        return str_replace($local_url, $remote_url, $url);
+        return str_replace($local_origin, $remote_origin, $url);
     }
 
     /**
