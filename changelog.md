@@ -1,6 +1,7 @@
 #### 2.1.0 (2024-04-04)
 
-- v2.1.0 (#eac6276)
+- Use emojis for environment hints in document title (#dc6d9e0)
+- v2.1.0 (#69b5410)
 
 #### 2.0.9 (2024-04-04)
 

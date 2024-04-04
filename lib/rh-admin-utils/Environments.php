@@ -173,16 +173,23 @@ class Environments extends Singleton
      */
     public function document_title_parts(array $parts): array
     {
+        $short_env = $this->short_env($this->env);
         if (!empty($parts['title'])) {
-            $parts['title'] = $this->prepend_to_string($parts['title'], "[$this->env] ");
+            $parts['title'] = $this->prepend_to_string($parts['title'], "$short_env ");
             return $parts;
         }
 
         if (!empty($parts['site'])) {
-            $parts['site'] = $this->prepend_to_string($parts['site'], "[$this->env] ");
+            $parts['site'] = $this->prepend_to_string($parts['site'], "$short_env ");
         }
 
         return $parts;
+    }
+
+    private function short_env(string $long): string {
+        if ($long === 'development') return '🛠️';
+        if ($long === 'staging') return '🎤';
+        return $long;
     }
 
     /**
@@ -193,7 +200,8 @@ class Environments extends Singleton
      */
     public function admin_title(?string $title): ?string
     {
-        return $this->prepend_to_string($title, "[$this->env] ");
+        $short_env = $this->short_env($this->env);
+        return $this->prepend_to_string($title, "$short_env ");
     }
 
 
