@@ -6,50 +6,65 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class Environments extends Singleton
 {
-    private $env;
+    private string $env;
+    private array $environments = [];
 
     /**
      * Constructor
      */
     public function __construct()
     {
+        // Allow to define DISALLOW_INDEXING in the config
+        if (defined('DISALLOW_INDEXING') && DISALLOW_INDEXING === true) {
+            add_action('pre_option_blog_public', '__return_zero');
+        };
 
-        if (!$this->globals_defined()) return;
+        $this->environments = $this->get_environments();
 
+        if (count($this->environments) < 2) return;
+
+        add_action('after_setup_theme', [$this, 'setup']);
+    }
+
+    public function setup()
+    {
         $this->env = $this->get_environment_type();
+
         add_action('admin_init', [$this, 'update_network_sites']);
         add_filter('network_admin_url', [$this, 'network_admin_url'], 10, 2);
         add_filter('auth_cookie_expiration', [$this, 'auth_cookie_expiration'], PHP_INT_MAX - 1, 3);
 
-        if ($this->env && $this->env !== 'production') {
-            $this->add_non_production_hooks();
-        }
+        $this->add_non_production_hooks();
+        $this->init_environment_links();
 
-        add_action('admin_notices', array($this, 'site_private_notice'));
+        add_action('admin_notices', array($this, 'disallow_indexing_notice'));
     }
 
     /**
-     * Checks for the existance of needed globals
-     *
-     * @return bool
+     * Get available environments
      */
-    private function globals_defined(): bool
+    private function get_environments(): array
     {
-        $globals = ['WP_HOME_DEV', 'WP_SITEURL_DEV', 'WP_SITEURL_PROD', 'WP_SITEURL_PROD'];
-        foreach ($globals as $var) {
-            if (!defined($var)) return false;
+        if (defined('ENVIRONMENTS') && is_array(ENVIRONMENTS)) {
+            return ENVIRONMENTS;
         }
-        return true;
+
+        $environments = [
+            'development' => defined('WP_HOME_DEV') ? WP_HOME_DEV : null,
+            'staging' => defined('WP_HOME_STAG') ? WP_HOME_STAG : null,
+            'production' => defined('WP_HOME_PROD') ? WP_HOME_PROD : null,
+        ];
+
+        return array_filter(
+            $environments,
+            fn ($host) => !empty($host)
+        );
     }
 
     /**
      * Filter network admin url
-     *
-     * @param string $url
-     * @param string $path
-     * @return string $url The new URL
      */
-    public function network_admin_url($url, $path)
+    public function network_admin_url(string $url, string $path): string
     {
         if (defined('WP_SITEURL')) {
             $path = substr($url, strpos($url, '/wp-admin/'));
@@ -60,19 +75,20 @@ class Environments extends Singleton
 
     /**
      * Updates network options
-     *
-     * @return void
      */
-    public function update_network_sites()
+    public function update_network_sites(): void
     {
         if (!is_multisite()) return;
         if (!defined('RH_NETWORK_SITES') || !is_array(RH_NETWORK_SITES)) return;
+
         $id = 0;
         foreach (RH_NETWORK_SITES as $site) {
             $id++;
+
             update_blog_option($id, 'siteurl', $site[$this->env]['siteurl']);
             update_blog_option($id, 'home', $site[$this->env]['home']);
             $domain = wp_parse_url($site[$this->env]['home']);
+
             wp_update_site($id, [
                 'domain' => $domain['host'],
             ]);
@@ -81,19 +97,16 @@ class Environments extends Singleton
 
     /**
      * Add all the hooks
-     *
-     * @return void
      */
-    private function add_non_production_hooks()
+    private function add_non_production_hooks(): void
     {
-        add_action('wp_enqueue_scripts', array($this, 'assets'));
-        add_action('admin_enqueue_scripts', array($this, 'assets'));
+        if ($this->env === 'production') return;
+
         add_filter('wp_calculate_image_srcset', array(&$this, 'calculate_image_srcset'), 11);
         add_filter('wp_get_attachment_url', array(&$this, 'get_attachment_url'), 11);
         add_filter('document_title_parts', array($this, 'document_title_parts'));
         add_filter('admin_title', array($this, 'admin_title'));
-        add_action('wp_footer', array($this, 'environment_quick_links'));
-        add_action('admin_footer', array($this, 'environment_quick_links'));
+
         if ($this->env === 'staging') {
             add_filter('wp_robots', 'wp_robots_no_robots');
         }
@@ -103,11 +116,22 @@ class Environments extends Singleton
     }
 
     /**
-     * Get the value of WP_ENV
-     *
-     * @return void
+     * Renders the environment links
      */
-    private function get_environment_type()
+    private function init_environment_links(): void
+    {
+        if (!current_user_can('administrator')) return;
+
+        add_action('wp_enqueue_scripts', array($this, 'assets'));
+        add_action('admin_enqueue_scripts', array($this, 'assets'));
+        add_action('wp_footer', array($this, 'render_environment_links'));
+        add_action('admin_footer', array($this, 'render_environment_links'));
+    }
+
+    /**
+     * Get the value of WP_ENV
+     */
+    private function get_environment_type(): string
     {
         if (defined('WP_ENV')) return WP_ENV;
         return wp_get_environment_type();
@@ -115,44 +139,30 @@ class Environments extends Singleton
 
     /**
      * Render quick-links to other environments
-     *
-     * @return void
      */
-    public function environment_quick_links()
+    public function render_environment_links(): void
     {
-        $dev_root = get_option('home');
-        $remote_root_production = defined("WP_HOME_PROD") ? WP_HOME_PROD : false;
-        $remote_root_staging = defined("WP_HOME_STAGING") ? WP_HOME_STAGING : false;
-        if (is_admin()) {
-            $dev_root = defined('WP_SITEURL_DEV') ? WP_SITEURL_DEV : false;
-            $remote_root_production = defined("WP_SITEURL_PROD") ? WP_SITEURL_PROD : false;
-            $remote_root_staging = defined("WP_SITEURL_STAGING") ? WP_SITEURL_STAGING : false;
-        }
-        if (is_multisite()) {
-            $dev_root = get_option('home');
-            $home_dev = defined('WP_HOME_DEV') ? WP_HOME_DEV : false;
-            $remote_root_production = str_replace($home_dev, $remote_root_production, get_option('home'));
-            $remote_root_staging = str_replace($home_dev, $remote_root_staging, get_option('home'));
-        }
-        ?>
-        <rhau-environment-links data-dev-root="<?= $dev_root ?>">
+?>
+        <rhau-environment-links>
             <i tabindex="0"></i>
-            <rhau-environment-link tabindex="0" data-remote-root="<?= $remote_root_production ?>">Production</rhau-environment-link>
-            <?php if ($remote_root_staging) : ?>
-                <rhau-environment-link tabindex="0" class="rhau-environment-link" data-remote-root="<?= $remote_root_staging ?>">Staging</rhau-environment-link>
-            <?php endif; ?>
+
+            <?php foreach ($this->environments as $environment => $url) : ?>
+                <?php if ($environment === $this->env) continue; ?>
+                <rhau-environment-link tabindex="0" data-remote-root="<?= $url ?>">
+                    <?= ucfirst($environment) ?>
+                </rhau-environment-link>
+            <?php endforeach; ?>
+
             <i tabindex="0"></i>
         </rhau-environment-links>
 
-        <?php
+<?php
     }
 
     /**
      * Enqueue assets
-     *
-     * @return void
      */
-    public function assets()
+    public function assets(): void
     {
         wp_enqueue_style('rhau-environment-links', rhau()->asset_uri("assets/rhau-environment-links.css"), [], null);
         wp_enqueue_script('rhau-environment-links', rhau()->asset_uri("assets/rhau-environment-links.js"), array("jquery"), null, true);
@@ -160,13 +170,18 @@ class Environments extends Singleton
 
     /**
      * Filter document title parts
-     *
-     * @param array $parts
-     * @return array
      */
-    public function document_title_parts($parts)
+    public function document_title_parts(array $parts): array
     {
-        $parts['title'] = $this->document_title_env_prefix($parts['title']);
+        if (!empty($parts['title'])) {
+            $parts['title'] = $this->prepend_to_string($parts['title'], "[$this->env] ");
+            return $parts;
+        }
+
+        if (!empty($parts['site'])) {
+            $parts['site'] = $this->prepend_to_string($parts['site'], "[$this->env] ");
+        }
+
         return $parts;
     }
 
@@ -176,43 +191,21 @@ class Environments extends Singleton
      * @param string $title
      * @return string
      */
-    public function admin_title($title)
+    public function admin_title(?string $title): ?string
     {
-        return $this->document_title_env_prefix($title);
+        return $this->prepend_to_string($title, "[$this->env] ");
     }
 
-    /**
-     * Add ENV prefix to string
-     *
-     * @param string $title
-     * @return string
-     */
-    private function document_title_env_prefix($title)
-    {
-        $title = (string) $title;
-        switch ($this->env) {
-            case 'development':
-                return $this->prepend_to_string($title, 'DEV: ');
-                return "DEV: $title";
-                break;
-            case 'staging':
-                return $this->prepend_to_string($title, 'STAGING: ');
-                return "STAGING: $title";
-                break;
-        }
-        return $title;
-    }
+
 
     /**
      * Prepend a string to another string
-     *
-     * @param string $text
-     * @param string $prepend
-     * @return string
      */
-    private function prepend_to_string(string $text, string $prepend): string
+    private function prepend_to_string(?string $text, string $prepend): string
     {
+        $text ??= '';
         if (strpos($text, $prepend) === 0) return $text;
+
         return $prepend . $text;
     }
 
@@ -221,8 +214,7 @@ class Environments extends Singleton
      */
     public function get_attachment_url(string $url): string
     {
-        $url = $this->maybe_get_remote_url($url);
-        return $url;
+        return $this->maybe_get_remote_url($url);
     }
 
     /**
@@ -245,9 +237,8 @@ class Environments extends Singleton
     /**
      * Try to load remote file url if missing locally
      */
-    private function maybe_get_remote_url($url)
+    private function maybe_get_remote_url(string $url): string
     {
-
         // bail early if the $url is external
         if (!str_starts_with($url, get_option('home'))) return $url;
 
@@ -258,31 +249,24 @@ class Environments extends Singleton
             return  $url;
         }
 
-        switch ($this->env) {
-            case 'development':
-            case 'dev':
-                if (defined('WP_CONTENT_URL_DEV')) {
-                    $url = str_replace(WP_CONTENT_URL_DEV, WP_CONTENT_URL_PROD, $url);
-                }
-                break;
-            case 'staging':
-                if (defined('WP_CONTENT_URL_STAGING')) {
-                    $url = str_replace(WP_CONTENT_URL_STAGING, WP_CONTENT_URL_PROD, $url);
-                }
-                break;
-        }
+        $local_url = $this->environments[$this->env];
+        $remote_url = $this->environments['production'];
 
-        return $url;
+        if ($local_url === $remote_url) return $url;
+
+        return str_replace($local_url, $remote_url, $url);
     }
 
     /**
-     * Show a notice if the site is private (blog_public is set to 0)
+     * Show a notice if the site is set not to be indexed by...
+     *
+     * - Either activating "Discourage search engines from indexing this site" under wp-admin/options-reading.php
+     * - Or defining DISALLOW_INDEXING in the config (should be done in staging)
      */
-    public function site_private_notice()
+    public function disallow_indexing_notice()
     {
-        if (get_option('blog_public') !== '0') {
-            return;
-        }
+        if ((bool) (int) get_option('blog_public')) return;
+
         $admin_email = apply_filters('rh/environments/admin_email', 'mail@rassohilber.com');
         $headline = "<strong>This site is still in private mode, so search engines are being blocked.</strong>";
         $body = "If you want to go live, please <a href='mailto:$admin_email'>notify your site's administrator</a>.";
@@ -293,13 +277,9 @@ class Environments extends Singleton
      * Set the auth cookie expiration to one year if in development
      *
      * @param int $ttl            time to live. default DAY_IN_SECOND*2
-     * @param int $user_id
-     * @param bool $remember
-     * @return int
      */
     public function auth_cookie_expiration(int $ttl, int $user_id, bool $remember): int
     {
-
         // Adjust to your working environment needs.
         $dev_environment_types = ['development', 'local'];
 

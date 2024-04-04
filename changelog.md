@@ -1,6 +1,7 @@
-#### 2.0.9 (2024-03-18)
+#### 2.0.9 (2024-04-04)
 
-- New helper class: `ACFOembedWhitelist` (#9b5bd96)
+- Adjust the environments module to Bedrock-Like setups (#fee7e52)
+- New helper class: `ACFOembedWhitelist` (#85741d3)
 
 #### 2.0.8 (2024-02-29)
 

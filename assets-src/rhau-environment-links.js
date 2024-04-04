@@ -115,13 +115,11 @@ class EnvironmentLinks extends HTMLElement {
   openEnvironmentLink(el) {
     if (!this.isVisible()) return;
 
-    const localUrl = window.location.href;
-    const remoteRoot = el.getAttribute("data-remote-root");
+    const localUrl = new URL(window.location.href);
+    const localPath = localUrl.pathname + localUrl.search + localUrl.hash;
+    const remoteUrl = new URL(el.getAttribute("data-remote-root"));
 
-    const regexp = new RegExp(this.getAttribute("data-dev-root"), "gi");
-    const remoteUrl = localUrl.replace(regexp, remoteRoot);
-
-    window.open(remoteUrl);
+    window.open(remoteUrl.origin + localPath);
 
     this.hide();
   }

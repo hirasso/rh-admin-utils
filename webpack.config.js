@@ -45,9 +45,6 @@ const settings = {
     "rhau-admin": ["./assets-src/rhau-admin.js"],
     "rhau-environment-links": ["./assets-src/rhau-environment-links.js"],
   },
-  hostname: process.env.DEV_HOST,
-  key: `/Applications/MAMP/Library/OpenSSL/certs/${process.env.DEV_HOST}.key`,
-  cert: `/Applications/MAMP/Library/OpenSSL/certs/${process.env.DEV_HOST}.crt`,
   outputPath: "assets",
   watchExtraFiles: "**/**.php",
   /**
@@ -57,61 +54,6 @@ const settings = {
   target: resolveToEsbuildTarget(browserslist(), {
     printUnknownTargets: false,
   }), // Alpine.js requires at least es2017
-};
-
-/**
- * Live Reloading
- */
-const initLiveReloadPlugin = () => {
-  const options = {
-    key: fs.readFileSync(settings.key),
-    cert: fs.readFileSync(settings.cert),
-    useSourceHash: true,
-    appendScriptTag: true,
-  };
-  const liveReloadPlugin = new LiveReloadPlugin(options);
-
-  if (settings.watchExtraFiles) attachFileWatcher(liveReloadPlugin);
-
-  return liveReloadPlugin;
-};
-
-/**
- * Attach a file watcher for extra files to the liveReloadPlugin
- */
-const attachFileWatcher = (liveReloadPlugin) => {
-  const reload = (path) => {
-    liveReloadPlugin.logger.info(`${path} changed, reloading...`);
-    // this goes through to tiny-lr that is being used by LiveReloadPlugin
-    liveReloadPlugin.server.notifyClients([path]);
-  };
-  const watcher = chokidar.watch(settings.watchExtraFiles, {
-    ignored: ["node_modules", "vendor"],
-    ignoreInitial: true,
-    followSymlinks: false,
-    atomic: false,
-  });
-  watcher
-    .on("change", throttle(reload, 300))
-    .on("unlink", throttle(reload, 300));
-};
-
-/**
- * Init BrowserSync for local mobile debugging
- */
-const initBrowserSync = () => {
-  let url = `https://${settings.hostname}`;
-  url += settings.publicPath || "";
-  const options = {
-    proxy: url,
-    ui: false,
-    port: 12345,
-    ghostMode: false,
-    open: false,
-    notify: false,
-    injectChanges: false,
-  };
-  return browserSync.create().init(options);
 };
 
 /**
@@ -221,8 +163,6 @@ export default (env, argv) => {
 
   if (argv.mode === "development") {
     config.devtool = "cheap-source-map";
-    initBrowserSync();
-    config.plugins.push(initLiveReloadPlugin());
   }
 
   return config;
