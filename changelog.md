@@ -1,6 +1,7 @@
 #### 2.1.0 (2024-04-04)
 
-- Use emojis for environment hints in document title (#dc6d9e0)
+- Handle missing "production" env in `maybe_get_remote_url` (#b332be3)
+- Use emojis for environment hints in document title (#5375f73)
 - v2.1.0 (#69b5410)
 
 #### 2.0.9 (2024-04-04)

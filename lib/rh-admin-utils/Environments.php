@@ -247,10 +247,15 @@ class Environments extends Singleton
      */
     private function maybe_get_remote_url(string $url): string
     {
-        $remote_origin = $this->environments['production'];
+        $remote_origin =
+            $this->environments['production']
+            ?? $this->environments['staging']
+            ?? null;
+
         if (defined('REMOTE_ASSETS_ORIGIN')) {
             $remote_origin = REMOTE_ASSETS_ORIGIN;
         }
+        if (empty($remote_origin)) return $url;
 
         // bail early if the $url is external
         if (!str_starts_with($url, get_option('home'))) return $url;
