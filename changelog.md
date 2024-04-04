@@ -1,6 +1,10 @@
+#### 2.1.0 (2024-04-04)
+
+- v2.1.0 (#eac6276)
+
 #### 2.0.9 (2024-04-04)
 
-- Update browserslist, build assets (#53af77a)
+- Update browserslist, build assets (#3cbe808)
 - Support for `REMOTE_ASSETS_ORIGIN` (#e9e99f1)
 - Adjust the environments module to Bedrock-Like setups (#f376b6d)
 - New helper class: `ACFOembedWhitelist` (#85741d3)
