@@ -104,7 +104,7 @@ class Environments extends Singleton
 
         add_filter('wp_calculate_image_srcset', array(&$this, 'calculate_image_srcset'), 11);
         add_filter('wp_get_attachment_url', array(&$this, 'get_attachment_url'), 11);
-        add_filter('document_title_parts', array($this, 'document_title_parts'));
+        add_filter('document_title_parts', array($this, 'document_title_parts'), PHP_INT_MAX - 100);
         add_filter('admin_title', array($this, 'admin_title'));
 
         if ($this->env === 'staging') {
@@ -186,7 +186,11 @@ class Environments extends Singleton
         return $parts;
     }
 
-    private function short_env(string $long): string {
+    /**
+     * Get a short representation of the current environment
+     */
+    private function short_env(string $long): string
+    {
         if ($long === 'development') return '🛠️';
         if ($long === 'staging') return '🎤';
         return $long;
