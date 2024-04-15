@@ -1,6 +1,10 @@
+#### 2.1.1 (2024-04-15)
+
+- v2.1.1 (#079f8be)
+
 #### 2.1.0 (2024-04-15)
 
-- Optimize filter prio for `document_title_parts` (#d16e357)
+- Optimize filter prio for `document_title_parts` (#ec91f41)
 - Handle missing "production" env in `maybe_get_remote_url` (#4524699)
 - Use emojis for environment hints in document title (#5375f73)
 - v2.1.0 (#69b5410)
