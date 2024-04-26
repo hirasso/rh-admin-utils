@@ -33,6 +33,7 @@ class Misc extends Singleton
     public function after_setup_theme()
     {
         add_filter('map_meta_cap', [$this, 'disable_capabilities'], 10, 4);
+        add_action('init', [$this, 'schedule_sg_security_cronjob']);
     }
 
     public function remove_privacy_policy_notice()
@@ -277,12 +278,12 @@ class Misc extends Singleton
         $post_id = $field['value'] ?? null;
         if (empty($post_id) || !$post = get_post($post_id)) return;
 
-        ?>
+?>
         <div class="rh-post-object-edit-links">
             <a href="<?= get_edit_post_link($post_id) ?>">Edit</a>
             <a href="<?= get_permalink($post_id) ?>" target="_blank">View</a>
         </div>
-        <?php
+    <?php
     }
 
     /**
@@ -290,7 +291,7 @@ class Misc extends Singleton
      */
     public static function render_acf_post_object_styles()
     {
-        ?>
+    ?>
         <style>
             .rh-post-object-edit-links {
                 position: absolute;
@@ -302,10 +303,22 @@ class Misc extends Singleton
                 display: flex;
                 gap: 10px;
             }
+
             .rh-post-object-edit-links a {
                 text-decoration: none;
             }
         </style>
-        <?php
+<?php
+    }
+
+    /**
+     * Make sure sg-security's cronjob is being scheduled
+     */
+    public function schedule_sg_security_cronjob(): void
+    {
+        if (!rhau()->is_plugin_active('sg-security/sg-security.php')) return;
+        if (wp_next_scheduled('siteground_security_clear_logs_cron')) return;
+
+        wp_schedule_event(time(), 'daily', 'siteground_security_clear_logs_cron');
     }
 }

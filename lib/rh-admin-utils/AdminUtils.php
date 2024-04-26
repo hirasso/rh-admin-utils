@@ -156,7 +156,7 @@ class AdminUtils extends Singleton
             <div class="notice notice-<?= $notice['type'] ?> <?= $notice['is_dismissible'] ? 'is-dismissible' : '' ?>">
                 <p><?= $notice['message'] ?></p>
             </div>
-            <?php echo ob_get_clean();
+<?php echo ob_get_clean();
         }
     }
 
@@ -178,5 +178,17 @@ class AdminUtils extends Singleton
         // activate debugging in if doing ajax
         // @see https://stackoverflow.com/a/68009325/586823
         if (wp_doing_ajax()) @ini_set('display_errors', 1);
+    }
+
+    /**
+     * Check if a plugin is active, in the front- and backend
+     * @see https://developer.wordpress.org/reference/functions/is_plugin_active/#user-contributed-notes
+     */
+    public function is_plugin_active(string $plugin): bool
+    {
+        return in_array(
+            $plugin,
+            apply_filters('active_plugins', get_option('active_plugins'))
+        );
     }
 }
