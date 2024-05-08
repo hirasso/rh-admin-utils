@@ -74,7 +74,7 @@ class ACFSyncPostDate
 
         /** Ensure the post_date has a format of 'Y-m-d H:i:s' */
         $post_date = match ($field['type']) {
-            'date_picker' => date_create_immutable_from_format('Ymd', $value, wp_timezone())->format('Y-m-d H:i:s'),
+            'date_picker' => date_create_immutable_from_format('Ymd', $value, wp_timezone())->format('Y-m-d') . ' 23:59:59',
             'date_time_picker' => $value,
         };
 
@@ -96,9 +96,18 @@ class ACFSyncPostDate
         ob_start() ?>
         <style>
             .misc-pub-curtime {
-                display: none !important;
+                opacity: 0.7;
+                pointer-events: none;
+            }
+
+            .misc-pub-curtime .edit-timestamp {
+                display: none;
+            }
+
+            .misc-pub-curtime:after {
+                content: "(controlled by the field '<?= $field['label'] ?>')";
             }
         </style>
-        <?php echo ob_get_clean();
+<?php echo ob_get_clean();
     }
 }
