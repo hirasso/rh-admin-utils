@@ -1,6 +1,12 @@
-#### 2.1.2 (2024-04-26)
+#### 2.1.3 (2024-05-14)
 
-- Make sure sg-security's cronjob is being scheduled (#c4911c4)
+- Allow multiple different roles in `ACFRestrictFieldAccess` (#c741f06)
+- v2.1.3 (#f0419f0)
+
+#### 2.1.2 (2024-05-08)
+
+- ACFSyncPostDate: force last second of day if date_picker (#a6e4014)
+- Make sure sg-security's cronjob is being scheduled (#b0bda0b)
 
 #### 2.1.1 (2024-04-15)
 

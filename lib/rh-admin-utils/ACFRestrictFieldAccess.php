@@ -47,17 +47,20 @@ class ACFRestrictFieldAccess
     /**
      * Restrict access to a field
      */
-    public static function prepare_field($field)
+    public static function prepare_field($field): ?array
     {
 
         if (empty($field)) return $field;
 
         $caps = $field['restrict_access'] ?? '' ?: [];
-
-        foreach ($caps as $cap) {
-            if (!current_user_can($cap)) return false;
+        if (empty($caps)) {
+            return $field;
         }
 
-        return $field;
+        foreach ($caps as $cap) {
+            if (current_user_can($cap)) return $field;
+        }
+
+        return null;
     }
 }
