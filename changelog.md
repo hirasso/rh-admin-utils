@@ -1,6 +1,10 @@
+#### 2.1.4 (2024-05-14)
+
+- v 2.1.4 (#c3eaadb)
+
 #### 2.1.3 (2024-05-14)
 
-- Allow multiple different roles in `ACFRestrictFieldAccess` (#c741f06)
+- Allow multiple different roles in `ACFRestrictFieldAccess` (#4dd9389)
 - v2.1.3 (#f0419f0)
 
 #### 2.1.2 (2024-05-08)
