@@ -16,7 +16,6 @@ class EnvironmentLinks extends HTMLElement {
     document.addEventListener("focusin", this.onFocusIn, { capture: true });
     document.addEventListener("keydown", this.onKeyDown, { capture: true });
     document.addEventListener("click", this.onClick, { capture: true });
-
   }
 
   disconnectedCallback() {
@@ -41,14 +40,13 @@ class EnvironmentLinks extends HTMLElement {
 
     e.stopPropagation();
 
-    if (e.target.matches('rhau-environment-link')) return;
+    if (e.target.matches("rhau-environment-link")) return;
 
     if (e.target.matches(":first-child")) {
       return this.focusLastLink();
     }
 
     this.focusFirstLink();
-
   };
 
   onClick = (e) => {
@@ -68,7 +66,17 @@ class EnvironmentLinks extends HTMLElement {
   }
 
   isInputElement(el) {
-    return el?.matches(`button, input, textarea, [contenteditable="true"]`);
+    if (el?.closest('rhau-environment-link')) {
+      return false;
+    }
+
+    // Check if the element has a valid tabindex
+    const tabindex = el?.getAttribute("tabindex");
+    if (tabindex !== null) {
+      return !isNaN(parseInt(tabindex)) && parseInt(tabindex) >= 0;
+    }
+
+    return el?.matches(`button, input, textarea, select, a, [contenteditable="true"]`);
   }
 
   isSpecialKeyDown(e) {

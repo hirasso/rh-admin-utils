@@ -1,6 +1,10 @@
+#### 2.1.5 (2024-05-23)
+
+- Respect elements with `[tabindex]` when pressing space to open the environment switch (#ce350a2)
+
 #### 2.1.4 (2024-05-14)
 
-- v 2.1.4 (#c3eaadb)
+- v 2.1.4 (#083038a)
 
 #### 2.1.3 (2024-05-14)
 
