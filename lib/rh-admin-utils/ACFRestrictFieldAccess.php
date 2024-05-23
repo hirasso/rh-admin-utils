@@ -50,7 +50,7 @@ class ACFRestrictFieldAccess
     public static function prepare_field($field): ?array
     {
 
-        if (empty($field)) return $field;
+        if (empty($field)) return null;
 
         $caps = $field['restrict_access'] ?? '' ?: [];
         if (empty($caps)) {
