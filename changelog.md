@@ -1,6 +1,7 @@
 #### 2.1.7 (2024-06-04)
 
-- Don't assume the function `get_current_screen` exists (#944f768)
+- Only init page restrictions if in admin (#29b2dbf)
+- Don't assume the function `get_current_screen` exists (#a93c610)
 
 #### 2.1.6 (2024-05-23)
 

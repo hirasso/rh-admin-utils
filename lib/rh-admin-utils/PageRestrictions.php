@@ -22,6 +22,9 @@ class PageRestrictions
 {
     public static function init()
     {
+        if (!is_admin()) {
+            return;
+        }
         add_action('plugins_loaded', [__CLASS__, 'on_plugins_loaded']);
     }
 
