@@ -115,7 +115,7 @@ class Misc extends Singleton
      */
     public function redirect_initial_admin_url()
     {
-        if (get_current_screen()->id !== 'dashboard') return;
+        if (rhau()->getCurrentScreen()?->id !== 'dashboard') return;
 
         $initial_admin_url = trim(
             apply_filters('rhau/initial_admin_url', 'edit.php?post_type=page'),

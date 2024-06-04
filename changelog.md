@@ -1,6 +1,14 @@
+#### 2.1.7 (2024-06-04)
+
+- Don't assume the function `get_current_screen` exists (#944f768)
+
+#### 2.1.6 (2024-05-23)
+
+- Fix return type of `prepare_field` (#13c3865)
+
 #### 2.1.5 (2024-05-23)
 
-- Respect elements with `[tabindex]` when pressing space to open the environment switch (#ce350a2)
+- Respect elements with `[tabindex]` when pressing space to open the environment switch (#251e2ba)
 
 #### 2.1.4 (2024-05-14)
 

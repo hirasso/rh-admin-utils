@@ -2,6 +2,8 @@
 
 namespace RH\AdminUtils;
 
+use WP_Screen;
+
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class AdminUtils extends Singleton
@@ -190,5 +192,16 @@ class AdminUtils extends Singleton
             $plugin,
             apply_filters('active_plugins', get_option('active_plugins'))
         );
+    }
+
+    /**
+     * Safely get the current WP admin screen
+     */
+    public function getCurrentScreen(): ?WP_Screen
+    {
+        if (!function_exists('get_current_screen')) {
+            return null;
+        }
+        return get_current_screen();
     }
 }

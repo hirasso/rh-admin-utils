@@ -89,7 +89,7 @@ class PageRestrictions
         /**
          * Only page templates can be restricted
          */
-        if (get_current_screen()?->id !== 'page') return $templates;
+        if (rhau()->getCurrentScreen()?->id !== 'page') return $templates;
 
         /**
          * Make sure this never runs during a post save or the like
@@ -409,7 +409,7 @@ class PageRestrictions
     private static function is_editing_locked_post(): bool
     {
         global $post;
-        if (get_current_screen()->id !== 'page') return false;
+        if (rhau()->getCurrentScreen()?->id !== 'page') return false;
         if (get_post_status($post) === 'auto-draft') return false;
 
         return self::is_locked($post);
