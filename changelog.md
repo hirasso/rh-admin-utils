@@ -1,6 +1,11 @@
-#### 2.1.7 (2024-06-04)
+#### 2.1.8 (2024-06-11)
 
-- Only init page restrictions if in admin (#29b2dbf)
+- v2.1.8 (#840c34c)
+
+#### 2.1.7 (2024-06-11)
+
+- Fall back to WP_HOME for $local_origin (#631c8c1)
+- Only init page restrictions if in admin (#c60964f)
 - Don't assume the function `get_current_screen` exists (#a93c610)
 
 #### 2.1.6 (2024-05-23)
