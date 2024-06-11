@@ -271,7 +271,7 @@ class Environments extends Singleton
             return  $url;
         }
 
-        $local_origin = $this->environments[$this->env];
+        $local_origin = $this->environments[$this->env] ?? WP_HOME;
 
         if ($local_origin === $remote_origin) return $url;
 
