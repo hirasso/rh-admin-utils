@@ -1,6 +1,6 @@
 #### 2.2.0 (2024-07-03)
 
-- Render a button in every TinyMCE editor that allows to link selected text to a file (#25ac19a)
+- Render a button in every TinyMCE editor that allows to link selected text to a file (#f49cb8f)
 
 #### 2.1.8 (2024-06-11)
 
