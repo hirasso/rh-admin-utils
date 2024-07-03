@@ -2,7 +2,7 @@
  * Render a TinyMCE button to add a link to a file to selected text
  */
 export default function (editor) {
-  const disabledToolTip = "Select some text to enable";
+  const disabledToolTip = "Select some plain text to enable";
   const enabledToolTip = "Add link to file";
 
   editor.addButton("rhau_link_to_file", {
@@ -17,7 +17,6 @@ export default function (editor) {
       /** Optionally, we could render a custom icon from feather-icons here */
     },
   });
-
 
   function selectFile() {
     const selection = editor.selection.getContent();
@@ -61,8 +60,12 @@ export default function (editor) {
 
     const hasSelection = !!selection;
 
-    button.disabled(!hasSelection);
+    const isOnlyPlainTextSelected = !/<\/?[a-z][\s\S]*>/i.test(selection);
 
-    button.settings.tooltip = hasSelection ? enabledToolTip : disabledToolTip;
+    const isDisabled = !hasSelection || !isOnlyPlainTextSelected;
+
+    button.disabled(isDisabled);
+
+    button.settings.tooltip = isDisabled ? disabledToolTip : enabledToolTip;
   });
 }
