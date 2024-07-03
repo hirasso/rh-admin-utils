@@ -47,9 +47,9 @@ export default function (editor) {
   }
 
   /**
-   * Add node change event listener to enable/disable the button based on text selection
+   * Toggle the button state, based on the current selection
    */
-  editor.on("NodeChange", function (e) {
+  function toggleButtonState() {
     const button = editor.controlManager.buttons["rhau_link_to_file"];
 
     if (!button) {
@@ -67,5 +67,11 @@ export default function (editor) {
     button.disabled(isDisabled);
 
     button.settings.tooltip = isDisabled ? disabledToolTip : enabledToolTip;
-  });
+  }
+
+  editor.on("NodeChange", toggleButtonState);
+  editor.on("KeyUp", toggleButtonState);
+  editor.on("KeyDown", toggleButtonState);
+  editor.on("MouseUp", toggleButtonState);
+  editor.on("MouseDown", toggleButtonState);
 }
