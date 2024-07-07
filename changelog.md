@@ -1,6 +1,10 @@
+#### 2.2.1 (2024-07-07)
+
+- Optimize order of environment switcher (#7f73727)
+
 #### 2.2.0 (2024-07-03)
 
-- Make toggleButtonState more robust (#b5340d7)
+- Make toggleButtonState more robust (#50c5326)
 - Only allow adding links to files to selected plaintext (#a2a3fa5)
 - Render a button in every TinyMCE editor that allows to link selected text to a file (#f49cb8f)
 

@@ -50,9 +50,9 @@ class Environments extends Singleton
         }
 
         $environments = [
+            'production' => defined('WP_HOME_PROD') ? WP_HOME_PROD : null,
             'development' => defined('WP_HOME_DEV') ? WP_HOME_DEV : null,
             'staging' => defined('WP_HOME_STAG') ? WP_HOME_STAG : null,
-            'production' => defined('WP_HOME_PROD') ? WP_HOME_PROD : null,
         ];
 
         return array_filter(
