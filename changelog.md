@@ -1,6 +1,10 @@
+#### 2.2.2 (2024-07-08)
+
+- Initialize delayed ACF WYSIWYG fields as soon as they enter the viewport (#c2716a6)
+
 #### 2.2.1 (2024-07-07)
 
-- Optimize order of environment switcher (#7f73727)
+- Optimize order of environment switcher (#d7b3773)
 
 #### 2.2.0 (2024-07-03)
 

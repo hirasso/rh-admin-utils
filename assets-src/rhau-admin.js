@@ -11,16 +11,18 @@ import ACFCodeField from "./components/alpine/ACFCodeField/ACFCodeField.js";
 import ACFRelationshipField from "./components/alpine/ACFRelationshipField/ACFRelationshipField.js";
 import ACFTextField from "./components/alpine/ACFTextField/ACFTextField.js";
 
-
 export default class RHAU {
   constructor() {
-    jQuery(document).ready(() => this.onDocReady());
+    $(document).ready(() => this.onDocReady());
 
     $("form#post").one("submit", (e) => this.beforeSubmitPostForm(e));
 
     this.injectColorThemeVars();
 
     this.initAlpine();
+
+    // ACF field actions
+    acf?.addAction("load_field/type=wysiwyg", this.handleWysiwygField);
 
     // acfRelationshipAddOrderControl();
   }
@@ -232,7 +234,7 @@ export default class RHAU {
    */
   initQtranslateSwitcher() {
     // Bail early if it already ran successfully
-    const alreadyRendered = $('#wp-admin-bar-rhau-lsbs').length > 0;
+    const alreadyRendered = $("#wp-admin-bar-rhau-lsbs").length > 0;
     if (alreadyRendered) return;
 
     const $switcher = $(".qtranxs-lang-switch-wrap:first");
@@ -244,6 +246,43 @@ export default class RHAU {
     // append the switcher to the wrap
     $switcher.appendTo($wrap);
   }
+
+  /**
+   * Attaches an intersection observer to delayed WYSIWYG fields
+   * to enable them automatically if scrolled into view
+   * Triggered during the `load_field` action to make sure everything works as expected
+   * @see https://www.advancedcustomfields.com/resources/javascript-api/#actions-load_field
+   */
+  handleWysiwygField = async (field) => {
+    const $wrap = field.$control();
+    const isDelayed = $wrap.hasClass("delay");
+
+    if (!isDelayed) {
+      return;
+    }
+
+    /**
+     * Trigger the "mousedown" event programmatically
+     */
+    const initialize = () => {
+      $wrap.trigger("mousedown");
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          initialize();
+
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: "300px 0px",
+      }
+    );
+
+    observer.observe($wrap[0]);
+  };
 }
 
 new RHAU();
