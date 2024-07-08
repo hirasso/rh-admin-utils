@@ -21,8 +21,8 @@ export default class RHAU {
 
     this.initAlpine();
 
-    // ACF field actions
-    acf?.addAction("load_field/type=wysiwyg", this.handleWysiwygField);
+    // Handle ACF fields
+    this.handleACFWysiwygField();
 
     // acfRelationshipAddOrderControl();
   }
@@ -253,35 +253,60 @@ export default class RHAU {
    * Triggered during the `load_field` action to make sure everything works as expected
    * @see https://www.advancedcustomfields.com/resources/javascript-api/#actions-load_field
    */
-  handleWysiwygField = async (field) => {
-    const $wrap = field.$control();
-    const isDelayed = $wrap.hasClass("delay");
+  handleACFWysiwygField = () => {
+    /**
+     * Is the field delayed?
+     */
+    const isDelayed = (field) => {
+      return field.$control().hasClass("delay");
+    };
 
-    if (!isDelayed) {
-      return;
+    /**
+     * This function will be injected into the ACF field object.
+     * So `this` will be the field
+     */
+    function observe() {
+      if (!isDelayed(this)) {
+        return;
+      }
+      const field = this;
+
+      const $wrap = field.$control();
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            $wrap.trigger("mousedown");
+
+            observer.disconnect();
+          }
+        },
+        {
+          rootMargin: "300px 0px",
+        }
+      );
+
+      observer.observe($wrap[0]);
     }
 
     /**
-     * Trigger the "mousedown" event programmatically
+     * As soon as the field is ready, prepare it
+     * for observation
      */
-    const initialize = () => {
-      $wrap.trigger("mousedown");
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          initialize();
-
-          observer.disconnect();
-        }
-      },
-      {
-        rootMargin: "300px 0px",
+    function onReady(field) {
+      if (!isDelayed(field)) {
+        return;
       }
-    );
 
-    observer.observe($wrap[0]);
+      field
+        .$control()
+        .find(".acf-editor-toolbar")
+        .text("Initializing Editor ...");
+
+      field.observe = observe.bind(field);
+
+      field.addAction("load", field.observe);
+    }
+    acf?.addAction("ready_field/type=wysiwyg", onReady);
   };
 }
 

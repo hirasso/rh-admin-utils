@@ -1,6 +1,7 @@
 #### 2.2.2 (2024-07-08)
 
-- Initialize delayed ACF WYSIWYG fields as soon as they enter the viewport (#c2716a6)
+- Optimize `handleACFWysiwygField` (#253dbda)
+- Initialize delayed ACF WYSIWYG fields as soon as they enter the viewport (#f3d2c69)
 
 #### 2.2.1 (2024-07-07)
 
