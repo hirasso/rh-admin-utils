@@ -250,7 +250,9 @@ export default class RHAU {
   /**
    * Attaches an intersection observer to delayed WYSIWYG fields
    * to enable them automatically if scrolled into view
-   * Triggered during the `load_field` action to make sure everything works as expected
+   *
+   * Uses the `ready_field` and field.addAction('load') actions
+   * @see https://www.advancedcustomfields.com/resources/javascript-api/#actions-ready_field
    * @see https://www.advancedcustomfields.com/resources/javascript-api/#actions-load_field
    */
   handleACFWysiwygField = () => {
