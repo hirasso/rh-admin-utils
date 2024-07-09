@@ -1,3 +1,7 @@
+#### 2.2.3 (2024-07-09)
+
+- Make sure the `window.acf` is being used (#88ff519)
+
 #### 2.2.2 (2024-07-08)
 
 - Optimize `handleACFWysiwygField` (#72adb99)

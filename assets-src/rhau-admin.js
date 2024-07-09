@@ -1,4 +1,8 @@
+/**
+ * Grab global variables
+ */
 const $ = window.jQuery;
+const acf = window.acf;
 
 import "./scss/rhau.scss";
 
