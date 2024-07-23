@@ -1,6 +1,7 @@
 #### 2.2.4 (2024-07-23)
 
-- Support installation as must-use plugin (#616e23d)
+- Remove custom page row actions added by Simple Page Ordering (#a3f6495)
+- Support installation as must-use plugin (#fb10eba)
 
 #### 2.2.3 (2024-07-09)
 

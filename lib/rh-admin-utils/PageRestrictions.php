@@ -18,6 +18,8 @@
 
 namespace RH\AdminUtils;
 
+use WP_Post;
+
 class PageRestrictions
 {
     public static function init()
@@ -59,6 +61,15 @@ class PageRestrictions
             /** Only allow administrators to change the post status using the plugin "Post Type Switcher" */
             add_filter('pts_allowed_pages', '__return_empty_array');
         }
+
+        /**
+         * Remove custom page row actions added by Simple Page Ordering, because
+         *  - they conflict with the parent/child restrictions from this plugin
+         *  - they clutter the edit screen unnecessarily
+         */
+        add_action('load-edit.php', function() {
+            remove_action('page_row_actions', 'SimplePageOrdering\\Simple_Page_Ordering::page_row_actions');
+        }, 11);
     }
 
     /**
@@ -424,7 +435,7 @@ class PageRestrictions
     public static function inject_styles(): void
     {
         if (!self::is_editing_locked_post()) return;
-        ?>
+?>
         <style>
             .misc-pub-visibility .edit-visibility,
             .misc-pub-post-status .edit-post-status,
@@ -434,6 +445,7 @@ class PageRestrictions
             .editor-page-attributes__parent {
                 display: none !important;
             }
+
             #post-status-display:after,
             #post-visibility-display:after {
                 content: "\f160";
@@ -444,13 +456,14 @@ class PageRestrictions
                 position: relative;
                 top: 0.15em;
             }
+
             .edit-post-post-visibility__toggle,
             .edit-post-post-schedule__toggle,
             .edit-post-post-url__toggle {
                 pointer-events: none !important;
             }
         </style>
-        <?php
+<?php
     }
 
     /**
