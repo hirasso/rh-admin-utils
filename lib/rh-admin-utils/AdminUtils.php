@@ -47,20 +47,17 @@ class AdminUtils extends Singleton
 
     /**
      * Helper function to get versioned asset urls
-     *
-     * @param [type] $path
-     * @return void
      */
-    public function asset_uri($path)
+    public function asset_uri(string $path): string
     {
-
-        $uri = plugins_url($path, 'rh-admin-utils/rh-admin-utils');
-        $file = RHAU_PLUGIN_DIR . ltrim($path, '/');
+        $uri = RHAU_PLUGIN_URI . '/' . ltrim($path, '/');
+        $file = RHAU_PLUGIN_DIR . '/' . ltrim($path, '/');
 
         if (file_exists($file)) {
-            $version = filemtime($file);
-            $uri .= "?v=$version";
+            // deepcode ignore InsecureHash: not security related
+            $uri .= "?v=" . hash_file('crc32', $file);
         }
+
         return $uri;
     }
 

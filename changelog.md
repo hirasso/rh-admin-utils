@@ -1,6 +1,10 @@
+#### 2.2.4 (2024-07-23)
+
+- Support installation as must-use plugin (#616e23d)
+
 #### 2.2.3 (2024-07-09)
 
-- Make sure the `window.acf` is being used (#88ff519)
+- Make sure the `window.acf` is being used (#6fa074d)
 
 #### 2.2.2 (2024-07-08)
 

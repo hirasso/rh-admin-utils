@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: RH Admin Utilities
- * Version: 2.2.3
+ * Version: 2.2.4
  * Requires PHP: 8.0
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress. Removes plugin ads, adds custom buttons to the admin bar (publish, clear cache), allows editors to add users (except administrators), disables comments. Provides filters to adjust functionality.
@@ -19,7 +19,9 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 require_once(__DIR__ . '/lib/vendor/autoload.php');
 
 
-define('RHAU_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('RHAU_PLUGIN_URI', untrailingslashit(plugin_dir_url(__FILE__)));
+define('RHAU_PLUGIN_DIR', untrailingslashit(__DIR__));
+
 define('RHAU_TEXT_DOMAIN', 'rh-admin-utils');
 
 /**
