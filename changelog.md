@@ -1,6 +1,10 @@
+#### 2.2.5 (2024-07-25)
+
+- Never display the admin privacy settings menu item (#1b49015)
+
 #### 2.2.4 (2024-07-23)
 
-- Remove custom page row actions added by Simple Page Ordering (#a3f6495)
+- Remove custom page row actions added by Simple Page Ordering (#513695d)
 - Support installation as must-use plugin (#fb10eba)
 
 #### 2.2.3 (2024-07-09)

@@ -177,7 +177,12 @@ class Misc extends Singleton
      */
     public function admin_menu()
     {
-        if (!current_user_can('administrator')) remove_menu_page('tools.php');
+        if (!current_user_can('manage_options')) {
+            remove_menu_page('tools.php');
+        }
+        /** never display privacy options */
+        remove_submenu_page('options-privacy.php', 'options-privacy.php');
+        remove_submenu_page('options-general.php', 'options-privacy.php');
     }
 
     /**
