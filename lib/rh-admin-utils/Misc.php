@@ -180,9 +180,6 @@ class Misc extends Singleton
         if (!current_user_can('manage_options')) {
             remove_menu_page('tools.php');
         }
-        /** never display privacy options */
-        remove_submenu_page('options-privacy.php', 'options-privacy.php');
-        remove_submenu_page('options-general.php', 'options-privacy.php');
     }
 
     /**
@@ -199,15 +196,13 @@ class Misc extends Singleton
 
     /**
      * Changes cap to to manage the privacy page from manage_options to edit_others_posts
-     *
-     * @param array $caps
-     * @param string $cap
-     * @param integer $user_id
-     * @param [type] $args
-     * @return array
      */
-    public function map_meta_cap_privacy_options(array $caps, string $cap, int $user_id, $args): array
-    {
+    public function map_meta_cap_privacy_options(
+        array $caps,
+        string $cap,
+        int $user_id,
+        $args
+    ): array {
         if (!is_user_logged_in()) return $caps;
 
         if ($cap !== 'manage_privacy_options') return $caps;

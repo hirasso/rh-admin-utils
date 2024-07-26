@@ -1,6 +1,7 @@
-#### 2.2.5 (2024-07-25)
+#### 2.2.5 (2024-07-26)
 
-- Never display the admin privacy settings menu item (#1b49015)
+- Revert hiding the privacy settings from editors (#6b61aba)
+- Never display the admin privacy settings menu item (#418e67c)
 
 #### 2.2.4 (2024-07-23)
 
