@@ -10,7 +10,6 @@ class Misc extends Singleton
     {
         add_filter('xmlrpc_enabled', '__return_false');
         add_filter('acf/prepare_field/type=image', [$this, 'prepare_image_field']);
-        add_action('admin_init', [$this, 'overwrite_qtranslate_defaults']);
         add_action('admin_init', [$this, 'redirect_edit_php']);
         add_action('current_screen', [$this, 'redirect_initial_admin_url']);
         add_action('plugins_loaded', [$this, 'limit_revisions']);
@@ -25,6 +24,10 @@ class Misc extends Singleton
         add_filter('admin_body_class', [$this, 'admin_body_class']);
         // Disable Siteground Security logs
         add_filter('pre_option_sg_security_disable_activity_log', '__return_true');
+
+        // qtranslate
+        add_action('admin_init', [$this, 'overwrite_qtranslate_defaults']);
+        add_action('admin_enqueue_scripts', [$this, 'remove_qtranslate_admin_styles'], 11);
 
         // add_filter('acf/render_field/type=post_object', [__CLASS__, 'render_field_post_object']);
         // add_action('admin_head', [__CLASS__, 'render_acf_post_object_styles']);
@@ -77,10 +80,21 @@ class Misc extends Singleton
         if (!isset($q_config)) return;
         // disable qtranslate styles on the admin LSBs
         $q_config['lsb_style'] = 'custom';
-        // do not highlight translatable fields
-        $q_config['highlight_mode'] = 0;
+        // do not highlight translatable fields. Set to QTX_HIGHLIGHT_MODE_CUSTOM_CSS
+        $q_config['highlight_mode'] = 9;
+        // insert an empty space as custom CSS, so that the qtranslate options page doesn't break
+        $q_config['highlight_mode_custom_css'] = '  ';
         // hide the 'copy from' button
         $q_config['hide_lsb_copy_content'] = true;
+    }
+
+    /**
+     * Don't enqueue custom qtranslate lsb styles. Otherwise the plugin
+     * will try to enqueue a missing /css/lsb/custom css style :(
+     */
+    public function remove_qtranslate_admin_styles()
+    {
+        wp_dequeue_style('qtranslate-admin-lsb');
     }
 
     /**

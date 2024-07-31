@@ -1,6 +1,10 @@
+#### 2.2.6 (2024-07-31)
+
+- Optimize qtranslate fixes (#b1010c4)
+
 #### 2.2.5 (2024-07-26)
 
-- Revert hiding the privacy settings from editors (#6b61aba)
+- Revert hiding the privacy settings from editors (#f24948a)
 - Never display the admin privacy settings menu item (#418e67c)
 
 #### 2.2.4 (2024-07-23)
