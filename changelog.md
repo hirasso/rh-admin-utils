@@ -1,6 +1,10 @@
+#### 2.2.7 (2024-07-31)
+
+- Require PHP 8.2 (#0d46c62)
+
 #### 2.2.6 (2024-07-31)
 
-- Optimize qtranslate fixes (#b1010c4)
+- Optimize qtranslate fixes (#ad16e8d)
 
 #### 2.2.5 (2024-07-26)
 
