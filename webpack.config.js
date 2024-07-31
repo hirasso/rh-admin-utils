@@ -30,7 +30,7 @@ import fs from "fs";
 import chokidar from "chokidar";
 import { throttle } from "lodash-es";
 import * as dotenv from "dotenv";
-import { ESBuildMinifyPlugin } from "esbuild-loader";
+import { EsbuildPlugin } from "esbuild-loader";
 import { resolveToEsbuildTarget } from "esbuild-plugin-browserslist";
 import browserslist from "browserslist";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
@@ -94,21 +94,7 @@ let config = {
         use: [
           MiniCssExtractPlugin.loader,
           "css-loader",
-          {
-            loader: "postcss-loader",
-            options: {
-              postcssOptions: {
-                plugins: [
-                  [
-                    "postcss-preset-env",
-                    {
-                      // Options
-                    },
-                  ],
-                ],
-              },
-            },
-          },
+          "postcss-loader",
           "sass-loader",
         ],
       },
@@ -138,7 +124,7 @@ let config = {
   optimization: {
     usedExports: true,
     minimizer: [
-      new ESBuildMinifyPlugin({
+      new EsbuildPlugin({
         target: settings.target,
       }),
     ],

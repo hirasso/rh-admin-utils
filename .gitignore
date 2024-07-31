@@ -5,3 +5,4 @@ node_modules
 *.map
 # PHP CodeSniffer is a dev dependency
 lib/vendor/squizlabs
+.is-built
