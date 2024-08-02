@@ -3,6 +3,7 @@
   "config": {
     "vendor-dir": "./lib/vendor"
   },
+  "license": "GPL-2.0-or-later",
   "autoload": {
     "psr-4": {
       "RH\\AdminUtils\\": "lib/rh-admin-utils"

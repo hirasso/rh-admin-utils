@@ -1,6 +1,7 @@
-#### 2.2.7 (2024-07-31)
+#### 2.2.7 (2024-08-02)
 
-- Switch to pnpm, optimize watch and build processes (#339947a)
+- Add license information (#8564bf1)
+- Switch to pnpm, optimize watch and build processes (#f1048ef)
 - Require PHP 8.2 (#0633a3e)
 
 #### 2.2.6 (2024-07-31)

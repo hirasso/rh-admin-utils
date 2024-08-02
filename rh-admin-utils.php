@@ -7,6 +7,7 @@
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress. Removes plugin ads, adds custom buttons to the admin bar (publish, clear cache), allows editors to add users (except administrators), disables comments. Provides filters to adjust functionality.
  * Author URI: https://rassohilber.com
+ * License: GPL-2.0-or-later
  **/
 
 namespace RH\AdminUtils;
