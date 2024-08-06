@@ -2,13 +2,16 @@
 
 namespace RH\AdminUtils;
 
+use WP_Admin_Bar;
+
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 class AdminBarPublishButton extends Singleton
 {
     public function __construct()
     {
-        add_action('wp_before_admin_bar_render', [$this, 'add_buttons'], 10000001, 1);
+        /** just before `wp_admin_bar_my_account_item` */
+        add_action('admin_bar_menu', [$this, 'add_buttons'], 9990, 1);
     }
 
     /**
@@ -18,19 +21,23 @@ class AdminBarPublishButton extends Singleton
      */
     public function add_buttons()
     {
+        /** @var WP_Admin_Bar $wp_admin_bar */
         global $wp_admin_bar;
-        if (!$this->current_screen_has_publish_button()) return;
 
-        $wp_admin_bar->add_node([
-            'id' => 'rh-publish',
-            'parent' => 'top-secondary',
-            'href' => '##',
-        ]);
+        if ($this->current_screen_has_publish_button()) {
+            $wp_admin_bar->add_node([
+                'id' => 'rh-publish',
+                'parent' => 'top-secondary',
+                'href' => '##',
+            ]);
+        }
+
         $wp_admin_bar->add_node([
             'id' => 'rh-save',
             'parent' => 'top-secondary',
             'href' => '##',
         ]);
+
     }
 
     /**

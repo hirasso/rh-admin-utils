@@ -100,24 +100,28 @@ export default class RHAU {
    */
   initAdminBarButtons() {
     // publish/update button
-    let $wpPublish = $('#submitdiv input[id="publish"]:visible');
-    let $rhPublish = $("#wp-admin-bar-rh-publish a");
-    if ($wpPublish.length) {
+    const $wpPublish = $('#submitdiv input[id="publish"]:visible');
+    const $rhPublish = $("#wp-admin-bar-rh-publish a");
+    if ($rhPublish.length && $wpPublish.length) {
       $rhPublish.text($wpPublish.val()).click((e) => {
         e.preventDefault();
         $wpPublish.click();
         $rhPublish.addClass("is-disabled");
       });
+    } else if ($rhPublish.length) {
+      $rhPublish.parent().remove();
     }
     // save draft button
-    let $wpSave = $('#submitdiv input[id="save-post"]:visible');
-    let $rhSave = $("#wp-admin-bar-rh-save a");
-    if ($wpSave.length) {
+    const $wpSave = $('#submitdiv input[id="save-post"]:visible');
+    const $rhSave = $("#wp-admin-bar-rh-save a");
+    if ($rhSave.length && $wpSave.length) {
       $rhSave.text($wpSave.val()).click((e) => {
         e.preventDefault();
         $wpSave.click();
         $rhSave.addClass("is-disabled");
       });
+    } else if($rhSave.length) {
+      $rhSave.parent().remove();
     }
     if (typeof acf !== "undefined" && typeof acf.addFilter !== "undefined") {
       acf.addFilter("validation_complete", (json, $form) => {

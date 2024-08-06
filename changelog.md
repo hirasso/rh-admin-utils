@@ -1,6 +1,10 @@
+#### 2.2.8 (2024-08-06)
+
+- Fix the position of toolbar publish & save buttons (#ce7f9c6)
+
 #### 2.2.7 (2024-08-02)
 
-- Add license information (#8564bf1)
+- Add license information (#5b670f5)
 - Switch to pnpm, optimize watch and build processes (#f1048ef)
 - Require PHP 8.2 (#0633a3e)
 
