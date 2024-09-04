@@ -108,6 +108,6 @@ class ACFSyncPostDate
                 content: "(controlled by the field '<?= $field['label'] ?>')";
             }
         </style>
-<?php echo ob_get_clean();
+        <?php echo ob_get_clean();
     }
 }

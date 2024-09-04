@@ -3,7 +3,7 @@
         'name' => 'rhilber/rh-admin-utils',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'f24948a111fa1a44a89b9c5232293428ba989fd7',
+        'reference' => '20f9bd34e1ecfdfb34b321d25d6ab373cd2a4217',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'rhilber/rh-admin-utils' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'f24948a111fa1a44a89b9c5232293428ba989fd7',
+            'reference' => '20f9bd34e1ecfdfb34b321d25d6ab373cd2a4217',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../../',
             'aliases' => array(),

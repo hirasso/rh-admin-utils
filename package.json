@@ -9,9 +9,10 @@
     "preinstall": "npx only-allow pnpm && git config core.hooksPath .githooks",
     "watch": "rm -f .is-built && webpack --watch --mode=development --progress --stats minimal",
     "build": "[ -f .is-built ] && exit 0; webpack --mode=production --progress --stats minimal && touch .is-built",
-    "lint:assets": "npx prettier --write ./assets-src/",
+    "format:assets": "npx prettier --write ./assets-src/",
     "lint:php": "./lib/vendor/bin/phpcs",
-    "format:php": "./lib/vendor/bin/phpcbf"
+    "format:php": "./lib/vendor/bin/phpcbf",
+    "format": "npm run format:assets && npm run format:php"
   },
   "author": "Rasso Hilber",
   "license": "ISC",

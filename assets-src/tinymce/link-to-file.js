@@ -39,7 +39,7 @@ export default function (editor) {
       editor.execCommand(
         "mceInsertContent",
         false,
-        `<a href="${attachment.url}" target="_blank" download>${selection}</a>`
+        `<a href="${attachment.url}" target="_blank" download>${selection}</a>`,
       );
     }
 

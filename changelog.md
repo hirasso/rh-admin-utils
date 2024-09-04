@@ -1,6 +1,7 @@
-#### 2.2.8 (2024-08-06)
+#### 2.2.8 (2024-09-04)
 
-- Fix the position of toolbar publish & save buttons (#ce7f9c6)
+- Update environment links to use a native `dialog` (#6412bdc)
+- Fix the position of toolbar publish & save buttons (#20f9bd3)
 
 #### 2.2.7 (2024-08-02)
 

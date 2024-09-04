@@ -19,15 +19,14 @@ export default () => {
         <option value="alphabetically">Alphabetically</option>
       </select>`;
 
-      $select.addEventListener('change', this.onSelectChange.bind(this));
+      $select.addEventListener("change", this.onSelectChange.bind(this));
 
       $filters.appendChild($select);
 
-      const amount = $filters.querySelectorAll('.filter').length;
+      const amount = $filters.querySelectorAll(".filter").length;
       $filters.classList.remove("-f4", "-f3", "-f2", "-f1");
       $filters.style.display = "flex";
       $filters.classList.add(`-f${amount}`);
-
     },
 
     /**
@@ -73,8 +72,8 @@ export default () => {
       const { list, items } = this.getElements();
       list.append(
         ...Array.from(items).sort((a, b) =>
-          a.innerText.localeCompare(b.innerText)
-        )
+          a.innerText.localeCompare(b.innerText),
+        ),
       );
     },
   };

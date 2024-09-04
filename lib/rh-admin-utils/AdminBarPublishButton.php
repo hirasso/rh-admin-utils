@@ -37,7 +37,6 @@ class AdminBarPublishButton extends Singleton
             'parent' => 'top-secondary',
             'href' => '##',
         ]);
-
     }
 
     /**

@@ -35,11 +35,11 @@ export default class RHAU {
     Alpine.prefix("rhau-x-");
 
     Alpine.data("ACFPasswordUtilities", (options) =>
-      ACFPasswordUtilities(options)
+      ACFPasswordUtilities(options),
     );
     Alpine.data("ACFCodeField", (options) => ACFCodeField(options));
     Alpine.data("ACFRelationshipField", (options) =>
-      ACFRelationshipField(options)
+      ACFRelationshipField(options),
     );
     Alpine.data("ACFTextField", () => ACFTextField());
 
@@ -54,7 +54,7 @@ export default class RHAU {
     this.setCssVar("--rhau-button-primary-color", buttonStyle.color);
     this.setCssVar(
       "--rhau-button-primary-background",
-      buttonStyle.backgroundColor
+      buttonStyle.backgroundColor,
     );
     button.remove();
   }
@@ -120,7 +120,7 @@ export default class RHAU {
         $wpSave.click();
         $rhSave.addClass("is-disabled");
       });
-    } else if($rhSave.length) {
+    } else if ($rhSave.length) {
       $rhSave.parent().remove();
     }
     if (typeof acf !== "undefined" && typeof acf.addFilter !== "undefined") {
@@ -292,7 +292,7 @@ export default class RHAU {
         },
         {
           rootMargin: "300px 0px",
-        }
+        },
       );
 
       observer.observe($wrap[0]);

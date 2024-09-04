@@ -155,7 +155,7 @@ class AdminUtils extends Singleton
             <div class="notice notice-<?= $notice['type'] ?> <?= $notice['is_dismissible'] ? 'is-dismissible' : '' ?>">
                 <p><?= $notice['message'] ?></p>
             </div>
-<?php echo ob_get_clean();
+            <?php echo ob_get_clean();
         }
     }
 

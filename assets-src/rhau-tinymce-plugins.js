@@ -12,6 +12,6 @@ import addLinkToFileButton from "./tinymce/link-to-file.js";
 
   tinymce.PluginManager.add(
     "rhauTinyMcePlugins",
-    tinymce.plugins.rhauTinyMcePlugins
+    tinymce.plugins.rhauTinyMcePlugins,
   );
 })();

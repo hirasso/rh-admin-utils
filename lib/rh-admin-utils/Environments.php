@@ -57,7 +57,7 @@ class Environments extends Singleton
 
         return array_filter(
             $environments,
-            fn ($host) => !empty($host)
+            fn($host) => !empty($host)
         );
     }
 
@@ -142,21 +142,23 @@ class Environments extends Singleton
      */
     public function render_environment_links(): void
     {
-?>
-        <rhau-environment-links>
-            <i tabindex="0"></i>
-
-            <?php foreach ($this->environments as $environment => $url) : ?>
-                <?php if ($environment === $this->env) continue; ?>
-                <rhau-environment-link tabindex="0" data-remote-root="<?= $url ?>">
+        ?>
+        <dialog is="rhau-environment-links" data-rhau-environment-links>
+            <?php foreach ($this->environments as $environment => $host) : ?>
+                <rhau-environment-link tabindex="0" data-remote-host="<?= $host ?>">
                     <?= ucfirst($environment) ?>
                 </rhau-environment-link>
             <?php endforeach; ?>
+        </dialog>
+        <?php
+    }
 
-            <i tabindex="0"></i>
-        </rhau-environment-links>
-
-<?php
+    /**
+     * Get the current host
+     */
+    private function get_current_host(): string
+    {
+        return set_url_scheme('http://' . $_SERVER['HTTP_HOST']);
     }
 
     /**
@@ -165,7 +167,7 @@ class Environments extends Singleton
     public function assets(): void
     {
         wp_enqueue_style('rhau-environment-links', rhau()->asset_uri("assets/rhau-environment-links.css"), [], null);
-        wp_enqueue_script('rhau-environment-links', rhau()->asset_uri("assets/rhau-environment-links.js"), array("jquery"), null, true);
+        wp_enqueue_script('rhau-environment-links', rhau()->asset_uri("assets/rhau-environment-links.js"), [], null, true);
     }
 
     /**

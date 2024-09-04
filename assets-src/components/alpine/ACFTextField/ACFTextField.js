@@ -14,7 +14,7 @@ export default () => {
       if (!mask) return;
 
       const input = this.$root.querySelector(
-        ".acf-input-wrap > input:first-child"
+        ".acf-input-wrap > input:first-child",
       );
       input.setAttribute("rhau-x-mask", mask);
     },

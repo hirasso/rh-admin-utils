@@ -67,7 +67,7 @@ class PageRestrictions
          *  - they conflict with the parent/child restrictions from this plugin
          *  - they clutter the edit screen unnecessarily
          */
-        add_action('load-edit.php', function() {
+        add_action('load-edit.php', function () {
             remove_action('page_row_actions', 'SimplePageOrdering\\Simple_Page_Ordering::page_row_actions');
         }, 11);
     }
@@ -435,7 +435,7 @@ class PageRestrictions
     public static function inject_styles(): void
     {
         if (!self::is_editing_locked_post()) return;
-?>
+        ?>
         <style>
             .misc-pub-visibility .edit-visibility,
             .misc-pub-post-status .edit-post-status,
@@ -463,7 +463,7 @@ class PageRestrictions
                 pointer-events: none !important;
             }
         </style>
-<?php
+        <?php
     }
 
     /**

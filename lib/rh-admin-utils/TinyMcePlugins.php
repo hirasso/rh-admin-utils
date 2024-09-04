@@ -9,7 +9,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
  */
 class TinyMcePlugins
 {
-
     public static function init()
     {
         add_filter('mce_buttons', [self::class, 'mce_buttons'], PHP_INT_MAX - 100);

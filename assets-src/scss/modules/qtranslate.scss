@@ -28,7 +28,6 @@
 
 #wp-admin-bar-rhau-lsbs .qtranxs-lang-switch img {
   margin-right: 0.4em;
-
 }
 
 /*
@@ -46,7 +45,11 @@
 /*
 * compatibility with acf-autosize
 */
-.acf-field-qtranslate-wysiwyg .multi-language-field > .acf-editor-wrap:not(.current-language),
-.acf-field-qtranslate-textarea .multi-language-field > textarea:not(.current-language) {
+.acf-field-qtranslate-wysiwyg
+  .multi-language-field
+  > .acf-editor-wrap:not(.current-language),
+.acf-field-qtranslate-textarea
+  .multi-language-field
+  > textarea:not(.current-language) {
   @include visually-hidden;
 }

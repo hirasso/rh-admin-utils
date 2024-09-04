@@ -44,7 +44,7 @@ const settings = {
   entryPoints: {
     "rhau-admin": ["./assets-src/rhau-admin.js"],
     "rhau-tinymce-plugins": ["./assets-src/rhau-tinymce-plugins.js"],
-    "rhau-environment-links": ["./assets-src/rhau-environment-links.js"],
+    "rhau-environment-links": ["./assets-src/environment-links/environment-links.ts"],
   },
   outputPath: "assets",
   watchExtraFiles: "**/**.php",

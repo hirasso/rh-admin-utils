@@ -16,7 +16,7 @@ export default () => {
       return (
         parseInt(
           this.$root.getAttribute("data-rhau-code-line-wrapping"),
-          10
+          10,
         ) === 1
       );
     },
