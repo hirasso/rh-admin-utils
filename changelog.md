@@ -1,6 +1,10 @@
+#### 2.2.9 (2024-09-04)
+
+- v 2.2.9 (#e66f3cc)
+
 #### 2.2.8 (2024-09-04)
 
-- Update environment links to use a native `dialog` (#6412bdc)
+- Update environment links to use a native `dialog` (#ecd7d48)
 - Fix the position of toolbar publish & save buttons (#20f9bd3)
 
 #### 2.2.7 (2024-08-02)
