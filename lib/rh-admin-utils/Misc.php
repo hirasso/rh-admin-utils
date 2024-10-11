@@ -29,6 +29,8 @@ class Misc extends Singleton
         add_action('admin_init', [$this, 'overwrite_qtranslate_defaults']);
         add_action('admin_enqueue_scripts', [$this, 'remove_qtranslate_admin_styles'], 11);
 
+        add_filter('wp_admin_notice_markup', [$this, 'maybe_hide_update_nag'], 10, 3);
+
         // add_filter('acf/render_field/type=post_object', [__CLASS__, 'render_field_post_object']);
         // add_action('admin_head', [__CLASS__, 'render_acf_post_object_styles']);
     }
@@ -259,9 +261,7 @@ class Misc extends Singleton
      * @param int $post_id
      * @return void
      */
-    public function render_edit_column(string $column, int $post_id): void
-    {
-    }
+    public function render_edit_column(string $column, int $post_id): void {}
 
     /**
      * Add custom classes to the admin body
@@ -292,12 +292,12 @@ class Misc extends Singleton
         $post_id = $field['value'] ?? null;
         if (empty($post_id) || !$post = get_post($post_id)) return;
 
-        ?>
+?>
         <div class="rh-post-object-edit-links">
             <a href="<?= get_edit_post_link($post_id) ?>">Edit</a>
             <a href="<?= get_permalink($post_id) ?>" target="_blank">View</a>
         </div>
-        <?php
+    <?php
     }
 
     /**
@@ -305,7 +305,7 @@ class Misc extends Singleton
      */
     public static function render_acf_post_object_styles()
     {
-        ?>
+    ?>
         <style>
             .rh-post-object-edit-links {
                 position: absolute;
@@ -322,7 +322,7 @@ class Misc extends Singleton
                 text-decoration: none;
             }
         </style>
-        <?php
+<?php
     }
 
     /**
@@ -334,5 +334,32 @@ class Misc extends Singleton
         if (wp_next_scheduled('siteground_security_clear_logs_cron')) return;
 
         wp_schedule_event(time(), 'daily', 'siteground_security_clear_logs_cron');
+    }
+
+    /**
+     * Hide the update nag where applicable
+     */
+    public function maybe_hide_update_nag(
+        string $markup,
+        string $message,
+        array $args
+    ): string {
+
+        $is_update_nag = array_search('update-nag', $args['additional_classes'] ?? [], true) !== false;
+        if (!$is_update_nag) {
+            return $markup;
+        }
+
+        /** don't show the update nag if DISALLOW_FILE_EDIT is true */
+        if (!wp_is_file_mod_allowed('capability_update_core')) {
+            return '';
+        }
+
+        /** don't show the update nag to editors */
+        if (!current_user_can('manage_options')) {
+            return '';
+        }
+
+        return $markup;
     }
 }
