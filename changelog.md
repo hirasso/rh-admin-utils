@@ -1,6 +1,13 @@
-#### 2.2.9 (2024-10-11)
+#### 2.3.1 (2024-10-16)
 
-- Hide the update nag where applicable (#50618df)
+- Make environment links work even with only one environment (#fdd57cd)
+
+#### 2.3.0 (2024-10-11)
+
+- Hide the update nag where applicable (#f6b87d4)
+
+#### 2.2.9 (2024-09-04)
+
 - v 2.2.9 (#cf6a66b)
 
 #### 2.2.8 (2024-09-04)
