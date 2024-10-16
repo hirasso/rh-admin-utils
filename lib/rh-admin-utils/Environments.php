@@ -21,8 +21,6 @@ class Environments extends Singleton
 
         $this->environments = $this->get_environments();
 
-        if (count($this->environments) < 2) return;
-
         add_action('after_setup_theme', [$this, 'setup']);
     }
 
