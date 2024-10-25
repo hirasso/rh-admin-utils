@@ -1,6 +1,13 @@
-#### 2.2.9 (2024-10-11)
+#### 2.3.1 (2024-10-25)
 
-- Hide the update nag where applicable (#50618df)
+- Add `"minimum-stability": "dev"` to composer.json (#8f8ba22)
+
+#### 2.3.0 (2024-10-11)
+
+- Hide the update nag where applicable (#f6b87d4)
+
+#### 2.2.9 (2024-09-04)
+
 - v 2.2.9 (#cf6a66b)
 
 #### 2.2.8 (2024-09-04)
