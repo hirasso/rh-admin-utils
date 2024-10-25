@@ -1,6 +1,7 @@
 #### 2.3.1 (2024-10-25)
 
-- Add `"minimum-stability": "dev"` to composer.json (#8f8ba22)
+- Add `"minimum-stability": "dev"` to composer.json (#55acbdd)
+- Make environment links work even with only one environment (#fdd57cd)
 
 #### 2.3.0 (2024-10-11)
 
