@@ -24,3 +24,12 @@
   pointer-events: none !important;
   display: block !important;
 }
+
+@mixin srOnly {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

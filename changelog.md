@@ -1,6 +1,12 @@
+#### 2.3.2 (2024-10-28)
+
+- Hide more plugin adverts (#b90a724)
+
 #### 2.3.1 (2024-10-28)
 
-- Change package name to hirasso/rh-admin-utils (#a0545d5)
+- Add GitHub Plugin URI (#60844cf)
+- Add readme (#221d19e)
+- Change package name to hirasso/rh-admin-utils (#1e95e6b)
 - Add `"minimum-stability": "dev"` to composer.json (#55acbdd)
 - Make environment links work even with only one environment (#fdd57cd)
 

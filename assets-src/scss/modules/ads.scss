@@ -1,0 +1,10 @@
+@use '../inc/mixins.scss';
+
+/**
+ * Hide git updater adverts
+ */
+.notice:has(a[href*="git-updater.com"]),
+div.fs-slug-git-updater.fs-slug-git-updater.success.success,
+div.fs-slug-git-updater.fs-slug-git-updater.updated.success {
+  display: none !important;
+}

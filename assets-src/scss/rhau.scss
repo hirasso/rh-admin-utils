@@ -3,6 +3,7 @@
 @import "./modules/acf";
 @import "./modules/user-forms";
 @import "./modules/tinymce-plugins";
+@import "./modules/ads.scss";
 
 #submitdiv:not(.rhau-enabled) {
   input[type="submit"] {
