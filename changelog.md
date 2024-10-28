@@ -1,6 +1,7 @@
 #### 2.3.2 (2024-10-28)
 
-- Hide more plugin adverts (#b90a724)
+- Remove afragen/git-updater (#75bc5d2)
+- Hide more plugin adverts (#23438ad)
 
 #### 2.3.1 (2024-10-28)
 

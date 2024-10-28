@@ -3,7 +3,7 @@
         'name' => 'hirasso/rh-admin-utils',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '3331b9efb6409d9aaf91f6eb12ed2e4f62cff02c',
+        'reference' => '23438adcd0544449edeae9f0ec961defc51c77b5',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'hirasso/rh-admin-utils' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '3331b9efb6409d9aaf91f6eb12ed2e4f62cff02c',
+            'reference' => '23438adcd0544449edeae9f0ec961defc51c77b5',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../../',
             'aliases' => array(),
