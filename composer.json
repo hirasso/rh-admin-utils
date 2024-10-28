@@ -1,5 +1,5 @@
 {
-  "name": "rhilber/rh-admin-utils",
+  "name": "hirasso/rh-admin-utils",
   "config": {
     "vendor-dir": "./lib/vendor"
   },

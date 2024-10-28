@@ -1,5 +1,6 @@
-#### 2.3.1 (2024-10-25)
+#### 2.3.1 (2024-10-28)
 
+- Change package name to hirasso/rh-admin-utils (#a0545d5)
 - Add `"minimum-stability": "dev"` to composer.json (#55acbdd)
 - Make environment links work even with only one environment (#fdd57cd)
 

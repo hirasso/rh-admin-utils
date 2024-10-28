@@ -1,19 +1,19 @@
 <?php return array(
     'root' => array(
-        'name' => 'rhilber/rh-admin-utils',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => '20f9bd34e1ecfdfb34b321d25d6ab373cd2a4217',
+        'name' => 'hirasso/rh-admin-utils',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '3331b9efb6409d9aaf91f6eb12ed2e4f62cff02c',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
-        'rhilber/rh-admin-utils' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => '20f9bd34e1ecfdfb34b321d25d6ab373cd2a4217',
+        'hirasso/rh-admin-utils' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '3331b9efb6409d9aaf91f6eb12ed2e4f62cff02c',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../../',
             'aliases' => array(),
