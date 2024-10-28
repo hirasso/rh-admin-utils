@@ -176,14 +176,13 @@ class Misc extends Singleton
 
     /**
      * Automatically set Github Updater options
-     *
-     * @return array
      */
-    public function github_updater_options(): array
+    public function github_updater_options(array $options): array
     {
-        return array(
-            'github_access_token' => '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',
-        );
+        if (defined('GITHUB_ACCESS_TOKEN') && !empty(GITHUB_ACCESS_TOKEN)) {
+            $options['github_access_token'] = GITHUB_ACCESS_TOKEN;
+        }
+        return $options;
     }
 
     /**

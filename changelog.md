@@ -1,6 +1,10 @@
+#### 2.3.3 (2024-10-28)
+
+- Read GITHUB_ACCESS_TOKEN from constant instead of using a hard-coded one. (#16e8109)
+
 #### 2.3.2 (2024-10-28)
 
-- Remove afragen/git-updater (#75bc5d2)
+- Remove afragen/git-updater (#ca3cdcf)
 - Hide more plugin adverts (#23438ad)
 
 #### 2.3.1 (2024-10-28)
