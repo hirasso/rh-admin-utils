@@ -1,7 +1,7 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.0.3/schema.json",
   "changelog": ["@changesets/changelog-github", { "repo": "hirasso/rh-admin-utils" }],
-  "commit": false,
+  "commit": ["../scripts/commit.js", { "customOption": true }],
   "fixed": [],
   "linked": [],
   "access": "restricted",

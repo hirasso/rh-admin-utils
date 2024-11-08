@@ -10,8 +10,8 @@
     "watch": "rm -f .is-built && webpack --watch --mode=development --progress --stats minimal",
     "build": "[ -f .is-built ] && exit 0; webpack --mode=production --progress --stats minimal && touch .is-built",
     "format:assets": "npx prettier --write ./assets-src/",
-    "changelog:generate": "node ./changelog.cjs",
-    "changelog:regenerate": "node ./changelog.cjs --regenerate",
+    "changeset:version": "pnpm changeset version && pnpm version:patch && git add . ",
+    "version:patch": "node scripts/patchVersionInPluginFile.js",
     "lint:php": "./lib/vendor/bin/phpcs",
     "format:php": "./lib/vendor/bin/phpcbf",
     "format": "npm run format:assets && npm run format:php"
