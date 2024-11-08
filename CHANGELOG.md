@@ -1,5 +1,8 @@
+
 ## 2.3.4 (2024-11-08)
 
+- Update package.json version (#0b2b8de)
+- Change case of changelog (#cbe0824)
 - Untrack changelog (#96f9b73)
 - Optimize changelog generator (#1cdb26f)
 - Add a description for packagist (#29518a1)
