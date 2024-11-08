@@ -1,6 +1,11 @@
-#### 2.3.3 (2024-10-28)
+#### 2.3.4 (2024-11-08)
 
-- Read GITHUB_ACCESS_TOKEN from constant instead of using a hard-coded one. (#16e8109)
+- v2.3.4 (#122a680)
+
+#### 2.3.3 (2024-11-08)
+
+- Optimize `disallow_indexing_notice` (#8e9f599)
+- Read GITHUB_ACCESS_TOKEN from constant instead of using a hard-coded one. (#ac876c5)
 
 #### 2.3.2 (2024-10-28)
 
