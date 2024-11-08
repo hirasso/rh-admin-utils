@@ -101,7 +101,7 @@ class Environments extends Singleton
         if ($this->env === 'production') return;
 
         add_filter('wp_calculate_image_srcset', array(&$this, 'calculate_image_srcset'), 11);
-        add_filter('wp_get_attachment_url', array(&$this, 'get_attachment_url'), 11);
+        add_filter('wp_get_attachment_url', array(&$this, 'get_attachment_url'), 11, 2);
         add_filter('document_title_parts', array($this, 'document_title_parts'), PHP_INT_MAX - 100);
         add_filter('admin_title', array($this, 'admin_title'));
 
@@ -140,7 +140,7 @@ class Environments extends Singleton
      */
     public function render_environment_links(): void
     {
-        ?>
+?>
         <dialog is="rhau-environment-links" data-rhau-environment-links>
             <?php foreach ($this->environments as $environment => $host) : ?>
                 <rhau-environment-link tabindex="0" data-remote-host="<?= $host ?>">
@@ -148,7 +148,7 @@ class Environments extends Singleton
                 </rhau-environment-link>
             <?php endforeach; ?>
         </dialog>
-        <?php
+    <?php
     }
 
     /**
@@ -224,9 +224,9 @@ class Environments extends Singleton
     /**
      * Filter attachments
      */
-    public function get_attachment_url(string $url): string
+    public function get_attachment_url(string $url, int $id): string
     {
-        return $this->maybe_get_remote_url($url);
+        return $this->maybe_get_remote_url($url, $id);
     }
 
     /**
@@ -247,35 +247,61 @@ class Environments extends Singleton
     }
 
     /**
-     * Try to load remote file url if missing locally
+     * Strip the protocol from a url
      */
-    private function maybe_get_remote_url(string $url): string
+    private function strip_protocol(string $url): string
     {
-        $remote_origin =
+        return preg_replace('#^https?://#', '', $url);
+    }
+
+    /**
+     * Check if a url is internal
+     */
+    private function is_internal_url(string $url): bool
+    {
+        return str_starts_with(
+            $this->strip_protocol($url),
+            $this->strip_protocol(get_option('home'))
+        );
+    }
+
+    /**
+     * Try to load files from a different environment if they don't exist locally
+     */
+    private function maybe_get_remote_url(string $attachmentURL, int $attachmentID): string
+    {
+        if (file_exists(get_attached_file($attachmentID))) {
+            return $attachmentURL;
+        }
+
+        $currentOrigin = $this->environments[$this->env] ?? get_option('home');
+
+        $remoteOrigin =
             $this->environments['production']
             ?? $this->environments['staging']
             ?? null;
 
         if (defined('REMOTE_ASSETS_ORIGIN')) {
-            $remote_origin = REMOTE_ASSETS_ORIGIN;
+            $remoteOrigin = REMOTE_ASSETS_ORIGIN;
         }
-        if (empty($remote_origin)) return $url;
-
-        // bail early if the $url is external
-        if (!str_starts_with($url, get_option('home'))) return $url;
-
-        $upload_dir = wp_upload_dir();
-        $file = $upload_dir["basedir"] . str_replace($upload_dir["baseurl"], "", $url);
-
-        if (file_exists($file)) {
-            return  $url;
+        if (empty($remoteOrigin)) {
+            return $attachmentURL;
         }
 
-        $local_origin = $this->environments[$this->env] ?? WP_HOME;
+        $remoteHost = $this->strip_protocol($remoteOrigin);
+        $currentHost = $this->strip_protocol($currentOrigin);
 
-        if ($local_origin === $remote_origin) return $url;
+        // Bail early if the current host is the remote host
+        if ($currentHost === $remoteHost) {
+            return $attachmentURL;
+        }
 
-        return str_replace($local_origin, $remote_origin, $url);
+        // Bail early if the attachment URL is external
+        if (!$this->is_internal_url($attachmentURL)) {
+            return $attachmentURL;
+        }
+
+        return str_replace($currentHost, $remoteHost, $attachmentURL);
     }
 
     /**
@@ -286,12 +312,25 @@ class Environments extends Singleton
      */
     public function disallow_indexing_notice()
     {
-        if ((bool) (int) get_option('blog_public')) return;
+        /**
+         * This will also be false if DISALLOW_INDEXING is set to true
+         */
+        if ((bool) get_option('blog_public')) {
+            return;
+        }
 
-        $admin_email = apply_filters('rh/environments/admin_email', 'mail@rassohilber.com');
-        $headline = "<strong>This site is still in private mode, so search engines are being blocked.</strong>";
-        $body = "If you want to go live, please <a href='mailto:$admin_email'>notify your site's administrator</a>.";
-        echo "<div class='notice notice-warning'><p><span class='dashicons dashicons-hidden'></span> {$headline} {$body}</p></div>";
+        $icon = '<span class="dashicons dashicons-hidden"></span>';
+        $message1 = sprintf(
+            __('%1$sSearch engine indexing%2$s has been discouraged on this site.', 'rh-admin-utils'),
+            '<a href="https://en.wikipedia.org/wiki/Search_engine_indexing" target="_blank">',
+            '</a>'
+        );
+        $message2 = sprintf(
+            __('If you want to go live, please <a href="mailto:%1$s">notify your site administrator</a>.', 'rh-admin-utils'),
+            get_option('admin_email')
+        );
+
+        echo "<div class='notice notice-warning'><p>{$icon} {$message1} {$message2}</p></div>";
     }
 
     /**
