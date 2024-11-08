@@ -1,5 +1,6 @@
 {
   "name": "hirasso/rh-admin-utils",
+  "description": "A WordPress utility plugin 🥞",
   "config": {
     "vendor-dir": "./lib/vendor"
   },
