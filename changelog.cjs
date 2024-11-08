@@ -142,7 +142,7 @@ async function writeChangelog(changelog) {
     }
     file += `\n`;
   }
-  fs.writeFileSync("./changelog.md", file);
+  fs.writeFileSync("./CHANGELOG.md", file);
 }
 
 generateChangelog().then((changelog) => writeChangelog(changelog));
