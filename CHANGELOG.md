@@ -1,3 +1,8 @@
+## 2.3.5
+
+### Patch Changes
+
+- Switch to changesets for CHANGELOG generation
 
 ## 2.3.4 (2024-11-08)
 
@@ -135,7 +140,7 @@
 - Update documentation (#2dbac72)
 - Update Explanation for the global ACFOembedCache helper post (#68fd898)
 - Add a global cache for ACF oEmbed fields used outside of the loop (#1d65ee8)
-- Prevent accidental deletion of locked posts for *everyone* (#23fa2d3)
+- Prevent accidental deletion of locked posts for _everyone_ (#23fa2d3)
 - Make `ACFOembedCache` more robust for iframe embeds (#76f1cff)
 
 ## 2.0.7 (2024-02-26)
@@ -577,4 +582,3 @@
 - Add changelog (#6f71f3c)
 - Add admin optimizations (#729c098)
 - Intial commit (#3c570be)
-
