@@ -1,6 +1,6 @@
 ## 2.3.4 (2024-11-08)
 
-- Optimize changelog generator (#5978ac6)
+- Optimize changelog generator (#1cdb26f)
 - Add a description for packagist (#29518a1)
 - v2.3.4 (#c41bdc5)
 
