@@ -100,8 +100,8 @@ class Environments extends Singleton
     {
         if ($this->env === 'production') return;
 
-        add_filter('wp_calculate_image_srcset', array(&$this, 'calculate_image_srcset'), 11);
-        add_filter('wp_get_attachment_url', array(&$this, 'get_attachment_url'), 11, 2);
+        add_filter('wp_calculate_image_srcset', array($this, 'calculate_image_srcset'), 11, 5);
+        add_filter('wp_get_attachment_url', array($this, 'get_attachment_url'), 11, 2);
         add_filter('document_title_parts', array($this, 'document_title_parts'), PHP_INT_MAX - 100);
         add_filter('admin_title', array($this, 'admin_title'));
 
@@ -148,7 +148,7 @@ class Environments extends Singleton
                 </rhau-environment-link>
             <?php endforeach; ?>
         </dialog>
-    <?php
+<?php
     }
 
     /**
@@ -232,17 +232,27 @@ class Environments extends Singleton
     /**
      * Filter srcsets
      */
-    public function calculate_image_srcset($sources)
-    {
+    public function calculate_image_srcset(
+        array $sources,
+        array $size_array,
+        string $image_src,
+        array $image_meta,
+        int $attachmentID
+    ) {
+        $sources = array_map(
+            function(array $source) use ($attachmentID): array {
 
-        foreach ($sources as &$source) {
-            $url = !empty($source['url']) ? $source['url'] : false;
-            if (!$url) {
-                continue;
-            }
-            $url = $this->maybe_get_remote_url($url);
-            $source['url'] = $url;
-        }
+                $url = trim($source['url'] ?? '');
+
+                if (!empty($url)) {
+                    $source['url'] = $this->maybe_get_remote_url($url, $attachmentID);
+                }
+
+                return $source;
+            },
+            $sources
+        );
+
         return $sources;
     }
 

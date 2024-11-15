@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.6
+
+### Patch Changes
+
+- Fix loading remote images in `calculate_image_srcset`
+
 ## 2.3.5
 
 ### Patch Changes
