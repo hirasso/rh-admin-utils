@@ -143,6 +143,7 @@ class Environments extends Singleton
 ?>
         <dialog is="rhau-environment-links" data-rhau-environment-links>
             <?php foreach ($this->environments as $environment => $host) : ?>
+                <?php if ($environment === $this->env) continue; ?>
                 <rhau-environment-link tabindex="0" data-remote-host="<?= $host ?>">
                     <?= ucfirst($environment) ?>
                 </rhau-environment-link>

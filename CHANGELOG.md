@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.7
+
+### Patch Changes
+
+- Exclude the current Environment from the environment links
+
 ## 2.3.6
 
 ### Patch Changes
