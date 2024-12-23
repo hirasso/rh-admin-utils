@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.9
+
+### Patch Changes
+
+- 5842fde: Remove the `.github` folder from release assets
+
 ## 2.3.8
 
 ### Patch Changes
