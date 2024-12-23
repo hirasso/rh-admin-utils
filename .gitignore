@@ -1,8 +1,15 @@
+# System
 .DS_Store
+
+# JS tooling
 npm-debug.log
-node_modules
+node_modules/
 .cache
 *.map
-# PHP CodeSniffer is a dev dependency
-lib/vendor/squizlabs
 .is-built
+
+# Composer
+vendor/
+
+# Strauss
+bin/strauss.phar

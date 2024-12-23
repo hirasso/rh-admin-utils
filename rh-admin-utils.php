@@ -16,10 +16,12 @@ namespace RH\AdminUtils;
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 /**
- * Require composer autoloader
+ * Require composer autoloaders
  */
-require_once(__DIR__ . '/lib/vendor/autoload.php');
-
+require_once __DIR__ . '/vendor-prefixed/autoload.php';
+if (is_readable(__DIR__ . '/vendor/autoload.php')) {
+    require_once __DIR__ . '/vendor/autoload.php';
+}
 
 define('RHAU_PLUGIN_URI', untrailingslashit(plugin_dir_url(__FILE__)));
 define('RHAU_PLUGIN_DIR', untrailingslashit(__DIR__));
