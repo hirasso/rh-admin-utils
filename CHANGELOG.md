@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.12
+
+### Patch Changes
+
+- 8e384c2: allow version and tag even though private
+
 ## 2.3.11
 
 ### Patch Changes
