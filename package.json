@@ -14,7 +14,7 @@
     "lint:php": "./lib/vendor/bin/phpcs",
     "format:php": "./lib/vendor/bin/phpcbf",
     "format": "npm run format:assets && npm run format:php",
-    "version:update": "pnpm changeset version && pnpm run version:patch",
+    "version": "pnpm changeset version && pnpm run version:patch",
     "version:patch": "node scripts/patchVersion.js",
     "publish": "pnpm changeset publish"
   },
