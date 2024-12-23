@@ -16,3 +16,4 @@ webpack.config.js export-ignore
 scripts export-ignore
 .gitattributes export-ignore
 bin export-ignore
+.github export-ignore
