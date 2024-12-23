@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.8
+
+### Patch Changes
+
+- 7d1d4a2: Prefix dependencies
+- 7d1d4a2: Add automated version and publish workflow
+
 ## 2.3.7
 
 ### Patch Changes
