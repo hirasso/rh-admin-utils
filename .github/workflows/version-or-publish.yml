@@ -49,6 +49,6 @@ jobs:
           title: '[CI] Release'
           commit: '[CI] Release'
           version: pnpm run version
-          publish: pnpm changeset tag
+          publish: pnpm changeset tag && git push --follow-tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
