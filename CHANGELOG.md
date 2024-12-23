@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.11
+
+### Patch Changes
+
+- e199ab3: Move publish action to npm script
+
 ## 2.3.10
 
 ### Patch Changes
