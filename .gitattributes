@@ -14,3 +14,5 @@ pnpm-lock.yaml export-ignore
 postcss.config.cjs export-ignore
 webpack.config.js export-ignore
 scripts export-ignore
+.gitattributes export-ignore
+bin export-ignore
