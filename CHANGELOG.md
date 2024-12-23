@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.10
+
+### Patch Changes
+
+- 295f2a8: Use `pnpm changeset tag` in publish action
+
 ## 2.3.9
 
 ### Patch Changes
