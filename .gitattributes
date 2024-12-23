@@ -1,0 +1,16 @@
+.vscode export-ignore
+.changeset export-ignore
+.browserslistrc export-ignore
+.editorconfig export-ignore
+.githooks export-ignore
+.gitignore export-ignore
+.phpcs.xml export-ignore
+.prettierignore export-ignore
+assets-src export-ignore
+composer.json export-ignore
+composer.lock export-ignore
+package.json export-ignore
+pnpm-lock.yaml export-ignore
+postcss.config.cjs export-ignore
+webpack.config.js export-ignore
+scripts export-ignore
