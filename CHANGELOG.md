@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.15
+
+### Patch Changes
+
+- a1d1910: Clean up of various things
+
 ## 2.3.14
 
 ### Patch Changes
