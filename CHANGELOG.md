@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.16
+
+### Patch Changes
+
+- 0427434: Expand on the version-or-publish workflow to release a bundle to the dist repo
+
 ## 2.3.15
 
 ### Patch Changes
