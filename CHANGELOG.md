@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.13
+
+### Patch Changes
+
+- bb519cf: Re-add the composer.json to the release zip
+
 ## 2.3.12
 
 ### Patch Changes
