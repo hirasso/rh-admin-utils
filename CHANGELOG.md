@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.18
+
+### Patch Changes
+
+- 157f851: Configure git for pushing to dist repo
+
 ## 2.3.17
 
 ### Patch Changes
