@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * Modified by hirasso on 22-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
+ * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
  */
 
 namespace RH\AdminUtils\Symfony\Component\VarDumper\Server;
