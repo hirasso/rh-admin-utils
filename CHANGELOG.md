@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.25
+
+### Patch Changes
+
+- 105d73b: Add `composer/installers` and php 8.2 dependency
+
 ## 2.3.24
 
 ### Patch Changes
