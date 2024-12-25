@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.24
+
+### Patch Changes
+
+- 5a51982: Various improvements to the dist workflow
+
 ## 2.3.23
 
 ### Patch Changes
