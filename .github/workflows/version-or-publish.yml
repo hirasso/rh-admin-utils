@@ -89,7 +89,7 @@ jobs:
           git checkout --detach empty
           echo "Copying in all of the bundles..."
           cd ..
-          cp -Rf assets src rh-admin-utils.php vendor-prefixed CHANGELOG.md README.md vendor-prefixed dist/
+          cp -Rf assets src rh-admin-utils.php vendor-prefixed CHANGELOG.md README.md dist/
           cd dist/
           echo "Committing and pushing new bundles with tag 'v${PACKAGE_VERSION}'..."
           git add .
