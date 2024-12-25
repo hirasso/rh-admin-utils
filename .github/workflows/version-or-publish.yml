@@ -67,7 +67,7 @@ jobs:
           repository: hirasso/rh-admin-utils-dist
           ref: empty
           path: dist
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
 
       - name: Push bundles to dist repo
         # GitHub Actions outputs are strings and the string 'false' converts to
