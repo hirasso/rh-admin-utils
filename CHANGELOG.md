@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.21
+
+### Patch Changes
+
+- d727d93: Update the token for the workflow
+
 ## 2.3.20
 
 ### Patch Changes
