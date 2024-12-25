@@ -16,10 +16,6 @@ jobs:
     # Don't run on forks. We can and should only release from the main repo.
     if: github.repository == 'hirasso/rh-admin-utils'
 
-    permissions:
-      contents: write  # for Git to git push
-      pull-requests: write # to allow creating PR
-
     name: Create Version PR or Publish
 
     runs-on: ubuntu-latest
