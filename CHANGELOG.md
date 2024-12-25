@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.23
+
+### Patch Changes
+
+- 034b829: use `HIRASSO_ACTIONS_TOKEN` for dist repo
+
 ## 2.3.22
 
 ### Patch Changes
