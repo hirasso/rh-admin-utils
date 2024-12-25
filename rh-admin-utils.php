@@ -10,6 +10,8 @@
  * License: GPL-2.0-or-later
  **/
 
+declare(strict_types=1);
+
 namespace RH\AdminUtils;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
@@ -17,9 +19,12 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 /**
  * Require composer autoloaders
  */
-require_once __DIR__ . '/vendor-prefixed/autoload.php';
-if (is_readable(__DIR__ . '/vendor/autoload.php')) {
-    require_once __DIR__ . '/vendor/autoload.php';
+$autoload = __DIR__ . '/vendor/autoload.php';
+$autoloadPrefixed = __DIR__ . '/vendor-prefixed/autoload.php';
+if (is_readable($autoload)) {
+    require_once $autoload;
+} else if (is_readable($autoloadPrefixed)) {
+    require_once $autoloadPrefixed;
 }
 
 define('RHAU_PLUGIN_URI', untrailingslashit(plugin_dir_url(__FILE__)));
@@ -70,3 +75,6 @@ WpCliCommands::init();
 ACFCodeField::init();
 ACFTextField::init();
 Misc::getInstance();
+
+
+UpdateChecker::init(entryPoint: __FILE__);
