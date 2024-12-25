@@ -11,4 +11,4 @@ const __dirname = path.dirname(__filename);
 const packageJsonPath = path.join(__dirname, "../package.json");
 const { version } = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 // Log the version
-console.log(version ?? "");
+console.log(version ? `v${version}` : "");

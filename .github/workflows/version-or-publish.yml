@@ -81,20 +81,21 @@ jobs:
           PACKAGE_VERSION=$(node ./scripts/logVersion.js)
           # Don't create a bundle commit if the package wasn't published.
           if [[ -z "$PACKAGE_VERSION" ]]; then
-            echo "Package wasn't published, so bundles will not be pushed."
+            echo "Package wasn't published, a release will not be pushed."
             exit 0
           fi
-          echo "Package was published (${PACKAGE_VERSION}), so bundles will be pushed."
+          echo "Package was published (${PACKAGE_VERSION}), a release will be pushed."
           echo "Checking out the empty root commit..."
           cd dist/
           git checkout --detach empty
           echo "Copying in all of the bundles..."
           cd ..
-          cp -Rf assets src rh-admin-utils.php vendor-prefixed CHANGELOG.md README.md dist/
+          cp -Rf assets src rh-admin-utils.php vendor-prefixed CHANGELOG.md README.md composer.dist.json dist/
           cd dist/
-          echo "Committing and pushing new bundles with tag 'v${PACKAGE_VERSION}'..."
+          mv composer.dist.json composer.json
+          echo "Committing and pushing new release: '${PACKAGE_VERSION}'..."
           git add .
-          git commit -m "Bundles for rh-admin-utils@${PACKAGE_VERSION}"
-          git tag "v${PACKAGE_VERSION}"
-          git push origin "v${PACKAGE_VERSION}"
+          git commit -m "Release: rh-admin-utils@${PACKAGE_VERSION}"
+          git tag "${PACKAGE_VERSION}"
+          git push origin "${PACKAGE_VERSION}"
           echo "Done."

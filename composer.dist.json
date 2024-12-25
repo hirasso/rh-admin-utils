@@ -1,0 +1,11 @@
+{
+  "name": "hirasso/rh-admin-utils",
+  "type": "wordpress-plugin",
+  "description": "A WordPress utility plugin 🥞",
+  "license": "GPL-2.0-or-later",
+  "autoload": {
+    "psr-4": {
+      "RH\\AdminUtils\\": "src"
+    }
+  }
+}
