@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.19
+
+### Patch Changes
+
+- 55d2425: try again with global git config
+
 ## 2.3.18
 
 ### Patch Changes
