@@ -5,4 +5,3 @@
 
 require_once __DIR__ . '/symfony/var-dumper/Resources/functions/dump.php';
 require_once __DIR__ . '/symfony/polyfill-mbstring/bootstrap.php';
-require_once __DIR__ . '/yahnis-elsts/plugin-update-checker/load-v5p5.php';
