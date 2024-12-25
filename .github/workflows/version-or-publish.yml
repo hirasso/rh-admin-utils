@@ -21,6 +21,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Configure Git
+        run: |
+          git config --global user.email "bot@rassohilber.com"
+          git config --global user.name "Rasso Hilber's Bot"
+
       - name: Check out repository
         uses: actions/checkout@v4
 
@@ -63,11 +68,6 @@ jobs:
           ref: empty
           path: dist
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Configure Git
-        run: |
-          git config user.name "GitHub Action"
-          git config user.email "action@github.com"
 
       - name: Push bundles to dist repo
         # GitHub Actions outputs are strings and the string 'false' converts to
