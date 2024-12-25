@@ -7,5 +7,9 @@
     "psr-4": {
       "RH\\AdminUtils\\": "src"
     }
+  },
+  "require": {
+    "php": ">=8.2",
+    "composer/installers": "^1.0 || ^2.0"
   }
 }
