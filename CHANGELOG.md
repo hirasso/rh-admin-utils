@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.22
+
+### Patch Changes
+
+- 3c49499: add permissions inside the release job
+
 ## 2.3.21
 
 ### Patch Changes
