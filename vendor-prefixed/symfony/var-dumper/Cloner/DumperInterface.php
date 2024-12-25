@@ -7,10 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
  */
-
 namespace RH\AdminUtils\Symfony\Component\VarDumper\Cloner;
 
 /**
@@ -24,7 +21,6 @@ interface DumperInterface
      * Dumps a scalar value.
      */
     public function dumpScalar(Cursor $cursor, string $type, string|int|float|bool|null $value): void;
-
     /**
      * Dumps a string.
      *
@@ -33,7 +29,6 @@ interface DumperInterface
      * @param int    $cut The number of characters $str has been cut by
      */
     public function dumpString(Cursor $cursor, string $str, bool $bin, int $cut): void;
-
     /**
      * Dumps while entering an hash.
      *
@@ -42,7 +37,6 @@ interface DumperInterface
      * @param bool            $hasChild When the dump of the hash has child item
      */
     public function enterHash(Cursor $cursor, int $type, string|int|null $class, bool $hasChild): void;
-
     /**
      * Dumps while leaving an hash.
      *

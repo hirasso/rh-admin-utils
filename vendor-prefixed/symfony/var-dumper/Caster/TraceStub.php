@@ -7,14 +7,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
  */
-
 namespace RH\AdminUtils\Symfony\Component\VarDumper\Caster;
 
 use RH\AdminUtils\Symfony\Component\VarDumper\Cloner\Stub;
-
 /**
  * Represents a backtrace as returned by debug_backtrace() or Exception->getTrace().
  *
@@ -22,17 +18,8 @@ use RH\AdminUtils\Symfony\Component\VarDumper\Cloner\Stub;
  */
 class TraceStub extends Stub
 {
-    public bool $keepArgs;
-    public int $sliceOffset;
-    public ?int $sliceLength;
-    public int $numberingOffset;
-
-    public function __construct(array $trace, bool $keepArgs = true, int $sliceOffset = 0, ?int $sliceLength = null, int $numberingOffset = 0)
+    public function __construct(array $trace, public bool $keepArgs = \true, public int $sliceOffset = 0, public ?int $sliceLength = null, public int $numberingOffset = 0)
     {
         $this->value = $trace;
-        $this->keepArgs = $keepArgs;
-        $this->sliceOffset = $sliceOffset;
-        $this->sliceLength = $sliceLength;
-        $this->numberingOffset = $numberingOffset;
     }
 }

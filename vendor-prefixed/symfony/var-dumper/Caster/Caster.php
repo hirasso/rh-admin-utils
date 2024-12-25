@@ -7,14 +7,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
  */
-
 namespace RH\AdminUtils\Symfony\Component\VarDumper\Caster;
 
 use RH\AdminUtils\Symfony\Component\VarDumper\Cloner\Stub;
-
 /**
  * Helper for filtering out properties in casters.
  *
@@ -35,52 +31,44 @@ class Caster
     public const EXCLUDE_NOT_IMPORTANT = 256;
     public const EXCLUDE_STRICT = 512;
     public const EXCLUDE_UNINITIALIZED = 1024;
-
-    public const PREFIX_VIRTUAL = "\0~\0";
-    public const PREFIX_DYNAMIC = "\0+\0";
-    public const PREFIX_PROTECTED = "\0*\0";
+    public const PREFIX_VIRTUAL = "\x00~\x00";
+    public const PREFIX_DYNAMIC = "\x00+\x00";
+    public const PREFIX_PROTECTED = "\x00*\x00";
     // usage: sprintf(Caster::PATTERN_PRIVATE, $class, $property)
-    public const PATTERN_PRIVATE = "\0%s\0%s";
-
+    public const PATTERN_PRIVATE = "\x00%s\x00%s";
     private static array $classProperties = [];
-
     /**
      * Casts objects to arrays and adds the dynamic property prefix.
      *
      * @param bool $hasDebugInfo Whether the __debugInfo method exists on $obj or not
      */
-    public static function castObject(object $obj, string $class, bool $hasDebugInfo = false, ?string $debugClass = null): array
+    public static function castObject(object $obj, string $class, bool $hasDebugInfo = \false, ?string $debugClass = null): array
     {
         if ($hasDebugInfo) {
             try {
                 $debugInfo = $obj->__debugInfo();
             } catch (\Throwable) {
                 // ignore failing __debugInfo()
-                $hasDebugInfo = false;
+                $hasDebugInfo = \false;
             }
         }
-
-        $a = $obj instanceof \Closure ? [] : (array) $obj;
-
+        $a = ($obj instanceof \Closure) ? [] : (array) $obj;
         if ($obj instanceof \__PHP_Incomplete_Class) {
             return $a;
         }
-
         $classProperties = self::$classProperties[$class] ??= self::getClassProperties(new \ReflectionClass($class));
         $a = array_replace($classProperties, $a);
-
         if ($a) {
             $debugClass ??= get_debug_type($obj);
-
             $i = 0;
             $prefixedKeys = [];
             foreach ($a as $k => $v) {
-                if ("\0" !== ($k[0] ?? '')) {
+                if ("\x00" !== ($k[0] ?? '')) {
                     if (!isset($classProperties[$k])) {
-                        $prefixedKeys[$i] = self::PREFIX_DYNAMIC.$k;
+                        $prefixedKeys[$i] = self::PREFIX_DYNAMIC . $k;
                     }
                 } elseif ($debugClass !== $class && 1 === strpos($k, $class)) {
-                    $prefixedKeys[$i] = "\0".$debugClass.strrchr($k, "\0");
+                    $prefixedKeys[$i] = "\x00" . $debugClass . strrchr($k, "\x00");
                 }
                 ++$i;
             }
@@ -92,24 +80,20 @@ class Caster
                 $a = array_combine($keys, $a);
             }
         }
-
         if ($hasDebugInfo && \is_array($debugInfo)) {
             foreach ($debugInfo as $k => $v) {
-                if (!isset($k[0]) || "\0" !== $k[0]) {
-                    if (\array_key_exists(self::PREFIX_DYNAMIC.$k, $a)) {
+                if (!isset($k[0]) || "\x00" !== $k[0]) {
+                    if (\array_key_exists(self::PREFIX_DYNAMIC . $k, $a)) {
                         continue;
                     }
-                    $k = self::PREFIX_VIRTUAL.$k;
+                    $k = self::PREFIX_VIRTUAL . $k;
                 }
-
                 unset($a[$k]);
                 $a[$k] = $v;
             }
         }
-
         return $a;
     }
-
     /**
      * Filters out the specified properties.
      *
@@ -124,26 +108,23 @@ class Caster
     public static function filter(array $a, int $filter, array $listedProperties = [], ?int &$count = 0): array
     {
         $count = 0;
-
         foreach ($a as $k => $v) {
             $type = self::EXCLUDE_STRICT & $filter;
-
             if (null === $v) {
                 $type |= self::EXCLUDE_NULL & $filter;
                 $type |= self::EXCLUDE_EMPTY & $filter;
-            } elseif (false === $v || '' === $v || '0' === $v || 0 === $v || 0.0 === $v || [] === $v) {
+            } elseif (\false === $v || '' === $v || '0' === $v || 0 === $v || 0.0 === $v || [] === $v) {
                 $type |= self::EXCLUDE_EMPTY & $filter;
             } elseif ($v instanceof UninitializedStub) {
                 $type |= self::EXCLUDE_UNINITIALIZED & $filter;
             }
-            if ((self::EXCLUDE_NOT_IMPORTANT & $filter) && !\in_array($k, $listedProperties, true)) {
+            if (self::EXCLUDE_NOT_IMPORTANT & $filter && !\in_array($k, $listedProperties, \true)) {
                 $type |= self::EXCLUDE_NOT_IMPORTANT;
             }
-            if ((self::EXCLUDE_VERBOSE & $filter) && \in_array($k, $listedProperties, true)) {
+            if (self::EXCLUDE_VERBOSE & $filter && \in_array($k, $listedProperties, \true)) {
                 $type |= self::EXCLUDE_VERBOSE;
             }
-
-            if (!isset($k[1]) || "\0" !== $k[0]) {
+            if (!isset($k[1]) || "\x00" !== $k[0]) {
                 $type |= self::EXCLUDE_PUBLIC & $filter;
             } elseif ('~' === $k[1]) {
                 $type |= self::EXCLUDE_VIRTUAL & $filter;
@@ -154,47 +135,38 @@ class Caster
             } else {
                 $type |= self::EXCLUDE_PRIVATE & $filter;
             }
-
             if ((self::EXCLUDE_STRICT & $filter) ? $type === $filter : $type) {
                 unset($a[$k]);
                 ++$count;
             }
         }
-
         return $a;
     }
-
     public static function castPhpIncompleteClass(\__PHP_Incomplete_Class $c, array $a, Stub $stub, bool $isNested): array
     {
         if (isset($a['__PHP_Incomplete_Class_Name'])) {
-            $stub->class .= '('.$a['__PHP_Incomplete_Class_Name'].')';
+            $stub->class .= '(' . $a['__PHP_Incomplete_Class_Name'] . ')';
             unset($a['__PHP_Incomplete_Class_Name']);
         }
-
         return $a;
     }
-
     private static function getClassProperties(\ReflectionClass $class): array
     {
         $classProperties = [];
         $className = $class->name;
-
         if ($parent = $class->getParentClass()) {
             $classProperties += self::$classProperties[$parent->name] ??= self::getClassProperties($parent);
         }
-
         foreach ($class->getProperties() as $p) {
             if ($p->isStatic()) {
                 continue;
             }
-
-            $classProperties[match (true) {
+            $classProperties[match (\true) {
                 $p->isPublic() => $p->name,
-                $p->isProtected() => self::PREFIX_PROTECTED.$p->name,
-                default => "\0".$className."\0".$p->name,
-            }] = new UninitializedStub($p);
+                $p->isProtected() => self::PREFIX_PROTECTED . $p->name,
+                default => "\x00" . $className . "\x00" . $p->name,
+            }] = (\PHP_VERSION_ID >= 80400 && $p->isVirtual()) ? new VirtualStub($p) : new UninitializedStub($p);
         }
-
         return $classProperties;
     }
 }

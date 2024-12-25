@@ -7,14 +7,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
  */
-
 namespace RH\AdminUtils\Symfony\Component\VarDumper\Caster;
 
 use RH\AdminUtils\Symfony\Component\VarDumper\Cloner\Stub;
-
 /**
  * Represents an enumeration of values.
  *
@@ -22,11 +18,8 @@ use RH\AdminUtils\Symfony\Component\VarDumper\Cloner\Stub;
  */
 class EnumStub extends Stub
 {
-    public bool $dumpKeys = true;
-
-    public function __construct(array $values, bool $dumpKeys = true)
+    public function __construct(array $values, public bool $dumpKeys = \true)
     {
         $this->value = $values;
-        $this->dumpKeys = $dumpKeys;
     }
 }

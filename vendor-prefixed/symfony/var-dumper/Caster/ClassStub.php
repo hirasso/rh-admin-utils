@@ -7,14 +7,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
  */
-
 namespace RH\AdminUtils\Symfony\Component\VarDumper\Caster;
 
 use RH\AdminUtils\Symfony\Component\VarDumper\Cloner\Stub;
-
 /**
  * Represents a PHP class identifier.
  *
@@ -29,7 +25,6 @@ class ClassStub extends ConstStub
     public function __construct(string $identifier, callable|array|string|null $callable = null)
     {
         $this->value = $identifier;
-
         try {
             if (null !== $callable) {
                 if ($callable instanceof \Closure) {
@@ -38,7 +33,7 @@ class ClassStub extends ConstStub
                     $r = [$callable, '__invoke'];
                 } elseif (\is_array($callable)) {
                     $r = $callable;
-                } elseif (false !== $i = strpos($callable, '::')) {
+                } elseif (\false !== $i = strpos($callable, '::')) {
                     $r = [substr($callable, 0, $i), substr($callable, 2 + $i)];
                 } else {
                     $r = new \ReflectionFunction($callable);
@@ -48,7 +43,6 @@ class ClassStub extends ConstStub
             } else {
                 $r = new \ReflectionClass($identifier);
             }
-
             if (\is_array($r)) {
                 try {
                     $r = new \ReflectionMethod($r[0], $r[1]);
@@ -56,15 +50,12 @@ class ClassStub extends ConstStub
                     $r = new \ReflectionClass($r[0]);
                 }
             }
-
-            if (str_contains($identifier, "@anonymous\0")) {
-                $this->value = $identifier = preg_replace_callback('/[a-zA-Z_\x7f-\xff][\\\\a-zA-Z0-9_\x7f-\xff]*+@anonymous\x00.*?\.php(?:0x?|:[0-9]++\$)[0-9a-fA-F]++/', fn ($m) => class_exists($m[0], false) ? (get_parent_class($m[0]) ?: key(class_implements($m[0])) ?: 'class').'@anonymous' : $m[0], $identifier);
+            if (str_contains($identifier, "@anonymous\x00")) {
+                $this->value = $identifier = preg_replace_callback('/[a-zA-Z_\x7f-\xff][\\\\a-zA-Z0-9_\x7f-\xff]*+@anonymous\x00.*?\.php(?:0x?|:[0-9]++\$)?[0-9a-fA-F]++/', fn($m) => class_exists($m[0], \false) ? ((get_parent_class($m[0]) ?: key(class_implements($m[0]))) ?: 'class') . '@anonymous' : $m[0], $identifier);
             }
-
             if (null !== $callable && $r instanceof \ReflectionFunctionAbstract) {
-                $s = ReflectionCaster::castFunctionAbstract($r, [], new Stub(), true, Caster::EXCLUDE_VERBOSE);
+                $s = ReflectionCaster::castFunctionAbstract($r, [], new Stub(), \true, Caster::EXCLUDE_VERBOSE);
                 $s = ReflectionCaster::getSignature($s);
-
                 if (str_ends_with($identifier, '()')) {
                     $this->value = substr_replace($identifier, $s, -2);
                 } else {
@@ -80,19 +71,16 @@ class ClassStub extends ConstStub
                 $this->attr['ellipsis-tail'] = 1;
             }
         }
-
         if ($f = $r->getFileName()) {
             $this->attr['file'] = $f;
             $this->attr['line'] = $r->getStartLine();
         }
     }
-
     public static function wrapCallable(mixed $callable): mixed
     {
         if (\is_object($callable) || !\is_callable($callable)) {
             return $callable;
         }
-
         if (!\is_array($callable)) {
             $callable = new static($callable, $callable);
         } elseif (\is_string($callable[0])) {
@@ -100,7 +88,6 @@ class ClassStub extends ConstStub
         } else {
             $callable[1] = new static($callable[1], $callable);
         }
-
         return $callable;
     }
 }

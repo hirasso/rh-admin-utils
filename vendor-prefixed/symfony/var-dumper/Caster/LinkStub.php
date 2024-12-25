@@ -7,10 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
  */
-
 namespace RH\AdminUtils\Symfony\Component\VarDumper\Caster;
 
 /**
@@ -20,15 +17,12 @@ namespace RH\AdminUtils\Symfony\Component\VarDumper\Caster;
  */
 class LinkStub extends ConstStub
 {
-    public bool $inVendor = false;
-
+    public bool $inVendor = \false;
     private static array $vendorRoots;
     private static array $composerRoots = [];
-
     public function __construct(string $label, int $line = 0, ?string $href = null)
     {
         $this->value = $label;
-
         if (!\is_string($href ??= $label)) {
             return;
         }
@@ -39,7 +33,6 @@ class LinkStub extends ConstStub
             $href = substr($href, 7);
         } elseif (str_contains($href, '://')) {
             $this->attr['href'] = $href;
-
             return;
         }
         if (!is_file($href)) {
@@ -61,47 +54,40 @@ class LinkStub extends ConstStub
             $this->attr['ellipsis-tail'] = 1;
         }
     }
-
     private function getComposerRoot(string $file, bool &$inVendor): string|false
     {
         if (!isset(self::$vendorRoots)) {
             self::$vendorRoots = [];
-
             foreach (get_declared_classes() as $class) {
                 if ('C' === $class[0] && str_starts_with($class, 'ComposerAutoloaderInit')) {
                     $r = new \ReflectionClass($class);
                     $v = \dirname($r->getFileName(), 2);
-                    if (is_file($v.'/composer/installed.json')) {
-                        self::$vendorRoots[] = $v.\DIRECTORY_SEPARATOR;
+                    if (is_file($v . '/composer/installed.json')) {
+                        self::$vendorRoots[] = $v . \DIRECTORY_SEPARATOR;
                     }
                 }
             }
         }
-        $inVendor = false;
-
+        $inVendor = \false;
         if (isset(self::$composerRoots[$dir = \dirname($file)])) {
             return self::$composerRoots[$dir];
         }
-
         foreach (self::$vendorRoots as $root) {
             if ($inVendor = str_starts_with($file, $root)) {
                 return $root;
             }
         }
-
         $parent = $dir;
-        while (!@is_file($parent.'/composer.json')) {
+        while (!@is_file($parent . '/composer.json')) {
             if (!@file_exists($parent)) {
                 // open_basedir restriction in effect
                 break;
             }
             if ($parent === \dirname($parent)) {
-                return self::$composerRoots[$dir] = false;
+                return self::$composerRoots[$dir] = \false;
             }
-
             $parent = \dirname($parent);
         }
-
-        return self::$composerRoots[$dir] = $parent.\DIRECTORY_SEPARATOR;
+        return self::$composerRoots[$dir] = $parent . \DIRECTORY_SEPARATOR;
     }
 }
