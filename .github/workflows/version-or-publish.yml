@@ -70,10 +70,10 @@ jobs:
         if: steps.cs.outputs.published == 'true'
         # working-directory: dist
         run: |
-          # Extract the version of `lit` that was published or the empty string.
+          # Extract the version that was published or the empty string.
           echo "Checking if Package was published..."
           PACKAGE_VERSION=$(node ./scripts/logVersion.js)
-          # Don't create a bundle commit if `lit` wasn't published.
+          # Don't create a bundle commit if the package wasn't published.
           if [[ -z "$PACKAGE_VERSION" ]]; then
             echo "Package wasn't published, so bundles will not be pushed."
             exit 0
