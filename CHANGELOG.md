@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.26
+
+### Patch Changes
+
+- 3007467: Prefix namespaces using php-scoper
+
 ## 2.3.25
 
 ### Patch Changes
