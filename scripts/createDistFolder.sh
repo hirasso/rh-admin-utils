@@ -25,5 +25,8 @@ zip -r archive.zip vendor-prefixed
 # unzip the archive into dist
 unzip archive.zip -d dist
 
+# Overwrite the composer.json in the dist folder
+mv dist/composer.dist.json dist/composer.json
+
 # clean up
 rm -rf archive.zip
