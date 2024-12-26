@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.29
+
+### Patch Changes
+
+- ab95a49: Do not assume no-dev folders exist
+
 ## 2.3.28
 
 ### Patch Changes
