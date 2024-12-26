@@ -10,7 +10,7 @@ node_modules/
 
 # Composer
 vendor/
-vendor-prefixed/
+php-scoper-wordpress-excludes/
 
 # Scoper
 bin/*.phar

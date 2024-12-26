@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Creates the dist folder, including untracked but required dist files
+# Prepares the dist folder, including untracked but required dist files
 
 # Make sure `prefixNamespaces.sh` was executed
-if [ ! -d "vendor-prefixed" ]; then
-  echo "Error: directory 'vendor-prefixed' does not exist. Please run prefixNamespaces.sh first."
+if [ ! -d "vendor" ]; then
+  echo "Error: The 'vendor' folder does not exist. Please run prefixNamespaces.sh first."
   exit 1
 fi
 
@@ -19,8 +19,8 @@ fi
 # create the archive and save it in the dist/ dir
 git archive --format=zip --output=archive.zip HEAD
 
-# add vendor-prefixed to the dist.zip
-zip -r archive.zip vendor-prefixed
+# add the vendor folder to the dist.zip
+zip -r archive.zip vendor
 
 # unzip the archive into dist
 unzip archive.zip -d dist

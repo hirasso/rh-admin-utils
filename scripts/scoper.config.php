@@ -5,13 +5,31 @@ declare(strict_types=1);
 /** @var Symfony\Component\Finder\Finder $finder */
 $finder = Isolated\Symfony\Component\Finder\Finder::class;
 
+/** The project root dir, where the composer.json file is */
+$rootDir = dirname(__DIR__);
+
+/** Read the project's composer.json */
+$composerJSON = json_decode(file_get_contents("$rootDir/composer.json"), true);
+
+/** Do not prefix dev dependencies */
+$excludeFiles = array_map(
+    static fn(SplFileInfo $fileInfo) => $fileInfo->getPathName(),
+    iterator_to_array(
+        $finder::create()->files()->in(array_map(
+            fn(string $packageName) => "$rootDir/vendor/$packageName",
+            array_keys($composerJSON['require-dev'] ?? [])
+        )),
+        false,
+    ),
+);
+
 /**
  * Read WordPress excludes from sniccowp/php-scoper-wordpress-excludes
  * @see https://github.com/humbug/php-scoper/blob/main/docs/further-reading.md#wordpress-support
  */
 function getWpExcludes(): array
 {
-    $baseDir = dirname(__DIR__) . '/scopeme/php-scoper-wordpress-excludes';
+    $baseDir = dirname(__DIR__) . '/php-scoper-wordpress-excludes';
 
     $excludes = [];
 
@@ -29,6 +47,8 @@ function getWpExcludes(): array
 
 return [
     'prefix' => 'RH\AdminUtils',
+
+    'exclude-files' => [...$excludeFiles],
 
     'exclude-classes' => [...$wpClasses, 'WP_CLI'],
     'exclude-functions' => [...$wpFunctions],

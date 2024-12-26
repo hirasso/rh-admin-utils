@@ -17,12 +17,17 @@
     "yahnis-elsts/plugin-update-checker": "^5.5",
     "snicco/better-wp-cli": "^1.10"
   },
-  "scripts": {
-    "prefix-namespaces": "./scripts/prefixNamespaces.sh",
-    "create-dist-folder": "./scripts/createDistFolder.sh"
-  },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.11"
+  },
+  "scripts": {
+    "prefix-namespaces": "./scripts/prefixNamespaces.sh",
+    "post-install-cmd": "@prefix-namespaces",
+    "post-update-cmd": "@prefix-namespaces",
+    "prepare-dist-folder": "./scripts/prepareDistFolder.sh"
+  },
+  "scripts-descriptions": {
+    "prefix-namespaces": "Prefix all php namespaces"
   },
   "config": {
     "allow-plugins": {

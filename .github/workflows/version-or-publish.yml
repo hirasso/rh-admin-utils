@@ -87,11 +87,11 @@ jobs:
           echo "Checking out the empty root commit..."
           git -C dist checkout --detach empty
 
-          echo "Building release files..."
+          echo "Prefixing vendors..."
           ./scripts/prefixNamespaces.sh
 
-          echo "Injecting release files..."
-          ./scripts/createDistFolder.sh
+          echo "Preparing the dist folder..."
+          ./scripts/prepareDistFolder.sh
 
           echo "Committing and pushing new release: '${PACKAGE_VERSION}'..."
           cd dist/
