@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Creates the dist folder, including untracked but required dist files
+# Prepares the dist folder, including untracked but required dist files (vendor-prefixed, ...)
 
 # Make sure `prefixNamespaces.sh` was executed
 if [ ! -d "vendor-prefixed" ]; then

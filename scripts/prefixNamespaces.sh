@@ -17,17 +17,25 @@ cp -Rf scopeme/vendor/sniccowp/php-scoper-wordpress-excludes scopeme/
 # remove WordPress excludes
 composer remove sniccowp/php-scoper-wordpress-excludes --no-scripts --working-dir=scopeme
 
-# Only install no-dev dependencies
-composer install --no-dev --no-scripts --working-dir=scopeme
+# Install composer in the scopeme directory
+if [ "$GITHUB_ACTIONS" = "true" ]; then
+  composer install --no-dev --no-scripts --working-dir=scopeme
+else
+  composer install --no-scripts --working-dir=scopeme
+fi
 
 # scope the vendor dir
 rm -rf scoped && php bin/php-scoper.phar add-prefix scopeme --output-dir=scoped --config=scripts/scoper.config.php
 
-# dump the autoloader in the scoped dir
-composer dump-autoload --working-dir scoped --classmap-authoritative
+# replace the vendor folder with the scoped one
+rm -rf vendor && cp -Rf scoped/vendor vendor
 
-# move the scoped vendor folder to ./vendor-prefixed and clean up
-rm -rf vendor-prefixed && cp -Rf scoped/vendor vendor-prefixed
+# dump the autoloader
+if [ "$GITHUB_ACTIONS" = "true" ]; then
+  composer dump-autoload --classmap-authoritative
+else
+  composer dump-autoload
+fi
 
 # clean up
 rm -rf scopeme scoped
