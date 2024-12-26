@@ -70,32 +70,34 @@ jobs:
           # secrets.GITHUB_TOKEN would not be enough to push to the dist repo
           token: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
 
-      - name: Push bundles to dist repo
+      - name: Push release to dist repo
         # GitHub Actions outputs are strings and the string 'false' converts to
         # `true` because it isn't the empty string.
         if: steps.cs.outputs.published == 'true'
         # working-directory: dist
         run: |
-          # Extract the version that was published or the empty string.
-          echo "Checking if Package was published..."
+          echo "Package was published (${PACKAGE_VERSION}). A release will be pushed."
           PACKAGE_VERSION=$(node ./scripts/logVersion.js)
-          # Don't create a bundle commit if the package wasn't published.
+
           if [[ -z "$PACKAGE_VERSION" ]]; then
-            echo "Package wasn't published, a release will not be pushed."
-            exit 0
+            echo "Empty package version. Exiting."
+            exit 1
           fi
-          echo "Package was published (${PACKAGE_VERSION}), a release will be pushed."
+
           echo "Checking out the empty root commit..."
-          cd dist/
-          git checkout --detach empty
-          echo "Copying in all of the bundles..."
-          cd ..
-          cp -Rf assets src rh-admin-utils.php vendor-prefixed CHANGELOG.md README.md composer.dist.json dist/
-          cd dist/
-          mv composer.dist.json composer.json
+          git -C dist checkout --detach empty
+
+          echo "Building release files..."
+          ./scripts/prefixNamespaces.sh
+
+          echo "Injecting release files..."
+          ./scripts/createDistFolder.sh
+
           echo "Committing and pushing new release: '${PACKAGE_VERSION}'..."
+          cd dist/
           git add .
           git commit -m "Release: rh-admin-utils@${PACKAGE_VERSION}"
           git tag "${PACKAGE_VERSION}"
           git push origin "${PACKAGE_VERSION}"
+
           echo "Done."
