@@ -8,9 +8,6 @@ test -f bin/php-scoper.phar || curl -sLo bin/php-scoper.phar https://github.com/
 # create a temporary folder and install no-dev composer dependencies
 rm -rf tmp && mkdir tmp && cp composer.json tmp/composer.json
 
-# remove composer installers
-composer remove composer/installers --no-scripts --working-dir=tmp
-
 # require WordPress excludes
 composer require sniccowp/php-scoper-wordpress-excludes --no-scripts --working-dir=tmp
 
