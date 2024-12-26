@@ -11,7 +11,7 @@ $finder = Isolated\Symfony\Component\Finder\Finder::class;
  */
 function getWpExcludes(): array
 {
-    $baseDir = dirname(__DIR__) . '/tmp/php-scoper-wordpress-excludes';
+    $baseDir = dirname(__DIR__) . '/scopeme/php-scoper-wordpress-excludes';
 
     $excludes = [];
 
