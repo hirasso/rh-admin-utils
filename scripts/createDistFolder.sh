@@ -2,16 +2,24 @@
 
 # Creates the dist folder, including untracked but required dist files
 
-# clean up
-rm -rf archive.zip dist
+# Make sure `prefixNamespaces.sh` was executed
+if [ ! -d "vendor-prefixed" ]; then
+  echo "Error: directory 'vendor-prefixed' does not exist. Please run prefixNamespaces.sh first."
+  exit 1
+fi
 
-# clone the dist repo into dist/
-git clone -b empty git@github.com:hirasso/rh-admin-utils-dist.git dist
+# Stuff that is already prepared in GitHub Actions
+if [ "$GITHUB_ACTIONS" != "true" ]; then
+  # clean up
+  rm -rf archive.zip dist
+  # clone the dist repo into dist/
+  git clone -b empty git@github.com:hirasso/rh-admin-utils-dist.git dist
+fi
 
 # create the archive and save it in the dist/ dir
 git archive --format=zip --output=archive.zip HEAD
 
-# add bin/ to the dist.zip
+# add vendor-prefixed to the dist.zip
 zip -r archive.zip vendor-prefixed
 
 # unzip the archive into dist
