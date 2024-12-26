@@ -260,7 +260,9 @@ class Misc extends Singleton
      * @param int $post_id
      * @return void
      */
-    public function render_edit_column(string $column, int $post_id): void {}
+    public function render_edit_column(string $column, int $post_id): void
+    {
+    }
 
     /**
      * Add custom classes to the admin body
@@ -291,12 +293,12 @@ class Misc extends Singleton
         $post_id = $field['value'] ?? null;
         if (empty($post_id) || !$post = get_post($post_id)) return;
 
-?>
+        ?>
         <div class="rh-post-object-edit-links">
             <a href="<?= get_edit_post_link($post_id) ?>">Edit</a>
             <a href="<?= get_permalink($post_id) ?>" target="_blank">View</a>
         </div>
-    <?php
+        <?php
     }
 
     /**
@@ -304,7 +306,7 @@ class Misc extends Singleton
      */
     public static function render_acf_post_object_styles()
     {
-    ?>
+        ?>
         <style>
             .rh-post-object-edit-links {
                 position: absolute;
@@ -321,7 +323,7 @@ class Misc extends Singleton
                 text-decoration: none;
             }
         </style>
-<?php
+        <?php
     }
 
     /**

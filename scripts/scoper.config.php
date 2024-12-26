@@ -8,15 +8,16 @@ $finder = Isolated\Symfony\Component\Finder\Finder::class;
 /** The project root dir, where the composer.json file is */
 $rootDir = dirname(__DIR__);
 
-$packageJSON = json_decode(file_get_contents("$rootDir/composer.json"), true);
+/** Read the project's composer.json */
+$composerJSON = json_decode(file_get_contents("$rootDir/composer.json"), true);
 
 /** Do not prefix dev dependencies */
 $excludeFiles = array_map(
     static fn(SplFileInfo $fileInfo) => $fileInfo->getPathName(),
     iterator_to_array(
         $finder::create()->files()->in(array_map(
-            fn(string $packageName) => "$rootDir/scopeme/vendor/$packageName",
-            array_keys($packageJSON['require-dev'] ?? [])
+            fn(string $packageName) => "$rootDir/vendor/$packageName",
+            array_keys($composerJSON['require-dev'] ?? [])
         )),
         false,
     ),
@@ -28,7 +29,7 @@ $excludeFiles = array_map(
  */
 function getWpExcludes(): array
 {
-    $baseDir = dirname(__DIR__) . '/scopeme/php-scoper-wordpress-excludes';
+    $baseDir = dirname(__DIR__) . '/php-scoper-wordpress-excludes';
 
     $excludes = [];
 

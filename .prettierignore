@@ -1,5 +1,4 @@
 assets
-lib/vendor
 sync/
 .env
 acf-json

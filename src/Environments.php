@@ -140,7 +140,7 @@ class Environments extends Singleton
      */
     public function render_environment_links(): void
     {
-?>
+        ?>
         <dialog is="rhau-environment-links" data-rhau-environment-links>
             <?php foreach ($this->environments as $environment => $host) : ?>
                 <?php if ($environment === $this->env) continue; ?>
@@ -149,7 +149,7 @@ class Environments extends Singleton
                 </rhau-environment-link>
             <?php endforeach; ?>
         </dialog>
-<?php
+        <?php
     }
 
     /**
@@ -241,7 +241,7 @@ class Environments extends Singleton
         int $attachmentID
     ) {
         $sources = array_map(
-            function(array $source) use ($attachmentID): array {
+            function (array $source) use ($attachmentID): array {
 
                 $url = trim($source['url'] ?? '');
 
