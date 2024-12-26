@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0ac403966c8adc8ed68507cd6aea45b2
+class ComposerStaticInit700f8452e0baa9bbe8d8324ab1bb2af3
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -17,7 +17,9 @@ class ComposerStaticInit0ac403966c8adc8ed68507cd6aea45b2
         array (
             'RH\\AdminUtils\\Symfony\\Polyfill\\Mbstring\\' => 40,
             'RH\\AdminUtils\\Symfony\\Component\\VarDumper\\' => 42,
+            'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\' => 43,
             'RH\\AdminUtils\\RH\\AdminUtils\\' => 28,
+            'RH\\AdminUtils\\Psr\\Log\\' => 22,
             'RH\\AdminUtils\\Composer\\Installers\\' => 34,
         ),
     );
@@ -31,9 +33,17 @@ class ComposerStaticInit0ac403966c8adc8ed68507cd6aea45b2
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/snicco/better-wp-cli/src',
+        ),
         'RH\\AdminUtils\\RH\\AdminUtils\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'RH\\AdminUtils\\Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
         'RH\\AdminUtils\\Composer\\Installers\\' => 
         array (
@@ -142,6 +152,50 @@ class ComposerStaticInit0ac403966c8adc8ed68507cd6aea45b2
         'RH\\AdminUtils\\Composer\\Installers\\YawikInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/YawikInstaller.php',
         'RH\\AdminUtils\\Composer\\Installers\\ZendInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ZendInstaller.php',
         'RH\\AdminUtils\\Composer\\Installers\\ZikulaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ZikulaInstaller.php',
+        'RH\\AdminUtils\\Psr\\Log\\AbstractLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/AbstractLogger.php',
+        'RH\\AdminUtils\\Psr\\Log\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/log/Psr/Log/InvalidArgumentException.php',
+        'RH\\AdminUtils\\Psr\\Log\\LogLevel' => __DIR__ . '/..' . '/psr/log/Psr/Log/LogLevel.php',
+        'RH\\AdminUtils\\Psr\\Log\\LoggerAwareInterface' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerAwareInterface.php',
+        'RH\\AdminUtils\\Psr\\Log\\LoggerAwareTrait' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerAwareTrait.php',
+        'RH\\AdminUtils\\Psr\\Log\\LoggerInterface' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerInterface.php',
+        'RH\\AdminUtils\\Psr\\Log\\LoggerTrait' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerTrait.php',
+        'RH\\AdminUtils\\Psr\\Log\\NullLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/NullLogger.php',
+        'RH\\AdminUtils\\Psr\\Log\\Test\\DummyTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/DummyTest.php',
+        'RH\\AdminUtils\\Psr\\Log\\Test\\LoggerInterfaceTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
+        'RH\\AdminUtils\\Psr\\Log\\Test\\TestLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/TestLogger.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Check' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Check.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Command' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Command.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\CommandLoader\\ArrayCommandLoader' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/CommandLoader/ArrayCommandLoader.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\CommandLoader\\CommandLoader' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/CommandLoader/CommandLoader.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Exception\\CommandNotFound' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Exception/CommandNotFound.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Exception\\CouldNotReadHiddenInput' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Exception/CouldNotReadHiddenInput.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Exception\\InvalidAnswer' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Exception/InvalidAnswer.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Exception\\MissingInput' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Exception/MissingInput.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Input\\ArrayInput' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Input/ArrayInput.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Input\\Input' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Input/Input.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Input\\WPCLIInput' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Input/WPCLIInput.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Logger\\Logger' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Logger/Logger.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Logger\\PSRLogger' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Logger/PSRLogger.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Logger\\StdErrLogger' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Logger/StdErrLogger.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Output\\BufferedOutput' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Output/BufferedOutput.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Output\\ConsoleOutput' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Output/ConsoleOutput.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Output\\ConsoleOutputInterface' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Output/ConsoleOutputInterface.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Output\\Output' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Output/Output.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Output\\OutputWithVerbosity' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Output/OutputWithVerbosity.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Output\\StreamOutput' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Output/StreamOutput.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Question\\Question' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Question/Question.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Style\\AnsiColors' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Style/AnsiColors.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Style\\BG' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Style/BG.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Style\\SniccoStyle' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Style/SniccoStyle.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Style\\Terminal' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Style/Terminal.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Style\\Text' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Style/Text.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Synopsis\\InputArgument' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Synopsis/InputArgument.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Synopsis\\InputDefinition' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Synopsis/InputDefinition.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Synopsis\\InputFlag' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Synopsis/InputFlag.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Synopsis\\InputOption' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Synopsis/InputOption.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Synopsis\\Synopsis' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Synopsis/Synopsis.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\Verbosity' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/Verbosity.php',
+        'RH\\AdminUtils\\Snicco\\Component\\BetterWPCLI\\WPCLIApplication' => __DIR__ . '/..' . '/snicco/better-wp-cli/src/WPCLIApplication.php',
         'RH\\AdminUtils\\Symfony\\Component\\VarDumper\\Caster\\AmqpCaster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/AmqpCaster.php',
         'RH\\AdminUtils\\Symfony\\Component\\VarDumper\\Caster\\ArgsStub' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/ArgsStub.php',
         'RH\\AdminUtils\\Symfony\\Component\\VarDumper\\Caster\\Caster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/Caster.php',
@@ -216,9 +270,9 @@ class ComposerStaticInit0ac403966c8adc8ed68507cd6aea45b2
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0ac403966c8adc8ed68507cd6aea45b2::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0ac403966c8adc8ed68507cd6aea45b2::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit0ac403966c8adc8ed68507cd6aea45b2::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit700f8452e0baa9bbe8d8324ab1bb2af3::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit700f8452e0baa9bbe8d8324ab1bb2af3::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit700f8452e0baa9bbe8d8324ab1bb2af3::$classMap;
 
         }, null, ClassLoader::class);
     }

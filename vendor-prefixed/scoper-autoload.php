@@ -29,7 +29,7 @@ if (!function_exists('humbug_phpscoper_expose_class')) {
         }
     }
 }
-humbug_phpscoper_expose_class('ComposerAutoloaderInit0ac403966c8adc8ed68507cd6aea45b2', 'RH\AdminUtils\ComposerAutoloaderInit0ac403966c8adc8ed68507cd6aea45b2');
+humbug_phpscoper_expose_class('ComposerAutoloaderInit700f8452e0baa9bbe8d8324ab1bb2af3', 'RH\AdminUtils\ComposerAutoloaderInit700f8452e0baa9bbe8d8324ab1bb2af3');
 humbug_phpscoper_expose_class('Parsedown', 'RH\AdminUtils\Parsedown');
 humbug_phpscoper_expose_class('PucReadmeParser', 'RH\AdminUtils\PucReadmeParser');
 
