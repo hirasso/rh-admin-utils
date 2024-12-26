@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.28
+
+### Patch Changes
+
+- afbfeb7: Always prefix namespaces
+
 ## 2.3.27
 
 ### Patch Changes
