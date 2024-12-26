@@ -11,14 +11,19 @@ $rootDir = dirname(__DIR__);
 /** Read the project's composer.json */
 $composerJSON = json_decode(file_get_contents("$rootDir/composer.json"), true);
 
+$devDependencies = array_filter(
+    array_map(
+        fn(string $packageName) => "$rootDir/vendor/$packageName",
+        array_keys($composerJSON['require-dev'] ?? [])
+    ),
+    fn(string $dir) => is_dir($dir)
+);
+
 /** Do not prefix dev dependencies */
-$excludeFiles = array_map(
+$excludeFiles = empty($devDependencies) ? [] : array_map(
     static fn(SplFileInfo $fileInfo) => $fileInfo->getPathName(),
     iterator_to_array(
-        $finder::create()->files()->in(array_map(
-            fn(string $packageName) => "$rootDir/vendor/$packageName",
-            array_keys($composerJSON['require-dev'] ?? [])
-        )),
+        $finder::create()->files()->in($devDependencies),
         false,
     ),
 );
