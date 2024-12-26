@@ -92,13 +92,13 @@ if (!class_exists(UpgraderStatus::class, \false)) {
             $pluginFile = null;
             $themeDirectoryName = null;
             $skin = $upgrader->skin;
-            if (isset($skin->theme_info) && $skin->theme_info instanceof \RH\AdminUtils\WP_Theme) {
+            if (isset($skin->theme_info) && $skin->theme_info instanceof \WP_Theme) {
                 $themeDirectoryName = $skin->theme_info->get_stylesheet();
-            } elseif ($skin instanceof \RH\AdminUtils\Plugin_Upgrader_Skin) {
+            } elseif ($skin instanceof \Plugin_Upgrader_Skin) {
                 if (isset($skin->plugin) && is_string($skin->plugin) && $skin->plugin !== '') {
                     $pluginFile = $skin->plugin;
                 }
-            } elseif ($skin instanceof \RH\AdminUtils\Theme_Upgrader_Skin) {
+            } elseif ($skin instanceof \Theme_Upgrader_Skin) {
                 if (isset($skin->theme) && is_string($skin->theme) && $skin->theme !== '') {
                     $themeDirectoryName = $skin->theme;
                 }
@@ -123,8 +123,8 @@ if (!class_exists(UpgraderStatus::class, \false)) {
          */
         private function identifyPluginByHeaders($searchHeaders)
         {
-            if (!function_exists('RH\AdminUtils\get_plugins')) {
-                require_once ABSPATH . '/wp-admin/includes/plugin.php';
+            if (!function_exists('get_plugins')) {
+                require_once \ABSPATH . '/wp-admin/includes/plugin.php';
             }
             $installedPlugins = get_plugins();
             $matches = array();

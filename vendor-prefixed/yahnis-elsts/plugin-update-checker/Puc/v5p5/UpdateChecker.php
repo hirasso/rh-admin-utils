@@ -3,7 +3,7 @@
 namespace RH\AdminUtils\YahnisElsts\PluginUpdateChecker\v5p5;
 
 use stdClass;
-use RH\AdminUtils\WP_Error;
+use WP_Error;
 if (!class_exists(UpdateChecker::class, \false)) {
     abstract class UpdateChecker
     {
@@ -114,7 +114,7 @@ if (!class_exists(UpdateChecker::class, \false)) {
             //We're not using load_plugin_textdomain() or its siblings because figuring out where
             //the library is located (plugin, mu-plugin, theme, custom wp-content paths) is messy.
             $domain = 'plugin-update-checker';
-            $locale = apply_filters('plugin_locale', (is_admin() && function_exists('RH\AdminUtils\get_user_locale')) ? get_user_locale() : get_locale(), $domain);
+            $locale = apply_filters('plugin_locale', (is_admin() && function_exists('get_user_locale')) ? get_user_locale() : get_locale(), $domain);
             $moFile = $domain . '-' . $locale . '.mo';
             $path = realpath(dirname(__FILE__) . '/../../languages');
             if ($path && file_exists($path)) {
@@ -275,7 +275,7 @@ if (!class_exists(UpdateChecker::class, \false)) {
                     //For themes, the "active" field is a string that contains the theme's directory name.
                     //Pretend that the default theme is active so that we don't reveal the actual theme.
                     if (defined('WP_DEFAULT_THEME')) {
-                        $reportingItems['active'] = WP_DEFAULT_THEME;
+                        $reportingItems['active'] = \WP_DEFAULT_THEME;
                     }
                     //Unfortunately, it doesn't seem to be documented if we can safely remove the "active"
                     //key. So when we don't know the default theme, we'll just leave it as is.
@@ -395,7 +395,7 @@ if (!class_exists(UpdateChecker::class, \false)) {
             }
             $actualWpVersions = array();
             $wpVersion = $GLOBALS['wp_version'];
-            if (function_exists('RH\AdminUtils\get_core_updates')) {
+            if (function_exists('get_core_updates')) {
                 $coreUpdates = get_core_updates();
                 if (is_array($coreUpdates)) {
                     foreach ($coreUpdates as $coreUpdate) {
@@ -736,7 +736,7 @@ if (!class_exists(UpdateChecker::class, \false)) {
          */
         protected function getInstalledTranslations()
         {
-            if (!function_exists('RH\AdminUtils\wp_get_installed_translations')) {
+            if (!function_exists('wp_get_installed_translations')) {
                 return array();
             }
             $installedTranslations = wp_get_installed_translations($this->translationType . 's');

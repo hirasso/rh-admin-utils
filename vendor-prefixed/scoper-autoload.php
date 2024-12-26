@@ -35,20 +35,10 @@ humbug_phpscoper_expose_class('PucReadmeParser', 'RH\AdminUtils\PucReadmeParser'
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases
-if (!function_exists('_cleanup_header_comment')) { function _cleanup_header_comment() { return \RH\AdminUtils\_cleanup_header_comment(...func_get_args()); } }
-if (!function_exists('balanceTags')) { function balanceTags() { return \RH\AdminUtils\balanceTags(...func_get_args()); } }
 if (!function_exists('dd')) { function dd() { return \RH\AdminUtils\dd(...func_get_args()); } }
 if (!function_exists('decodeit')) { function decodeit() { return \RH\AdminUtils\decodeit(...func_get_args()); } }
 if (!function_exists('dump')) { function dump() { return \RH\AdminUtils\dump(...func_get_args()); } }
 if (!function_exists('encodeit')) { function encodeit() { return \RH\AdminUtils\encodeit(...func_get_args()); } }
-if (!function_exists('esc_html')) { function esc_html() { return \RH\AdminUtils\esc_html(...func_get_args()); } }
-if (!function_exists('esc_url')) { function esc_url() { return \RH\AdminUtils\esc_url(...func_get_args()); } }
-if (!function_exists('get_core_updates')) { function get_core_updates() { return \RH\AdminUtils\get_core_updates(...func_get_args()); } }
-if (!function_exists('get_file_data')) { function get_file_data() { return \RH\AdminUtils\get_file_data(...func_get_args()); } }
-if (!function_exists('get_plugin_data')) { function get_plugin_data() { return \RH\AdminUtils\get_plugin_data(...func_get_args()); } }
-if (!function_exists('get_plugins')) { function get_plugins() { return \RH\AdminUtils\get_plugins(...func_get_args()); } }
-if (!function_exists('get_submit_button')) { function get_submit_button() { return \RH\AdminUtils\get_submit_button(...func_get_args()); } }
-if (!function_exists('get_user_locale')) { function get_user_locale() { return \RH\AdminUtils\get_user_locale(...func_get_args()); } }
 if (!function_exists('includeIfExists')) { function includeIfExists() { return \RH\AdminUtils\includeIfExists(...func_get_args()); } }
 if (!function_exists('mb_check_encoding')) { function mb_check_encoding() { return \RH\AdminUtils\mb_check_encoding(...func_get_args()); } }
 if (!function_exists('mb_chr')) { function mb_chr() { return \RH\AdminUtils\mb_chr(...func_get_args()); } }
@@ -95,10 +85,5 @@ if (!function_exists('mb_substr_count')) { function mb_substr_count() { return \
 if (!function_exists('mb_trim')) { function mb_trim() { return \RH\AdminUtils\mb_trim(...func_get_args()); } }
 if (!function_exists('mb_ucfirst')) { function mb_ucfirst() { return \RH\AdminUtils\mb_ucfirst(...func_get_args()); } }
 if (!function_exists('user_sanitize')) { function user_sanitize() { return \RH\AdminUtils\user_sanitize(...func_get_args()); } }
-if (!function_exists('wp_get_installed_translations')) { function wp_get_installed_translations() { return \RH\AdminUtils\wp_get_installed_translations(...func_get_args()); } }
-if (!function_exists('wp_kses')) { function wp_kses() { return \RH\AdminUtils\wp_kses(...func_get_args()); } }
-if (!function_exists('wp_normalize_path')) { function wp_normalize_path() { return \RH\AdminUtils\wp_normalize_path(...func_get_args()); } }
-if (!function_exists('wp_rand')) { function wp_rand() { return \RH\AdminUtils\wp_rand(...func_get_args()); } }
-if (!function_exists('wp_strip_all_tags')) { function wp_strip_all_tags() { return \RH\AdminUtils\wp_strip_all_tags(...func_get_args()); } }
 
 return $loader;

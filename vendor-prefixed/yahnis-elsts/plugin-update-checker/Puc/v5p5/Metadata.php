@@ -4,7 +4,7 @@ namespace RH\AdminUtils\YahnisElsts\PluginUpdateChecker\v5p5;
 
 use LogicException;
 use stdClass;
-use RH\AdminUtils\WP_Error;
+use WP_Error;
 if (!class_exists(Metadata::class, \false)) {
     /**
      * A base container for holding information about updates and plugin metadata.

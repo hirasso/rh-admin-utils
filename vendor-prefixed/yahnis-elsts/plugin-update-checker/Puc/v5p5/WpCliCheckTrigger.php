@@ -2,7 +2,7 @@
 
 namespace RH\AdminUtils\YahnisElsts\PluginUpdateChecker\v5p5;
 
-use RH\AdminUtils\WP_CLI;
+use WP_CLI;
 /**
  * Triggers an update check when relevant WP-CLI commands are executed.
  *

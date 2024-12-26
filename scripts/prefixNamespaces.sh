@@ -11,6 +11,12 @@ rm -rf tmp && mkdir tmp && cp composer.json tmp/composer.json
 # require WordPress excludes
 composer require sniccowp/php-scoper-wordpress-excludes --no-scripts --working-dir=tmp
 
+# copy wordpress excludes to the root of tmp/
+cp -Rf tmp/vendor/sniccowp/php-scoper-wordpress-excludes tmp/
+
+# remove WordPress excludes
+composer remove sniccowp/php-scoper-wordpress-excludes --no-scripts --working-dir=tmp
+
 # Only install no-dev dependencies
 composer install --no-dev --no-scripts --working-dir=tmp
 
