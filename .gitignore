@@ -10,7 +10,6 @@ node_modules/
 
 # Composer
 vendor/
-vendor-prefixed/
 
 # Scoper
 bin/*.phar
