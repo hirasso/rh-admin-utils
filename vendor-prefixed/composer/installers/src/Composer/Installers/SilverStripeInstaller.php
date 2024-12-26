@@ -1,22 +1,12 @@
 <?php
-/**
- * @license MIT
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
- */
 
 namespace RH\AdminUtils\Composer\Installers;
 
-use Composer\Package\PackageInterface;
-
+use RH\AdminUtils\Composer\Package\PackageInterface;
 class SilverStripeInstaller extends BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'module' => '{$name}/',
-        'theme'  => 'themes/{$name}/',
-    );
-
+    protected $locations = array('module' => '{$name}/', 'theme' => 'themes/{$name}/');
     /**
      * Return the install path based on package type.
      *
@@ -25,14 +15,9 @@ class SilverStripeInstaller extends BaseInstaller
      */
     public function getInstallPath(PackageInterface $package, string $frameworkType = ''): string
     {
-        if (
-            $package->getName() == 'silverstripe/framework'
-            && preg_match('/^\d+\.\d+\.\d+/', $package->getVersion())
-            && version_compare($package->getVersion(), '2.999.999') < 0
-        ) {
+        if ($package->getName() == 'silverstripe/framework' && preg_match('/^\d+\.\d+\.\d+/', $package->getVersion()) && version_compare($package->getVersion(), '2.999.999') < 0) {
             return $this->templatePath($this->locations['module'], array('name' => 'sapphire'));
         }
-
         return parent::getInstallPath($package, $frameworkType);
     }
 }

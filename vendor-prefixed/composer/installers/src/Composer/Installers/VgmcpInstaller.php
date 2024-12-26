@@ -1,20 +1,11 @@
 <?php
-/**
- * @license MIT
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
- */
 
 namespace RH\AdminUtils\Composer\Installers;
 
 class VgmcpInstaller extends BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'bundle' => 'src/{$vendor}/{$name}/',
-        'theme' => 'themes/{$name}/'
-    );
-
+    protected $locations = array('bundle' => 'src/{$vendor}/{$name}/', 'theme' => 'themes/{$name}/');
     /**
      * Format package name.
      *
@@ -28,14 +19,11 @@ class VgmcpInstaller extends BaseInstaller
         if ($vars['type'] === 'vgmcp-bundle') {
             return $this->inflectPluginVars($vars);
         }
-
         if ($vars['type'] === 'vgmcp-theme') {
             return $this->inflectThemeVars($vars);
         }
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -45,10 +33,8 @@ class VgmcpInstaller extends BaseInstaller
         $vars['name'] = $this->pregReplace('/-bundle$/', '', $vars['name']);
         $vars['name'] = str_replace(array('-', '_'), ' ', $vars['name']);
         $vars['name'] = str_replace(' ', '', ucwords($vars['name']));
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -58,7 +44,6 @@ class VgmcpInstaller extends BaseInstaller
         $vars['name'] = $this->pregReplace('/-theme$/', '', $vars['name']);
         $vars['name'] = str_replace(array('-', '_'), ' ', $vars['name']);
         $vars['name'] = str_replace(' ', '', ucwords($vars['name']));
-
         return $vars;
     }
 }

@@ -7,15 +7,11 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
  */
-
 namespace RH\AdminUtils\Symfony\Component\VarDumper\Caster;
 
-use ProxyManager\Proxy\ProxyInterface;
+use RH\AdminUtils\ProxyManager\Proxy\ProxyInterface;
 use RH\AdminUtils\Symfony\Component\VarDumper\Cloner\Stub;
-
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  *
@@ -26,10 +22,9 @@ class ProxyManagerCaster
     public static function castProxy(ProxyInterface $c, array $a, Stub $stub, bool $isNested): array
     {
         if ($parent = get_parent_class($c)) {
-            $stub->class .= ' - '.$parent;
+            $stub->class .= ' - ' . $parent;
         }
         $stub->class .= '@proxy';
-
         return $a;
     }
 }

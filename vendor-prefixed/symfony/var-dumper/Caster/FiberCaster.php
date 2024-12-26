@@ -7,14 +7,10 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
  */
-
 namespace RH\AdminUtils\Symfony\Component\VarDumper\Caster;
 
 use RH\AdminUtils\Symfony\Component\VarDumper\Cloner\Stub;
-
 /**
  * Casts Fiber related classes to array representation.
  *
@@ -25,7 +21,6 @@ final class FiberCaster
     public static function castFiber(\Fiber $fiber, array $a, Stub $stub, bool $isNested, int $filter = 0): array
     {
         $prefix = Caster::PREFIX_VIRTUAL;
-
         if ($fiber->isTerminated()) {
             $status = 'terminated';
         } elseif ($fiber->isRunning()) {
@@ -37,9 +32,7 @@ final class FiberCaster
         } else {
             $status = 'not started';
         }
-
-        $a[$prefix.'status'] = $status;
-
+        $a[$prefix . 'status'] = $status;
         return $a;
     }
 }

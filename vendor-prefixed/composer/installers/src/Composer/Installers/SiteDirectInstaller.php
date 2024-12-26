@@ -1,20 +1,11 @@
 <?php
-/**
- * @license MIT
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
- */
 
 namespace RH\AdminUtils\Composer\Installers;
 
 class SiteDirectInstaller extends BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'module' => 'modules/{$vendor}/{$name}/',
-        'plugin' => 'plugins/{$vendor}/{$name}/'
-    );
-
+    protected $locations = array('module' => 'modules/{$vendor}/{$name}/', 'plugin' => 'plugins/{$vendor}/{$name}/');
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -23,17 +14,15 @@ class SiteDirectInstaller extends BaseInstaller
     {
         return $this->parseVars($vars);
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
      */
     protected function parseVars(array $vars): array
     {
-        $vars['vendor'] = strtolower($vars['vendor']) == 'sitedirect' ? 'SiteDirect' : $vars['vendor'];
+        $vars['vendor'] = (strtolower($vars['vendor']) == 'sitedirect') ? 'SiteDirect' : $vars['vendor'];
         $vars['name'] = str_replace(array('-', '_'), ' ', $vars['name']);
         $vars['name'] = str_replace(' ', '', ucwords($vars['name']));
-
         return $vars;
     }
 }

@@ -7,10 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
  */
-
 namespace RH\AdminUtils\Symfony\Component\VarDumper\Dumper\ContextProvider;
 
 /**
@@ -25,10 +22,6 @@ final class CliContextProvider implements ContextProviderInterface
         if ('cli' !== \PHP_SAPI) {
             return null;
         }
-
-        return [
-            'command_line' => $commandLine = implode(' ', $_SERVER['argv'] ?? []),
-            'identifier' => hash('crc32b', $commandLine.$_SERVER['REQUEST_TIME_FLOAT']),
-        ];
+        return ['command_line' => $commandLine = implode(' ', $_SERVER['argv'] ?? []), 'identifier' => hash('crc32b', $commandLine . $_SERVER['REQUEST_TIME_FLOAT'])];
     }
 }

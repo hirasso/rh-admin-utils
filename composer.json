@@ -13,13 +13,12 @@
   "require": {
     "php": ">=8.2",
     "composer/installers": "^1.0 || ^2.0",
-    "symfony/var-dumper": "^7.1"
+    "symfony/var-dumper": "^7.1",
+    "yahnis-elsts/plugin-update-checker": "^5.5"
   },
   "scripts": {
       "prefix-namespaces": [
-          "sh -c 'test -f ./bin/strauss.phar || curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/latest/download/strauss.phar'",
-          "@php bin/strauss.phar",
-          "composer dump-autoload"
+          "./scripts/prefixNamespaces.sh"
       ],
       "post-install-cmd": [
           "@prefix-namespaces"

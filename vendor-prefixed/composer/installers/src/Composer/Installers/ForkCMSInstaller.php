@@ -1,20 +1,11 @@
 <?php
-/**
- * @license MIT
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
- */
 
 namespace RH\AdminUtils\Composer\Installers;
 
 class ForkCMSInstaller extends BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = [
-        'module'    => 'src/Modules/{$name}/',
-        'theme'     => 'src/Themes/{$name}/'
-    ];
-
+    protected $locations = ['module' => 'src/Modules/{$name}/', 'theme' => 'src/Themes/{$name}/'];
     /**
      * Format package name.
      *
@@ -27,14 +18,11 @@ class ForkCMSInstaller extends BaseInstaller
         if ($vars['type'] === 'fork-cms-module') {
             return $this->inflectModuleVars($vars);
         }
-
         if ($vars['type'] === 'fork-cms-theme') {
             return $this->inflectThemeVars($vars);
         }
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -42,12 +30,12 @@ class ForkCMSInstaller extends BaseInstaller
     protected function inflectModuleVars(array $vars): array
     {
         $vars['name'] = $this->pregReplace('/^fork-cms-|-module|ForkCMS|ForkCms|Forkcms|forkcms|Module$/', '', $vars['name']);
-        $vars['name'] = str_replace(array('-', '_'), ' ', $vars['name']); // replace hyphens with spaces
-        $vars['name'] = str_replace(' ', '', ucwords($vars['name'])); // make module name camelcased
-
+        $vars['name'] = str_replace(array('-', '_'), ' ', $vars['name']);
+        // replace hyphens with spaces
+        $vars['name'] = str_replace(' ', '', ucwords($vars['name']));
+        // make module name camelcased
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -55,9 +43,10 @@ class ForkCMSInstaller extends BaseInstaller
     protected function inflectThemeVars(array $vars): array
     {
         $vars['name'] = $this->pregReplace('/^fork-cms-|-theme|ForkCMS|ForkCms|Forkcms|forkcms|Theme$/', '', $vars['name']);
-        $vars['name'] = str_replace(array('-', '_'), ' ', $vars['name']); // replace hyphens with spaces
-        $vars['name'] = str_replace(' ', '', ucwords($vars['name'])); // make theme name camelcased
-
+        $vars['name'] = str_replace(array('-', '_'), ' ', $vars['name']);
+        // replace hyphens with spaces
+        $vars['name'] = str_replace(' ', '', ucwords($vars['name']));
+        // make theme name camelcased
         return $vars;
     }
 }

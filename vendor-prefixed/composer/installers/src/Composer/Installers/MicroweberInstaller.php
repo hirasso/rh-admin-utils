@@ -1,24 +1,11 @@
 <?php
-/**
- * @license MIT
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
- */
 
 namespace RH\AdminUtils\Composer\Installers;
 
 class MicroweberInstaller extends BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'module' => 'userfiles/modules/{$install_item_dir}/',
-        'module-skin' => 'userfiles/modules/{$install_item_dir}/templates/',
-        'template' => 'userfiles/templates/{$install_item_dir}/',
-        'element' => 'userfiles/elements/{$install_item_dir}/',
-        'vendor' => 'vendor/{$install_item_dir}/',
-        'components' => 'components/{$install_item_dir}/'
-    );
-
+    protected $locations = array('module' => 'userfiles/modules/{$install_item_dir}/', 'module-skin' => 'userfiles/modules/{$install_item_dir}/templates/', 'template' => 'userfiles/templates/{$install_item_dir}/', 'element' => 'userfiles/elements/{$install_item_dir}/', 'vendor' => 'vendor/{$install_item_dir}/', 'components' => 'components/{$install_item_dir}/');
     /**
      * Format package name.
      *
@@ -57,10 +44,8 @@ class MicroweberInstaller extends BaseInstaller
                 return $this->inflectElementVars($vars);
             }
         }
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -69,10 +54,8 @@ class MicroweberInstaller extends BaseInstaller
     {
         $vars['install_item_dir'] = $this->pregReplace('/-template$/', '', $vars['install_item_dir']);
         $vars['install_item_dir'] = $this->pregReplace('/template-$/', '', $vars['install_item_dir']);
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -81,10 +64,8 @@ class MicroweberInstaller extends BaseInstaller
     {
         $vars['install_item_dir'] = $this->pregReplace('/-templates$/', '', $vars['install_item_dir']);
         $vars['install_item_dir'] = $this->pregReplace('/templates-$/', '', $vars['install_item_dir']);
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -94,10 +75,8 @@ class MicroweberInstaller extends BaseInstaller
         $vars['install_item_dir'] = $this->pregReplace('/-providers$/', '', $vars['install_item_dir']);
         $vars['install_item_dir'] = $this->pregReplace('/-provider$/', '', $vars['install_item_dir']);
         $vars['install_item_dir'] = $this->pregReplace('/-adapter$/', '', $vars['install_item_dir']);
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -106,10 +85,8 @@ class MicroweberInstaller extends BaseInstaller
     {
         $vars['install_item_dir'] = $this->pregReplace('/-module$/', '', $vars['install_item_dir']);
         $vars['install_item_dir'] = $this->pregReplace('/module-$/', '', $vars['install_item_dir']);
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -118,10 +95,8 @@ class MicroweberInstaller extends BaseInstaller
     {
         $vars['install_item_dir'] = $this->pregReplace('/-modules$/', '', $vars['install_item_dir']);
         $vars['install_item_dir'] = $this->pregReplace('/modules-$/', '', $vars['install_item_dir']);
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -130,10 +105,8 @@ class MicroweberInstaller extends BaseInstaller
     {
         $vars['install_item_dir'] = $this->pregReplace('/-skin$/', '', $vars['install_item_dir']);
         $vars['install_item_dir'] = $this->pregReplace('/skin-$/', '', $vars['install_item_dir']);
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -144,7 +117,6 @@ class MicroweberInstaller extends BaseInstaller
         $vars['install_item_dir'] = $this->pregReplace('/elements-$/', '', $vars['install_item_dir']);
         $vars['install_item_dir'] = $this->pregReplace('/-element$/', '', $vars['install_item_dir']);
         $vars['install_item_dir'] = $this->pregReplace('/element-$/', '', $vars['install_item_dir']);
-
         return $vars;
     }
 }

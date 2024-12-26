@@ -1,22 +1,13 @@
 <?php
-/**
- * @license MIT
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
- */
 
 namespace RH\AdminUtils\Composer\Installers;
 
-use Composer\DependencyResolver\Pool;
-use Composer\Semver\Constraint\Constraint;
-
+use RH\AdminUtils\Composer\DependencyResolver\Pool;
+use RH\AdminUtils\Composer\Semver\Constraint\Constraint;
 class CakePHPInstaller extends BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'plugin' => 'Plugin/{$name}/',
-    );
-
+    protected $locations = array('plugin' => 'Plugin/{$name}/');
     /**
      * Format package name to CamelCase
      */
@@ -25,29 +16,25 @@ class CakePHPInstaller extends BaseInstaller
         if ($this->matchesCakeVersion('>=', '3.0.0')) {
             return $vars;
         }
-
         $nameParts = explode('/', $vars['name']);
         foreach ($nameParts as &$value) {
-            $value = strtolower($this->pregReplace('/(?<=\\w)([A-Z])/', '_\\1', $value));
+            $value = strtolower($this->pregReplace('/(?<=\w)([A-Z])/', 'RH\AdminUtils\_\1', $value));
             $value = str_replace(array('-', '_'), ' ', $value);
             $value = str_replace(' ', '', ucwords($value));
         }
         $vars['name'] = implode('/', $nameParts);
-
         return $vars;
     }
-
     /**
      * Change the default plugin location when cakephp >= 3.0
      */
     public function getLocations(string $frameworkType): array
     {
         if ($this->matchesCakeVersion('>=', '3.0.0')) {
-            $this->locations['plugin'] =  $this->composer->getConfig()->get('vendor-dir') . '/{$vendor}/{$name}/';
+            $this->locations['plugin'] = $this->composer->getConfig()->get('vendor-dir') . '/{$vendor}/{$name}/';
         }
         return $this->locations;
     }
-
     /**
      * Check if CakePHP version matches against a version
      *
@@ -58,15 +45,13 @@ class CakePHPInstaller extends BaseInstaller
         $repositoryManager = $this->composer->getRepositoryManager();
         /** @phpstan-ignore-next-line */
         if (!$repositoryManager) {
-            return false;
+            return \false;
         }
-
         $repos = $repositoryManager->getLocalRepository();
         /** @phpstan-ignore-next-line */
         if (!$repos) {
-            return false;
+            return \false;
         }
-
         return $repos->findPackage('cakephp/cakephp', new Constraint($matcher, $version)) !== null;
     }
 }

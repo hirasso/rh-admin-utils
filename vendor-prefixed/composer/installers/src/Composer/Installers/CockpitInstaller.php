@@ -1,19 +1,11 @@
 <?php
-/**
- * @license MIT
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
- */
 
 namespace RH\AdminUtils\Composer\Installers;
 
 class CockpitInstaller extends BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'module' => 'cockpit/modules/addons/{$name}/',
-    );
-
+    protected $locations = array('module' => 'cockpit/modules/addons/{$name}/');
     /**
      * Format module name.
      *
@@ -24,10 +16,8 @@ class CockpitInstaller extends BaseInstaller
         if ($vars['type'] == 'cockpit-module') {
             return $this->inflectModuleVars($vars);
         }
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -35,7 +25,6 @@ class CockpitInstaller extends BaseInstaller
     public function inflectModuleVars(array $vars): array
     {
         $vars['name'] = ucfirst($this->pregReplace('/cockpit-/i', '', $vars['name']));
-
         return $vars;
     }
 }

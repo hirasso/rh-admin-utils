@@ -11,8 +11,8 @@ node_modules/
 # Composer
 vendor/
 
-# Strauss
-bin/strauss.phar
+# Scoper
+bin/*.phar
 
 # Dist folder
 dist/

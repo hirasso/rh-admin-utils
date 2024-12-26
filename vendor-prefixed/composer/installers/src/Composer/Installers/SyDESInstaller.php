@@ -1,20 +1,11 @@
 <?php
-/**
- * @license MIT
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
- */
 
 namespace RH\AdminUtils\Composer\Installers;
 
 class SyDESInstaller extends BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'module' => 'app/modules/{$name}/',
-        'theme'  => 'themes/{$name}/',
-    );
-
+    protected $locations = array('module' => 'app/modules/{$name}/', 'theme' => 'themes/{$name}/');
     /**
      * Format module name.
      *
@@ -25,14 +16,11 @@ class SyDESInstaller extends BaseInstaller
         if ($vars['type'] == 'sydes-module') {
             return $this->inflectModuleVars($vars);
         }
-
         if ($vars['type'] === 'sydes-theme') {
             return $this->inflectThemeVars($vars);
         }
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -42,10 +30,8 @@ class SyDESInstaller extends BaseInstaller
         $vars['name'] = $this->pregReplace('/(^sydes-|-module$)/i', '', $vars['name']);
         $vars['name'] = str_replace(array('-', '_'), ' ', $vars['name']);
         $vars['name'] = str_replace(' ', '', ucwords($vars['name']));
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -54,7 +40,6 @@ class SyDESInstaller extends BaseInstaller
     {
         $vars['name'] = $this->pregReplace('/(^sydes-|-theme$)/', '', $vars['name']);
         $vars['name'] = strtolower($vars['name']);
-
         return $vars;
     }
 }

@@ -1,16 +1,10 @@
 <?php
-/**
- * @license MIT
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
- */
 
 namespace RH\AdminUtils\Composer\Installers;
 
-use Composer\IO\IOInterface;
-use Composer\Composer;
-use Composer\Package\PackageInterface;
-
+use RH\AdminUtils\Composer\IO\IOInterface;
+use RH\AdminUtils\Composer\Composer;
+use RH\AdminUtils\Composer\Package\PackageInterface;
 abstract class BaseInstaller
 {
     /** @var array<string, string> */
@@ -21,7 +15,6 @@ abstract class BaseInstaller
     protected $package;
     /** @var IOInterface */
     protected $io;
-
     /**
      * Initializes base installer.
      */
@@ -31,46 +24,38 @@ abstract class BaseInstaller
         $this->package = $package;
         $this->io = $io;
     }
-
     /**
      * Return the install path based on package type.
      */
     public function getInstallPath(PackageInterface $package, string $frameworkType = ''): string
     {
         $type = $this->package->getType();
-
         $prettyName = $this->package->getPrettyName();
-        if (strpos($prettyName, '/') !== false) {
+        if (strpos($prettyName, '/') !== \false) {
             list($vendor, $name) = explode('/', $prettyName);
         } else {
             $vendor = '';
             $name = $prettyName;
         }
-
         $availableVars = $this->inflectPackageVars(compact('name', 'vendor', 'type'));
-
         $extra = $package->getExtra();
         if (!empty($extra['installer-name'])) {
             $availableVars['name'] = $extra['installer-name'];
         }
-
         $extra = $this->composer->getPackage()->getExtra();
         if (!empty($extra['installer-paths'])) {
             $customPath = $this->mapCustomInstallPaths($extra['installer-paths'], $prettyName, $type, $vendor);
-            if ($customPath !== false) {
+            if ($customPath !== \false) {
                 return $this->templatePath($customPath, $availableVars);
             }
         }
-
         $packageType = substr($type, strlen($frameworkType) + 1);
         $locations = $this->getLocations($frameworkType);
         if (!isset($locations[$packageType])) {
             throw new \InvalidArgumentException(sprintf('Package type "%s" is not supported', $type));
         }
-
         return $this->templatePath($locations[$packageType], $availableVars);
     }
-
     /**
      * For an installer to override to modify the vars per installer.
      *
@@ -81,7 +66,6 @@ abstract class BaseInstaller
     {
         return $vars;
     }
-
     /**
      * Gets the installer's locations
      *
@@ -91,7 +75,6 @@ abstract class BaseInstaller
     {
         return $this->locations;
     }
-
     /**
      * Replace vars in a path
      *
@@ -99,19 +82,17 @@ abstract class BaseInstaller
      */
     protected function templatePath(string $path, array $vars = array()): string
     {
-        if (strpos($path, '{') !== false) {
+        if (strpos($path, '{') !== \false) {
             extract($vars);
             preg_match_all('@\{\$([A-Za-z0-9_]*)\}@i', $path, $matches);
             if (!empty($matches[1])) {
                 foreach ($matches[1] as $var) {
-                    $path = str_replace('{$' . $var . '}', $$var, $path);
+                    $path = str_replace('{$' . $var . '}', ${$var}, $path);
                 }
             }
         }
-
         return $path;
     }
-
     /**
      * Search through a passed paths array for a custom install path.
      *
@@ -126,17 +107,14 @@ abstract class BaseInstaller
                 return $path;
             }
         }
-
-        return false;
+        return \false;
     }
-
     protected function pregReplace(string $pattern, string $replacement, string $subject): string
     {
         $result = preg_replace($pattern, $replacement, $subject);
         if (null === $result) {
-            throw new \RuntimeException('Failed to run preg_replace with '.$pattern.': '.preg_last_error());
+            throw new \RuntimeException('Failed to run preg_replace with ' . $pattern . ': ' . preg_last_error());
         }
-
         return $result;
     }
 }

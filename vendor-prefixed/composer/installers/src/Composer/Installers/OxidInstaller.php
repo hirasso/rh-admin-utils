@@ -1,25 +1,13 @@
 <?php
-/**
- * @license MIT
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
- */
 
 namespace RH\AdminUtils\Composer\Installers;
 
-use Composer\Package\PackageInterface;
-
+use RH\AdminUtils\Composer\Package\PackageInterface;
 class OxidInstaller extends BaseInstaller
 {
     const VENDOR_PATTERN = '/^modules\/(?P<vendor>.+)\/.+/';
-
     /** @var array<string, string> */
-    protected $locations = array(
-        'module'    => 'modules/{$name}/',
-        'theme'  => 'application/views/{$name}/',
-        'out'    => 'out/{$name}/',
-    );
-
+    protected $locations = array('module' => 'modules/{$name}/', 'theme' => 'application/views/{$name}/', 'out' => 'out/{$name}/');
     public function getInstallPath(PackageInterface $package, string $frameworkType = ''): string
     {
         $installPath = parent::getInstallPath($package, $frameworkType);
@@ -29,7 +17,6 @@ class OxidInstaller extends BaseInstaller
         }
         return $installPath;
     }
-
     /**
      * Makes sure there is a vendormetadata.php file inside
      * the vendor folder if there is a vendor folder.
@@ -41,13 +28,11 @@ class OxidInstaller extends BaseInstaller
         if (!$hasVendorDirectory) {
             return;
         }
-
         $vendorDirectory = $matches['vendor'];
         $vendorPath = getcwd() . '/modules/' . $vendorDirectory;
         if (!file_exists($vendorPath)) {
-            mkdir($vendorPath, 0755, true);
+            mkdir($vendorPath, 0755, \true);
         }
-
         $vendorMetaDataPath = $vendorPath . '/vendormetadata.php';
         touch($vendorMetaDataPath);
     }

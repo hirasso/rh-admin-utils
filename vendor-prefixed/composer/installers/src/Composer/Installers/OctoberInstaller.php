@@ -1,21 +1,11 @@
 <?php
-/**
- * @license MIT
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
- */
 
 namespace RH\AdminUtils\Composer\Installers;
 
 class OctoberInstaller extends BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'module'    => 'modules/{$name}/',
-        'plugin'    => 'plugins/{$vendor}/{$name}/',
-        'theme'     => 'themes/{$vendor}-{$name}/'
-    );
-
+    protected $locations = array('module' => 'modules/{$name}/', 'plugin' => 'plugins/{$vendor}/{$name}/', 'theme' => 'themes/{$vendor}-{$name}/');
     /**
      * Format package name.
      *
@@ -28,14 +18,11 @@ class OctoberInstaller extends BaseInstaller
         if ($vars['type'] === 'october-plugin') {
             return $this->inflectPluginVars($vars);
         }
-
         if ($vars['type'] === 'october-theme') {
             return $this->inflectThemeVars($vars);
         }
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -44,10 +31,8 @@ class OctoberInstaller extends BaseInstaller
     {
         $vars['name'] = $this->pregReplace('/^oc-|-plugin$/', '', $vars['name']);
         $vars['vendor'] = $this->pregReplace('/[^a-z0-9_]/i', '', $vars['vendor']);
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -56,7 +41,6 @@ class OctoberInstaller extends BaseInstaller
     {
         $vars['name'] = $this->pregReplace('/^oc-|-theme$/', '', $vars['name']);
         $vars['vendor'] = $this->pregReplace('/[^a-z0-9_]/i', '', $vars['vendor']);
-
         return $vars;
     }
 }

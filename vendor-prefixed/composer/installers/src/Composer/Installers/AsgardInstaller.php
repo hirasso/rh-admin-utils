@@ -1,20 +1,11 @@
 <?php
-/**
- * @license MIT
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
- */
 
 namespace RH\AdminUtils\Composer\Installers;
 
 class AsgardInstaller extends BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'module' => 'Modules/{$name}/',
-        'theme' => 'Themes/{$name}/'
-    );
-
+    protected $locations = array('module' => 'Modules/{$name}/', 'theme' => 'Themes/{$name}/');
     /**
      * Format package name.
      *
@@ -27,14 +18,11 @@ class AsgardInstaller extends BaseInstaller
         if ($vars['type'] === 'asgard-module') {
             return $this->inflectPluginVars($vars);
         }
-
         if ($vars['type'] === 'asgard-theme') {
             return $this->inflectThemeVars($vars);
         }
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -44,10 +32,8 @@ class AsgardInstaller extends BaseInstaller
         $vars['name'] = $this->pregReplace('/-module$/', '', $vars['name']);
         $vars['name'] = str_replace(array('-', '_'), ' ', $vars['name']);
         $vars['name'] = str_replace(' ', '', ucwords($vars['name']));
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -57,7 +43,6 @@ class AsgardInstaller extends BaseInstaller
         $vars['name'] = $this->pregReplace('/-theme$/', '', $vars['name']);
         $vars['name'] = str_replace(array('-', '_'), ' ', $vars['name']);
         $vars['name'] = str_replace(' ', '', ucwords($vars['name']));
-
         return $vars;
     }
 }

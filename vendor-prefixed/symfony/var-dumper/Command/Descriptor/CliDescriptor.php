@@ -7,18 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * Modified by hirasso on 25-December-2024 using {@see https://github.com/BrianHenryIE/strauss}.
  */
-
 namespace RH\AdminUtils\Symfony\Component\VarDumper\Command\Descriptor;
 
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use RH\AdminUtils\Symfony\Component\Console\Input\ArrayInput;
+use RH\AdminUtils\Symfony\Component\Console\Output\OutputInterface;
+use RH\AdminUtils\Symfony\Component\Console\Style\SymfonyStyle;
 use RH\AdminUtils\Symfony\Component\VarDumper\Cloner\Data;
 use RH\AdminUtils\Symfony\Component\VarDumper\Dumper\CliDumper;
-
 /**
  * Describe collected data clones for cli output.
  *
@@ -28,53 +24,43 @@ use RH\AdminUtils\Symfony\Component\VarDumper\Dumper\CliDumper;
  */
 class CliDescriptor implements DumpDescriptorInterface
 {
-    private CliDumper $dumper;
     private mixed $lastIdentifier = null;
-
-    public function __construct(CliDumper $dumper)
+    public function __construct(private CliDumper $dumper)
     {
-        $this->dumper = $dumper;
     }
-
     public function describe(OutputInterface $output, Data $data, array $context, int $clientId): void
     {
-        $io = $output instanceof SymfonyStyle ? $output : new SymfonyStyle(new ArrayInput([]), $output);
+        $io = ($output instanceof SymfonyStyle) ? $output : new SymfonyStyle(new ArrayInput([]), $output);
         $this->dumper->setColors($output->isDecorated());
-
         $rows = [['date', date('r', (int) $context['timestamp'])]];
         $lastIdentifier = $this->lastIdentifier;
         $this->lastIdentifier = $clientId;
-
-        $section = "Received from client #$clientId";
+        $section = "Received from client #{$clientId}";
         if (isset($context['request'])) {
             $request = $context['request'];
             $this->lastIdentifier = $request['identifier'];
-            $section = sprintf('%s %s', $request['method'], $request['uri']);
+            $section = \sprintf('%s %s', $request['method'], $request['uri']);
             if ($controller = $request['controller']) {
-                $rows[] = ['controller', rtrim($this->dumper->dump($controller, true), "\n")];
+                $rows[] = ['controller', rtrim($this->dumper->dump($controller, \true), "\n")];
             }
         } elseif (isset($context['cli'])) {
             $this->lastIdentifier = $context['cli']['identifier'];
-            $section = '$ '.$context['cli']['command_line'];
+            $section = '$ ' . $context['cli']['command_line'];
         }
-
         if ($this->lastIdentifier !== $lastIdentifier) {
             $io->section($section);
         }
-
         if (isset($context['source'])) {
             $source = $context['source'];
-            $sourceInfo = sprintf('%s on line %d', $source['name'], $source['line']);
+            $sourceInfo = \sprintf('%s on line %d', $source['name'], $source['line']);
             if ($fileLink = $source['file_link'] ?? null) {
-                $sourceInfo = sprintf('<href=%s>%s</>', $fileLink, $sourceInfo);
+                $sourceInfo = \sprintf('<href=%s>%s</>', $fileLink, $sourceInfo);
             }
             $rows[] = ['source', $sourceInfo];
             $file = $source['file_relative'] ?? $source['file'];
             $rows[] = ['file', $file];
         }
-
         $io->table([], $rows);
-
         $this->dumper->dump($data);
         $io->newLine();
     }
