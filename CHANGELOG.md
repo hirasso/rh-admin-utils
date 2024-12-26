@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.27
+
+### Patch Changes
+
+- 2c74ccf: Only create vendor-prefixed in releases
+
 ## 2.3.26
 
 ### Patch Changes
