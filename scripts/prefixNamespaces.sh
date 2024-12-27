@@ -2,19 +2,30 @@
 
 # Scopes no-dev composer dependencies to avoid version conflicts in WordPress
 
+# Stop execution on errors
+set -e
+
+# Validate that we are at the project root
+if [[ ! -f "$PWD/.gitignore" ]]; then
+  echo "❌ "$(basename "$0")" must run from the package root"
+  exit 1
+fi
+
+echo "💡 Prefixing namespaces in the vendors folder..."
+
 # download php-scoper.phar
 test -f bin/php-scoper.phar || curl -sLo bin/php-scoper.phar https://github.com/humbug/php-scoper/releases/latest/download/php-scoper.phar
 
 # require WordPress excludes
 composer require sniccowp/php-scoper-wordpress-excludes --no-scripts
 
-# copy wordpress excludes to the top level
+# copy WordPress excludes to the top level
 cp -Rf vendor/sniccowp/php-scoper-wordpress-excludes php-scoper-wordpress-excludes
 
 # remove WordPress excludes
 composer remove sniccowp/php-scoper-wordpress-excludes --no-scripts
 
-# Install only no-dev dependencies when releasing
+# Install only no-dev dependencies in CI
 if [ "$GITHUB_ACTIONS" = "true" ]; then
   composer install --no-dev --no-scripts
 fi

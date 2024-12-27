@@ -20,6 +20,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: true
+
     steps:
       - name: Configure Git
         run: |
@@ -29,11 +32,17 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # Setup PNPM first, so that we use the cache in the next action
+      - name: Set up PHP and Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+
+      # Setup PNPM before node.js, so that we use the cache in the next action
       - name: Setup PNPM
         uses: pnpm/action-setup@v4
 
-      - name: Setup Node.js
+      - name: Setup node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -44,6 +53,21 @@ jobs:
 
       - name: Require Build
         run: pnpm build
+
+      - name: Checkout dist repo
+        uses: actions/checkout@v3
+        with:
+          repository: hirasso/rh-admin-utils-dist
+          ref: empty
+          path: dist
+          # secrets.GITHUB_TOKEN would not be enough to push to the dist repo (needed later)
+          token: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
+
+      # Run this before changesets, to prevent invalid releases from being bublished
+      - name: Prepare dist repo
+        run: |
+          ./scripts/prefixNamespaces.sh
+          ./scripts/prepareDistFolder.sh
 
       # Run changesets action either if there are unreleased changesets (= a PR must be created)
       # or if the commit message matches the release PR (= new versions must be published to NPM)
@@ -58,46 +82,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
 
-      - name: Checkout dist repo
-        uses: actions/checkout@v3
-        # GitHub Actions outputs are strings and the string 'false' converts to
-        # `true` because it isn't the empty string.
-        if: steps.cs.outputs.published == 'true'
-        with:
-          repository: hirasso/rh-admin-utils-dist
-          ref: empty
-          path: dist
-          # secrets.GITHUB_TOKEN would not be enough to push to the dist repo
-          token: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
-
       - name: Push release to dist repo
-        # GitHub Actions outputs are strings and the string 'false' converts to
-        # `true` because it isn't the empty string.
         if: steps.cs.outputs.published == 'true'
-        # working-directory: dist
         run: |
-          echo "Package was published (${PACKAGE_VERSION}). A release will be pushed."
-          PACKAGE_VERSION=$(node ./scripts/logVersion.js)
-
-          if [[ -z "$PACKAGE_VERSION" ]]; then
-            echo "Empty package version. Exiting."
-            exit 1
-          fi
-
-          echo "Checking out the empty root commit..."
-          git -C dist checkout --detach empty
-
-          echo "Prefixing vendors..."
-          ./scripts/prefixNamespaces.sh
-
-          echo "Preparing the dist folder..."
-          ./scripts/prepareDistFolder.sh
-
-          echo "Committing and pushing new release: '${PACKAGE_VERSION}'..."
-          cd dist/
-          git add .
-          git commit -m "Release: rh-admin-utils@${PACKAGE_VERSION}"
-          git tag "${PACKAGE_VERSION}"
-          git push origin "${PACKAGE_VERSION}"
-
-          echo "Done."
+          ./scripts/pushReleaseToDist.sh

@@ -2,31 +2,43 @@
 
 # Prepares the dist folder, including untracked but required dist files
 
+# Stop execution on errors
+set -e
+
+echo "💡 Preparing the dist folder..."
+
+# Validate that we are at the project root
+if [[ ! -f "$PWD/.gitignore" ]]; then
+  echo "❌ "$(basename "$0")" must run from the package root"
+  exit 1
+fi
+
 # Make sure `prefixNamespaces.sh` was executed
 if [ ! -d "vendor" ]; then
-  echo "Error: The 'vendor' folder does not exist. Please run prefixNamespaces.sh first."
+  echo "❌ The 'vendor' folder does not exist. Please run prefixNamespaces.sh first."
   exit 1
 fi
 
 # Stuff that is already prepared in GitHub Actions
 if [ "$GITHUB_ACTIONS" != "true" ]; then
   # clean up
-  rm -rf archive.zip dist
-  # clone the dist repo into dist/
-  git clone -b empty git@github.com:hirasso/rh-admin-utils-dist.git dist
+  rm -rf release.zip dist
+
+  echo "💡 cloning the dist repo into dist/"
+  git clone -b empty git@github.com:hirasso/rh-admin-utils-dist.git dist/
 fi
 
-# create the archive and save it in the dist/ dir
-git archive --format=zip --output=archive.zip HEAD
+echo "💡 Checking out the empty tagged root commit"
+git -C dist checkout --detach empty
 
-# add the vendor folder to the dist.zip
-zip -r archive.zip vendor
+echo "💡 Creating the release.zip"
+git archive --format=zip --output=release.zip HEAD
 
-# unzip the archive into dist
-unzip archive.zip -d dist
+echo "💡 Injecting additional untracked files into release.zip"
+zip -r release.zip vendor
 
-# Overwrite the composer.json in the dist folder
+echo "💡 Unpacking the release.zip into dist/"
+unzip release.zip -d dist
+
+echo "💡 Overwriting the composer.json in dist/"
 mv dist/composer.dist.json dist/composer.json
-
-# clean up
-rm -rf archive.zip
