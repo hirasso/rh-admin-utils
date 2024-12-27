@@ -12,26 +12,55 @@ $finder = Isolated\Symfony\Component\Finder\Finder::class;
 
 /** The project root dir, where the composer.json file is */
 $rootDir = dirname(__DIR__);
+$pluginSlug = basename($rootDir);
 
 /** Read the project's composer.json */
 $composerJSON = json_decode(file_get_contents("$rootDir/composer.json"), true);
 
-$devDependencies = array_filter(
-    array_map(
-        fn(string $packageName) => "$rootDir/vendor/$packageName",
-        array_keys($composerJSON['require-dev'] ?? [])
-    ),
-    fn(string $dir) => is_dir($dir)
-);
+[$wpClasses, $wpFunctions, $wpConstants] = getWpExcludes();
 
-/** Do not prefix dev dependencies */
-$excludeFiles = empty($devDependencies) ? [] : array_map(
-    static fn(SplFileInfo $fileInfo) => $fileInfo->getPathName(),
-    iterator_to_array(
-        $finder::create()->files()->in($devDependencies),
-        false,
-    ),
-);
+return [
+    'prefix' => 'RH\AdminUtils\Scoped',
+    /** prevent double scoping */
+    'exclude-namespaces' => ['RH\AdminUtils'],
+    'php-version' => '8.2',
+
+    // 'exclude-files' => [...$excludeFiles],
+
+    'exclude-classes' => [...$wpClasses, 'WP_CLI'],
+    'exclude-functions' => [...$wpFunctions],
+    'exclude-constants' => [...$wpConstants, 'true', 'false'],
+
+    'expose-global-constants' => true,
+    'expose-global-classes' => true,
+    'expose-global-functions' => true,
+
+    'finders' => [
+        $finder::create()->files()->in('src'),
+        $finder::create()
+            ->files()
+            ->in('vendor')
+            ->ignoreVCS(true)
+            ->notName('/LICENSE|.*\\.md|.*\\.dist|Makefile|composer\\.json|composer\\.lock/')
+            ->notName('/.*\\.sh/')
+            ->exclude([
+                'doc',
+                'test',
+                'test_old',
+                'tests',
+                'Tests',
+                'vendor-bin',
+                'bin',
+                ...array_keys($composerJSON['require-dev'] ?? [])
+            ]),
+        $finder::create()->append([
+            "$pluginSlug.php",
+            'README.md',
+            'CHANGELOG.md',
+            ...glob('assets/*')
+        ])
+    ]
+];
 
 /**
  * Read WordPress excludes from sniccowp/php-scoper-wordpress-excludes
@@ -52,21 +81,3 @@ function getWpExcludes(): array
 
     return $excludes;
 }
-
-[$wpClasses, $wpFunctions, $wpConstants] = getWpExcludes();
-
-return [
-    'prefix' => 'RH\AdminUtils\Scoped',
-    /** prevent double scoping */
-    'exclude-namespaces' => ['RH\AdminUtils'],
-
-    'exclude-files' => [...$excludeFiles],
-
-    'exclude-classes' => [...$wpClasses, 'WP_CLI'],
-    'exclude-functions' => [...$wpFunctions],
-    'exclude-constants' => [...$wpConstants, 'true', 'false'],
-
-    'expose-global-constants' => true,
-    'expose-global-classes' => true,
-    'expose-global-functions' => true,
-];

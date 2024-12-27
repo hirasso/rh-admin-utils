@@ -33,15 +33,15 @@ fi
 # scope the vendor dir
 rm -rf scoped && php bin/php-scoper.phar add-prefix --output-dir=scoped --config=scripts/scoper.config.php
 
-# replace the vendor folder with the scoped one
-rm -rf vendor && cp -Rf scoped/vendor vendor && rm -rf scoped
-
 # dump the autoloader
 if [ "$GITHUB_ACTIONS" = "true" ]; then
   composer dump-autoload --classmap-authoritative
 else
   composer dump-autoload
 fi
+
+# Copy composer.dist.json to scoped/composer.json
+cp ./composer.dist.json ./scoped/composer.json
 
 # cleanup
 rm -rf php-scoper-wordpress-excludes

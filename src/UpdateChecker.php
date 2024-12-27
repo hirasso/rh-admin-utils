@@ -2,7 +2,7 @@
 
 namespace RH\AdminUtils;
 
-use RH\AdminUtils\Scoped\YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
