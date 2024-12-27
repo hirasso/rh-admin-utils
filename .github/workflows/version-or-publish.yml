@@ -93,12 +93,14 @@ jobs:
         if: steps.cs.outputs.published == 'true'
         uses: jossef/action-latest-release-info@v1.2.1
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload release asset to GitHub release page
+      - name: Upload Release Asset
         id: upload-release-asset
         if: steps.cs.outputs.published == 'true'
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.release-info.outputs.upload_url }}
           asset_path: ./release.zip
