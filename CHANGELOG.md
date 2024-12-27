@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.32
+
+### Patch Changes
+
+- 6ca5222: Append rh-admin-utils.zip to releases
+
 ## 2.3.31
 
 ### Patch Changes
