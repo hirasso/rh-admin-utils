@@ -7,7 +7,8 @@
   "type": "module",
   "packageManager": "pnpm@9.15.0",
   "scripts": {
-    "preinstall": "npx only-allow pnpm && git config core.hooksPath .githooks",
+    "prepare": "git config core.hooksPath .githooks",
+    "preinstall": "npx only-allow pnpm",
     "watch": "rm -f .is-built && webpack --watch --mode=development --progress --stats minimal",
     "build": "[ -f .is-built ] && exit 0; webpack --mode=production --progress --stats minimal && touch .is-built",
     "format:assets": "npx prettier --write ./assets-src/",
