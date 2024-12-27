@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+/**
+ * php-scoper config
+ * @see https://github.com/humbug/php-scoper/blob/main/docs/configuration.md
+ */
+
 /** @var Symfony\Component\Finder\Finder $finder */
 $finder = Isolated\Symfony\Component\Finder\Finder::class;
 
@@ -51,7 +56,8 @@ function getWpExcludes(): array
 [$wpClasses, $wpFunctions, $wpConstants] = getWpExcludes();
 
 return [
-    'prefix' => 'RH\AdminUtils',
+    'prefix' => 'RH\AdminUtils\Scoped',
+    'exclude-namespaces' => ['RH\AdminUtils'],
 
     'exclude-files' => [...$excludeFiles],
 
