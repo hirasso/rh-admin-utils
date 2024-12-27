@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.33
+
+### Patch Changes
+
+- edf5274: trigger a release
+
 ## 2.3.32
 
 ### Patch Changes
