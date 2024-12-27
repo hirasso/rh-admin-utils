@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.30
+
+### Patch Changes
+
+- d03b5f3: Fail faster in workflows
+
 ## 2.3.29
 
 ### Patch Changes
