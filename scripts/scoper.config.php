@@ -20,7 +20,7 @@ $devDependencies = array_filter(
 );
 
 /** Do not prefix dev dependencies */
-$excludeFiles = array_map(
+$excludeFiles = empty($devDependencies) ? [] : array_map(
     static fn(SplFileInfo $fileInfo) => $fileInfo->getPathName(),
     iterator_to_array(
         $finder::create()->files()->in($devDependencies),
