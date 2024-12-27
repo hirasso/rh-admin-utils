@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.31
+
+### Patch Changes
+
+- 2e99bc9: Move the githooks setup to the `prepare` hook
+- 0c8471d: Prevent duplicate scoping of dependencies
+
 ## 2.3.30
 
 ### Patch Changes
