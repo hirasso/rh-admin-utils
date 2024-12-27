@@ -57,6 +57,7 @@ function getWpExcludes(): array
 
 return [
     'prefix' => 'RH\AdminUtils\Scoped',
+    /** prevent double scoping */
     'exclude-namespaces' => ['RH\AdminUtils'],
 
     'exclude-files' => [...$excludeFiles],
