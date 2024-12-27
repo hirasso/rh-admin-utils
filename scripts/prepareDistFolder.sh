@@ -2,6 +2,9 @@
 
 # Prepares the dist folder, including untracked but required dist files
 
+# Stop execution on errors
+set -e
+
 # Make sure `prefixNamespaces.sh` was executed
 if [ ! -d "vendor" ]; then
   echo "Error: The 'vendor' folder does not exist. Please run prefixNamespaces.sh first."

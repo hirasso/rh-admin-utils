@@ -2,6 +2,9 @@
 
 # Scopes no-dev composer dependencies to avoid version conflicts in WordPress
 
+# Stop execution on errors
+set -e
+
 # download php-scoper.phar
 test -f bin/php-scoper.phar || curl -sLo bin/php-scoper.phar https://github.com/humbug/php-scoper/releases/latest/download/php-scoper.phar
 
