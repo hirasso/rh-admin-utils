@@ -16,8 +16,7 @@
     "format:php": "./vendor/bin/phpcbf",
     "format": "npm run format:assets && npm run format:php",
     "version": "pnpm changeset version && pnpm run version:patch",
-    "version:patch": "node scripts/patchVersion.js",
-    "publish": "pnpm changeset tag"
+    "version:patch": "node scripts/patchVersion.js"
   },
   "author": "Rasso Hilber",
   "license": "ISC",

@@ -79,9 +79,9 @@ jobs:
           title: "[CI] Release"
           commit: "[CI] Release"
           version: pnpm run version
-          publish: pnpm run publish
+          publish: pnpm changeset tag
         env:
-          GITHUB_TOKEN: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Get Latest Tag"
         id: latest-tag
