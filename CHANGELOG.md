@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.3.41
+
+### Patch Changes
+
+- dcb4a23: Revert to using `HIRASSO_ACTIONS_TOKEN` for changesets
+- 5ff5d76: Try using `${{ secrets.GITHUB_TOKEN }}` for changesets
+- e08380c: Do not add composer.dist.json to archive
+
 ## 2.3.40
 
 ### Patch Changes
