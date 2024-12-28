@@ -61,7 +61,7 @@ jobs:
           repository: hirasso/rh-admin-utils-dist
           ref: empty
           path: dist
-          # secrets.GITHUB_TOKEN would not be enough to push to the dist repo (needed later)
+          # secrets.GITHUB_TOKEN is not enough to push to the dist repo (needed later)
           token: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
 
       # Run this before changesets, to make sure releases actually work
@@ -81,7 +81,8 @@ jobs:
           version: pnpm run version
           publish: pnpm changeset tag
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # doesn't work with GITHUB_TOKEN for some reason
+          GITHUB_TOKEN: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
 
       - name: "Get Latest Tag"
         id: latest-tag
