@@ -64,11 +64,11 @@ jobs:
           # secrets.GITHUB_TOKEN would not be enough to push to the dist repo (needed later)
           token: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
 
-      # Run this before changesets, to prevent invalid releases from being bublished
-      - name: Prepare dist repo
+      # Run this before changesets, to make sure releases actually work
+      - name: Create scoped release asset
         run: |
-          ./scripts/prefixNamespaces.sh
-          ./scripts/prepareDistFolder.sh
+          ./scripts/createScopedReleaseAsset.sh
+          # ./scripts/prepareDistFolder.sh
 
       # Run changesets action either if there are unreleased changesets (= a PR must be created)
       # or if the commit message matches the release PR (= new versions must be published to NPM)
@@ -83,10 +83,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
 
-      - name: Push release to dist repo
-        if: steps.cs.outputs.published == 'true'
-        run: |
-          ./scripts/pushReleaseToDist.sh
+      # - name: Push release to dist repo
+      #   if: steps.cs.outputs.published == 'true'
+      #   run: |
+      #     ./scripts/pushReleaseToDist.sh
 
       - name: Gets latest created release info
         id: release-info
@@ -103,6 +103,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.release-info.outputs.upload_url }}
-          asset_path: ./release.zip
+          asset_path: ./scoped-release.zip
           asset_name: rh-admin-utils.zip
           asset_content_type: application/zip
