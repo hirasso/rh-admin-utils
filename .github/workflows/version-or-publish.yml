@@ -43,16 +43,16 @@ jobs:
       - name: Setup PNPM
         uses: pnpm/action-setup@v4
 
-      - name: Setup node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
 
-      - name: Install dependencies
+      - name: Install Asset Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Require and zip Build
+      - name: Build and bundle assets
         run: |
           pnpm build
           zip -rq assets.zip assets
