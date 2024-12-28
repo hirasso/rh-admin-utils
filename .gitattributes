@@ -1,9 +1,15 @@
+# git & GitHub
+.git/ export-ignore
+.githooks/ export-ignore
+.github/ export-ignore
+.gitignore export-ignore
+.gitattributes export-ignore
+
 .vscode export-ignore
 .changeset export-ignore
 .browserslistrc export-ignore
 .editorconfig export-ignore
-.githooks export-ignore
-.gitignore export-ignore
+
 .phpcs.xml export-ignore
 .prettierignore export-ignore
 assets-src export-ignore
@@ -12,8 +18,9 @@ pnpm-lock.yaml export-ignore
 postcss.config.cjs export-ignore
 webpack.config.js export-ignore
 scripts export-ignore
-.gitattributes export-ignore
 bin export-ignore
-.github export-ignore
-composer.lock export-ignore
 *.sh export-ignore
+
+# composer
+composer.lock export-ignore
+composer.dist.json export-ignore
