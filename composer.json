@@ -13,25 +13,22 @@
   "require": {
     "php": ">=8.2",
     "composer/installers": "^1.0 || ^2.0",
+    "snicco/better-wp-cli": "^1.10",
     "symfony/var-dumper": "^7.1",
-    "yahnis-elsts/plugin-update-checker": "^5.5",
-    "snicco/better-wp-cli": "^1.10"
+    "yahnis-elsts/plugin-update-checker": "^5.5"
   },
   "require-dev": {
+    "sniccowp/php-scoper-wordpress-excludes": "^6.7",
     "squizlabs/php_codesniffer": "^3.11"
   },
-  "scripts": {
-    "prefix-namespaces": "./scripts/prefixNamespaces.sh",
-    "post-install-cmd": "@prefix-namespaces",
-    "post-update-cmd": "@prefix-namespaces",
-    "prepare-dist-folder": "./scripts/prepareDistFolder.sh"
-  },
-  "scripts-descriptions": {
-    "prefix-namespaces": "Prefix all php namespaces"
-  },
+  "scripts": {},
+  "scripts-descriptions": {},
   "config": {
     "allow-plugins": {
       "composer/installers": true
-    }
+    },
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
   }
 }

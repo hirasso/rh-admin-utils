@@ -16,6 +16,8 @@ namespace RH\AdminUtils;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
 /**
  * Require the composer autoloader
  */
