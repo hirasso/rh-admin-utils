@@ -33,7 +33,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up PHP and Composer
+      - name: Setup PHP and Composer
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
@@ -52,8 +52,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Require Build
-        run: pnpm build
+      - name: Require and zip Build
+        run: |
+          pnpm build
+          zip -rq assets.zip assets
 
       - name: Checkout dist repo
         uses: actions/checkout@v3
@@ -97,7 +99,7 @@ jobs:
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
           omitPrereleaseDuringUpdate: true
-          artifacts: "rh-admin-utils.zip"
+          artifacts: "rh-admin-utils.zip,assets.zip"
 
       - name: Push release to dist repo
         if: steps.cs.outputs.published == 'true'
