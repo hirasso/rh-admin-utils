@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.37
+
+### Patch Changes
+
+- 7c6a018: try to use softprops/action-gh-release@v2 for the release
+
 ## 2.3.36
 
 ### Patch Changes
