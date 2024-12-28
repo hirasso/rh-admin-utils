@@ -20,9 +20,11 @@ export function dd(...args) {
 /**
  * Get the current version from the package.json
  */
-export function getVersion() {
+export function getPackageInfos() {
   // Read the version and name from package.json
   const packageJsonPath = path.join(__dirname, "../package.json");
-  const { version } = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
-  return version ?? "";
+  const { version, name } = JSON.parse(
+    fs.readFileSync(packageJsonPath, "utf8"),
+  );
+  return { version, name };
 }

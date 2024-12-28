@@ -1,8 +1,8 @@
 // @ts-check
 
-import { getVersion } from "./utils.js";
+import { getPackageInfos } from "./utils.js";
 
-const version = getVersion();
+const { version } = getPackageInfos();
 
 // Log the version
 console.log(version);

@@ -68,7 +68,7 @@ jobs:
       - name: Create scoped release asset
         run: |
           ./scripts/createScopedReleaseAsset.sh
-          # ./scripts/prepareDistFolder.sh
+          ./scripts/prepareDistFolder.sh
 
       # Run changesets action either if there are unreleased changesets (= a PR must be created)
       # or if the commit message matches the release PR (= new versions must be published to NPM)
@@ -95,26 +95,7 @@ jobs:
           allowUpdates: true
           artifacts: "rh-admin-utils.zip"
 
-      # - name: Push release to dist repo
-      #   if: steps.cs.outputs.published == 'true'
-      #   run: |
-      #     ./scripts/pushReleaseToDist.sh
-
-      # - name: Gets latest created release info
-      #   id: release-info
-      #   if: steps.cs.outputs.published == 'true'
-      #   uses: jossef/action-latest-release-info@v1.2.1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Upload Release Asset
-      #   id: upload-release-asset
-      #   if: steps.cs.outputs.published == 'true'
-      #   uses: actions/upload-release-asset@v1.0.1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.release-info.outputs.upload_url }}
-      #     asset_path: ./rh-admin-utils.zip
-      #     asset_name: rh-admin-utils.zip
-      #     asset_content_type: application/zip
+      - name: Push release to dist repo
+        if: steps.cs.outputs.published == 'true'
+        run: |
+          ./scripts/pushReleaseToDist.sh

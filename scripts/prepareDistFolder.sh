@@ -13,32 +13,24 @@ if [[ ! -f "$PWD/.gitignore" ]]; then
   exit 1
 fi
 
-# Make sure `prefixNamespaces.sh` was executed
-if [ ! -d "vendor" ]; then
-  echo "❌ The 'vendor' folder does not exist. Please run prefixNamespaces.sh first."
+
+# Make sure `createScopedReleaseAsset` was executed
+if [ ! -d "scoped" ]; then
+  echo "❌ The 'scoped' folder does not exist. Please run createScopedReleaseAsset.sh first."
   exit 1
 fi
 
-# Stuff that is already prepared in GitHub Actions
+# Initialize the dist folder if it doesn't exist
 if [ "$GITHUB_ACTIONS" != "true" ]; then
-  # clean up
-  rm -rf release.zip dist
-
   echo "💡 cloning the dist repo into dist/"
-  git clone -b empty git@github.com:hirasso/rh-admin-utils-dist.git dist/
+  rm -rf dist && git clone -b empty git@github.com:hirasso/rh-admin-utils-dist.git dist/
 fi
 
 echo "💡 Checking out the empty tagged root commit"
 git -C dist checkout --detach empty
 
-echo "💡 Creating the release.zip"
-git archive --format=zip --output=release.zip HEAD
+echo "💡 Copying all files from scoped/ to dist/"
+cp -Rf scoped/* dist/
 
-echo "💡 Injecting additional untracked files into release.zip"
-zip -r release.zip vendor
-
-echo "💡 Unpacking the release.zip into dist/"
-unzip release.zip -d dist
-
-echo "💡 Overwriting the composer.json in dist/"
-mv dist/composer.dist.json dist/composer.json
+# echo "💡 Overwriting the composer.json in dist/"
+cp composer.dist.json dist/composer.json
