@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.40
+
+### Patch Changes
+
+- f0cde16: trigger a release
+
 ## 2.3.39
 
 ### Patch Changes
