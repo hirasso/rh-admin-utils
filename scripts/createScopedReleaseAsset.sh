@@ -11,9 +11,12 @@ if [[ ! -f "$PWD/.gitignore" ]]; then
   exit 1
 fi
 
-echo "-------------------------------"
-echo "💡 Creating a scoped release..."
-echo "-------------------------------"
+# Get the package name
+PACKAGE_NAME=$(basename "$PWD")
+
+echo ""
+echo "💡 Creating a scoped release for $PACKAGE_NAME..."
+echo ""
 
 if [ "$GITHUB_ACTIONS" = "true" ]; then
   echo "💡 Installing composer dependencies..."
@@ -34,8 +37,8 @@ echo "💡 Cleaning up the scoped directory..."
 rm scoped/composer.json scoped/composer.lock
 
 echo "💡 Creating a zip file from the scoped directory..."
-zip -rq scoped-release.zip scoped/
+cd scoped && zip -rq "../$PACKAGE_NAME.zip" . && cd ..
 
-echo "-------------------------------------------"
-echo "✅ Created a scoped release asset: scoped.zip"
-echo "-------------------------------------------"
+echo ""
+echo "✅ Created a scoped release asset: $PACKAGE_NAME.zip"
+echo ""
