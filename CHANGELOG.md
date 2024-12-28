@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.38
+
+### Patch Changes
+
+- cdff06e: Try ncipollo/release-action@v1 for adding artifacts to the release
+
 ## 2.3.37
 
 ### Patch Changes
