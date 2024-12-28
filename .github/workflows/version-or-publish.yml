@@ -83,10 +83,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
 
-      - name: Extract latest release body
-        if: steps.cs.outputs.published == 'true'
-        run: node ./scripts/extractLatestReleaseBody.js
-
       - name: "Get Latest Tag"
         id: latest-tag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
