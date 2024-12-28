@@ -25,10 +25,13 @@ $devDependencies = array_filter(
 );
 
 /** Do not prefix dev dependencies */
-$excludeFiles = empty($devDependencies) ? [] : array_map(
+$excludeFiles = array_map(
     static fn(SplFileInfo $fileInfo) => $fileInfo->getPathName(),
     iterator_to_array(
-        $finder::create()->files()->in($devDependencies),
+        $finder::create()->files()->in([
+            ...$devDependencies,
+            "$rootDir/vendor/yahnis-elsts/plugin-update-checker"
+        ]),
         false,
     ),
 );
