@@ -80,7 +80,6 @@ jobs:
           commit: '[CI] Release'
           version: pnpm run version
           publish: pnpm run publish
-          createGithubReleases: false
         env:
           GITHUB_TOKEN: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
 
@@ -88,13 +87,12 @@ jobs:
         if: steps.cs.outputs.published == 'true'
         run: node ./scripts/extractLatestReleaseBody.js
 
-      - name: Release
-        uses: softprops/action-gh-release@v2
+      - name: Add artifacts to the release
+        uses: ncipollo/release-action@v1
         if: steps.cs.outputs.published == 'true'
         with:
-          body_path: RELEASE.md
-          files: |
-            rh-admin-utils.zip
+          allowUpdates: true
+          artifacts: "rh-admin-utils.zip"
 
       # - name: Push release to dist repo
       #   if: steps.cs.outputs.published == 'true'
