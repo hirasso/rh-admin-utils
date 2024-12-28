@@ -41,18 +41,8 @@ return [
             ->files()
             ->in('vendor')
             ->ignoreVCS(true)
-            ->notName('/LICENSE|.*\\.md|.*\\.dist|Makefile|composer\\.json|composer\\.lock/')
             ->notName('/.*\\.sh/')
-            ->exclude([
-                'doc',
-                'test',
-                'test_old',
-                'tests',
-                'Tests',
-                'vendor-bin',
-                'bin',
-                ...array_keys($composerJSON['require-dev'] ?? [])
-            ]),
+            ->exclude(array_keys($composerJSON['require-dev'] ?? [])),
         $finder::create()->append([
             "$pluginSlug.php",
             'README.md',
