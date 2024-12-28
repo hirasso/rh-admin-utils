@@ -103,6 +103,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.release-info.outputs.upload_url }}
-          asset_path: ./scoped-release.zip
+          asset_path: ./rh-admin-utils.zip
           asset_name: rh-admin-utils.zip
           asset_content_type: application/zip
