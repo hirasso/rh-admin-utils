@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.35
+
+### Patch Changes
+
+- Fix the name of the release asset
+
 ## 2.3.34
 
 ### Patch Changes
