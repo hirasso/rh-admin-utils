@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.39
+
+### Patch Changes
+
+- bc497c6: Try it again with the latest tag
+
 ## 2.3.38
 
 ### Patch Changes
