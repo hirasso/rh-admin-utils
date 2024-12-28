@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.42
+
+### Patch Changes
+
+- f978d34: Preserve the release body when uploading artifacts
+- 44993de: Add assets.zip to release assets
+
 ## 2.3.41
 
 ### Patch Changes
