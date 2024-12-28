@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.34
+
+### Patch Changes
+
+- 2ebc659: Create a scoped release asset only for consumption by `yahnis-elsts/plugin-update-checker`
+
 ## 2.3.33
 
 ### Patch Changes
