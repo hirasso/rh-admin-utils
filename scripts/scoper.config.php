@@ -53,9 +53,9 @@ return [
     ],
     'php-version' => $phpVersion,
 
-    'exclude-classes' => [...$wpClasses, 'WP_CLI'],
+    'exclude-classes' => [...$wpClasses, WP_CLI::class],
     'exclude-functions' => [...$wpFunctions],
-    'exclude-constants' => [...$wpConstants, 'true', 'false'],
+    'exclude-constants' => [...$wpConstants, WP_CLI::class, 'true', 'false'],
 
     'expose-global-constants' => true,
     'expose-global-classes' => true,
