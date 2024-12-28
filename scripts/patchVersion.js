@@ -1,6 +1,7 @@
 // @ts-check
 import fs from "fs";
 import path from "path";
+import { dd } from "./utils.js";
 
 // Read the version and name from package.json
 const packageJsonPath = path.join(process.cwd(), "package.json");
@@ -39,12 +40,3 @@ pluginFile = pluginFile.replace(versionRegexp, `* Version: ${packageVersion}`);
 fs.writeFileSync(pluginFilePath, pluginFile, "utf8");
 
 console.log(`✅ Patched version to ${packageVersion} in ${pluginFileName}`);
-
-/**
- * Dump and die
- * @param {...any} args
- */
-function dd(...args) {
-  console.log(...args);
-  process.exit();
-}

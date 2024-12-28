@@ -25,12 +25,12 @@ if [[ -z "$PACKAGE_VERSION" ]]; then
   exit 1
 fi
 
-echo "💡 Committing and pushing new release: '${PACKAGE_VERSION}'..."
+echo "💡 Committing and pushing new release: 'v${PACKAGE_VERSION}'..."
 
 cd dist/
 git add .
 git commit -m "Release: rh-admin-utils@${PACKAGE_VERSION}"
-git tag "${PACKAGE_VERSION}"
-git push origin "${PACKAGE_VERSION}"
+git tag "v${PACKAGE_VERSION}"
+git push origin "v${PACKAGE_VERSION}"
 
-echo "✅ Released '${PACKAGE_VERSION}' to the dist repo."
+echo "✅ Released 'v${PACKAGE_VERSION}' to the dist repo."

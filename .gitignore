@@ -12,12 +12,15 @@ node_modules/
 vendor/
 php-scoper-wordpress-excludes/
 
-# Scoper
+# Releases
 bin/*.phar
 scoped/
+RELEASE.md
 
 # Dist folder
 dist/
+
+
 
 # Other
 *.sql
