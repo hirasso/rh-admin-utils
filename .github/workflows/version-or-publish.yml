@@ -94,6 +94,9 @@ jobs:
         with:
           tag: ${{ steps.latest-tag.outputs.tag }}
           allowUpdates: true
+          omitBodyDuringUpdate: true
+          omitNameDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
           artifacts: "rh-admin-utils.zip"
 
       - name: Push release to dist repo
