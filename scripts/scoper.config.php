@@ -65,7 +65,8 @@ return [
         $finder::create()->files()->in('src'),
         $finder::create()->files()->in('vendor')->ignoreVCS(true)
             ->notName('/.*\\.sh|composer\\.(json|lock)/')
-            ->exclude($devDependencies),
+            ->exclude($devDependencies)
+            ->exclude('bin/'),
         $finder::create()->append(glob('*.php')),
         $finder::create()->append(glob('assets/*')),
         $finder::create()->append($extraFiles)
