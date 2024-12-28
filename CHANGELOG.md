@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.36
+
+### Patch Changes
+
+- 71bd101: Fix the release asset_path name
+
 ## 2.3.35
 
 ### Patch Changes
