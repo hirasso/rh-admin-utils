@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 
 /**
- * Creates release files for usage in the release asset and dist repo
+ * Generate release files for usage in the release asset and dist repo
  * - scopes dependency namespaces using php-scoper
  * - creates a folder scoped/ with all required plugin files
  * - creates a zip file from the scoped/ folder, named after the package
  */
 
-import { existsSync, mkdirSync, unlinkSync } from "fs";
+import { existsSync, mkdirSync, rmSync, unlinkSync } from "fs";
 import { basename, resolve } from "path";
 import { cwd, exit, env } from "process";
-import { dd, getPackageInfos, run } from "./support.js";
+import { error, getPackageInfos, info, run, line, success } from "./support.js";
 
 /** Validate that we are at the project root */
 const projectRoot = cwd();
 if (!existsSync(resolve(projectRoot, ".gitignore"))) {
-  console.error(`❌ ${basename(__filename)} must run from the package root`);
+  error(`${basename(__filename)} must run from the package root`);
   exit(1);
 }
 
@@ -24,7 +24,9 @@ const phpScoperDownloadUrl =
 
 const { name: packageName } = getPackageInfos();
 
-console.log(`\n💡 Creating a scoped release for ${packageName}...\n`);
+line();
+info(`Creating a scoped release for ${packageName}...`);
+line();
 
 // Install Composer dependencies in GitHub Actions
 if (env.GITHUB_ACTIONS === "true") {
@@ -35,35 +37,33 @@ if (env.GITHUB_ACTIONS === "true") {
 /** Ensure php-scoper is available */
 const phpScoperPath = resolve(projectRoot, "bin/php-scoper");
 if (!existsSync(phpScoperPath)) {
-  console.log("💡 Ensuring php-scoper is available...");
+  info("Ensuring php-scoper is available...");
   mkdirSync(resolve(projectRoot, "bin"), { recursive: true });
   run(`curl -sL ${phpScoperDownloadUrl} -o ${phpScoperPath}`);
   run(`chmod +x ${phpScoperPath}`);
 }
 
 /** Scope namespaces using php-scoper */
-console.log("💡 Scoping namespaces using php-scoper...");
-run(
-  `rm -rf scoped && ${phpScoperPath} add-prefix --quiet --output-dir=scoped --config=bin/scoper.config.php`
-);
-console.log("✅ Successfully scoped all namespaces!");
+info("Scoping namespaces using php-scoper...");
+run(`rm -rf scoped && ${phpScoperPath} add-prefix --quiet --output-dir=scoped --config=bin/scoper.config.php`); // prettier-ignore
+success("Successfully scoped all namespaces!");
+line();
 
 /** Dump the autoloader in the scoped directory */
-console.log("💡 Dumping the autoloader in the scoped directory...");
+info("Dumping the autoloader in the scoped directory...");
 run("composer dump-autoload --working-dir=scoped --classmap-authoritative");
 
 /** Clean up the scoped directory */
-console.log("💡 Cleaning up the scoped directory...");
+info("Cleaning up the scoped directory...");
 ["scoped/composer.json", "scoped/composer.lock"].forEach((file) => {
-  const filePath = resolve(projectRoot, file);
-  if (existsSync(filePath)) unlinkSync(filePath);
+  rmSync(resolve(projectRoot, file), { force: true });
 });
 
 /** Create a zip file from the scoped directory */
-console.log("💡 Creating a zip file from the scoped directory...");
+info("Creating a zip file from the scoped directory...");
 run(`cd scoped && zip -rq "../${packageName}.zip" . && cd ..`);
 
-console.log("");
-console.log(`✅ Created a scoped release folder: scoped/`);
-console.log(`✅ Created a scoped release asset: ${packageName}.zip`);
-console.log("");
+line();
+info(`✅ Created a scoped release folder: scoped/`);
+info(`✅ Created a scoped release asset: ${packageName}.zip`);
+line();

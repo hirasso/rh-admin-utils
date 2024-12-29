@@ -33,14 +33,18 @@ export function getPackageInfos() {
 }
 
 /**
- * Run a command, stop execution on errors
+ * Run a command, stop execution on errors ({ stdio: "inherit" })
  * @param {string} command
  */
-export function run(command) {
-  try {
-    execSync(command, { stdio: "inherit" });
-  } catch (error) {
-    console.error(`❌ Command failed: ${command}`);
-    exit(1);
-  }
-}
+export const run = (command) => execSync(command, { stdio: "inherit" });
+
+/** @param {string} message */
+export const info = (message) => console.log(`💡 ${message}`);
+
+/** @param {string} message */
+export const success = (message) => console.log(`✅ ${message}`);
+
+/** @param {string} message */
+export const error = (message) => console.log(`❌ ${message}`);
+
+export const line = () => console.log("");

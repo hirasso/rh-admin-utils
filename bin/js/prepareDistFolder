@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+
+/**
+ * Prepares the dist folder
+ * - clones the dist repo into dist/
+ * - checks out the empty root commit in dist/
+ * - copies all files from scoped/ into dist/
+ */
+
+import { cpSync, existsSync } from 'fs';
+import { basename, resolve } from 'path';
+import { cwd, exit, env } from 'process';
+import { run, info, success, error } from './support.js';
+
+// Ensure the script is run from the project root
+if (!existsSync(resolve(cwd(), '.gitignore'))) {
+  error(`${basename(__filename)} must run from the package root`);
+  exit(1);
+}
+
+// Check if the `scoped` folder exists
+if (!existsSync('scoped')) {
+  error("The 'scoped' folder does not exist. Please run generateReleaseFiles.sh first.");
+  exit(1);
+}
+
+// Initialize the dist folder if not in GitHub Actions
+if (env.GITHUB_ACTIONS !== 'true') {
+  info(`Cloning the dist repo into dist/`);
+  run('rm -rf dist && git clone -b empty git@github.com:hirasso/rh-admin-utils-dist.git dist/');
+}
+
+info(`Checking out the empty tagged root commit`);
+run('git -C dist checkout --detach empty');
+
+info(`Copying files from scoped/ to dist/`);
+cpSync('scoped', 'dist', { recursive: true });
+
+info(`Overwriting the composer.json in dist/`);
+cpSync('composer.dist.json', 'dist/composer.json');
+
+success(`Dist folder preparation complete!`);
