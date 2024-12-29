@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.44
+
+### Patch Changes
+
+- c4f64dd: Trigger a release to test tooling
+
 ## 2.3.43
 
 ### Patch Changes
