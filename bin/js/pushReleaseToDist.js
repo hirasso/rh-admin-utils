@@ -39,7 +39,7 @@ debug({ hasValidDirectories });
 if (hasValidDirectories !== true) {
   throwError(
     `The validation of the scoped and dist folder failed.`,
-    `Did you run 'bin/createReleaseFiles.js' and 'bin/prepareDistFolder.js'?`,
+    `Did you run 'bin/js/prepareRelease.js'?`,
   );
 }
 

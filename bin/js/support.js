@@ -2,9 +2,9 @@
 
 // @ts-check
 
-import { readFileSync } from "node:fs";
+import { cpSync, existsSync, readFileSync, rmSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import path, { basename } from "node:path";
+import path, { basename, resolve } from "node:path";
 import { execSync } from "node:child_process";
 import { cwd, env, exit } from "node:process";
 import pc from "picocolors";
@@ -82,6 +82,19 @@ export const success = (message, ...rest) => {
 };
 
 /**
+ * Log a success message
+ * @param {string} message
+ */
+export const headline = (message) => {
+  message = ` ℹ️  ${message} `
+  line();
+  console.log(pc.blue("-".repeat(message.length)));
+  console.log(`${pc.blue(message)}`);
+  console.log(pc.blue("-".repeat(message.length)));
+  line();
+};
+
+/**
  * Log an error message and exit
  * @param {string} message
  * @param {...any} rest
@@ -137,3 +150,121 @@ export const validateDirectories = async (dir1, dir2, ignore = [".git"]) => {
     throwError("Error comparing directories:", err);
   }
 };
+
+/**
+ * Create release files for usage in the release asset and dist repo
+ * - scopes dependency namespaces using php-scoper
+ * - creates a folder scoped/ with all required plugin files
+ * - creates a zip file from the scoped/ folder, named after the package
+ */
+export function createReleaseFiles() {
+  headline(`Creating Release Files...`);
+
+  /** Validate that we are at the project root */
+  const projectRoot = cwd();
+  if (!existsSync(resolve(projectRoot, ".gitignore"))) {
+    throwError(`${basename(__filename)} must run from the package root`);
+  }
+
+  const { fullName, packageName } = getInfosFromComposerJSON();
+
+  line();
+  info(`Creating a scoped release for ${fullName}...`);
+  line();
+
+  // Install Composer dependencies in GitHub Actions
+  if (env.GITHUB_ACTIONS === "true") {
+    console.log("💡 Installing composer dependencies...");
+    run("composer install --no-scripts");
+  }
+
+  /** Ensure php-scoper is available */
+  const phpScoperPath = "bin/php-scoper";
+  info("Ensuring php-scoper is available...");
+  if (!existsSync(phpScoperPath)) {
+    run(`curl -sL https://github.com/humbug/php-scoper/releases/latest/download/php-scoper.phar -o ${phpScoperPath}`); // prettier-ignore
+    run(`chmod +x ${phpScoperPath}`);
+  }
+
+  /** Scope namespaces using php-scoper */
+  info("Scoping namespaces using php-scoper...");
+  rmSync("scoped", { recursive: true, force: true });
+  run(`${phpScoperPath} add-prefix --quiet --output-dir=scoped --config=bin/scoper.config.php`); // prettier-ignore
+  success("Successfully scoped all namespaces!");
+  line();
+
+  /** Dump the autoloader in the scoped directory */
+  info("Dumping the autoloader in the scoped directory...");
+  run("composer dump-autoload --working-dir=scoped --classmap-authoritative");
+
+  line();
+
+  /** Clean up the scoped directory */
+  info("Cleaning up the scoped directory...");
+  ["scoped/composer.json", "scoped/composer.lock"].forEach((file) => {
+    rmSync(resolve(projectRoot, file), { force: true });
+  });
+
+  info(`Overwriting the composer.json in scoped/...`);
+  cpSync("composer.dist.json", "scoped/composer.json");
+
+  line();
+
+  /** Create a zip file from the scoped directory */
+  info("Creating a zip file from the scoped directory...");
+  run(`cd scoped && zip -rq "../${packageName}.zip" . && cd ..`);
+
+  line();
+  success(`Created a scoped release folder: scoped/`);
+  success(`Created a scoped release asset: ${packageName}.zip`);
+  line();
+}
+
+/**
+ * Prepare the dist folder
+ * - clones the dist repo into dist/
+ * - checks out the empty root commit in dist/
+ * - copies all files from scoped/ into dist/
+ */
+export function prepareDistFolder() {
+  headline(`Preparing Dist Folder...`);
+
+  const { owner, packageName } = getInfosFromComposerJSON();
+  if (!owner || !packageName) {
+    throwError(`Could not read owner and/or packageName`, {
+      owner,
+      packageName,
+    });
+  }
+
+  // Ensure the script is run from the project root
+  if (!validateCWD()) {
+    throwError(
+      `${basename(__filename)} must be executed from the package root`,
+    );
+  }
+
+  // Check if the `scoped` folder exists
+  if (!existsSync("scoped")) {
+    throwError("The 'scoped' folder does not exist");
+  }
+
+  // Initialize the dist folder if not in GitHub Actions
+  if (env.GITHUB_ACTIONS !== "true") {
+    info(`Cloning the dist repo into dist/...`);
+    rmSync("dist", { recursive: true, force: true });
+    run(
+      `git clone -b empty git@github.com:${owner}/${packageName}-dist.git dist/`,
+    );
+  }
+
+  info(`Checking out the empty tagged root commit..`);
+  run("git -C dist checkout --detach empty");
+
+  line();
+
+  info(`Copying files from scoped/ to dist/...`);
+  cpSync("scoped", "dist", { recursive: true, force: true });
+
+  success(`Dist folder preparation complete!`);
+}

@@ -67,10 +67,8 @@ jobs:
           token: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
 
       # Run this before changesets, to make sure releases actually work
-      - name: Create scoped release asset
-        run: |
-          bin/js/createReleaseFiles.js
-          bin/js/prepareDistFolder.js
+      - name: Prepare Release
+        run: bin/js/prepareRelease.js
 
       # Run changesets action either if there are unreleased changesets (= a PR must be created)
       # or if the commit message matches the release PR (= new versions must be published to NPM)
