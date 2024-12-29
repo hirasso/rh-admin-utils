@@ -13,12 +13,12 @@ fi
 
 # Validate that we are in a GitHub action
 if [ "$GITHUB_ACTIONS" != "true" ]; then
-  echo "❌ "$(basename "$0")" may only run in GitHub Actions"
+  echo "❌ "$(basename "$0")" must be run on GitHub"
   exit 1
 fi
 
 PACKAGE_NAME=$(basename "$PWD");
-PACKAGE_VERSION=$(node ./scripts/logVersion.js)
+PACKAGE_VERSION=$(bin/js/logVersion)
 
 if [[ -z "$PACKAGE_VERSION" ]]; then
   echo "❌ Empty package version. Exiting."

@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+// @ts-check
+
+import { getPackageInfos } from "./support.js";
+
+const { version } = getPackageInfos();
+
+/**
+ * Log the version to the console,
+ * so that it can be consumed by other scripts,
+ * e.g. `PACKAGE_VERSION=$(bin/js/logVersion)`
+ */
+console.log(version);

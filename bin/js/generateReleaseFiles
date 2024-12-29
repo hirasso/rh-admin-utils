@@ -1,0 +1,69 @@
+#!/usr/bin/env node
+
+/**
+ * Creates release files for usage in the release asset and dist repo
+ * - scopes dependency namespaces using php-scoper
+ * - creates a folder scoped/ with all required plugin files
+ * - creates a zip file from the scoped/ folder, named after the package
+ */
+
+import { existsSync, mkdirSync, unlinkSync } from "fs";
+import { basename, resolve } from "path";
+import { cwd, exit, env } from "process";
+import { dd, getPackageInfos, run } from "./support.js";
+
+/** Validate that we are at the project root */
+const projectRoot = cwd();
+if (!existsSync(resolve(projectRoot, ".gitignore"))) {
+  console.error(`❌ ${basename(__filename)} must run from the package root`);
+  exit(1);
+}
+
+const phpScoperDownloadUrl =
+  "https://github.com/humbug/php-scoper/releases/latest/download/php-scoper.phar";
+
+const { name: packageName } = getPackageInfos();
+
+console.log(`\n💡 Creating a scoped release for ${packageName}...\n`);
+
+// Install Composer dependencies in GitHub Actions
+if (env.GITHUB_ACTIONS === "true") {
+  console.log("💡 Installing composer dependencies...");
+  run("composer install --no-scripts");
+}
+
+/** Ensure php-scoper is available */
+const phpScoperPath = resolve(projectRoot, "bin/php-scoper");
+if (!existsSync(phpScoperPath)) {
+  console.log("💡 Ensuring php-scoper is available...");
+  mkdirSync(resolve(projectRoot, "bin"), { recursive: true });
+  run(`curl -sL ${phpScoperDownloadUrl} -o ${phpScoperPath}`);
+  run(`chmod +x ${phpScoperPath}`);
+}
+
+/** Scope namespaces using php-scoper */
+console.log("💡 Scoping namespaces using php-scoper...");
+run(
+  `rm -rf scoped && ${phpScoperPath} add-prefix --quiet --output-dir=scoped --config=bin/scoper.config.php`
+);
+console.log("✅ Successfully scoped all namespaces!");
+
+/** Dump the autoloader in the scoped directory */
+console.log("💡 Dumping the autoloader in the scoped directory...");
+run("composer dump-autoload --working-dir=scoped --classmap-authoritative");
+
+/** Clean up the scoped directory */
+console.log("💡 Cleaning up the scoped directory...");
+["scoped/composer.json", "scoped/composer.lock"].forEach((file) => {
+  const filePath = resolve(projectRoot, file);
+  if (existsSync(filePath)) unlinkSync(filePath);
+});
+
+/** Create a zip file from the scoped directory */
+console.log("💡 Creating a zip file from the scoped directory...");
+run(`cd scoped && zip -rq "../${packageName}.zip" . && cd ..`);
+
+console.log("");
+console.log(`✅ Created a scoped release folder: scoped/`);
+console.log(`✅ Created a scoped release asset: ${packageName}.zip`);
+console.log("");

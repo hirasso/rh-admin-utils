@@ -14,9 +14,9 @@ if [[ ! -f "$PWD/.gitignore" ]]; then
 fi
 
 
-# Make sure `createScopedReleaseAsset` was executed
+# Make sure `generateReleaseFiles` was executed
 if [ ! -d "scoped" ]; then
-  echo "❌ The 'scoped' folder does not exist. Please run createScopedReleaseAsset.sh first."
+  echo "❌ The 'scoped' folder does not exist. Please run generateReleaseFiles.sh first."
   exit 1
 fi
 
