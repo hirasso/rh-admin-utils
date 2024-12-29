@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Prepares the dist folder
+ * Prepare the dist folder
  * - clones the dist repo into dist/
  * - checks out the empty root commit in dist/
  * - copies all files from scoped/ into dist/
@@ -39,7 +39,9 @@ if (!existsSync("scoped")) {
 if (env.GITHUB_ACTIONS !== "true") {
   info(`Cloning the dist repo into dist/`);
   rmSync("dist", { recursive: true, force: true });
-  run(`git clone -b empty git@github.com:${owner}/${packageName}-dist.git dist/`);
+  run(
+    `git clone -b empty git@github.com:${owner}/${packageName}-dist.git dist/`
+  );
 }
 
 info(`Checking out the empty tagged root commit`);

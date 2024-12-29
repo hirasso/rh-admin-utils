@@ -5,7 +5,7 @@
  */
 
 import { basename } from "path";
-import { chdir, cwd, env, exit } from "process";
+import { chdir, cwd } from "process";
 import { fileURLToPath } from "url";
 import {
   run,
@@ -36,7 +36,9 @@ if (!validateCWD()) {
  * Check if the `dist` folder exists
  */
 if (!existsSync("dist") || !existsSync("dist/.git")) {
-  error("The 'dist' folder does not exist. Please run 'prepareDistFolder' first");
+  error(
+    "The 'dist' folder does not exist. Please run 'bin/prepareDistFolder' first"
+  );
 }
 
 /** Ensure the script is running in a GitHub Action */
