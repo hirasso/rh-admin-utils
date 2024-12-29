@@ -26,10 +26,11 @@ export function dd(...args) {
  * Validate that the script is being run from the root dir
  * This is being achieved by comparing the package name to
  */
-export function validateCWD() {
-  const { packageName } = getInfosFromComposerJSON();
-  const dirName = basename(cwd());
-  return packageName === dirName;
+export function isAtRootDir() {
+  return (
+    existsSync(resolve(cwd(), "package.json")) &&
+    existsSync(resolve(cwd(), "composer.json"))
+  );
 }
 
 /**
@@ -86,7 +87,7 @@ export const success = (message, ...rest) => {
  * @param {string} message
  */
 export const headline = (message) => {
-  message = ` ℹ️  ${message} `
+  message = ` ℹ️  ${message} `;
   line();
   console.log(pc.blue("-".repeat(message.length)));
   console.log(`${pc.blue(message)}`);
@@ -189,7 +190,7 @@ export function createReleaseFiles() {
   /** Scope namespaces using php-scoper */
   info("Scoping namespaces using php-scoper...");
   rmSync("scoped", { recursive: true, force: true });
-  run(`${phpScoperPath} add-prefix --quiet --output-dir=scoped --config=bin/scoper.config.php`); // prettier-ignore
+  run(`${phpScoperPath} add-prefix --quiet --output-dir=scoped --config=scoper.config.php`); // prettier-ignore
   success("Successfully scoped all namespaces!");
   line();
 
@@ -238,9 +239,9 @@ export function prepareDistFolder() {
   }
 
   // Ensure the script is run from the project root
-  if (!validateCWD()) {
+  if (!isAtRootDir()) {
     throwError(
-      `${basename(__filename)} must be executed from the package root`,
+      `${basename(__filename)} must be executed from the package root directory`,
     );
   }
 

@@ -18,7 +18,7 @@ import {
   info,
   line,
   debug,
-  validateCWD,
+  isAtRootDir,
   isGitHubActions,
   validateDirectories,
   success,
@@ -30,8 +30,10 @@ const __filename = fileURLToPath(import.meta.url);
 const onGitHub = isGitHubActions();
 debug({ onGitHub });
 
-if (!validateCWD()) {
-  throwError(`${basename(__filename)} must be executed from the package root`);
+if (!isAtRootDir()) {
+  throwError(
+    `${basename(__filename)} must be executed from the package root directory`,
+  );
 }
 
 const hasValidDirectories = await validateDirectories("scoped", "dist");
