@@ -122,25 +122,16 @@ export const validateDirectories = async (dir1, dir2, ignore = [".git"]) => {
   try {
     const pattern = ["*", ...ignore.map((ig) => `!${ig}`)];
 
-    const files1 = await glob(pattern, {
-      cwd: dir1,
-      onlyFiles: false,
-    });
-    const files2 = await glob(pattern, {
-      cwd: dir2,
-      onlyFiles: false,
-    });
-
-    const normalized1 = files1.sort();
-    const normalized2 = files2.sort();
-
-    // debug(`${dir1}:`, normalized1, `${dir2}:`, normalized2);
+    const { files1, files2 } = {
+      files1: await glob(pattern, { cwd: dir1, onlyFiles: false }),
+      files2: await glob(pattern, { cwd: dir2, onlyFiles: false }),
+    };
 
     return (
-      !!normalized1.length &&
-      !!normalized2.length &&
-      normalized1.length === normalized2.length &&
-      normalized1.every((file, index) => file === normalized2[index])
+      !!files1.length &&
+      !!files2.length &&
+      files1.length === files2.length &&
+      files1.every((file, index) => file === files2[index])
     );
   } catch (err) {
     throwError("Error comparing directories:", err);
