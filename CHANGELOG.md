@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.45
+
+### Patch Changes
+
+- 1a0a188: trigger a release :))
+
 ## 2.3.44
 
 ### Patch Changes
