@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.46
+
+### Patch Changes
+
+- 7ad28d1: pushReleaseToDist: fix `success` import
+
 ## 2.3.45
 
 ### Patch Changes
