@@ -3,10 +3,11 @@
 // @ts-check
 import fs from "fs";
 import path from "path";
-import { dd, getPackageInfos } from "./support.js";
+import { dd, getInfosFromComposerJSON, getVersionFromPackageJSON } from "./support.js";
 
 /** Read the version and name from package.json */
-const { version: packageVersion, name: packageName } = getPackageInfos();
+const { version: packageVersion } = getVersionFromPackageJSON();
+const { packageName } = getInfosFromComposerJSON();
 
 /** Allow to overwrite the plugin main file via an argument: `bin/js/patchVersion foo.php` */
 const [, , pluginFileName = `${packageName}.php`] = process.argv;

@@ -7,25 +7,29 @@
  * - creates a zip file from the scoped/ folder, named after the package
  */
 
-import { existsSync, mkdirSync, rmSync, unlinkSync } from "fs";
+import { existsSync, rmSync } from "fs";
 import { basename, resolve } from "path";
-import { cwd, exit, env } from "process";
-import { error, getPackageInfos, info, run, line, success } from "./support.js";
+import { cwd, env } from "process";
+import {
+  error,
+  dd,
+  info,
+  run,
+  line,
+  success,
+  getInfosFromComposerJSON,
+} from "./support.js";
 
 /** Validate that we are at the project root */
 const projectRoot = cwd();
 if (!existsSync(resolve(projectRoot, ".gitignore"))) {
   error(`${basename(__filename)} must run from the package root`);
-  exit(1);
 }
 
-const phpScoperDownloadUrl =
-  "https://github.com/humbug/php-scoper/releases/latest/download/php-scoper.phar";
-
-const { name: packageName } = getPackageInfos();
+const { fullName, packageName } = getInfosFromComposerJSON();
 
 line();
-info(`Creating a scoped release for ${packageName}...`);
+info(`Creating a scoped release for ${fullName}...`);
 line();
 
 // Install Composer dependencies in GitHub Actions
@@ -35,17 +39,17 @@ if (env.GITHUB_ACTIONS === "true") {
 }
 
 /** Ensure php-scoper is available */
-const phpScoperPath = resolve(projectRoot, "bin/php-scoper");
+const phpScoperPath = "bin/php-scoper";
+info("Ensuring php-scoper is available...");
 if (!existsSync(phpScoperPath)) {
-  info("Ensuring php-scoper is available...");
-  mkdirSync(resolve(projectRoot, "bin"), { recursive: true });
-  run(`curl -sL ${phpScoperDownloadUrl} -o ${phpScoperPath}`);
+  run(`curl -sL https://github.com/humbug/php-scoper/releases/latest/download/php-scoper.phar -o ${phpScoperPath}`); // prettier-ignore
   run(`chmod +x ${phpScoperPath}`);
 }
 
 /** Scope namespaces using php-scoper */
 info("Scoping namespaces using php-scoper...");
-run(`rm -rf scoped && ${phpScoperPath} add-prefix --quiet --output-dir=scoped --config=bin/scoper.config.php`); // prettier-ignore
+rmSync("scoped", { recursive: true, force: true });
+run(`${phpScoperPath} add-prefix --quiet --output-dir=scoped --config=bin/scoper.config.php`); // prettier-ignore
 success("Successfully scoped all namespaces!");
 line();
 
@@ -64,6 +68,6 @@ info("Creating a zip file from the scoped directory...");
 run(`cd scoped && zip -rq "../${packageName}.zip" . && cd ..`);
 
 line();
-info(`✅ Created a scoped release folder: scoped/`);
-info(`✅ Created a scoped release asset: ${packageName}.zip`);
+success(`Created a scoped release folder: scoped/`);
+success(`Created a scoped release asset: ${packageName}.zip`);
 line();

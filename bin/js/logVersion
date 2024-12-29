@@ -2,9 +2,9 @@
 
 // @ts-check
 
-import { getPackageInfos } from "./support.js";
+import { getVersionFromPackageJSON } from "./support.js";
 
-const { version } = getPackageInfos();
+const { version } = getVersionFromPackageJSON();
 
 /**
  * Log the version to the console,
