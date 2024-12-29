@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.43
+
+### Patch Changes
+
+- fc576e8: Clean-up binaries
+
 ## 2.3.42
 
 ### Patch Changes
