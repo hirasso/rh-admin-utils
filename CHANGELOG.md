@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.47
+
+### Patch Changes
+
+- 713f600: Make tooling more modular
+
 ## 2.3.46
 
 ### Patch Changes
