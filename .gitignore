@@ -13,14 +13,10 @@ vendor/
 php-scoper-wordpress-excludes/
 
 # Releases
-bin/*.phar
+bin/php-scoper
 scoped/
 RELEASE.md
-
-# Dist folder
 dist/
-
-
 
 # Other
 *.sql
