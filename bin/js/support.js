@@ -69,7 +69,7 @@ export const run = (command) => execSync(command, { stdio: "inherit" });
  * @param {...any} rest
  */
 export const info = (message, ...rest) => {
-  console.log(`💡${pc.gray(message)}`, ...rest);
+  console.log(`💡 ${pc.gray(message)}`, ...rest);
 };
 
 /**
@@ -78,7 +78,7 @@ export const info = (message, ...rest) => {
  * @param {...any} rest
  */
 export const success = (message, ...rest) => {
-  console.log(`✅${pc.green(message)}`, ...rest);
+  console.log(`✅ ${pc.green(message)}`, ...rest);
 };
 
 /**
@@ -103,7 +103,7 @@ export const line = () => console.log("");
  */
 export const debug = (...args) => {
   line();
-  console.log("🐛", ...args);
+  console.log("🐛 ", ...args);
   line();
 };
 
