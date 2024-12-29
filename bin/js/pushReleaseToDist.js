@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// @ts-check
+
 /**
  * Push a new release to the dist repo
  */
