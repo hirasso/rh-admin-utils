@@ -1,6 +1,6 @@
 {
   "name": "rh-admin-utils",
-  "version": "2.3.43",
+  "version": "2.3.44",
   "private": true,
   "description": "Build process for frontend assets",
   "main": "index.js",
