@@ -17,7 +17,7 @@ import {
 const { version: packageVersion } = getInfosFromPackageJSON();
 const { packageName } = getInfosFromComposerJSON();
 
-/** Allow to overwrite the plugin main file via an argument: `bin/js/patchVersion foo.php` */
+/** Allow to overwrite the plugin main file via an argument: `bin/js/patchVersion.js foo.php` */
 const [, , pluginFileName = `${packageName}.php`] = process.argv;
 
 const pluginFilePath = path.join(process.cwd(), pluginFileName);
