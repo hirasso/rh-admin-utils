@@ -49,12 +49,11 @@ if (!onGitHub) {
 
 const packageInfos = getInfosFromPackageJSON();
 const { packageName } = getInfosFromComposerJSON();
+const packageVersion = `v${packageInfos.version}`;
 
 if (!packageVersion) {
   throwError("Empty package version");
 }
-
-const packageVersion = `v${packageInfos.version}`;
 
 info(`Committing and pushing new release: 'v${packageVersion}'...`);
 line();
