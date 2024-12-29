@@ -2,12 +2,13 @@
 
 // @ts-check
 
-import * as fs from "fs";
-import { fileURLToPath } from "url";
-import path, { basename } from "path";
-import { execSync } from "child_process";
-import { cwd, env, exit } from "process";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import path, { basename } from "node:path";
+import { execSync } from "node:child_process";
+import { cwd, env, exit } from "node:process";
 import pc from "picocolors";
+import glob from "fast-glob";
 
 // Get the equivalent of __filename
 const __filename = fileURLToPath(import.meta.url);
@@ -40,7 +41,7 @@ export function validateCWD() {
 export function getInfosFromPackageJSON() {
   // Read the version and name from package.json
   const packageJsonPath = path.join(process.cwd(), "./package.json");
-  const { version } = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+  const { version } = JSON.parse(readFileSync(packageJsonPath, "utf8"));
   return { version };
 }
 
@@ -51,9 +52,7 @@ export function getInfosFromPackageJSON() {
 export function getInfosFromComposerJSON() {
   // Read the version and name from package.json
   const composerJsonPath = path.join(process.cwd(), "./composer.json");
-  const { name: fullName } = JSON.parse(
-    fs.readFileSync(composerJsonPath, "utf8"),
-  );
+  const { name: fullName } = JSON.parse(readFileSync(composerJsonPath, "utf8"));
   const [owner, packageName] = fullName.split("/");
   return { fullName, owner, packageName };
 }
@@ -67,7 +66,7 @@ export const run = (command) => execSync(command, { stdio: "inherit" });
 /**
  * Log an info message
  * @param {string} message
- * @param {...any[]} rest
+ * @param {...any} rest
  */
 export const info = (message, ...rest) => {
   console.log(`💡${pc.gray(message)}`, ...rest);
@@ -76,7 +75,7 @@ export const info = (message, ...rest) => {
 /**
  * Log a success message
  * @param {string} message
- * @param {...any[]} rest
+ * @param {...any} rest
  */
 export const success = (message, ...rest) => {
   console.log(`✅${pc.green(message)}`, ...rest);
@@ -85,9 +84,9 @@ export const success = (message, ...rest) => {
 /**
  * Log an error message and exit
  * @param {string} message
- * @param {...any[]} rest
+ * @param {...any} rest
  */
-export const error = (message, ...rest) => {
+export const throwError = (message, ...rest) => {
   line();
   console.log(` ❌ ${pc.bgRed(pc.bold(`${message}`))}`, ...rest);
   exit(1);
@@ -100,11 +99,11 @@ export const line = () => console.log("");
 
 /**
  * Debug something to the console
- * @param {...any[]} args
+ * @param {...any} args
  */
 export const debug = (...args) => {
   line();
-  console.log('🐛', ...args);
+  console.log("🐛", ...args);
   line();
 };
 
@@ -112,3 +111,38 @@ export const debug = (...args) => {
  * Check if currently running on GitHub actions
  */
 export const isGitHubActions = () => env.GITHUB_ACTIONS === "true";
+
+/**
+ * Compare two directories
+ * @param {string} dir1
+ * @param {string} dir2
+ * @param {string[]} ignore
+ */
+export const validateDirectories = async (dir1, dir2, ignore = [".git"]) => {
+  try {
+    const pattern = ["*", ...ignore.map((ig) => `!${ig}`)];
+
+    const files1 = await glob(pattern, {
+      cwd: dir1,
+      onlyFiles: false,
+    });
+    const files2 = await glob(pattern, {
+      cwd: dir2,
+      onlyFiles: false,
+    });
+
+    const normalized1 = files1.sort();
+    const normalized2 = files2.sort();
+
+    // debug(`${dir1}:`, normalized1, `${dir2}:`, normalized2);
+
+    return (
+      !!normalized1.length &&
+      !!normalized2.length &&
+      normalized1.length === normalized2.length &&
+      normalized1.every((file, index) => file === normalized2[index])
+    );
+  } catch (err) {
+    throwError("Error comparing directories:", err);
+  }
+};

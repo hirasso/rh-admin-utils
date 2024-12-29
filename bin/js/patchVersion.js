@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 
 // @ts-check
+
 import fs from "fs";
 import path from "path";
 import {
   dd,
-  error,
+  throwError,
   getInfosFromComposerJSON,
   getInfosFromPackageJSON,
   info,
@@ -24,7 +25,7 @@ const pluginFilePath = path.join(process.cwd(), pluginFileName);
 
 /** Bail early if the file doesn't exist */
 if (!fs.existsSync(pluginFilePath)) {
-  error(`❌ plugin file not found: ${pluginFileName}`);
+  throwError(`❌ plugin file not found: ${pluginFileName}`);
 }
 
 /** Update the version in the main plugin PHP file */
@@ -37,7 +38,7 @@ line();
 info(`Patching version in ${pluginFileName}...`);
 
 if (!currentVersion) {
-  error(`No version found in file: ${pluginFileName}`);
+  throwError(`No version found in file: ${pluginFileName}`);
   process.exit(1);
 }
 

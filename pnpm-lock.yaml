@@ -60,6 +60,9 @@ importers:
       esbuild-plugin-browserslist:
         specifier: ^0.14.0
         version: 0.14.0(browserslist@4.23.2)(esbuild@0.23.0)
+      fast-glob:
+        specifier: ^3.3.2
+        version: 3.3.2
       findup-sync:
         specifier: ^5.0.0
         version: 5.0.0

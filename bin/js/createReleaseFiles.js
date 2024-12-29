@@ -7,11 +7,11 @@
  * - creates a zip file from the scoped/ folder, named after the package
  */
 
-import { existsSync, rmSync } from "fs";
+import { cpSync, existsSync, rmSync } from "fs";
 import { basename, resolve } from "path";
 import { cwd, env } from "process";
 import {
-  error,
+  throwError,
   dd,
   info,
   run,
@@ -23,7 +23,7 @@ import {
 /** Validate that we are at the project root */
 const projectRoot = cwd();
 if (!existsSync(resolve(projectRoot, ".gitignore"))) {
-  error(`${basename(__filename)} must run from the package root`);
+  throwError(`${basename(__filename)} must run from the package root`);
 }
 
 const { fullName, packageName } = getInfosFromComposerJSON();
@@ -64,6 +64,11 @@ info("Cleaning up the scoped directory...");
 ["scoped/composer.json", "scoped/composer.lock"].forEach((file) => {
   rmSync(resolve(projectRoot, file), { force: true });
 });
+
+info(`Overwriting the composer.json in scoped/...`);
+cpSync("composer.dist.json", "scoped/composer.json");
+
+line();
 
 /** Create a zip file from the scoped directory */
 info("Creating a zip file from the scoped directory...");

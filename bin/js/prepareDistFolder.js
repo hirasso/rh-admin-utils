@@ -14,43 +14,43 @@ import {
   run,
   info,
   success,
-  error,
+  throwError,
   getInfosFromComposerJSON,
   dd,
   validateCWD,
+  line,
 } from "./support.js";
 
 const { owner, packageName } = getInfosFromComposerJSON();
 if (!owner || !packageName) {
-  error(`Could not read owner and/or packageName`, { owner, packageName });
+  throwError(`Could not read owner and/or packageName`, { owner, packageName });
 }
 
 // Ensure the script is run from the project root
 if (!validateCWD()) {
-  error(`${basename(__filename)} must be executed from the package root`);
+  throwError(`${basename(__filename)} must be executed from the package root`);
 }
 
 // Check if the `scoped` folder exists
 if (!existsSync("scoped")) {
-  error("The 'scoped' folder does not exist");
+  throwError("The 'scoped' folder does not exist");
 }
 
 // Initialize the dist folder if not in GitHub Actions
 if (env.GITHUB_ACTIONS !== "true") {
-  info(`Cloning the dist repo into dist/`);
+  info(`Cloning the dist repo into dist/...`);
   rmSync("dist", { recursive: true, force: true });
   run(
-    `git clone -b empty git@github.com:${owner}/${packageName}-dist.git dist/`
+    `git clone -b empty git@github.com:${owner}/${packageName}-dist.git dist/`,
   );
 }
 
-info(`Checking out the empty tagged root commit`);
+info(`Checking out the empty tagged root commit..`);
 run("git -C dist checkout --detach empty");
 
-info(`Copying files from scoped/ to dist/`);
-cpSync("scoped", "dist", { recursive: true, force: true });
+line();
 
-info(`Overwriting the composer.json in dist/`);
-cpSync("composer.dist.json", "dist/composer.json");
+info(`Copying files from scoped/ to dist/...`);
+cpSync("scoped", "dist", { recursive: true, force: true });
 
 success(`Dist folder preparation complete!`);
