@@ -57,6 +57,8 @@ line();
 info("Dumping the autoloader in the scoped directory...");
 run("composer dump-autoload --working-dir=scoped --classmap-authoritative");
 
+line();
+
 /** Clean up the scoped directory */
 info("Cleaning up the scoped directory...");
 ["scoped/composer.json", "scoped/composer.lock"].forEach((file) => {

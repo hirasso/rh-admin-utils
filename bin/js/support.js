@@ -1,13 +1,15 @@
+#!/usr/bin/env node
+
 // @ts-check
 
 import * as fs from "fs";
 import { fileURLToPath } from "url";
-import path from "path";
+import path, { basename } from "path";
 import { execSync } from "child_process";
-import { exit } from "process";
+import { cwd, env, exit } from "process";
 import pc from "picocolors";
 
-// Get the directory of the current script
+// Get the equivalent of __filename
 const __filename = fileURLToPath(import.meta.url);
 
 /**
@@ -20,12 +22,22 @@ export function dd(...args) {
 }
 
 /**
+ * Validate that the script is being run from the root dir
+ * This is being achieved by comparing the package name to
+ */
+export function validateCWD() {
+  const { packageName } = getInfosFromComposerJSON();
+  const dirName = basename(cwd());
+  return packageName === dirName;
+}
+
+/**
  * Get the current version from the package.json
  * In this project, the version in package.json is the
  * source of truth, as releases are handled by @changesets/action
  * @return {{version: string}}
  */
-export function getVersionFromPackageJSON() {
+export function getInfosFromPackageJSON() {
   // Read the version and name from package.json
   const packageJsonPath = path.join(process.cwd(), "./package.json");
   const { version } = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
@@ -52,17 +64,51 @@ export function getInfosFromComposerJSON() {
  */
 export const run = (command) => execSync(command, { stdio: "inherit" });
 
-/** log an info @param {string} message */
-export const info = (message) => console.log(`💡${pc.gray(message)}`);
+/**
+ * Log an info message
+ * @param {string} message
+ * @param {...any[]} rest
+ */
+export const info = (message, ...rest) => {
+  console.log(`💡${pc.gray(message)}`, ...rest);
+};
 
-/** log a success @param {string} message */
-export const success = (message) => console.log(`✅${pc.green(message)}`);
+/**
+ * Log a success message
+ * @param {string} message
+ * @param {...any[]} rest
+ */
+export const success = (message, ...rest) => {
+  console.log(`✅${pc.green(message)}`, ...rest);
+};
 
-/** log an error and exit @param {string} message */
-export const error = (message) => {
-  console.log(`❌${pc.red(message)}`);
+/**
+ * Log an error message and exit
+ * @param {string} message
+ * @param {...any[]} rest
+ */
+export const error = (message, ...rest) => {
+  line();
+  console.log(` ❌ ${pc.bgRed(pc.bold(`${message}`))}`, ...rest);
   exit(1);
 };
 
-/** log a line */
+/**
+ * Log a line
+ */
 export const line = () => console.log("");
+
+/**
+ * Debug something to the console
+ * @param {...any[]} args
+ */
+export const debug = (...args) => {
+  line();
+  console.log('🐛', ...args);
+  line();
+};
+
+/**
+ * Check if currently running on GitHub actions
+ */
+export const isGitHubActions = () => env.GITHUB_ACTIONS === "true";

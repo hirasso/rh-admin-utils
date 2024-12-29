@@ -9,17 +9,25 @@
 
 import { cpSync, existsSync, rmSync } from "fs";
 import { basename, resolve } from "path";
-import { cwd, exit, env } from "process";
-import { run, info, success, error, getInfosFromComposerJSON, dd } from "./support.js";
+import { cwd, env } from "process";
+import {
+  run,
+  info,
+  success,
+  error,
+  getInfosFromComposerJSON,
+  dd,
+  validateCWD,
+} from "./support.js";
 
-const { owner, repo } = getInfosFromComposerJSON();
-if (!owner || !repo) {
-  error(`Could not read owner and repo`, { owner, repo });
+const { owner, packageName } = getInfosFromComposerJSON();
+if (!owner || !packageName) {
+  error(`Could not read owner and/or packageName`, { owner, packageName });
 }
 
 // Ensure the script is run from the project root
-if (!existsSync(resolve(cwd(), ".gitignore"))) {
-  error(`${basename(__filename)} must run from the package root`);
+if (!validateCWD()) {
+  error(`${basename(__filename)} must be executed from the package root`);
 }
 
 // Check if the `scoped` folder exists
@@ -30,8 +38,8 @@ if (!existsSync("scoped")) {
 // Initialize the dist folder if not in GitHub Actions
 if (env.GITHUB_ACTIONS !== "true") {
   info(`Cloning the dist repo into dist/`);
-  rmSync("dist", { force: true });
-  run(`git clone -b empty git@github.com:${owner}/${repo}-dist.git dist/`);
+  rmSync("dist", { recursive: true, force: true });
+  run(`git clone -b empty git@github.com:${owner}/${packageName}-dist.git dist/`);
 }
 
 info(`Checking out the empty tagged root commit`);

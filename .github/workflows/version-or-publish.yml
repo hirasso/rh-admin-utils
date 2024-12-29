@@ -70,7 +70,7 @@ jobs:
       - name: Create scoped release asset
         run: |
           bin/js/generateReleaseFiles
-          bin/sh/prepareDistFolder
+          bin/js/prepareDistFolder
 
       # Run changesets action either if there are unreleased changesets (= a PR must be created)
       # or if the commit message matches the release PR (= new versions must be published to NPM)
