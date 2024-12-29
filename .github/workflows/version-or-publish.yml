@@ -69,8 +69,8 @@ jobs:
       # Run this before changesets, to make sure releases actually work
       - name: Create scoped release asset
         run: |
-          bin/js/createReleaseFiles
-          bin/js/prepareDistFolder
+          bin/js/createReleaseFiles.js
+          bin/js/prepareDistFolder.js
 
       # Run changesets action either if there are unreleased changesets (= a PR must be created)
       # or if the commit message matches the release PR (= new versions must be published to NPM)
@@ -104,4 +104,4 @@ jobs:
       - name: Push release to dist repo
         if: steps.cs.outputs.published == 'true'
         run: |
-          bin/js/pushReleaseToDist
+          bin/js/pushReleaseToDist.js
