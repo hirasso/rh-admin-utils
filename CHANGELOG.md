@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.3
+
+### Patch Changes
+
+- 048b7f7: Require php 8.2 and composer/installers in composer.dist.json
+
 ## 3.0.2
 
 ### Patch Changes
