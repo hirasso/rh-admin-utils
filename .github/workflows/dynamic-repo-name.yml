@@ -17,8 +17,7 @@ jobs:
       - name: Extract repository name from composer.json
         id: extract-name
         run: |
-          NAME=$(jq -r '.name' composer.json)
-          echo "::set-output name=package_name::${NAME}"
+          echo "package_name=$(jq -r '.name' composer.json)" >> $GITHUB_OUTPUT
 
   release:
     name: Create Version PR or Publish
