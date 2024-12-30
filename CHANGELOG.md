@@ -1,5 +1,23 @@
 # Changelog
 
+## 3.0.0
+
+### Major Changes
+
+- afbef93: Prefix all constants with `RHAU_` to prevent conflicts:
+
+  - `ENVIRONMENTS` is now `RHAU_ENVIRONMENTS`
+  - `REMOTE_ASSET_MIRROR` is now `RHAU_REMOTE_ASSET_MIRROR`
+
+### Minor Changes
+
+- adfe522: Support setting `RHAU_GITHUB_TOKEN` to prevent being blocked by GitHub
+
+### Patch Changes
+
+- 8db6610: Add more docs
+- 2b9ba06: Make `validateCWD()` less strict and rename it to `isAtRootDir()`
+
 ## 2.3.47
 
 ### Patch Changes
