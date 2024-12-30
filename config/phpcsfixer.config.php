@@ -8,6 +8,10 @@
 use PhpCsFixer\Finder;
 use PhpCsFixer\Config;
 
+$finder = Finder::create()
+    ->in(['src', 'config']) // src/ and config/ folders
+    ->append(glob('*.php')); // toplevel php files
+
 return (new Config())
     ->setRules([
         '@PSR12' => true,
@@ -17,7 +21,5 @@ return (new Config())
         'single_space_after_construct' => true,
     ])
     ->setFinder(
-        Finder::create()
-            ->in(['src', 'config'])
-            ->in(['.'])->depth('== 0')
+        $finder
     );
