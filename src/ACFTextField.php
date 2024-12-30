@@ -2,8 +2,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 class ACFTextField
 {
     /**
@@ -24,12 +22,12 @@ class ACFTextField
     public static function render_field_settings(array $field): void
     {
 
-        acf_render_field_setting($field, array(
+        acf_render_field_setting($field, [
             'label'  => __('Mask field'),
             'instructions'  => 'Apply a mask to the field\'s value. See <a href="https://alpinejs.dev/plugins/mask">Alpine.js Mask Plugin</a>',
             'name' => 'rhau_mask_field',
             'type' => 'text',
-        ));
+        ]);
     }
 
     /**
@@ -41,7 +39,9 @@ class ACFTextField
     public static function prepare_text_field(array $field): array
     {
         $mask_field = $field['rhau_mask_field'] ?? null;
-        if (!$mask_field) return $field;
+        if (!$mask_field) {
+            return $field;
+        }
 
         $field['wrapper']['rhau-x-data'] = 'ACFTextField';
         $field['wrapper']['data-rhau-input-mask'] = esc_attr($mask_field);

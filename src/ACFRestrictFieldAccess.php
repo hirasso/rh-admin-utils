@@ -2,8 +2,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 class ACFRestrictFieldAccess
 {
     /**
@@ -20,15 +18,15 @@ class ACFRestrictFieldAccess
      */
     public static function render_field_settings($field)
     {
-        acf_render_field_setting($field, array(
+        acf_render_field_setting($field, [
             'label'         => __('Roles allowed to edit this field'),
             'instructions'  => '',
             'name'          => 'restrict_access',
             'type'          => 'select',
             'choices'       => self::get_choices(),
             'multiple'      => true,
-            'ui'            => true
-        ), true);
+            'ui'            => true,
+        ], true);
     }
 
     /**
@@ -50,15 +48,20 @@ class ACFRestrictFieldAccess
     public static function prepare_field($field): ?array
     {
 
-        if (empty($field)) return null;
+        if (empty($field)) {
+            return null;
+        }
 
-        $caps = $field['restrict_access'] ?? '' ?: [];
+        /** @var array $caps */
+        $caps = $field['restrict_access'] ?? null ?: [];
         if (empty($caps)) {
             return $field;
         }
 
         foreach ($caps as $cap) {
-            if (current_user_can($cap)) return $field;
+            if (current_user_can($cap)) {
+                return $field;
+            }
         }
 
         return null;

@@ -2,8 +2,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 class RemoveAds extends Singleton
 {
     public function __construct()
@@ -55,7 +53,9 @@ class RemoveAds extends Singleton
     public function remove_yoast_ads()
     {
         // check if class Yoast_Notification_Center exists
-        if (!class_exists('\Yoast_Notification_Center')) return;
+        if (!class_exists('\Yoast_Notification_Center')) {
+            return;
+        }
         $notification_center = \Yoast_Notification_Center::get();
         // get all notifications
         $notifications = $notification_center->get_sorted_notifications();
@@ -66,7 +66,9 @@ class RemoveAds extends Singleton
             // get message from array
             $notification_message = $notification_array['message'] ?? null;
             // continue to next notification if no message in array
-            if (!$notification_message) continue;
+            if (!$notification_message) {
+                continue;
+            }
             // Remove the notification if it contains a string.
             // You could also check for $notification_array['options']['yoast_branding'] === true
             if (stripos($notification_message, 'Get Yoast SEO Premium') !== false) {

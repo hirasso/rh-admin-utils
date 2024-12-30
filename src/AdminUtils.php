@@ -4,8 +4,6 @@ namespace RH\AdminUtils;
 
 use WP_Screen;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 class AdminUtils extends Singleton
 {
     private $deprecated_plugins = [
@@ -14,7 +12,7 @@ class AdminUtils extends Singleton
         'toolbar-publish-button/toolbar-publish-button.php',
         'rh-environments/rh-environments.php',
         'disable-comments/disable-comments.php',
-        'search-and-replace/inpsyde-search-replace'
+        'search-and-replace/inpsyde-search-replace',
     ];
 
     public function __construct()
@@ -87,11 +85,19 @@ class AdminUtils extends Singleton
      */
     public function is_admin_acf_options_page()
     {
-        if (!function_exists('acf_get_options_page')) return false;
-        if (!$slug = $_GET['page'] ?? null) return false;
-        if (!$options_page = acf_get_options_page($slug)) return false;
+        if (!function_exists('acf_get_options_page')) {
+            return false;
+        }
+        if (!$slug = $_GET['page'] ?? null) {
+            return false;
+        }
+        if (!$options_page = acf_get_options_page($slug)) {
+            return false;
+        }
         $prepare_slug = preg_replace("/[\?|\&]page=$slug/", "", basename($_SERVER['REQUEST_URI']));
-        if (!empty($options_page['parent_slug']) && $options_page['parent_slug'] !== $prepare_slug) return false;
+        if (!empty($options_page['parent_slug']) && $options_page['parent_slug'] !== $prepare_slug) {
+            return false;
+        }
         return true;
     }
 
@@ -131,11 +137,13 @@ class AdminUtils extends Singleton
     public function add_admin_notice($key, $message, $type = 'warning', $is_dismissible = false)
     {
         $notices = get_transient("rhau-admin-notices");
-        if (!$notices) $notices = [];
+        if (!$notices) {
+            $notices = [];
+        }
         $notices[$key] = [
             'message' => $message,
             'type' => $type,
-            'is_dismissible' => $is_dismissible
+            'is_dismissible' => $is_dismissible,
         ];
         set_transient("rhau-admin-notices", $notices);
     }
@@ -149,7 +157,9 @@ class AdminUtils extends Singleton
     {
         $notices = get_transient("rhau-admin-notices");
         delete_transient("rhau-admin-notices");
-        if (!is_array($notices)) return;
+        if (!is_array($notices)) {
+            return;
+        }
         foreach ($notices as $notice) {
             ob_start() ?>
             <div class="notice notice-<?= $notice['type'] ?> <?= $notice['is_dismissible'] ? 'is-dismissible' : '' ?>">
@@ -176,7 +186,9 @@ class AdminUtils extends Singleton
     {
         // activate debugging in if doing ajax
         // @see https://stackoverflow.com/a/68009325/586823
-        if (wp_doing_ajax()) @ini_set('display_errors', 1);
+        if (wp_doing_ajax()) {
+            @ini_set('display_errors', 1);
+        }
     }
 
     /**

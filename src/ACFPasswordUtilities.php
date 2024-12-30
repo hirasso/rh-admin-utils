@@ -7,8 +7,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 /**
  * A class to use one base template to wrap all other wordpress templates
  */

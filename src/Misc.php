@@ -2,8 +2,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 class Misc extends Singleton
 {
     public function __construct()
@@ -53,7 +51,9 @@ class Misc extends Singleton
      */
     public function limit_revisions()
     {
-        if (defined('WP_POST_REVISIONS')) return;
+        if (defined('WP_POST_REVISIONS')) {
+            return;
+        }
         $revisions = intval(apply_filters('rhau/settings/post_revisions', 3));
         define('WP_POST_REVISIONS', $revisions);
     }
@@ -66,7 +66,9 @@ class Misc extends Singleton
      */
     public function prepare_image_field($field)
     {
-        if (!is_admin() || !$field || empty($field['label'])) return $field;
+        if (!is_admin() || !$field || empty($field['label'])) {
+            return $field;
+        }
         $field['label'] .= " <span title='JPG for photos or drawings, PNG for transparency or simple graphics (larger file size).' class='dashicons dashicons-info acf-js-tooltip rhau-icon--info'></span>";
         return $field;
     }
@@ -79,7 +81,9 @@ class Misc extends Singleton
     public function overwrite_qtranslate_defaults()
     {
         global $q_config;
-        if (!isset($q_config)) return;
+        if (!isset($q_config)) {
+            return;
+        }
         // disable qtranslate styles on the admin LSBs
         $q_config['lsb_style'] = 'custom';
         // do not highlight translatable fields. Set to QTX_HIGHLIGHT_MODE_CUSTOM_CSS
@@ -107,11 +111,17 @@ class Misc extends Singleton
     public function redirect_edit_php()
     {
         global $pagenow, $typenow;
-        if ($pagenow !== 'edit.php') return;
-        if ($typenow) return;
+        if ($pagenow !== 'edit.php') {
+            return;
+        }
+        if ($typenow) {
+            return;
+        }
 
         // Allow themes to deactivate the redirect
-        if (!apply_filters('rhau/redirect_edit_php', true)) return;
+        if (!apply_filters('rhau/redirect_edit_php', true)) {
+            return;
+        }
 
         $redirect_url = admin_url('/edit.php?post_type=page');
 
@@ -131,14 +141,18 @@ class Misc extends Singleton
      */
     public function redirect_initial_admin_url()
     {
-        if (rhau()->getCurrentScreen()?->id !== 'dashboard') return;
+        if (rhau()->getCurrentScreen()?->id !== 'dashboard') {
+            return;
+        }
 
         $initial_admin_url = trim(
             apply_filters('rhau/initial_admin_url', 'edit.php?post_type=page'),
             '/'
         );
 
-        if ($initial_admin_url === 'index.php') return;
+        if ($initial_admin_url === 'index.php') {
+            return;
+        }
 
         wp_safe_redirect(admin_url("/$initial_admin_url"));
         exit;
@@ -156,7 +170,9 @@ class Misc extends Singleton
     public function disable_capabilities($caps, $cap, $user_id, $args)
     {
         $disabled_capabilities = apply_filters('rhau/disabled_capabilities', ['customize']);
-        if (!in_array($cap, $disabled_capabilities)) return $caps;
+        if (!in_array($cap, $disabled_capabilities)) {
+            return $caps;
+        }
         $caps[] = 'do_not_allow';
         return $caps;
     }
@@ -205,7 +221,9 @@ class Misc extends Singleton
      */
     public function debug_bar_enable(bool $enable): bool
     {
-        if (!current_user_can('administrator')) return false;
+        if (!current_user_can('administrator')) {
+            return false;
+        }
         return $enable;
     }
 
@@ -218,9 +236,13 @@ class Misc extends Singleton
         int $user_id,
         $args
     ): array {
-        if (!is_user_logged_in()) return $caps;
+        if (!is_user_logged_in()) {
+            return $caps;
+        }
 
-        if ($cap !== 'manage_privacy_options') return $caps;
+        if ($cap !== 'manage_privacy_options') {
+            return $caps;
+        }
 
         $caps = ['edit_others_posts'];
 
@@ -273,7 +295,9 @@ class Misc extends Singleton
     public function admin_body_class(string $class): string
     {
         global $pagenow;
-        if ($pagenow !== 'user-edit.php') return $class;
+        if ($pagenow !== 'user-edit.php') {
+            return $class;
+        }
 
         // allows for themes to disable hiding the application passwords
         if (apply_filters('rhau/misc/hide-application-passwords', true)) {
@@ -288,10 +312,14 @@ class Misc extends Singleton
      */
     public static function render_field_post_object(array $field): void
     {
-        if (empty($field)) return;
+        if (empty($field)) {
+            return;
+        }
 
         $post_id = $field['value'] ?? null;
-        if (empty($post_id) || !$post = get_post($post_id)) return;
+        if (empty($post_id) || !$post = get_post($post_id)) {
+            return;
+        }
 
         ?>
         <div class="rh-post-object-edit-links">
@@ -331,8 +359,12 @@ class Misc extends Singleton
      */
     public function schedule_sg_security_cronjob(): void
     {
-        if (!rhau()->is_plugin_active('sg-security/sg-security.php')) return;
-        if (wp_next_scheduled('siteground_security_clear_logs_cron')) return;
+        if (!rhau()->is_plugin_active('sg-security/sg-security.php')) {
+            return;
+        }
+        if (wp_next_scheduled('siteground_security_clear_logs_cron')) {
+            return;
+        }
 
         wp_schedule_event(time(), 'daily', 'siteground_security_clear_logs_cron');
     }

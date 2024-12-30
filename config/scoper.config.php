@@ -37,7 +37,7 @@ $extraFiles = array_filter([
     'README.md',
     'CHANGELOG.md',
     'LICENSE',
-    'LICSENSE.md'
+    'LICSENSE.md',
 ], 'file_exists');
 
 /**
@@ -49,7 +49,7 @@ return [
     'exclude-namespaces' => [
         $packageNamespace,
         /** Exclude PluginUpdateChecker as it breaks when scoped */
-        'YahnisElsts\PluginUpdateChecker'
+        'YahnisElsts\PluginUpdateChecker',
     ],
     'php-version' => $phpVersion,
 
@@ -69,8 +69,8 @@ return [
             ->exclude('bin/'),
         $finder::create()->append(glob('*.php')),
         $finder::create()->append(glob('assets/*')),
-        $finder::create()->append($extraFiles)
-    ]
+        $finder::create()->append($extraFiles),
+    ],
 ];
 
 /**

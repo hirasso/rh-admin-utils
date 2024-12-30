@@ -11,8 +11,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 class ACFOembedWhitelist
 {
     /** Init */
@@ -27,12 +25,12 @@ class ACFOembedWhitelist
      */
     public static function render_field_settings(array $field): void
     {
-        acf_render_field_setting($field, array(
+        acf_render_field_setting($field, [
             'label'  => __('Whitelist'),
             'instructions'  => 'Comma-separated list of allowed hosts, for example <code>vimeo.com,youtube.com</code>',
             'name' => 'rhau_oembed_whitelist',
             'type' => 'text',
-        ));
+        ]);
     }
 
     /**
@@ -41,13 +39,19 @@ class ACFOembedWhitelist
     public static function validate_oembed_search(): void
     {
         $url = $_POST['s'] ?? null;
-        if (!$url) return;
+        if (!$url) {
+            return;
+        }
 
         $field = acf_get_field($_POST['field_key'] ?? null);
-        if (!$field) return;
+        if (!$field) {
+            return;
+        }
 
         $whitelist = trim($field['rhau_oembed_whitelist'] ?? '');
-        if (empty($whitelist)) return;
+        if (empty($whitelist)) {
+            return;
+        }
 
         $whitelist = implode('|', array_map('trim', explode(',', $whitelist)));
 
@@ -55,7 +59,9 @@ class ACFOembedWhitelist
 
         $is_valid = preg_match('/(' . $whitelist . ')/i', $response);
 
-        if ($is_valid) return;
+        if ($is_valid) {
+            return;
+        }
 
         wp_send_json([
             'url' => "",
@@ -64,7 +70,7 @@ class ACFOembedWhitelist
                     <div class='acf-notice -error acf-error-message oembed-error'>
                         <p>Please provide a valid value (allowed: $whitelist).</p>
                     </div>
-                </div>"
+                </div>",
         ]);
     }
 }

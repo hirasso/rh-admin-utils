@@ -10,16 +10,15 @@
 .browserslistrc export-ignore
 .editorconfig export-ignore
 
-.phpcs.xml export-ignore
+# Tooling
 .prettierignore export-ignore
 assets-src export-ignore
 package.json export-ignore
 pnpm-lock.yaml export-ignore
 postcss.config.cjs export-ignore
-webpack.config.js export-ignore
-scripts export-ignore
 bin export-ignore
 *.sh export-ignore
+config/ export-ignore
 
 # composer
 composer.lock export-ignore

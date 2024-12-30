@@ -2,8 +2,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 /**
  * Allows editors to add users
  */
@@ -17,23 +15,23 @@ class EditorsAddUsers extends Singleton
         'delete_users',
         'list_users',
         'promote_user',
-        'promote_users'
+        'promote_users',
     ];
 
     private $allowed_roles = [
-        'editor', 'editor_in_chief'
+        'editor', 'editor_in_chief',
     ];
 
     public function __construct()
     {
 
-        register_activation_hook(__FILE__, array($this, 'activation_hook'));
-        register_deactivation_hook(__FILE__, array($this, 'deactivation_hook'));
+        register_activation_hook(__FILE__, [$this, 'activation_hook']);
+        register_deactivation_hook(__FILE__, [$this, 'deactivation_hook']);
 
-        add_action('admin_init', array($this, 'admin_init'));
-        add_filter('editable_roles', array($this, 'filter_editable_roles'));
-        add_action('admin_footer', array($this, 'admin_footer'));
-        add_filter('map_meta_cap', array($this, 'map_meta_cap'), 10, 4);
+        add_action('admin_init', [$this, 'admin_init']);
+        add_filter('editable_roles', [$this, 'filter_editable_roles']);
+        add_action('admin_footer', [$this, 'admin_footer']);
+        add_filter('map_meta_cap', [$this, 'map_meta_cap'], 10, 4);
     }
 
     /**
@@ -130,7 +128,9 @@ class EditorsAddUsers extends Singleton
     public function admin_footer(): void
     {
         global $pagenow;
-        if (current_user_can('administrator')) return;
+        if (current_user_can('administrator')) {
+            return;
+        }
         if ($pagenow === 'user-new.php') : ?>
             <script>
                 document.getElementById("send_user_notification").checked = false;

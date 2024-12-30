@@ -2,8 +2,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 class WpscClearCache extends Singleton
 {
     public function __construct()
@@ -25,7 +23,9 @@ class WpscClearCache extends Singleton
         if (is_plugin_active('wp-super-cache/wp-cache.php')) {
             add_action('admin_bar_menu', [$this, 'replace_wp_super_cache_admin_bar_button'], 999);
         }
-        if (intval($_GET['rh_clear_cache'] ?? null) === 1) $this->clear_cache_and_redirect();
+        if (intval($_GET['rh_clear_cache'] ?? null) === 1) {
+            $this->clear_cache_and_redirect();
+        }
     }
 
     /**
@@ -76,8 +76,8 @@ class WpscClearCache extends Singleton
             'parent' => '',
             'id' => 'rhau-delete-cache',
             'title' => '<span class="ab-icon"></span>' . $text,
-            'meta' => array('title' => __('Delete Super Cache cached files', 'wp-super-cache'), 'target' => '_self'),
-            'href' => wp_nonce_url($url, 'rh_clear_cache')
+            'meta' => ['title' => __('Delete Super Cache cached files', 'wp-super-cache'), 'target' => '_self'],
+            'href' => wp_nonce_url($url, 'rh_clear_cache'),
         ];
 
         $wp_admin_bar->add_menu($args);
@@ -94,7 +94,9 @@ class WpscClearCache extends Singleton
      */
     public function acf_save_post($post_id): void
     {
-        if (is_string($post_id)) $this->clear_cache();
+        if (is_string($post_id)) {
+            $this->clear_cache();
+        }
     }
 
     /**
@@ -124,7 +126,9 @@ class WpscClearCache extends Singleton
     private function clear_cache(): bool
     {
         // bail early if wp super cache isn't installed
-        if (!function_exists('wp_cache_clear_cache')) return false;
+        if (!function_exists('wp_cache_clear_cache')) {
+            return false;
+        }
         wp_cache_clear_cache();
         return true;
     }

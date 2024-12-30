@@ -2,8 +2,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 /**
  * Singleton Abstract
  *
@@ -11,7 +9,7 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
  */
 abstract class Singleton
 {
-    private static $instances = array();
+    private static $instances = [];
 
     protected function __construct()
     {

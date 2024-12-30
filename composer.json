@@ -18,10 +18,12 @@
     "yahnis-elsts/plugin-update-checker": "^5.5"
   },
   "require-dev": {
-    "sniccowp/php-scoper-wordpress-excludes": "^6.7",
-    "squizlabs/php_codesniffer": "^3.11"
+    "friendsofphp/php-cs-fixer": "^3.66",
+    "sniccowp/php-scoper-wordpress-excludes": "^6.7"
   },
-  "scripts": {},
+  "scripts": {
+    "format": "vendor/bin/php-cs-fixer fix --config config/phpcsfixer.config.php --allow-risky=yes"
+  },
   "scripts-descriptions": {},
   "config": {
     "allow-plugins": {

@@ -1,11 +1,5 @@
 <?php
 
-/*
- * Copyright (c) Rasso Hilber
- * https://rassohilber.com
- *
- */
-
 namespace RH\AdminUtils;
 
 class PageRestrictionsOptionsPage
@@ -18,8 +12,8 @@ class PageRestrictionsOptionsPage
         self::$page_title = __('Global Page Restrictions', 'rhau');
         self::$menu_title = __('Restrictions', 'rhau');
 
-        add_action('admin_menu', array(__CLASS__, 'add_options_page'));
-        add_action('admin_init', array(__CLASS__, 'register_options_page_settings'));
+        add_action('admin_menu', [__CLASS__, 'add_options_page']);
+        add_action('admin_init', [__CLASS__, 'register_options_page_settings']);
 
         // add_action('admin_enqueue_scripts', [__CLASS__, 'enqueue_custom_scripts']);
     }
@@ -63,7 +57,7 @@ class PageRestrictionsOptionsPage
                 <?php submit_button(__('Save Settings')); ?>
             </form>
         </div>
-        <?php
+    <?php
     }
 
     /**
@@ -78,15 +72,14 @@ class PageRestrictionsOptionsPage
                 'type' => 'array',
                 'description' => 'A list of all protected templates',
                 'sanitize_callback' => [__CLASS__, 'sanitize_setting_protected_templates'],
-                'default' => []
+                'default' => [],
             ]
         );
 
         add_settings_section(
             id: 'rhau_restrictions_section',
             title: '',
-            callback: function () {
-            },
+            callback: function () {},
             page: 'rhau-permissions-section',
             args: [],
         );
@@ -94,7 +87,7 @@ class PageRestrictionsOptionsPage
         add_settings_field(
             id: 'protected_templates_field',
             title: 'Protected Page Templates',
-            callback: array(__CLASS__, 'protected_templates_field_callback'),
+            callback: [__CLASS__, 'protected_templates_field_callback'],
             page: 'rhau-permissions-section',
             section: 'rhau_restrictions_section',
             args: []
@@ -112,7 +105,7 @@ class PageRestrictionsOptionsPage
         <fieldset>
             <?php foreach ($page_templates as $file => $name) : ?>
                 <?php
-                $value = esc_attr($file);
+                    $value = esc_attr($file);
                 $id = "protected-template--$value";
                 $checked = checked(array_key_exists($file, $protected_templates), true, false);
                 ?>
@@ -127,7 +120,7 @@ class PageRestrictionsOptionsPage
                 jQuery('.rhau-multiselect').select2();
             });
         </script>
-        <?php
+<?php
     }
 
     /**
@@ -135,7 +128,9 @@ class PageRestrictionsOptionsPage
      */
     public static function sanitize_setting_protected_templates(?array $protected_templates): array
     {
-        if (empty($protected_templates)) return [];
+        if (empty($protected_templates)) {
+            return [];
+        }
 
         $all_templates = PageRestrictions::get_unfiltered_page_templates();
 

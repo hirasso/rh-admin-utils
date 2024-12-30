@@ -24,14 +24,16 @@ class PageRestrictionsMetaBox
     // Static function to initialize the meta box
     public static function init()
     {
-        add_action('add_meta_boxes_page', array(__CLASS__, 'add_meta_box'));
-        add_action('save_post', array(__CLASS__, 'save_custom_meta_box'));
+        add_action('add_meta_boxes_page', [__CLASS__, 'add_meta_box']);
+        add_action('save_post', [__CLASS__, 'save_custom_meta_box']);
     }
 
     /** Add the meta box */
     public static function add_meta_box(): void
     {
-        if (!PageRestrictions::user_can_manage_restrictions()) return;
+        if (!PageRestrictions::user_can_manage_restrictions()) {
+            return;
+        }
 
         \add_meta_box(
             id: self::$meta_box_id,
@@ -54,16 +56,20 @@ class PageRestrictionsMetaBox
                 padding: 0;
                 margin: 0;
             }
+
             #rhau-page-restrictions-metabox .inside label {
-                display:block;
+                display: block;
             }
+
             #rhau-page-restrictions-metabox .inside p {
                 padding: 8px 12px;
                 margin: 0;
             }
+
             #rhau-page-restrictions-metabox .inside p+p {
                 border-top: 1px solid rgb(0 0 0 / 0.1);
             }
+
             #rhau-page-restrictions-metabox .inside p:last-of-type {
                 margin-bottom: 0;
             }
@@ -95,8 +101,8 @@ class PageRestrictionsMetaBox
                 <?php esc_html_e('Disallow Children', RHAU_TEXT_DOMAIN); ?>
             </label>
         </p>
-        <?php
-        wp_nonce_field(self::$nonce_action, self::$nonce_name);
+<?php
+                wp_nonce_field(self::$nonce_action, self::$nonce_name);
     }
 
     /** Save the meta box data */
@@ -110,16 +116,24 @@ class PageRestrictionsMetaBox
         }
 
         /** Verify the post type */
-        if (get_post_type($post_id) !== 'page') return;
+        if (get_post_type($post_id) !== 'page') {
+            return;
+        }
 
         /** Bail early if this is an autosave */
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
 
         /** Bail early if not coming from the edit screen */
-        if (($_POST['originalaction'] ?? null) !== 'editpost') return;
+        if (($_POST['originalaction'] ?? null) !== 'editpost') {
+            return;
+        }
 
         /** Check user caps */
-        if (!PageRestrictions::user_can_manage_restrictions()) return;
+        if (!PageRestrictions::user_can_manage_restrictions()) {
+            return;
+        }
 
         /** Update the locked status of the post */
         $locked = $_POST[PageRestrictions::get_locked_meta_key()] ?? 0;

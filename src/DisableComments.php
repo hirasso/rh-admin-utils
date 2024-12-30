@@ -2,8 +2,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 class DisableComments extends Singleton
 {
     public function __construct()
@@ -20,7 +18,9 @@ class DisableComments extends Singleton
     public function after_setup_theme(): void
     {
         // allow re-activating comments
-        if (!apply_filters('rhau/disable_comments', true)) return;
+        if (!apply_filters('rhau/disable_comments', true)) {
+            return;
+        }
 
         $this->overwrite_discussion_options();
         // hide comments UI
@@ -97,7 +97,7 @@ class DisableComments extends Singleton
     public function filter_query()
     {
         if (is_comment_feed()) {
-            wp_die(__('Comments are closed.', 'disable-comments'), '', array('response' => 403));
+            wp_die(__('Comments are closed.', 'disable-comments'), '', ['response' => 403]);
         }
     }
 

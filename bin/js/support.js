@@ -190,7 +190,7 @@ export function createReleaseFiles() {
   /** Scope namespaces using php-scoper */
   info("Scoping namespaces using php-scoper...");
   rmSync("scoped", { recursive: true, force: true });
-  run(`${phpScoperPath} add-prefix --quiet --output-dir=scoped --config=scoper.config.php`); // prettier-ignore
+  run(`${phpScoperPath} add-prefix --quiet --output-dir=scoped --config=config/scoper.config.php`); // prettier-ignore
   success("Successfully scoped all namespaces!");
   line();
 
@@ -240,9 +240,7 @@ export function prepareDistFolder() {
 
   // Ensure the script is run from the project root
   if (!isAtRootDir()) {
-    throwError(
-      `${basename(__filename)} must be executed from the package root directory`,
-    );
+    throwError(`${basename(__filename)} must be executed from the package root directory`); // prettier-ignore
   }
 
   // Check if the `scoped` folder exists
@@ -254,9 +252,7 @@ export function prepareDistFolder() {
   if (env.GITHUB_ACTIONS !== "true") {
     info(`Cloning the dist repo into dist/...`);
     rmSync("dist", { recursive: true, force: true });
-    run(
-      `git clone -b empty git@github.com:${owner}/${packageName}-dist.git dist/`,
-    );
+    run(`git clone -b empty git@github.com:${owner}/${packageName}-dist.git dist/`); // prettier-ignore
   }
 
   info(`Checking out the empty tagged root commit..`);

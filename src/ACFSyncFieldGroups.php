@@ -2,8 +2,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 /**
  * Adds a wp cli command to sync all ACF field groups. Use it like this:
  *
@@ -54,7 +52,9 @@ class ACFSyncFieldGroups
     public static function wp_cli_acf_sync_field_groups(array $args = [], array $assoc_args = []): void
     {
         // Only allow this if invoked from WP CLI
-        if (!self::is_wp_cli()) return;
+        if (!self::is_wp_cli()) {
+            return;
+        }
 
         acf_include('includes/admin/admin-internal-post-type-list.php');
         if (!class_exists('ACF_Admin_Internal_Post_Type_List')) {

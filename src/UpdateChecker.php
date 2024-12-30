@@ -4,8 +4,6 @@ namespace RH\AdminUtils;
 
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 /**
  * Check for Updates using Plugin Update Checker
  * @see https://github.com/YahnisElsts/plugin-update-checker

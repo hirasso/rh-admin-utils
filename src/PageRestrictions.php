@@ -18,8 +18,6 @@
 
 namespace RH\AdminUtils;
 
-use WP_Post;
-
 class PageRestrictions
 {
     public static function init()
@@ -103,17 +101,23 @@ class PageRestrictions
         /**
          * Only page templates can be restricted
          */
-        if (rhau()->getCurrentScreen()?->id !== 'page') return $templates;
+        if (rhau()->getCurrentScreen()?->id !== 'page') {
+            return $templates;
+        }
 
         /**
          * Make sure this never runs during a post save or the like
          */
-        if (!empty($_POST)) return $templates;
+        if (!empty($_POST)) {
+            return $templates;
+        }
 
         /**
          * Completely hide the templates dropdown if the current page is protected
          */
-        if (self::is_template_protected($post)) return [];
+        if (self::is_template_protected($post)) {
+            return [];
+        }
 
         /**
          * Return non-protected templates only
@@ -139,7 +143,9 @@ class PageRestrictions
     {
         global $pagenow, $post_id;
 
-        if ($pagenow !== 'post.php') return;
+        if ($pagenow !== 'post.php') {
+            return;
+        }
 
         if (self::is_locked($post_id)) {
             remove_meta_box('slugdiv', 'page', 'normal');
@@ -151,7 +157,9 @@ class PageRestrictions
      */
     public static function get_sample_permalink_html(string $html, int $post_id, ?string $new_title, ?string $new_slug, ?\WP_Post $post): string
     {
-        if (!self::is_locked($post_id)) return $html;
+        if (!self::is_locked($post_id)) {
+            return $html;
+        }
 
         $title = __('Permalink:');
         $permalink = get_permalink($post_id);
@@ -198,13 +206,19 @@ class PageRestrictions
      */
     public static function disallow_deletion(array $caps, string $cap, int $user_id, mixed $args): array
     {
-        if ($cap !== 'delete_post') return $caps;
+        if ($cap !== 'delete_post') {
+            return $caps;
+        }
 
         $post_id = $args[0] ?? null;
 
-        if (!$post_id) return $caps;
+        if (!$post_id) {
+            return $caps;
+        }
 
-        if (self::is_locked($post_id)) $caps[] = 'do_not_allow';
+        if (self::is_locked($post_id)) {
+            $caps[] = 'do_not_allow';
+        }
 
         return $caps;
     }
@@ -224,7 +238,9 @@ class PageRestrictions
      */
     public static function page_dropdown_args_lock_post_parent(array $args, \WP_Post $post): array
     {
-        if (!self::is_locked($post)) return $args;
+        if (!self::is_locked($post)) {
+            return $args;
+        }
 
         /** no post is a child of -1 */
         $args['child_of'] = -1;
@@ -252,7 +268,9 @@ class PageRestrictions
     public static function page_dropdown_args_no_children_allowed(array $args): array
     {
         $exclude_tree = $args['exclude_tree'] ?? [];
-        if (is_int($exclude_tree)) $exclude_tree = [$exclude_tree];
+        if (is_int($exclude_tree)) {
+            $exclude_tree = [$exclude_tree];
+        }
 
         $args['exclude_tree'] = array_merge(
             $exclude_tree,
@@ -285,7 +303,9 @@ class PageRestrictions
      */
     public static function render_protected_page_template(\WP_Post $post): void
     {
-        if (!self::is_template_protected($post)) return;
+        if (!self::is_template_protected($post)) {
+            return;
+        }
 
         $all_templates = self::get_unfiltered_page_templates();
 
@@ -330,10 +350,14 @@ class PageRestrictions
      */
     private static function is_template_protected(?\WP_Post $post): bool
     {
-        if ($post && self::is_locked($post)) return true;
+        if ($post && self::is_locked($post)) {
+            return true;
+        }
 
         $current_template = self::get_page_template($post);
-        if ($current_template === 'default') return false;
+        if ($current_template === 'default') {
+            return false;
+        }
         $protected_templates = self::get_protected_page_templates();
 
         return array_key_exists($current_template, $protected_templates);
@@ -352,7 +376,9 @@ class PageRestrictions
      */
     public static function pages_list_col($cols, $post_type = 'page'): array
     {
-        if ($post_type !== 'page') return $cols;
+        if ($post_type !== 'page') {
+            return $cols;
+        }
 
         $cols["rhau_is_locked"] = __('Locked');
 
@@ -364,7 +390,9 @@ class PageRestrictions
      */
     public static function pages_list_col_value(string $column_name, int $post_id): void
     {
-        if ($column_name !== "rhau_is_locked") return;
+        if ($column_name !== "rhau_is_locked") {
+            return;
+        }
 
         if (self::is_locked($post_id)) {
             echo self::get_locked_icon();
@@ -412,7 +440,9 @@ class PageRestrictions
      */
     public static function remove_page_bulk_action_edit(?array $actions): ?array
     {
-        if (empty($actions)) return $actions;
+        if (empty($actions)) {
+            return $actions;
+        }
         unset($actions['edit']);
         return $actions;
     }
@@ -423,8 +453,12 @@ class PageRestrictions
     private static function is_editing_locked_post(): bool
     {
         global $post;
-        if (rhau()->getCurrentScreen()?->id !== 'page') return false;
-        if (get_post_status($post) === 'auto-draft') return false;
+        if (rhau()->getCurrentScreen()?->id !== 'page') {
+            return false;
+        }
+        if (get_post_status($post) === 'auto-draft') {
+            return false;
+        }
 
         return self::is_locked($post);
     }
@@ -434,7 +468,9 @@ class PageRestrictions
      */
     public static function inject_styles(): void
     {
-        if (!self::is_editing_locked_post()) return;
+        if (!self::is_editing_locked_post()) {
+            return;
+        }
         ?>
         <style>
             .misc-pub-visibility .edit-visibility,
@@ -475,14 +511,22 @@ class PageRestrictions
         array $raw_postdata,
         bool $is_updating
     ): array {
-        if (!$is_updating) return $data;
+        if (!$is_updating) {
+            return $data;
+        }
 
         $post_id = $postdata['ID'] ?? null;
-        if (!$post_id) return $data;
+        if (!$post_id) {
+            return $data;
+        }
 
-        if (!self::is_locked($post_id)) return $data;
+        if (!self::is_locked($post_id)) {
+            return $data;
+        }
 
-        if (!$old_post = get_post($post_id)) return $data;
+        if (!$old_post = get_post($post_id)) {
+            return $data;
+        }
 
         $data['post_status'] = $old_post->post_status;
         $data['post_date'] = $old_post->post_date;

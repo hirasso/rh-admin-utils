@@ -2,8 +2,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 class Environments extends Singleton
 {
     private string $env;
@@ -35,7 +33,7 @@ class Environments extends Singleton
         $this->add_non_production_hooks();
         $this->init_environment_links();
 
-        add_action('admin_notices', array($this, 'disallow_indexing_notice'));
+        add_action('admin_notices', [$this, 'disallow_indexing_notice']);
     }
 
     /**
@@ -55,7 +53,7 @@ class Environments extends Singleton
 
         return array_filter(
             $environments,
-            fn($host) => !empty($host)
+            fn ($host) => !empty($host)
         );
     }
 
@@ -76,8 +74,12 @@ class Environments extends Singleton
      */
     public function update_network_sites(): void
     {
-        if (!is_multisite()) return;
-        if (!defined('RH_NETWORK_SITES') || !is_array(RH_NETWORK_SITES)) return;
+        if (!is_multisite()) {
+            return;
+        }
+        if (!defined('RH_NETWORK_SITES') || !is_array(RH_NETWORK_SITES)) {
+            return;
+        }
 
         $id = 0;
         foreach (RH_NETWORK_SITES as $site) {
@@ -98,12 +100,14 @@ class Environments extends Singleton
      */
     private function add_non_production_hooks(): void
     {
-        if ($this->env === 'production') return;
+        if ($this->env === 'production') {
+            return;
+        }
 
-        add_filter('wp_calculate_image_srcset', array($this, 'calculate_image_srcset'), 11, 5);
-        add_filter('wp_get_attachment_url', array($this, 'get_attachment_url'), 11, 2);
-        add_filter('document_title_parts', array($this, 'document_title_parts'), PHP_INT_MAX - 100);
-        add_filter('admin_title', array($this, 'admin_title'));
+        add_filter('wp_calculate_image_srcset', [$this, 'calculate_image_srcset'], 11, 5);
+        add_filter('wp_get_attachment_url', [$this, 'get_attachment_url'], 11, 2);
+        add_filter('document_title_parts', [$this, 'document_title_parts'], PHP_INT_MAX - 100);
+        add_filter('admin_title', [$this, 'admin_title']);
 
         if ($this->env === 'staging') {
             add_filter('wp_robots', 'wp_robots_no_robots');
@@ -118,12 +122,14 @@ class Environments extends Singleton
      */
     private function init_environment_links(): void
     {
-        if (!current_user_can('administrator')) return;
+        if (!current_user_can('administrator')) {
+            return;
+        }
 
-        add_action('wp_enqueue_scripts', array($this, 'assets'));
-        add_action('admin_enqueue_scripts', array($this, 'assets'));
-        add_action('wp_footer', array($this, 'render_environment_links'));
-        add_action('admin_footer', array($this, 'render_environment_links'));
+        add_action('wp_enqueue_scripts', [$this, 'assets']);
+        add_action('admin_enqueue_scripts', [$this, 'assets']);
+        add_action('wp_footer', [$this, 'render_environment_links']);
+        add_action('admin_footer', [$this, 'render_environment_links']);
     }
 
     /**
@@ -131,7 +137,9 @@ class Environments extends Singleton
      */
     private function get_environment_type(): string
     {
-        if (defined('WP_ENV')) return WP_ENV;
+        if (defined('WP_ENV')) {
+            return WP_ENV;
+        }
         return wp_get_environment_type();
     }
 
@@ -143,7 +151,9 @@ class Environments extends Singleton
         ?>
         <dialog is="rhau-environment-links" data-rhau-environment-links>
             <?php foreach ($this->environments as $environment => $host) : ?>
-                <?php if ($environment === $this->env) continue; ?>
+                <?php if ($environment === $this->env) {
+                    continue;
+                } ?>
                 <rhau-environment-link tabindex="0" data-remote-host="<?= $host ?>">
                     <?= ucfirst($environment) ?>
                 </rhau-environment-link>
@@ -192,8 +202,12 @@ class Environments extends Singleton
      */
     private function short_env(string $long): string
     {
-        if ($long === 'development') return '🛠️';
-        if ($long === 'staging') return '🎤';
+        if ($long === 'development') {
+            return '🛠️';
+        }
+        if ($long === 'staging') {
+            return '🎤';
+        }
         return $long;
     }
 
@@ -217,7 +231,9 @@ class Environments extends Singleton
     private function prepend_to_string(?string $text, string $prepend): string
     {
         $text ??= '';
-        if (strpos($text, $prepend) === 0) return $text;
+        if (strpos($text, $prepend) === 0) {
+            return $text;
+        }
 
         return $prepend . $text;
     }
@@ -354,7 +370,9 @@ class Environments extends Singleton
         // Adjust to your working environment needs.
         $dev_environment_types = ['development', 'local'];
 
-        if (in_array($this->env, $dev_environment_types, true)) $ttl = YEAR_IN_SECONDS;
+        if (in_array($this->env, $dev_environment_types, true)) {
+            $ttl = YEAR_IN_SECONDS;
+        }
 
         return $ttl;
     }

@@ -4,8 +4,6 @@ namespace RH\AdminUtils;
 
 use WP_Admin_Bar;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 class AdminBarPublishButton extends Singleton
 {
     public function __construct()
@@ -47,8 +45,12 @@ class AdminBarPublishButton extends Singleton
     private function current_screen_has_publish_button()
     {
         global $pagenow;
-        if (in_array($pagenow, ['post.php', 'post-new.php'])) return true;
-        if (rhau()->is_admin_acf_options_page()) return true;
+        if (in_array($pagenow, ['post.php', 'post-new.php'])) {
+            return true;
+        }
+        if (rhau()->is_admin_acf_options_page()) {
+            return true;
+        }
         return false;
     }
 }

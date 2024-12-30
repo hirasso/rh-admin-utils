@@ -2,8 +2,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 /**
  * Various handy WP CLI commands
  */
@@ -14,7 +12,9 @@ class WpCliCommands
      */
     public static function init()
     {
-        if (!rhau()->is_wp_cli()) return;
+        if (!rhau()->is_wp_cli()) {
+            return;
+        }
         \WP_CLI::add_command('rhau do-action-save-post', [__CLASS__, 'wp_cli_do_action_save_post']);
     }
 
@@ -43,7 +43,7 @@ class WpCliCommands
         $posts = get_posts([
             'post_type' => $post_type,
             'posts_per_page' => -1,
-            'post_status' => 'any'
+            'post_status' => 'any',
         ]);
         $count = count($posts);
         $pt_object = get_post_type_object($post_type);

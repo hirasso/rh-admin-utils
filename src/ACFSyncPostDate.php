@@ -2,8 +2,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 class ACFSyncPostDate
 {
     /**
@@ -28,13 +26,13 @@ class ACFSyncPostDate
      */
     public static function render_field_settings(array $field): void
     {
-        acf_render_field_setting($field, array(
+        acf_render_field_setting($field, [
             'label'  => __('Sync the post date with this field'),
             'instructions'  => '',
             'name' => 'rhau_sync_post_date',
             'type' => 'true_false',
             'ui' => 1,
-        ));
+        ]);
     }
 
     /**
@@ -42,7 +40,9 @@ class ACFSyncPostDate
      */
     private static function should_sync(array $field, string|int $post_id): bool
     {
-        if (empty($field['rhau_sync_post_date'])) return false;
+        if (empty($field['rhau_sync_post_date'])) {
+            return false;
+        }
 
         return is_int($post_id) && !!get_post($post_id);
     }
@@ -52,9 +52,13 @@ class ACFSyncPostDate
      */
     public static function load_value(?string $value, string|int $post_id, array $field): ?string
     {
-        if (!self::should_sync($field, $post_id)) return $value;
+        if (!self::should_sync($field, $post_id)) {
+            return $value;
+        }
 
-        if (get_post_status($post_id) === 'auto-draft') return $value;
+        if (get_post_status($post_id) === 'auto-draft') {
+            return $value;
+        }
 
         return match ($field['type']) {
             'date_picker' => get_post_datetime($post_id)->format("Ymd"),
@@ -68,9 +72,13 @@ class ACFSyncPostDate
      */
     public static function update_value(?string $value, string|int $post_id, array $field, ?string $original): ?string
     {
-        if (empty($value)) return $value;
+        if (empty($value)) {
+            return $value;
+        }
 
-        if (!self::should_sync($field, $post_id)) return $value;
+        if (!self::should_sync($field, $post_id)) {
+            return $value;
+        }
 
         /** Ensure the post_date has a format of 'Y-m-d H:i:s' */
         $post_date = match ($field['type']) {
@@ -81,7 +89,7 @@ class ACFSyncPostDate
         wp_update_post([
             'ID'                => $post_id,
             'post_date'         => $post_date,
-            'post_date_gmt'     => get_gmt_from_date($post_date)
+            'post_date_gmt'     => get_gmt_from_date($post_date),
         ]);
 
         return $value;
@@ -92,7 +100,9 @@ class ACFSyncPostDate
      */
     public static function render_field(array $field): void
     {
-        if (empty($field['rhau_sync_post_date'])) return;
+        if (empty($field['rhau_sync_post_date'])) {
+            return;
+        }
         ob_start() ?>
         <style>
             .misc-pub-curtime {

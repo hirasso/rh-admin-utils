@@ -2,8 +2,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 class EditorInChief extends Singleton
 {
     public $role_name = 'editor_in_chief';
@@ -21,7 +19,9 @@ class EditorInChief extends Singleton
     public function add_role(): void
     {
         $wp_roles = wp_roles();
-        if ($wp_roles->is_role($this->role_name)) return;
+        if ($wp_roles->is_role($this->role_name)) {
+            return;
+        }
         $editor_role = get_role('editor');
         $caps = wp_parse_args([
             'update_core' => true,

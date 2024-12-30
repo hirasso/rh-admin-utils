@@ -2,8 +2,6 @@
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
 class ACFCodeField
 {
     /**
@@ -21,7 +19,7 @@ class ACFCodeField
     public static function render_field_settings(array $field): void
     {
 
-        acf_render_field_setting($field, array(
+        acf_render_field_setting($field, [
             'label'  => __('Code field'),
             'instructions'  => 'Convert to a code field for the selected language',
             'name' => 'rhau_code_field',
@@ -29,25 +27,25 @@ class ACFCodeField
             'allow_null' => 1,
             'choices' => [
                 'json' => 'JSON',
-                'html' => 'HTML'
+                'html' => 'HTML',
             ],
-        ));
+        ]);
 
-        acf_render_field_setting($field, array(
+        acf_render_field_setting($field, [
             'label'  => __('Code Field: Allow Line Wrapping'),
             'instructions'  => '',
             'name' => 'rhau_code_field_line_wrapping',
             'type' => 'true_false',
             'ui' => 1,
-            'conditional_logic' => array(
+            'conditional_logic' => [
                 [
                     [
                         'field' => 'rhau_code_field',
                         'operator' => '!=empty',
                     ],
                 ],
-            ),
-        ));
+            ],
+        ]);
     }
 
     /**
@@ -56,7 +54,9 @@ class ACFCodeField
     public static function prepare_acf_code_field(array $field): array
     {
         $language = $field['rhau_code_field'] ?? null;
-        if (!$language) return $field;
+        if (!$language) {
+            return $field;
+        }
 
         $field['wrapper']['rhau-x-data'] = 'ACFCodeField';
         $field['wrapper']['data-rhau-code-language'] = esc_attr($language);

@@ -23,7 +23,9 @@ class QueryOptimizer
      */
     public static function optimize_query(\WP_Query $query): void
     {
-        if (!$query->get('__rhau_optimize_query')) return;
+        if (!$query->get('__rhau_optimize_query')) {
+            return;
+        }
 
         $query->set('no_found_rows', true);
         $query->set('ignore_sticky_posts', true);
@@ -42,7 +44,7 @@ class QueryOptimizer
             '__rhau_optimized' => true,
             'no_found_rows' => true,
             'ignore_sticky_posts' => true,
-            'update_meta_cache' => true
+            'update_meta_cache' => true,
         ]);
     }
 }

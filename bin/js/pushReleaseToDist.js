@@ -31,9 +31,7 @@ const onGitHub = isGitHubActions();
 debug({ onGitHub });
 
 if (!isAtRootDir()) {
-  throwError(
-    `${basename(__filename)} must be executed from the package root directory`,
-  );
+  throwError(`${basename(__filename)} must be executed from the package root directory`); // prettier-ignore
 }
 
 const hasValidDirectories = await validateDirectories("scoped", "dist");

@@ -33,9 +33,6 @@ declare(strict_types=1);
 
 namespace RH\AdminUtils;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
-
 class ForceLowercaseURLs
 {
     /**
@@ -52,7 +49,9 @@ class ForceLowercaseURLs
     public static function server_side_redirect()
     {
         // Allow to opt-out of this functionality
-        if (!apply_filters('rhau/force_lowercase_urls', true)) return;
+        if (!apply_filters('rhau/force_lowercase_urls', true)) {
+            return;
+        }
 
         // Grab URL information for the current request
         $parsed = wp_parse_url($_SERVER['REQUEST_URI'] ?? '/');
@@ -65,7 +64,9 @@ class ForceLowercaseURLs
         $lowercase_path = strtolower($path);
 
         // Bail early if the path already is lowercase
-        if ($path === $lowercase_path) return;
+        if ($path === $lowercase_path) {
+            return;
+        }
 
         // Construct the redirect url
         $redirect_uri = empty($query) ? $lowercase_path : "$lowercase_path?$query";

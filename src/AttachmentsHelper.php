@@ -1,13 +1,6 @@
 <?php
 
-/*
-* Copyright (c) 2023 Rasso Hilber
-* https://rassohilber.com
-*/
-
 namespace RH\AdminUtils;
-
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 /**
  * A class to improve working with WP attachments
@@ -32,11 +25,19 @@ class AttachmentsHelper
     public static function pre_get_posts(\WP_Query $query): void
     {
         global $pagenow;
-        if (!$query->is_main_query()) return;
-        if (!is_admin()) return;
-        if ($pagenow !== 'upload.php') return;
+        if (!$query->is_main_query()) {
+            return;
+        }
+        if (!is_admin()) {
+            return;
+        }
+        if ($pagenow !== 'upload.php') {
+            return;
+        }
 
-        if (!$post = self::get_post_from_searchstring($query->get('s') ?: '')) return;
+        if (!$post = self::get_post_from_searchstring($query->get('s') ?: '')) {
+            return;
+        }
 
         $query->is_search = false;
         $query->set('s', '');
@@ -53,7 +54,9 @@ class AttachmentsHelper
     {
         $post = self::get_post_from_searchstring($args['s'] ?? null);
 
-        if (!$post) return $args;
+        if (!$post) {
+            return $args;
+        }
 
         // Convert $args to disable the search and instead return the matched post
         $args['post__in'] = [$post->ID];
@@ -72,14 +75,20 @@ class AttachmentsHelper
      */
     private static function get_post_from_searchstring(?string $search_string): ?\WP_Post
     {
-        if (!$search_string) return null;
+        if (!$search_string) {
+            return null;
+        }
 
-        if (!preg_match('/(?<=^id:)(?P<id>\d.+?)(?=\D|$)/i', $search_string, $matches)) return null;
+        if (!preg_match('/(?<=^id:)(?P<id>\d.+?)(?=\D|$)/i', $search_string, $matches)) {
+            return null;
+        }
 
         // Activate to debug
         // wp_send_json_success(['matches' => $matches]);
 
-        if (!$post = get_post(intval($matches['id']))) return null;
+        if (!$post = get_post(intval($matches['id']))) {
+            return null;
+        }
 
         return $post;
     }
