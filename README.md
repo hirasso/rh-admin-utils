@@ -15,7 +15,7 @@
 - Adds a publish/save button to the admin bar
 - Removes plugin ads (Looking at you, Yoast SEO...)
 - Allows users with role "Editor" to add new users (highest role: `editor`)
-- Adds certain page resitrictions (slug, hierarchy, page template, ...)
+- Adds opt-in page resitrictions that can only be changed by Administrators (slug, hierarchy, page template, ...)
 - Adds an environment switcher
 - Adds several ACF field enhancements (browse the source of the `scr/ACF...` classes)
 - Adds a robust embed cache
@@ -24,5 +24,5 @@
 - Redirects uppercase URLs to lowercase on the frontend
 - Adds a badge with a count to the admin menu for pending reviews
 - Adds a download button to TinyMCE (classic editor)
-- Adds a global button to the admin bar to clear the cache (WP Super Cache only)
+- if WP Super Cache is installed, adds a button to the admin bar to clear the whole cache
 - Adds a WP CLI command `wp rhau acf-sync-field-groups` to sync all ACF field groups
