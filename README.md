@@ -26,3 +26,8 @@
 - Adds a download button to TinyMCE (classic editor)
 - if WP Super Cache is installed, adds a button to the admin bar to clear the whole cache
 - Adds a WP CLI command `wp rhau acf-sync-field-groups` to sync all ACF field groups
+
+## Other Features
+
+- Ships with an instance of [Plugin Update Checker](https://github.com/YahnisElsts/plugin-update-checker) to support updates directly from GitHub
+- Does not rely on the WP.org plugin repository
