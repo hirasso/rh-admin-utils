@@ -31,14 +31,7 @@ $phpVersion = $matches[0];
 [$wpClasses, $wpFunctions, $wpConstants] = getWpExcludes();
 
 /** Extra files that should make it into the scoped release */
-$extraFiles = array_filter([
-    'composer.json',
-    'composer.lock',
-    'README.md',
-    'CHANGELOG.md',
-    'LICENSE',
-    'LICSENSE.md',
-], 'file_exists');
+$extraFiles = [...getGitArchiveables()];
 
 /**
  * Return the config for php-scoper
@@ -91,4 +84,44 @@ function getWpExcludes(): array
     }
 
     return $excludes;
+}
+
+/**
+ * Get all top-level <git archive>-able files and folders.
+ */
+function getGitArchiveables(bool $includeDirs = false): array
+{
+    $entries = [];
+
+    $zipFile = '/tmp/dist.zip';
+
+    exec("git archive --format=zip --output=$zipFile HEAD");
+
+    $zip = new ZipArchive();
+
+    if ($zip->open($zipFile) !== true) {
+        throw new Exception("Failed to open ZIP archive: $zipFile");
+    }
+
+    for ($i = 0; $i < $zip->numFiles; $i++) {
+        $entry = $zip->getNameIndex($i);
+
+        $isToplevelFile = !str_contains($entry, '/');
+        $isToplevelDir = str_ends_with($entry, '/');
+
+        if ($isToplevelDir && !$includeDirs) {
+            continue;
+        }
+        if (!$isToplevelFile) {
+            continue;
+        }
+
+        $entries[] = $entry;
+    }
+
+    $zip->close();
+
+    exec("rm -rf $zipFile");
+
+    return $entries;
 }
