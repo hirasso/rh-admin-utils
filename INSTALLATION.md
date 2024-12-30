@@ -33,4 +33,9 @@ wp plugin update rh-admin-utils
 
 ### Update Manually
 
-If `DISALLOW_FILE_MODS` is not `true`, the plugin can be updated from the WP admin plugins screen just like any other plugin.
+If `DISALLOW_FILE_MODS` is not set to `true`, you can update the plugin directly from the WordPress admin plugins screen, just like any other plugin. To avoid being blocked by GitHub, you can define a `RHAU_GITHUB_TOKEN` in your `wp-config.php` file.
+
+```php
+// wp-config.php:
+define('RHAU_GITHUB_TOKEN', 'qwf_sdgad142...');
+```
