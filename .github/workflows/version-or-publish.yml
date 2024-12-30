@@ -17,8 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       fullName: ${{ steps.package-infos.outputs.fullName }}
-      owner: ${{ steps.package-infos.outputs.owner }}
-      name: ${{ steps.package-infos.outputs.name }}
+      vendorName: ${{ steps.package-infos.outputs.vendorName }}
+      packageName: ${{ steps.package-infos.outputs.packageName }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -28,8 +28,8 @@ jobs:
         run: |
           NAME=$(jq -r '.name' composer.json)
           echo "fullName=${NAME}" >> $GITHUB_OUTPUT
-          echo "owner=${NAME%%/*}" >> $GITHUB_OUTPUT
-          echo "name=${NAME#*/}" >> $GITHUB_OUTPUT
+          echo "vendorName=${NAME%%/*}" >> $GITHUB_OUTPUT
+          echo "packageName=${NAME#*/}" >> $GITHUB_OUTPUT
           cat "$GITHUB_OUTPUT"
 
   release:
@@ -115,7 +115,7 @@ jobs:
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
           omitPrereleaseDuringUpdate: true
-          artifacts: "${{ needs.package-infos.outputs.name }}.zip,assets.zip"
+          artifacts: "${{ needs.package-infos.outputs.packageName }}.zip,assets.zip"
 
       - name: Push release to dist repo
         if: steps.cs.outputs.published == 'true'
