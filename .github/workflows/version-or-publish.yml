@@ -33,7 +33,6 @@ jobs:
     needs: setup
     if: ${{ github.repository == needs.setup.outputs.package-name }}
 
-    # Prevent publihsing from going through if something fails
     strategy:
       fail-fast: true
 
