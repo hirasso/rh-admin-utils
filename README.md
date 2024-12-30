@@ -1,6 +1,6 @@
-# RH Admin Utils 🛠️
+# RH Admin Utils
 
-**A utility plugin I use on all my WordPress websites**<br>
+**A WordPress utility plugin 🥞**
 
 > [!IMPORTANT]
 > This plugin is provided **without public support**. No issues, no discussions, no PRs accepted.
