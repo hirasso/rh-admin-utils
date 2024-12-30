@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.1
+
+### Patch Changes
+
+- a7b271b: Make package name and repo detection in workflow dynamic
+
 ## 3.0.0
 
 ### Major Changes
