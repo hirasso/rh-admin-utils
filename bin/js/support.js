@@ -175,8 +175,8 @@ export function createReleaseFiles() {
 
   // Install Composer dependencies in GitHub Actions
   if (env.GITHUB_ACTIONS === "true") {
-    console.log("💡 Installing composer dependencies...");
-    run("composer install --no-scripts");
+    console.log("💡 Installing non-dev composer dependencies...");
+    run("composer install --no-scripts --no-dev");
   }
 
   /** Ensure php-scoper is available */

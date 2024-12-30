@@ -58,8 +58,11 @@ return [
         $finder::create()->files()->in('src'),
         $finder::create()->files()->in('vendor')->ignoreVCS(true)
             ->notName('/.*\\.sh|composer\\.(json|lock)/')
-            ->exclude($devDependencies)
-            ->exclude('bin/'),
+            ->exclude([
+                ...$devDependencies,
+                'sniccowp/php-scoper-wordpress-excludes',
+                'bin/'
+            ]),
         $finder::create()->append(glob('*.php')),
         $finder::create()->append(glob('assets/*')),
         $finder::create()->append($extraFiles),

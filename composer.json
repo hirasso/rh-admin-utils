@@ -14,12 +14,12 @@
     "php": ">=8.2",
     "composer/installers": "^1.0 || ^2.0",
     "snicco/better-wp-cli": "^1.10",
+    "sniccowp/php-scoper-wordpress-excludes": "*",
     "symfony/var-dumper": "^7.1",
     "yahnis-elsts/plugin-update-checker": "^5.5"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^3.66",
-    "sniccowp/php-scoper-wordpress-excludes": "^6.7"
+    "friendsofphp/php-cs-fixer": "^3.66"
   },
   "scripts": {
     "format": "vendor/bin/php-cs-fixer fix --config config/phpcsfixer.config.php --allow-risky=yes"
