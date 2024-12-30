@@ -1,7 +1,6 @@
 # RH Admin Utils
 
-**A utility plugin I use on all my WordPress websites ⚙️**
-
+**A utility plugin I use on all my WordPress websites ⚙️**<br>
 [**🔌 Installation**](./INSTALLATION.md) &nbsp;&nbsp;・&nbsp;&nbsp; [**📚 Changelog**](./CHANGELOG.md)
 
 > [!IMPORTANT]
