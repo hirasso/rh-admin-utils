@@ -41,8 +41,8 @@ class Environments extends Singleton
      */
     private function get_environments(): array
     {
-        if (defined('ENVIRONMENTS') && is_array(ENVIRONMENTS)) {
-            return ENVIRONMENTS;
+        if (defined('RHAU_ENVIRONMENTS') && is_array(RHAU_ENVIRONMENTS)) {
+            return RHAU_ENVIRONMENTS;
         }
 
         $environments = [
@@ -159,7 +159,7 @@ class Environments extends Singleton
                 </rhau-environment-link>
             <?php endforeach; ?>
         </dialog>
-        <?php
+<?php
     }
 
     /**
@@ -308,8 +308,8 @@ class Environments extends Singleton
             ?? $this->environments['staging']
             ?? null;
 
-        if (defined('REMOTE_ASSETS_ORIGIN')) {
-            $remoteOrigin = REMOTE_ASSETS_ORIGIN;
+        if (defined('RHAU_REMOTE_ASSETS_ORIGIN') && str_starts_with(RHAU_REMOTE_ASSETS_ORIGIN, 'http')) {
+            $remoteOrigin = RHAU_REMOTE_ASSETS_ORIGIN;
         }
         if (empty($remoteOrigin)) {
             return $attachmentURL;
