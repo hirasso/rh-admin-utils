@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.4
+
+### Patch Changes
+
+- Require `sniccowp/php-scoper-wordpress-excludes` as no-dev and exclude it from the scoped directory manually
+
 ## 3.0.3
 
 ### Patch Changes
