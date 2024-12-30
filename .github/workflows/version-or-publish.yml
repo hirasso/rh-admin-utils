@@ -15,23 +15,26 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      package-name: ${{ steps.extract-name.outputs.package_name }}
+      package-name: ${{ steps.package-infos.outputs.name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Extract repository name from composer.json
-        id: extract-name
+      - name: Get package infos
+        id: package-infos
         run: |
-          NAME=$(jq -r '.name' composer.json)
-          echo "::set-output name=package_name::${NAME}"
+          echo "name=$(jq -r '.name' composer.json)" >> $GITHUB_OUTPUT
+
+      - name: Debug package infos
+        run: |
+          echo "name: ${{ steps.package-infos.outputs.name }}"
 
   release:
-    name: Create Version PR or Publish
-    runs-on: ubuntu-latest
-
     needs: setup
     if: ${{ github.repository == needs.setup.outputs.package-name }}
+
+    name: Create Version PR or Publish
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: true
@@ -69,10 +72,10 @@ jobs:
           pnpm build
           zip -rq assets.zip assets
 
-      - name: Checkout dist repo
+      - name: Checkout Distribution Repository
         uses: actions/checkout@v3
         with:
-          repository: hirasso/rh-admin-utils-dist
+          repository: ${{ needs.setup.outputs.package-name }}-dist
           ref: empty
           path: dist
           # secrets.GITHUB_TOKEN is not enough to push to the dist repo (needed later)
@@ -109,7 +112,7 @@ jobs:
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
           omitPrereleaseDuringUpdate: true
-          artifacts: "rh-admin-utils.zip,assets.zip"
+          artifacts: "${{ needs.setup.outputs.package-name }}.zip,assets.zip"
 
       - name: Push release to dist repo
         if: steps.cs.outputs.published == 'true'
