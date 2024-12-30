@@ -3,6 +3,10 @@
   "description": "A WordPress utility plugin 🥞",
   "license": "GPL-2.0-or-later",
   "type": "wordpress-plugin",
+  "require": {
+    "php": ">=8.2",
+    "composer/installers": "^2.0"
+  },
   "config": {
     "allow-plugins": {
       "composer/installers": true
