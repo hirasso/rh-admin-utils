@@ -24,12 +24,13 @@ jobs:
           echo "fullName=${NAME}" >> $GITHUB_OUTPUT
           echo "owner=${NAME%%/*}" >> $GITHUB_OUTPUT
           echo "name=${NAME#*/}" >> $GITHUB_OUTPUT
+          cat "$GITHUB_OUTPUT"
 
       - name: Debug package infos
         run: |
-          echo "fullName: ${{ steps.package-infos.outputs.fullName }}"
-          echo "owner: ${{ steps.package-infos.outputs.owner }}"
-          echo "name: ${{ steps.package-infos.outputs.name }}"
+          echo "🐛 fullName: ${{ steps.package-infos.outputs.fullName }}"
+          echo "🐛 owner: ${{ steps.package-infos.outputs.owner }}"
+          echo "🐛 name: ${{ steps.package-infos.outputs.name }}"
 
   release:
     name: Create Version PR or Publish
