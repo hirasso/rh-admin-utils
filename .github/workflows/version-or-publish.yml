@@ -12,28 +12,33 @@ permissions:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  setup:
+  package-infos:
+    name: Get Package Infos
     runs-on: ubuntu-latest
     outputs:
-      package-name: ${{ steps.extract-name.outputs.package_name }}
+      fullName: ${{ steps.package-infos.outputs.fullName }}
+      owner: ${{ steps.package-infos.outputs.owner }}
+      name: ${{ steps.package-infos.outputs.name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Extract repository name from composer.json
-        id: extract-name
+      - name: Read and Write Package Infos to Output
+        id: package-infos
         run: |
           NAME=$(jq -r '.name' composer.json)
-          echo "::set-output name=package_name::${NAME}"
+          echo "fullName=${NAME}" >> $GITHUB_OUTPUT
+          echo "owner=${NAME%%/*}" >> $GITHUB_OUTPUT
+          echo "name=${NAME#*/}" >> $GITHUB_OUTPUT
+          cat "$GITHUB_OUTPUT"
 
   release:
+    needs: package-infos
+    if: ${{ github.repository == needs.package-infos.outputs.fullName }}
+
     name: Create Version PR or Publish
     runs-on: ubuntu-latest
 
-    needs: setup
-    if: ${{ github.repository == needs.setup.outputs.package-name }}
-
-    # Prevent publihsing from going through if something fails
     strategy:
       fail-fast: true
 
@@ -70,10 +75,10 @@ jobs:
           pnpm build
           zip -rq assets.zip assets
 
-      - name: Checkout dist repo
+      - name: Checkout Distribution Repository
         uses: actions/checkout@v3
         with:
-          repository: hirasso/rh-admin-utils-dist
+          repository: ${{ needs.package-infos.outputs.fullName }}-dist
           ref: empty
           path: dist
           # secrets.GITHUB_TOKEN is not enough to push to the dist repo (needed later)
@@ -110,7 +115,7 @@ jobs:
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
           omitPrereleaseDuringUpdate: true
-          artifacts: "rh-admin-utils.zip,assets.zip"
+          artifacts: "${{ needs.package-infos.outputs.name }}.zip,assets.zip"
 
       - name: Push release to dist repo
         if: steps.cs.outputs.published == 'true'
