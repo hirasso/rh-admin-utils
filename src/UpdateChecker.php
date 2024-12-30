@@ -23,6 +23,12 @@ class UpdateChecker
             $name,
         );
 
+        $checker->setBranch('main');
+
+        if ($token = static::getGitHubToken()) {
+            $checker->setAuthentication($token);
+        }
+
         /**
          * Expect a "$name.zip" attached to every release
          * @var \YahnisElsts\PluginUpdateChecker\v5p5\Vcs\GitHubApi $api
@@ -31,6 +37,21 @@ class UpdateChecker
         $api->enableReleaseAssets("/$name\.zip/i", $api::REQUIRE_RELEASE_ASSETS);
 
         $checker->addFilter('vcs_update_detection_strategies', [static::class, 'update_strategies'], 999);
+    }
+
+    /**
+     * Get the RHAU_GITHUB_TOKEN for authenticated GitHub requests
+     */
+    private static function getGitHubToken(): ?string
+    {
+        if (
+            defined('RHAU_GITHUB_TOKEN')
+            && is_string(RHAU_GITHUB_TOKEN)
+            && !empty(trim(RHAU_GITHUB_TOKEN))
+        ) {
+            return RHAU_GITHUB_TOKEN;
+        }
+        return null;
     }
 
     /**
