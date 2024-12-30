@@ -12,26 +12,29 @@ permissions:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  setup:
+  package-infos:
+    name: Get Package Infos
     runs-on: ubuntu-latest
     outputs:
-      package-name: ${{ steps.package-infos.outputs.name }}
+      fullName: ${{ steps.package-infos.outputs.fullName }}
+      owner: ${{ steps.package-infos.outputs.owner }}
+      name: ${{ steps.package-infos.outputs.name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Get package infos
+      - name: Read and Write Package Infos to Output
         id: package-infos
         run: |
-          echo "name=$(jq -r '.name' composer.json)" >> $GITHUB_OUTPUT
-
-      - name: Debug package infos
-        run: |
-          echo "name: ${{ steps.package-infos.outputs.name }}"
+          NAME=$(jq -r '.name' composer.json)
+          echo "fullName=${NAME}" >> $GITHUB_OUTPUT
+          echo "owner=${NAME%%/*}" >> $GITHUB_OUTPUT
+          echo "name=${NAME#*/}" >> $GITHUB_OUTPUT
+          cat "$GITHUB_OUTPUT"
 
   release:
-    needs: setup
-    if: ${{ github.repository == needs.setup.outputs.package-name }}
+    needs: package-infos
+    if: ${{ github.repository == needs.package-infos.outputs.fullName }}
 
     name: Create Version PR or Publish
     runs-on: ubuntu-latest
@@ -75,7 +78,7 @@ jobs:
       - name: Checkout Distribution Repository
         uses: actions/checkout@v3
         with:
-          repository: ${{ needs.setup.outputs.package-name }}-dist
+          repository: ${{ needs.package-infos.outputs.fullName }}-dist
           ref: empty
           path: dist
           # secrets.GITHUB_TOKEN is not enough to push to the dist repo (needed later)
@@ -112,7 +115,7 @@ jobs:
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
           omitPrereleaseDuringUpdate: true
-          artifacts: "${{ needs.setup.outputs.package-name }}.zip,assets.zip"
+          artifacts: "${{ needs.package-infos.outputs.name }}.zip,assets.zip"
 
       - name: Push release to dist repo
         if: steps.cs.outputs.published == 'true'
