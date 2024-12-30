@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.0.2
+
+### Patch Changes
+
+- c71e09e: Use `actions/checkout@v4` everywhere
+- ba91f56: Clean up workflows
+
 ## 3.0.1
 
 ### Patch Changes
