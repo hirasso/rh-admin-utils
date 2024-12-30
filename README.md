@@ -1,14 +1,14 @@
 # RH Admin Utils
 
-A plugin I use on all my WordPress websites.
+A utility plugin I use on all my WordPress websites ⚙️
 
 > [!IMPORTANT]
 > This plugin is provided without public support. No issues, no discussions, no accepted PRs.
 > You can browse the source code if you wish and fork it if you find something useful.
 
-[**Installation**](./INSTALLATION.md) &nbsp;&nbsp;・&nbsp;&nbsp; [**Changelog**](./CHANGELOG.md)
+[**🔌 Installation**](./INSTALLATION.md) &nbsp;&nbsp;・&nbsp;&nbsp; [**📚 Changelog**](./CHANGELOG.md)
 
-### Things this plugin does (I know, too many!)
+### Things this plugin does (I know, too many 😅)
 
 - Adds a publish/save button to the admin bar
 - Removes plugin ads (Looking at you, Yoast SEO...)
