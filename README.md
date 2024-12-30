@@ -3,8 +3,8 @@
 **A utility plugin I use on all my WordPress websites ⚙️**<br>
 
 > [!IMPORTANT]
-> This plugin is provided without public support. No issues, no discussions, no accepted PRs.
-> You can browse the source code if you wish and fork it if you find something useful.
+> This plugin is provided **without public support**. No issues, no discussions, no PRs accepted.
+> You can browse the source code and pick and choose what you find useful for your projects.
 
 ## Docs
 - [**🔌 Installation**](./INSTALLATION.md)
