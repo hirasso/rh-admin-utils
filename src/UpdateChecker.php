@@ -12,6 +12,9 @@ class UpdateChecker
 {
     public static function init(string $entryPoint)
     {
+        /** Prevent duplication of updates in rh-updater */
+        add_filter("rh-updater/allow/slug=rh-admin-utils", "__return_false");
+
         /** get owner and name from the composer.json */
         $composerJSON = json_decode(file_get_contents(RHAU_PLUGIN_DIR . "/composer.json"));
         [$owner, $name] = explode("/", $composerJSON->name);
