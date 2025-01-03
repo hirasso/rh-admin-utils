@@ -37,22 +37,26 @@ $phpVersion = $matches[0];
 /** Extra files that should make it into the scoped release */
 $extraFiles = [...getGitArchiveables()];
 
-/** Exclude yahnis-elsts/plugin-update-checker */
-$pucFiles = array_map(
-    fn(SplFileInfo $file) => $file->getRealPath(),
-    [...$finder::create()->files()->in('vendor/yahnis-elsts/plugin-update-checker')->name('*.php')]
-);
+/**
+ * Exclude yahnis-elsts/plugin-update-checker
+ * Note to self: This somehow didn't work – the prefix was still added.
+ * Resorted to using a custom patcher for now.
+ */
+// $excludeFiles = array_map(
+//     static fn (SplFileInfo $fileInfo) => $fileInfo->getPathName(),
+//     array_values([...$finder::create()->files()->in('vendor/yahnis-elsts/plugin-update-checker')])
+// );
+$excludeFiles = [];
 
 /**
  * Return the config for php-scoper
  * @see https://github.com/humbug/php-scoper/blob/main/docs/configuration.md
  */
 return [
-    'prefix' => __NAMESPACE__ . '\Scoped',
+    'prefix' => __NAMESPACE__ . '\Vendor',
     'exclude-namespaces' => [__NAMESPACE__],
-    'exclude-files' => [...$pucFiles],
     'php-version' => $phpVersion,
-    'exclude-files' => [...glob('vendor/yahnis-elsts/plugin-update-checker/**/*')],
+    'exclude-files' => $excludeFiles,
 
     'exclude-classes' => [...$wpClasses, 'WP_CLI'],
     'exclude-functions' => [...$wpFunctions],
@@ -69,12 +73,24 @@ return [
             ->exclude([
                 ...$devDependencies,
                 'sniccowp/php-scoper-wordpress-excludes',
-                'bin/'
+                'bin/',
             ]),
         $finder::create()->append(glob('*.php')),
         $finder::create()->append(glob('assets/*')),
         $finder::create()->append($extraFiles),
     ],
+    'patchers' => [
+        /**
+         * Remove the prefix from strings in plugin-update-checker/load-v5p5.php
+         * @see https://github.com/YahnisElsts/plugin-update-checker/issues/586#issuecomment-2567753162
+         */
+        static function (string $filePath, string $prefix, string $content): string {
+            if (preg_match('/plugin-update-checker\/load-v\d+p\d\.php/', $filePath) === false) {
+                return $content;
+            }
+            return preg_replace('/(["\'])' . preg_quote($prefix) . '\\/', '$1', $content);
+        },
+    ]
 ];
 
 /**
