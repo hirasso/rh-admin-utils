@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+namespace RH\AdminUtils;
+
+use Exception;
+use SplFileInfo;
+use ZipArchive;
+
 /**
  * php-scoper config for creating a scoped release asset for GitHub Releases
  * This release asset serves as the source of truth for non-composer plugin updates
@@ -10,10 +16,8 @@ declare(strict_types=1);
  * @see https://github.com/YahnisElsts/plugin-update-checker?tab=readme-ov-file#how-to-release-an-update-1
  */
 
-$packageNamespace = 'RH\AdminUtils';
-
 /** @var Symfony\Component\Finder\Finder $finder */
-$finder = Isolated\Symfony\Component\Finder\Finder::class;
+$finder = \Isolated\Symfony\Component\Finder\Finder::class;
 
 /** The project root dir, where the composer.json file is */
 $rootDir = dirname(__DIR__);
@@ -33,22 +37,26 @@ $phpVersion = $matches[0];
 /** Extra files that should make it into the scoped release */
 $extraFiles = [...getGitArchiveables()];
 
+/** Exclude yahnis-elsts/plugin-update-checker */
+$pucFiles = array_map(
+    fn(SplFileInfo $file) => $file->getRealPath(),
+    [...$finder::create()->files()->in('vendor/yahnis-elsts/plugin-update-checker')->name('*.php')]
+);
+
 /**
  * Return the config for php-scoper
  * @see https://github.com/humbug/php-scoper/blob/main/docs/configuration.md
  */
 return [
-    'prefix' => "$packageNamespace\\Scoped",
-    'exclude-namespaces' => [
-        $packageNamespace,
-        /** Exclude PluginUpdateChecker as it breaks when scoped */
-        'YahnisElsts\PluginUpdateChecker',
-    ],
+    'prefix' => __NAMESPACE__ . '\Scoped',
+    'exclude-namespaces' => [__NAMESPACE__],
+    'exclude-files' => [...$pucFiles],
     'php-version' => $phpVersion,
+    'exclude-files' => [...glob('vendor/yahnis-elsts/plugin-update-checker/**/*')],
 
-    'exclude-classes' => [...$wpClasses, WP_CLI::class],
+    'exclude-classes' => [...$wpClasses, 'WP_CLI'],
     'exclude-functions' => [...$wpFunctions],
-    'exclude-constants' => [...$wpConstants, WP_CLI::class, 'true', 'false'],
+    'exclude-constants' => [...$wpConstants, 'WP_CLI', 'true', 'false'],
 
     'expose-global-constants' => true,
     'expose-global-classes' => true,
