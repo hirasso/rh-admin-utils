@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.5
+
+### Patch Changes
+
+- f3f9fcb: Prevent conflicts with Plugin Updater Checker and rh-updater
+
 ## 3.0.4
 
 ### Patch Changes
