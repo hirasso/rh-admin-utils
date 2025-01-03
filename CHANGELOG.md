@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.6
+
+### Patch Changes
+
+- 73fb7fb: Switch to `exclude-files` for excluding plugin-update-checker
+
 ## 3.0.5
 
 ### Patch Changes
