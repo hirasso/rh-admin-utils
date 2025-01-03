@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.7
+
+### Patch Changes
+
+- ec313cc: Fix patcher for plugin-update-checker
+
 ## 3.0.6
 
 ### Patch Changes
