@@ -14,9 +14,8 @@ php-scoper-wordpress-excludes/
 .php-cs-fixer.cache
 
 # Releases
-bin/php-scoper
+php-scoper
 scoped/
-RELEASE.md
 dist/
 
 # Other

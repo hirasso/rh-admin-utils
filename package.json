@@ -13,10 +13,10 @@
     "preinstall": "npx only-allow pnpm",
     "watch": "rm -f .is-built && webpack --config config/webpack.config.js --watch --mode=development --progress --stats minimal",
     "build": "[ -f .is-built ] && exit 0; webpack --config config/webpack.config.js --mode=production --progress --stats minimal && touch .is-built",
-    "format:assets": "pnpm exec prettier --write ./assets-src/ ./bin/js/",
-    "format": "pnpm run format:assets && composer format",
-    "version": "pnpm changeset version && pnpm run version:patch",
-    "version:patch": "bin/js/patchVersion.js"
+    "format:assets": "pnpm exec prettier --write ./assets-src/ ./config/cli/",
+    "format:php": "vendor/bin/php-cs-fixer fix --config config/phpcsfixer.config.php --allow-risky=yes",
+    "format": "pnpm run format:assets && pnpm run format:php",
+    "version": "pnpm changeset version && config/cli/cli.js version:patch"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.9",

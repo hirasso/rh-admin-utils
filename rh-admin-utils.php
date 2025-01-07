@@ -19,7 +19,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-
 /**
  * Require the composer autoloader
  */
@@ -46,6 +45,7 @@ function rhau()
 {
     return AdminUtils::getInstance();
 }
+
 
 /**
  * Initialize the modules

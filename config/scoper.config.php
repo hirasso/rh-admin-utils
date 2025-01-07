@@ -19,18 +19,6 @@ use ZipArchive;
 /** @var Symfony\Component\Finder\Finder $finder */
 $finder = \Isolated\Symfony\Component\Finder\Finder::class;
 
-/** The project root dir, where the composer.json file is */
-$rootDir = dirname(__DIR__);
-
-/**
- * Read the project's composer.json
- * @var array $composerJSON
- */
-$composerJSON = json_decode(file_get_contents("$rootDir/composer.json"), true);
-$devDependencies = array_keys($composerJSON['require-dev'] ?? []);
-preg_match('/\d+\.\d+/', $composerJSON['require']['php'], $matches);
-$phpVersion = $matches[0];
-
 /** exclude global WordPress symbols */
 [$wpClasses, $wpFunctions, $wpConstants] = getWpExcludes();
 
@@ -39,41 +27,48 @@ $extraFiles = [...getGitArchiveables()];
 
 /**
  * Exclude yahnis-elsts/plugin-update-checker
- * Note to self: This somehow didn't work – the prefix was still added.
- * Resorted to using a custom patcher for now.
+ * I don't know why, but this still scopes the plugin-update-checker.
+ * Resorted to a custom patcher for now.
  */
 // $excludeFiles = array_map(
 //     static fn (SplFileInfo $fileInfo) => $fileInfo->getPathName(),
-//     array_values([...$finder::create()->files()->in('vendor/yahnis-elsts/plugin-update-checker')])
+//     iterator_to_array(
+//         $finder::create()->files()->in('vendor/yahnis-elsts/'),
+//         false
+//     )
 // );
-$excludeFiles = [];
 
 /**
  * Return the config for php-scoper
  * @see https://github.com/humbug/php-scoper/blob/main/docs/configuration.md
  */
 return [
-    'prefix' => __NAMESPACE__ . '\Vendor',
-    'exclude-namespaces' => [__NAMESPACE__],
-    'php-version' => $phpVersion,
-    'exclude-files' => $excludeFiles,
+    'prefix' => __NAMESPACE__ . '\\Vendor',
+    'exclude-namespaces' => [
+        __NAMESPACE__,
+        /** Exclude plugin-update-checker in our plugin code */
+        'YahnisElsts\PluginUpdateChecker',
+    ],
+    'php-version' => ComposerJSON::instance()->phpVersion,
+    // 'exclude-files' => [...$excludeFiles],
 
     'exclude-classes' => [...$wpClasses, 'WP_CLI'],
     'exclude-functions' => [...$wpFunctions],
     'exclude-constants' => [...$wpConstants, 'WP_CLI', 'true', 'false'],
 
-    'expose-global-constants' => true,
-    'expose-global-classes' => true,
-    'expose-global-functions' => true,
+    'expose-namespaces' => [__NAMESPACE__ . '\\Vendor'],
+
+    // 'expose-global-constants' => true,
+    // 'expose-global-classes' => true,
+    // 'expose-global-functions' => true,
 
     'finders' => [
         $finder::create()->files()->in('src'),
         $finder::create()->files()->in('vendor')->ignoreVCS(true)
             ->notName('/.*\\.sh|composer\\.(json|lock)/')
             ->exclude([
-                ...$devDependencies,
                 'sniccowp/php-scoper-wordpress-excludes',
-                'bin/',
+                'bin/'
             ]),
         $finder::create()->append(glob('*.php')),
         $finder::create()->append(glob('assets/*')),
@@ -81,17 +76,72 @@ return [
     ],
     'patchers' => [
         /**
-         * Remove the prefix from strings in plugin-update-checker/load-v5p5.php
+         * Remove the prefix from plugin-update-checker
          * @see https://github.com/YahnisElsts/plugin-update-checker/issues/586#issuecomment-2567753162
          */
         static function (string $filePath, string $prefix, string $content): string {
-            if (preg_match('/plugin-update-checker\/load-v\d+p\d\.php/', $filePath) === false) {
-                return $content;
+            if (str_contains($filePath, 'yahnis-elsts/plugin-update-checker', )) {
+                return str_replace("$prefix\\", '', $content);
             }
-            return preg_replace('/(["\'])' . preg_quote($prefix) . '\\/', '$1', $content);
+            return $content;
         },
     ]
 ];
+
+/**
+ * Read the project's composer.json
+ * Usage: ComposerJSON::read()->devDependencies
+ */
+final readonly class ComposerJSON
+{
+    /** @var string[] $devDependencies An array of all dev-dependencies' names */
+    public array $devDependencies;
+
+    /** @var string $phpVersion e.g. '8.2' */
+    public string $phpVersion;
+
+    /** @var string $fullName e.g. 'vendor-name/package-name' */
+    public string $fullName;
+
+    /** @var string $vendorName e.g. 'vendor-name' */
+    public string $vendorName;
+
+    /** @var string $vendorName e.g. 'package-name' */
+    public string $packageName;
+
+    /** @var string $vendorDir e.g. 'vendor' */
+    public string $vendorDir;
+
+    public function __construct()
+    {
+        /** The project root dir, where the composer.json file is */
+        $rootDir = dirname(__DIR__);
+
+        $data = json_decode(file_get_contents("$rootDir/composer.json"), true);
+
+        $this->fullName = $data['name'];
+        [$this->vendorName, $this->packageName] = explode('/', $this->fullName);
+
+        $this->devDependencies = array_keys($data['require-dev'] ?? []);
+
+        preg_match('/\d+\.\d+/', $data['require']['php'], $matches);
+        $this->phpVersion = $matches[0];
+
+        $this->vendorDir = trim($data['config']['vendor-dir'] ?? 'vendor', '/');
+    }
+
+    /**
+     * @return ComposerJSON The singleton instance
+     */
+    public static function instance()
+    {
+        static $instance;
+
+        $instance ??= new static();
+
+        return $instance;
+    }
+}
 
 /**
  * Read WordPress excludes from sniccowp/php-scoper-wordpress-excludes
@@ -119,8 +169,8 @@ function getWpExcludes(): array
 function getGitArchiveables(bool $includeDirs = false): array
 {
     $entries = [];
-
-    $zipFile = '/tmp/dist.zip';
+    $name = ComposerJSON::instance()->vendorName . '-' . ComposerJSON::instance()->packageName;
+    $zipFile = "/tmp/$name.zip";
 
     exec("git archive --format=zip --output=$zipFile HEAD");
 
