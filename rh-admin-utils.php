@@ -76,5 +76,12 @@ ACFCodeField::init();
 ACFTextField::init();
 Misc::getInstance();
 
-
+/**
+ * Support for manual (non-composer) updates
+ */
 UpdateChecker::init(entryPoint: __FILE__);
+
+/**
+ * An automatically installed mu helper plugin
+ */
+new HelperPluginInstaller(__FILE__);
