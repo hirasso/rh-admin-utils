@@ -23,7 +23,7 @@ $finder = \Isolated\Symfony\Component\Finder\Finder::class;
 [$wpClasses, $wpFunctions, $wpConstants] = getWpExcludes();
 
 /** Extra files that should make it into the scoped release */
-$extraFiles = [...getGitArchiveables()];
+$extraFiles = getExtraFiles();
 
 /**
  * Exclude yahnis-elsts/plugin-update-checker
@@ -164,36 +164,34 @@ function getWpExcludes(): array
 }
 
 /**
- * Get all top-level <git archive>-able files and folders.
+ * Get all <git archive>-able files and folders.
+ * Exclude any php files and anything in the src folder.
  */
-function getGitArchiveables(bool $includeDirs = false): array
+function getExtraFiles(): array
 {
     $entries = [];
-    $name = ComposerJSON::instance()->vendorName . '-' . ComposerJSON::instance()->packageName;
+    $name = ComposerJSON::instance()->vendorName.'-'.ComposerJSON::instance()->packageName;
     $zipFile = "/tmp/$name.zip";
 
     exec("git archive --format=zip --output=$zipFile HEAD");
 
-    $zip = new ZipArchive();
+    $zip = new ZipArchive;
 
     if ($zip->open($zipFile) !== true) {
         throw new Exception("Failed to open ZIP archive: $zipFile");
     }
 
     for ($i = 0; $i < $zip->numFiles; $i++) {
-        $entry = $zip->getNameIndex($i);
+        $path = $zip->getNameIndex($i);
 
-        $isToplevelFile = !str_contains($entry, '/');
-        $isToplevelDir = str_ends_with($entry, '/');
-
-        if ($isToplevelDir && !$includeDirs) {
+        if (
+            str_ends_with($path, '/') // exclude directories
+            || str_ends_with($path, '.php') // exclude any php files
+            || str_starts_with($path, 'src/') // exclude the whole src folder
+        ) {
             continue;
         }
-        if (!$isToplevelFile) {
-            continue;
-        }
-
-        $entries[] = $entry;
+        $entries[] = $path;
     }
 
     $zip->close();
