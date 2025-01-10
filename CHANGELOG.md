@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.8
+
+### Patch Changes
+
+- 5b8f368: Automatically install a must-use helper plugin to hide the `_load_textdomain_just_in_time` warning in WP 6.7.1
+
 ## 3.0.7
 
 ### Patch Changes
