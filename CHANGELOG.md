@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.9
+
+### Patch Changes
+
+- bf51688: Remove the `Plugin Name` header from the helper plugin to hide it on the plugins overview screen
+
 ## 3.0.8
 
 ### Patch Changes
