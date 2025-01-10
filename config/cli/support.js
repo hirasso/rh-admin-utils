@@ -1,7 +1,3 @@
-#!/usr/bin/env node
-
-// @ts-check
-
 import {
   copyFileSync,
   cpSync,
@@ -251,9 +247,6 @@ export function createRelease() {
   info(`Overwriting the composer.json in ${scopedFolder}/...`);
   cpSync("composer.dist.json", `${scopedFolder}/composer.json`);
 
-  info(`Copying assets/ to ${scopedFolder}/assets...`);
-  cpSync("assets", `${scopedFolder}/assets`, { force: true, recursive: true });
-
   line();
 
   /** Create a zip file from the scoped directory */
@@ -279,7 +272,7 @@ function readFile(path) {
 }
 
 /**
- * Run Unit and E2E tests from the root (dev)
+ * Run Unit and E2E tests from the unscoped version
  */
 export function testDev() {
   if (existsSync(".wp-env.override.json")) {
@@ -295,7 +288,7 @@ export function testDev() {
     run(`wp-env start --update`);
   }
 
-  info(`Running tests...`);
+  info(`Running tests against the development version...`);
   run("pnpm run test");
 }
 
@@ -309,48 +302,51 @@ function writeJsonFile(name, data) {
 }
 
 /**
- * Run Unit and E2E tests from the scoped release folder
+ * Run E2E tests from the scoped release folder.
+ * This command is only required for local tests.
  */
 export function testRelease() {
   createRelease();
 
   const scopedFolder = getScopedFolder();
 
-  info(`Copying required files for tests into ${scopedFolder}...`);
-  run(`cp -Rf composer.json phpunit.xml tests ${scopedFolder}/`);
+  // info(`Installing dev dependencies in ${scopedFolder}...`);
+  // const { devDependencies } = getInfosFromComposerJSON();
 
-  info(`Installing dev dependencies in ${scopedFolder}...`);
-  const { devDependencies } = getInfosFromComposerJSON();
+  // const requireDev = Object.entries(devDependencies).reduce(
+  //   /**
+  //    * @param {string[]} acc - The accumulator array.
+  //    * @param {[string, string]} entry - An array containing the dependency name and version.
+  //    * @returns {string[]} The updated accumulator array.
+  //    */
+  //   (acc, [name, version]) => {
+  //     acc.push(`"${name}:${version}"`);
+  //     return acc;
+  //   },
+  //   [],
+  // );
 
-  const requireDev = Object.entries(devDependencies).reduce(
-    /**
-     * @param {string[]} acc - The accumulator array.
-     * @param {[string, string]} entry - An array containing the dependency name and version.
-     * @returns {string[]} The updated accumulator array.
-     */
-    (acc, [name, version]) => {
-      acc.push(`"${name}:${version}"`);
-      return acc;
-    },
-    [],
-  );
+  // run(`composer require --dev ${requireDev.join(" ")} --quiet --working-dir=${scopedFolder} --with-all-dependencies`); // prettier-ignore
 
-  run(`composer require --dev ${requireDev.join(" ")} --quiet --working-dir=${scopedFolder} --with-all-dependencies`); // prettier-ignore
+  if (!isGitHubActions()) {
+    /** @type {{ plugins: string[] }} */
+    const { plugins } = JSON.parse(readFile(".wp-env.json") || "{}");
+    const overrides = JSON.parse(readFile(".wp-env.override.json") || "{}");
 
-  /** @type {{ plugins: string[] }} */
-  const { plugins } = JSON.parse(readFile(".wp-env.json") || "{}");
-  const overrides = JSON.parse(readFile(".wp-env.override.json") || "{}");
+    overrides.plugins = plugins.map((path) => {
+      // return path.replace(/^\.\/?/, `./${scopedFolder}/`);
+      return path === "." ? `./${scopedFolder}/` : path;
+    });
 
-  overrides.plugins = plugins.map((plugin) => {
-    return plugin.replace(/^\.\/?/, `./${scopedFolder}/`);
-  });
-  writeJsonFile(".wp-env.override.json", overrides);
-  debug("Contents of .wp-env.override.json:", overrides);
+    writeJsonFile(".wp-env.override.json", overrides);
+    debug("Contents of .wp-env.override.json:", overrides);
 
-  info(`Re-Starting wp-env with ${scopedFolder}...`);
-  run(`wp-env start --update`);
+    info(`Re-Starting wp-env with ${scopedFolder}...`);
 
-  info(`Running tests in ${scopedFolder}...`);
+    run(`wp-env start --update`);
+  }
+
+  info(`Running e2e tests against ${scopedFolder}...`);
   run("pnpm run test:e2e");
 }
 
@@ -476,20 +472,6 @@ export async function pushReleaseToDist() {
 
   /** Change back to the root dir */
   chdir(rootDir);
-}
-
-/**
- * A simplistic build script for "compiling" the frontend assets
- */
-export async function buildAssets() {
-  rmSync("assets", { force: true, recursive: true });
-
-  await copyFiles("assets-src", "assets", "**/*.{js,css}");
-
-  cpSync(
-    "node_modules/@hirasso/thumbhash-custom-element/dist/index.umd.js",
-    "assets/thumbhash-custom-element.iife.js",
-  );
 }
 
 /**
