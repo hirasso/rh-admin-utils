@@ -28,9 +28,6 @@ class Misc extends Singleton
         add_action('admin_enqueue_scripts', [$this, 'remove_qtranslate_admin_styles'], 11);
 
         add_filter('wp_admin_notice_markup', [$this, 'maybe_hide_update_nag'], 10, 3);
-
-        // add_filter('acf/render_field/type=post_object', [__CLASS__, 'render_field_post_object']);
-        // add_action('admin_head', [__CLASS__, 'render_acf_post_object_styles']);
     }
 
     public function after_setup_theme()
@@ -282,9 +279,7 @@ class Misc extends Singleton
      * @param int $post_id
      * @return void
      */
-    public function render_edit_column(string $column, int $post_id): void
-    {
-    }
+    public function render_edit_column(string $column, int $post_id): void {}
 
     /**
      * Add custom classes to the admin body
@@ -305,53 +300,6 @@ class Misc extends Singleton
         }
 
         return $class;
-    }
-
-    /**
-     * Renders "view" and "edit" links for the post object field
-     */
-    public static function render_field_post_object(array $field): void
-    {
-        if (empty($field)) {
-            return;
-        }
-
-        $post_id = $field['value'] ?? null;
-        if (empty($post_id) || !$post = get_post($post_id)) {
-            return;
-        }
-
-        ?>
-        <div class="rh-post-object-edit-links">
-            <a href="<?= get_edit_post_link($post_id) ?>">Edit</a>
-            <a href="<?= get_permalink($post_id) ?>" target="_blank">View</a>
-        </div>
-        <?php
-    }
-
-    /**
-     * Add custom styles for the edit and view links for acf post objects
-     */
-    public static function render_acf_post_object_styles()
-    {
-        ?>
-        <style>
-            .rh-post-object-edit-links {
-                position: absolute;
-                top: 0;
-                z-index: 3000;
-                background: white;
-                right: 30px;
-                top: 5px;
-                display: flex;
-                gap: 10px;
-            }
-
-            .rh-post-object-edit-links a {
-                text-decoration: none;
-            }
-        </style>
-        <?php
     }
 
     /**
