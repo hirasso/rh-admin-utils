@@ -6,7 +6,7 @@
  * Author URI: https://rassohilber.com
  */
 
-namespace RH\AdminUtils\MUPlugin;
+namespace RH\AdminUtils\HelperPlugin;
 
 /**
  * Prevent notice for `_load_textdomain_just_in_time` in WP 6.7.1
