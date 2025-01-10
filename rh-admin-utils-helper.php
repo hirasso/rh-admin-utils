@@ -1,6 +1,5 @@
 <?php
 /**
- * Plugin Name: RH Admin Utils mu-plugin
  * Description: A compagnion must-use plugin rh-admin-utils
  * Author: Rasso Hilber
  * Author URI: https://rassohilber.com
