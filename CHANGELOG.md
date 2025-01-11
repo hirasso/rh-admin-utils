@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.13
+
+### Patch Changes
+
+- 5e11ec4: Move the link arrows out of the links in the readme.txt
+
 ## 3.0.12
 
 ### Patch Changes
