@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.10
+
+### Patch Changes
+
+- 42701d6: Add a readme.txt and a Plugin URI header
+
 ## 3.0.9
 
 ### Patch Changes
