@@ -22,8 +22,6 @@ A WordPress utility plugin 🥞
 - Adds a WP CLI command `wp rhau acf-sync-field-groups` to sync all ACF field groups
 - And quite a few things more...
 
-== Installation ==
-
 Documentation: [GitHub](https://github.com/hirasso/rh-admin-utils)
 
 == Changelog ==
