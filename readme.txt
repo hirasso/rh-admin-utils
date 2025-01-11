@@ -6,7 +6,7 @@ A WordPress utility plugin 🥞
 
 == Description ==
 
-**https://github.com/hirasso/rh-admin-utils**
+**[→ Read the docs on GitHub](https://github.com/hirasso/rh-admin-utils)**
 
 - Adds a publish/save button to the admin bar
 - Removes plugin ads (Looking at you, Yoast SEO...)
@@ -26,4 +26,4 @@ A WordPress utility plugin 🥞
 
 == Changelog ==
 
-**https://github.com/hirasso/rh-admin-utils/blob/main/CHANGELOG.md**
+**[→ View the changelog on GitHub](https://github.com/hirasso/rh-admin-utils/blob/main/CHANGELOG.md)**
