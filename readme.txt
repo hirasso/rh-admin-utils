@@ -6,6 +6,8 @@ A WordPress utility plugin 🥞
 
 == Description ==
 
+**https://github.com/hirasso/rh-admin-utils**
+
 - Adds a publish/save button to the admin bar
 - Removes plugin ads (Looking at you, Yoast SEO...)
 - Allows users with role "Editor" to add new users (highest role: `editor`)
@@ -22,8 +24,6 @@ A WordPress utility plugin 🥞
 - Adds a WP CLI command `wp rhau acf-sync-field-groups` to sync all ACF field groups
 - And quite a few things more...
 
-Documentation: [GitHub](https://github.com/hirasso/rh-admin-utils)
-
 == Changelog ==
 
-See https://github.com/hirasso/rh-admin-utils/blob/main/CHANGELOG.md
+**https://github.com/hirasso/rh-admin-utils/blob/main/CHANGELOG.md**
