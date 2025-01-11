@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.12
+
+### Patch Changes
+
+- af1eeb8: Make the links in the plugin readme more beautifuller 💅💅
+
 ## 3.0.11
 
 ### Patch Changes
