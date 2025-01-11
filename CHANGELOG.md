@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.11
+
+### Patch Changes
+
+- aaf0c23: Make links bold in WordPress readme
+
 ## 3.0.10
 
 ### Patch Changes
