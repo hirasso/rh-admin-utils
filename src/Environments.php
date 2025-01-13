@@ -308,7 +308,11 @@ class Environments extends Singleton
             ?? $this->environments['staging']
             ?? null;
 
-        if (defined('RHAU_REMOTE_ASSETS_ORIGIN') && str_starts_with(RHAU_REMOTE_ASSETS_ORIGIN, 'http')) {
+        if (
+            defined('RHAU_REMOTE_ASSETS_ORIGIN')
+            && !empty(RHAU_REMOTE_ASSETS_ORIGIN)
+            && str_starts_with(RHAU_REMOTE_ASSETS_ORIGIN, 'http')
+        ) {
             $remoteOrigin = RHAU_REMOTE_ASSETS_ORIGIN;
         }
         if (empty($remoteOrigin)) {
