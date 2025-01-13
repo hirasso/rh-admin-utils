@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.14
+
+### Patch Changes
+
+- c79007f: Check for empty constant `RHAU_REMOTE_ASSETS_ORIGIN`
+
 ## 3.0.13
 
 ### Patch Changes
