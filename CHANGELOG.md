@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.15
+
+### Patch Changes
+
+- 3e91b61: Optimize scoped package
+
 ## 3.0.14
 
 ### Patch Changes
