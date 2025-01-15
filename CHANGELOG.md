@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.16
+
+### Patch Changes
+
+- a13174c: Exclude more namespaces from scoping
+
 ## 3.0.15
 
 ### Patch Changes
