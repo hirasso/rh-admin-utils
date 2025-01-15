@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.17
+
+### Patch Changes
+
+- 7452788: Also use the constant `RHAU_GITHUB_TOKEN` for afragen/git-updater, if available
+
 ## 3.0.16
 
 ### Patch Changes
