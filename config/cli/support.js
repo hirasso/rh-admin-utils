@@ -216,6 +216,9 @@ export function createRelease() {
   success("Successfully scoped all namespaces!");
   line();
 
+  info(`Copying src/ into ${scopedFolder}...`);
+  cpSync('./src', `${scopedFolder}/src`, { recursive: true });
+
   info("Re-installing dev depdendencies...");
   run("composer install --no-scripts --quiet");
 

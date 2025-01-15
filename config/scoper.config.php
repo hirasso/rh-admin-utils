@@ -48,9 +48,6 @@ return [
         __NAMESPACE__,
         /** Exclude plugin-update-checker in our plugin code */
         'YahnisElsts\PluginUpdateChecker',
-        'Roots\Soil',
-        'SimplePageOrdering',
-        'RAH\ThemeBase'
     ],
     'php-version' => ComposerJSON::instance()->phpVersion,
 
@@ -78,7 +75,6 @@ return [
     // 'expose-namespaces' => [__NAMESPACE__ . '\\Vendor'],
 
     'finders' => [
-        $finder::create()->files()->in('src'),
         $finder::create()->files()->in('vendor')->ignoreVCS(true)
             ->notName('/.*\\.sh|composer\\.(json|lock)/')
             ->exclude([
@@ -88,18 +84,6 @@ return [
         $finder::create()->append(glob('*.php')),
         $finder::create()->append(glob('assets/*')),
         $finder::create()->append($extraFiles),
-    ],
-    'patchers' => [
-        /**
-         * Remove the prefix from plugin-update-checker
-         * @see https://github.com/YahnisElsts/plugin-update-checker/issues/586#issuecomment-2567753162
-         */
-        static function (string $filePath, string $prefix, string $content): string {
-            if (str_contains($filePath, 'yahnis-elsts/plugin-update-checker', )) {
-                return str_replace("$prefix\\", '', $content);
-            }
-            return $content;
-        },
     ]
 ];
 
