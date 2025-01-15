@@ -164,6 +164,7 @@ function getWpExcludes(): array
 /**
  * Get all <git archive>-able files and folders.
  * Exclude any php files and anything in the src folder.
+ * @TODO: This should be done in the `createRelease` script instead
  */
 function getExtraFiles(): array
 {
