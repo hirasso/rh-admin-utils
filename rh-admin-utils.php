@@ -23,7 +23,9 @@ if (!defined('ABSPATH')) {
 /**
  * Require the composer autoloader
  */
-if (is_readable(__DIR__ . '/vendor/autoload.php')) {
+if (is_readable(__DIR__ . '/vendor/scoper-autoload.php')) {
+    require_once __DIR__ . '/vendor/scoper-autoload.php';
+} elseif (is_readable(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
