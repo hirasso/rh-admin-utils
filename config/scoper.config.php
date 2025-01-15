@@ -48,6 +48,7 @@ return [
         __NAMESPACE__,
         /** Exclude plugin-update-checker in our plugin code */
         'YahnisElsts\PluginUpdateChecker',
+        'Roots\Soil'
     ],
     'php-version' => ComposerJSON::instance()->phpVersion,
     // 'exclude-files' => [...$excludeFiles],
