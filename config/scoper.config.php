@@ -81,7 +81,6 @@ return [
                 'sniccowp/php-scoper-wordpress-excludes',
                 'bin'
             ]),
-        $finder::create()->append(glob('*.php')),
         $finder::create()->append(glob('assets/*')),
         $finder::create()->append($extraFiles),
     ]

@@ -126,6 +126,15 @@ export const headline = (message) => {
 };
 
 /**
+ * Log a warning message
+ * @param {string} message
+ * @param {...any} rest
+ */
+export const warn = (message, ...rest) => {
+  console.log(`🚨 ${bold(`${message}`)}`, ...rest);
+};
+
+/**
  * Log an error message and exit
  * @param {string} message
  * @param {...any} rest
@@ -188,7 +197,7 @@ export const validateDirectories = async (dir1, dir2, ignore = [".git"]) => {
  * - creates a folder scoped/ with all required plugin files
  * - creates a zip file from the scoped/ folder, named after the package
  */
-export function createRelease() {
+export async function createRelease() {
   headline(`Creating Release Files...`);
 
   const { packageName } = getInfosFromComposerJSON();
@@ -216,8 +225,12 @@ export function createRelease() {
   success("Successfully scoped all namespaces!");
   line();
 
-  info(`Copying src/ into ${scopedFolder}...`);
+  info(`Copying main plugin file and src directory into ${scopedFolder}...`);
+  warn(`If ever required, patch src files here with prefixed namespaces here`);
   cpSync('./src', `${scopedFolder}/src`, { recursive: true });
+  (await fg('*.php')).forEach(file => {
+    cpSync(`./${file}`, `${scopedFolder}/${file}`);
+  });
 
   info("Re-installing dev depdendencies...");
   run("composer install --no-scripts --quiet");
