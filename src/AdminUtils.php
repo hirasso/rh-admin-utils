@@ -48,8 +48,8 @@ class AdminUtils extends Singleton
      */
     public function asset_uri(string $path): string
     {
-        $uri = RHAU_PLUGIN_URI . '/' . ltrim($path, '/');
-        $file = RHAU_PLUGIN_DIR . '/' . ltrim($path, '/');
+        $uri = baseURL() . '/' . ltrim($path, '/');
+        $file = baseDir() . '/' . ltrim($path, '/');
 
         if (file_exists($file)) {
             // deepcode ignore InsecureHash: not security related

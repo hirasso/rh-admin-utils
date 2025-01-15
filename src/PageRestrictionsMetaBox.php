@@ -37,7 +37,7 @@ class PageRestrictionsMetaBox
 
         \add_meta_box(
             id: self::$meta_box_id,
-            title: __('Restrictions', RHAU_TEXT_DOMAIN),
+            title: __('Restrictions', 'rh-admin-utils'),
             callback: [__CLASS__, 'render_custom_meta_box'],
             screen: 'page',
             context: 'side',
@@ -48,8 +48,8 @@ class PageRestrictionsMetaBox
     /* Render the meta box */
     public static function render_custom_meta_box(\WP_Post $post): void
     {
-        $tooltip_lock = __('Lock the slug, parent, status, visiblity and template for users without administrator privileges.', RHAU_TEXT_DOMAIN);
-        $tooltip_children = __('Don\'t allow children for this page (applied to all users).', RHAU_TEXT_DOMAIN);
+        $tooltip_lock = __('Lock the slug, parent, status, visiblity and template for users without administrator privileges.', 'rh-admin-utils');
+        $tooltip_children = __('Don\'t allow children for this page (applied to all users).', 'rh-admin-utils');
         ?>
         <style type="text/css">
             #rhau-page-restrictions-metabox .inside {
@@ -85,7 +85,7 @@ class PageRestrictionsMetaBox
                     name="<?= PageRestrictions::get_locked_meta_key() ?>"
                     <?php checked(PageRestrictions::is_locked($post)); ?>
                     value="1"></input>
-                <?php esc_html_e('Lock this Page', RHAU_TEXT_DOMAIN); ?>
+                <?php esc_html_e('Lock this Page', 'rh-admin-utils'); ?>
             </label>
         </p>
         <p>
@@ -98,7 +98,7 @@ class PageRestrictionsMetaBox
                     name="<?= PageRestrictions::get_disallow_children_meta_key() ?>"
                     <?php checked(PageRestrictions::is_children_disallowed($post)); ?>
                     value="1"></input>
-                <?php esc_html_e('Disallow Children', RHAU_TEXT_DOMAIN); ?>
+                <?php esc_html_e('Disallow Children', 'rh-admin-utils'); ?>
             </label>
         </p>
 <?php

@@ -95,7 +95,7 @@ class ACFOembedCache
 
         \add_meta_box(
             id: 'rhau-oembed-cache-metabox',
-            title: __('RH Admin Utils: Global oEmbed cache', RHAU_TEXT_DOMAIN),
+            title: __('RH Admin Utils: Global oEmbed cache', 'rh-admin-utils'),
             callback: [__CLASS__, 'render_custom_meta_box'],
             screen: 'rhau-oembed-cache"',
             context: 'normal',
@@ -107,7 +107,7 @@ class ACFOembedCache
     public static function disable_default_oembed_format_value(): void
     {
         /** @var \acf_field_oembed $field_type */
-        $oembed_field = acf_get_field_type('oembed');
+        $oembed_field = \acf_get_field_type('oembed');
         remove_filter('acf/format_value/type=oembed', [$oembed_field, 'format_value']);
     }
 
@@ -171,7 +171,6 @@ class ACFOembedCache
             'width'  => $field['width'],
             'height' => $field['height'],
         ];
-
 
         $soil_filter = 'Roots\Soil\CleanUp\embed_wrap';
         $has_soil_filter = has_filter('embed_oembed_html', $soil_filter);
@@ -272,12 +271,12 @@ class ACFOembedCache
 
         <?php if (empty($cache_entries)) : ?>
             <p>
-                <?php _e('There global ACF oEmbed cache is currently empty.', RHAU_TEXT_DOMAIN) ?>
+                <?php _e('There global ACF oEmbed cache is currently empty.', 'rh-admin-utils') ?>
             </p>
         <?php else : ?>
             <p>
                 <?php printf(
-                    __('There are %d oEmbed responses cached globally.', RHAU_TEXT_DOMAIN),
+                    __('There are %d oEmbed responses cached globally.', 'rh-admin-utils'),
                     count($cache_entries)
                 ) ?>
             </p>

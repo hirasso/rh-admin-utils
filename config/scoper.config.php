@@ -48,20 +48,34 @@ return [
         __NAMESPACE__,
         /** Exclude plugin-update-checker in our plugin code */
         'YahnisElsts\PluginUpdateChecker',
-        'Roots\Soil'
+        'Roots\Soil',
+        'SimplePageOrdering',
+        'RAH\ThemeBase'
     ],
     'php-version' => ComposerJSON::instance()->phpVersion,
-    // 'exclude-files' => [...$excludeFiles],
 
-    'exclude-classes' => [...$wpClasses, 'WP_CLI'],
-    'exclude-functions' => [...$wpFunctions],
-    'exclude-constants' => [...$wpConstants, 'WP_CLI', 'true', 'false'],
+    'exclude-classes' => [
+        ...$wpClasses,
+        '/^(WP|Yoast)_*/'
+    ],
+    'exclude-functions' => [
+        ...$wpFunctions,
+        '/^(acf|wp)_*/',
+        'get_field',
+    ],
+    'exclude-constants' => [
+        ...$wpConstants,
+        '/^(WP|RHAU|GITHUB|RH|DISALLOW|EAE)_*/',
+        'true',
+        'false'
+    ],
 
-    'expose-namespaces' => [__NAMESPACE__ . '\\Vendor'],
-
-    // 'expose-global-constants' => true,
-    // 'expose-global-classes' => true,
-    // 'expose-global-functions' => true,
+    /** @see https://github.com/humbug/php-scoper/blob/main/docs/configuration.md#exposed-symbols */
+    'expose-global-constants' => false,
+    'expose-global-classes' => false,
+    'expose-global-functions' => false,
+    'expose-functions' => ['dd', 'dump'],
+    // 'expose-namespaces' => [__NAMESPACE__ . '\\Vendor'],
 
     'finders' => [
         $finder::create()->files()->in('src'),
@@ -69,7 +83,7 @@ return [
             ->notName('/.*\\.sh|composer\\.(json|lock)/')
             ->exclude([
                 'sniccowp/php-scoper-wordpress-excludes',
-                'bin/'
+                'bin'
             ]),
         $finder::create()->append(glob('*.php')),
         $finder::create()->append(glob('assets/*')),

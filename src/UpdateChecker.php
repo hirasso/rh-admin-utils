@@ -16,7 +16,7 @@ class UpdateChecker
         add_filter("rh-updater/allow/slug=rh-admin-utils", "__return_false");
 
         /** get owner and name from the composer.json */
-        $composerJSON = json_decode(file_get_contents(RHAU_PLUGIN_DIR . "/composer.json"));
+        $composerJSON = json_decode(file_get_contents(baseDir() . "/composer.json"));
         [$owner, $name] = explode("/", $composerJSON->name);
 
         /** build the update checker */

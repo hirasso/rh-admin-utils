@@ -29,10 +29,17 @@ if (is_readable(__DIR__ . '/vendor/scoper-autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
-define('RHAU_PLUGIN_URI', untrailingslashit(plugin_dir_url(__FILE__)));
-define('RHAU_PLUGIN_DIR', untrailingslashit(__DIR__));
+/** Get the plugin's base URL */
+function baseURL()
+{
+    return plugins_url('', __FILE__);
+}
 
-define('RHAU_TEXT_DOMAIN', 'rh-admin-utils');
+/** Get the plugin's base directory */
+function baseDir()
+{
+    return __DIR__;
+}
 
 /**
  * Initialize main class

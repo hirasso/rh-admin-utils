@@ -176,7 +176,7 @@ class PageRestrictions
      */
     private static function get_locked_icon(string $title = 'Locked'): string
     {
-        $title = esc_attr__($title, RHAU_TEXT_DOMAIN);
+        $title = esc_attr__($title, 'rh-admin-utils');
         return "<span
             class=\"dashicons dashicons-lock rhau-lock\"
             title=\"$title\"
