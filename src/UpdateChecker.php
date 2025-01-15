@@ -45,7 +45,7 @@ class UpdateChecker
     /**
      * Get the RHAU_GITHUB_TOKEN for authenticated GitHub requests
      */
-    private static function getGitHubToken(): ?string
+    public static function getGitHubToken(): ?string
     {
         if (
             defined('RHAU_GITHUB_TOKEN')

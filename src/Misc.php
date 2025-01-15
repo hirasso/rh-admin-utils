@@ -192,8 +192,8 @@ class Misc extends Singleton
      */
     public function github_updater_options(array $options): array
     {
-        if (defined('GITHUB_ACCESS_TOKEN') && !empty(GITHUB_ACCESS_TOKEN)) {
-            $options['github_access_token'] = GITHUB_ACCESS_TOKEN;
+        if ($token = UpdateChecker::getGitHubToken()) {
+            $options['github_access_token'] = $token;
         }
         return $options;
     }
