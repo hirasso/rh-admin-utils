@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.19
+
+### Patch Changes
+
+- 9a28259: Preserve synced ACF post dates when post_status is `draft`
+
 ## 3.0.18
 
 ### Patch Changes
