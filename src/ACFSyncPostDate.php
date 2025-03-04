@@ -56,15 +56,17 @@ class ACFSyncPostDate
             return $value;
         }
 
-        if (get_post_status($post_id) === 'auto-draft') {
+        if (!in_array(get_post_status($post_id), ['private', 'publish', 'future'])) {
             return $value;
         }
 
-        return match ($field['type']) {
+        $value = match ($field['type']) {
             'date_picker' => get_post_datetime($post_id)->format("Ymd"),
             'date_time_picker' => get_post_datetime($post_id)->format("Y-m-d H:i:s"),
             default => $value
         };
+
+        return $value;
     }
 
     /**
@@ -89,7 +91,7 @@ class ACFSyncPostDate
         wp_update_post([
             'ID'                => $post_id,
             'post_date'         => $post_date,
-            'post_date_gmt'     => get_gmt_from_date($post_date),
+            'post_date_gmt'     => $post_date,
         ]);
 
         return $value;
