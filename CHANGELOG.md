@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.20
+
+### Patch Changes
+
+- 40deb55: New ACF field setting to restrict field visibility to selected post types only
+
 ## 3.0.19
 
 ### Patch Changes
