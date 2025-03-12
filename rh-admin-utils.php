@@ -61,6 +61,7 @@ function rhau()
  * Initialize the modules
  */
 AdminBarPublishButton::getInstance();
+ACFRestrictToPostTypes::init();
 EditorsAddUsers::getInstance();
 DisableComments::getInstance();
 ACFRestrictFieldAccess::init();
