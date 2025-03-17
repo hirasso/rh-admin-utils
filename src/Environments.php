@@ -165,7 +165,7 @@ class Environments extends Singleton
     /**
      * Get the current host
      */
-    private function get_current_host(): string
+    private function get_current_origin(): string
     {
         return set_url_scheme('http://' . $_SERVER['HTTP_HOST']);
     }
@@ -287,8 +287,8 @@ class Environments extends Singleton
     private function is_internal_url(string $url): bool
     {
         return str_starts_with(
-            $this->strip_protocol($url),
-            $this->strip_protocol(get_option('home'))
+            wp_parse_url($url)['host'] ?? '',
+            wp_parse_url($this->get_current_origin())['host'] ?? ''
         );
     }
 
