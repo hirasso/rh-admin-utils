@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.21
+
+### Patch Changes
+
+- b6c8972: Make `Environments::is_internal_url()` more robust
+
 ## 3.0.20
 
 ### Patch Changes
