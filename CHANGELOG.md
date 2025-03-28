@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.22
+
+### Patch Changes
+
+- 25727d0: Fix `gu_set_options` argument and return types
+
 ## 3.0.21
 
 ### Patch Changes
