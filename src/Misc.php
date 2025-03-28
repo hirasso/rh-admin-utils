@@ -13,7 +13,7 @@ class Misc extends Singleton
         add_action('plugins_loaded', [$this, 'limit_revisions']);
         add_action('after_setup_theme', [$this, 'after_setup_theme']);
         add_action('admin_bar_menu', [$this, 'admin_bar_menu'], 999);
-        add_filter('gu_set_options', [$this, 'github_updater_options']);
+        add_filter('gu_set_options', [$this, 'gu_set_options']);
         add_action('admin_menu', [$this, 'admin_menu']);
         add_filter('debug_bar_enable', [$this, 'debug_bar_enable']);
         add_action('map_meta_cap', [$this, 'map_meta_cap_privacy_options'], 1, 4);
@@ -190,8 +190,9 @@ class Misc extends Singleton
     /**
      * Automatically set Github Updater options
      */
-    public function github_updater_options(array $options): array
+    public function gu_set_options(?array $options = null): ?array
     {
+        $options ??= [];
         if ($token = UpdateChecker::getGitHubToken()) {
             $options['github_access_token'] = $token;
         }
