@@ -174,7 +174,7 @@ function getExtraFiles(): array
 
     exec("git archive --format=zip --output=$zipFile HEAD");
 
-    $zip = new ZipArchive;
+    $zip = new ZipArchive();
 
     if ($zip->open($zipFile) !== true) {
         throw new Exception("Failed to open ZIP archive: $zipFile");

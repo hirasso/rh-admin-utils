@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description: A compagnion must-use plugin rh-admin-utils
  * Author: Rasso Hilber

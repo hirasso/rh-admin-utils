@@ -174,7 +174,9 @@ class ACFOembedCache
 
         $soil_filter = 'Roots\Soil\CleanUp\embed_wrap';
         $has_soil_filter = has_filter('embed_oembed_html', $soil_filter);
-        if ($has_soil_filter) remove_filter('embed_oembed_html', $soil_filter);
+        if ($has_soil_filter) {
+            remove_filter('embed_oembed_html', $soil_filter);
+        }
 
         /**
          * Overwrite $wp_embed->post_ID with the field's $post_id (if it's an integer)
@@ -190,7 +192,9 @@ class ACFOembedCache
         /** Reset $wp_embed->post_ID to it's previous value */
         $wp_embed->post_ID = $__wp_embed_post_id;
 
-        if ($has_soil_filter) add_filter('embed_oembed_html', $soil_filter);
+        if ($has_soil_filter) {
+            add_filter('embed_oembed_html', $soil_filter);
+        }
 
 
         return $html ?: $value;

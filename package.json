@@ -5,16 +5,14 @@
   "description": "Build process for frontend assets",
   "main": "index.js",
   "type": "module",
-  "packageManager": "pnpm@10.5.2",
   "author": "Rasso Hilber",
   "license": "ISC",
   "scripts": {
     "prepare": "git config core.hooksPath .githooks",
-    "preinstall": "npx only-allow pnpm",
     "watch": "rm -f .is-built && webpack --config config/webpack.config.js --watch --mode=development --progress --stats minimal",
     "build": "[ -f .is-built ] && exit 0; webpack --config config/webpack.config.js --mode=production --progress --stats minimal && touch .is-built",
     "format:assets": "pnpm exec prettier --write ./assets-src/ ./config/cli/",
-    "format:php": "vendor/bin/php-cs-fixer fix --config config/phpcsfixer.config.php --allow-risky=yes",
+    "format:php": "./vendor/bin/pint",
     "format": "pnpm run format:assets && pnpm run format:php",
     "version": "pnpm changeset version && config/cli/cli.js version:patch"
   },
@@ -58,5 +56,11 @@
     "alpinejs": "^3.14.1",
     "codemirror": "^6.0.1",
     "feather-icons": "^4.29.2"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "onFail": "error"
+    }
   }
 }

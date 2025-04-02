@@ -6,7 +6,7 @@ namespace RH\AdminUtils;
 
 class HelperPluginInstaller
 {
-    const VERSION = '1.0.0';
+    public const VERSION = '1.0.0';
     private string $muPluginsDir = WP_CONTENT_DIR . '/mu-plugins';
     private string $fileName = 'rh-admin-utils-helper.php';
     private string $rootDir;

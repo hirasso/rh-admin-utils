@@ -28,6 +28,9 @@ class Misc extends Singleton
         add_action('admin_enqueue_scripts', [$this, 'remove_qtranslate_admin_styles'], 11);
 
         add_filter('wp_admin_notice_markup', [$this, 'maybe_hide_update_nag'], 10, 3);
+
+        // polylang pro
+        add_action('after_setup_theme', [$this, 'set_polylang_pro_license']);
     }
 
     public function after_setup_theme()
@@ -58,15 +61,16 @@ class Misc extends Singleton
     /**
      * Add general instructions to image fields
      *
-     * @param Array $field
-     * @return Array $field
+     * @param  array  $field
+     * @return array $field
      */
     public function prepare_image_field($field)
     {
-        if (!is_admin() || !$field || empty($field['label'])) {
+        if (! is_admin() || ! $field || empty($field['label'])) {
             return $field;
         }
         $field['label'] .= " <span title='JPG for photos or drawings, PNG for transparency or simple graphics (larger file size).' class='dashicons dashicons-info acf-js-tooltip rhau-icon--info'></span>";
+
         return $field;
     }
 
@@ -78,7 +82,7 @@ class Misc extends Singleton
     public function overwrite_qtranslate_defaults()
     {
         global $q_config;
-        if (!isset($q_config)) {
+        if (! isset($q_config)) {
             return;
         }
         // disable qtranslate styles on the admin LSBs
@@ -116,7 +120,7 @@ class Misc extends Singleton
         }
 
         // Allow themes to deactivate the redirect
-        if (!apply_filters('rhau/redirect_edit_php', true)) {
+        if (! apply_filters('rhau/redirect_edit_php', true)) {
             return;
         }
 
@@ -158,27 +162,25 @@ class Misc extends Singleton
     /**
      * Disable some caps for all users
      *
-     * @param array $caps
-     * @param string $cap
-     * @param int $user_id
-     * @param array $args
+     * @param  array  $caps
+     * @param  string  $cap
+     * @param  int  $user_id
+     * @param  array  $args
      * @return array
      */
     public function disable_capabilities($caps, $cap, $user_id, $args)
     {
         $disabled_capabilities = apply_filters('rhau/disabled_capabilities', ['customize']);
-        if (!in_array($cap, $disabled_capabilities)) {
+        if (! in_array($cap, $disabled_capabilities)) {
             return $caps;
         }
         $caps[] = 'do_not_allow';
+
         return $caps;
     }
 
     /**
      * Remove some nodes from WP_Admin_Bar
-     *
-     * @param \WP_Admin_Bar $ab
-     * @return void
      */
     public function admin_bar_menu(\WP_Admin_Bar $ab): void
     {
@@ -196,6 +198,7 @@ class Misc extends Singleton
         if ($token = UpdateChecker::getGitHubToken()) {
             $options['github_access_token'] = $token;
         }
+
         return $options;
     }
 
@@ -206,22 +209,20 @@ class Misc extends Singleton
      */
     public function admin_menu()
     {
-        if (!current_user_can('manage_options')) {
+        if (! current_user_can('manage_options')) {
             remove_menu_page('tools.php');
         }
     }
 
     /**
      * Disables the debug bar for certain users
-     *
-     * @param boolean $enable
-     * @return boolean
      */
     public function debug_bar_enable(bool $enable): bool
     {
-        if (!current_user_can('administrator')) {
+        if (! current_user_can('administrator')) {
             return false;
         }
+
         return $enable;
     }
 
@@ -234,7 +235,7 @@ class Misc extends Singleton
         int $user_id,
         $args
     ): array {
-        if (!is_user_logged_in()) {
+        if (! is_user_logged_in()) {
             return $caps;
         }
 
@@ -263,30 +264,23 @@ class Misc extends Singleton
 
     /**
      * Adjust default edit columns
-     *
-     * @param array $columns
-     * @return array
      */
     public function default_edit_columns(array $columns): array
     {
         unset($columns['language']);
+
         return $columns;
     }
 
     /**
      * Render custom edit column
-     *
-     * @param string $column
-     * @param int $post_id
-     * @return void
      */
-    public function render_edit_column(string $column, int $post_id): void {}
+    public function render_edit_column(string $column, int $post_id): void
+    {
+    }
 
     /**
      * Add custom classes to the admin body
-     *
-     * @param string $class
-     * @return string
      */
     public function admin_body_class(string $class): string
     {
@@ -308,7 +302,7 @@ class Misc extends Singleton
      */
     public function schedule_sg_security_cronjob(): void
     {
-        if (!rhau()->is_plugin_active('sg-security/sg-security.php')) {
+        if (! rhau()->is_plugin_active('sg-security/sg-security.php')) {
             return;
         }
         if (wp_next_scheduled('siteground_security_clear_logs_cron')) {
@@ -328,20 +322,40 @@ class Misc extends Singleton
     ): string {
 
         $is_update_nag = array_search('update-nag', $args['additional_classes'] ?? [], true) !== false;
-        if (!$is_update_nag) {
+        if (! $is_update_nag) {
             return $markup;
         }
 
         /** don't show the update nag if DISALLOW_FILE_EDIT is true */
-        if (!wp_is_file_mod_allowed('capability_update_core')) {
+        if (! wp_is_file_mod_allowed('capability_update_core')) {
             return '';
         }
 
         /** don't show the update nag to editors */
-        if (!current_user_can('manage_options')) {
+        if (! current_user_can('manage_options')) {
             return '';
         }
 
         return $markup;
+    }
+
+    /**
+     * Automatically set the polylang pro license if it is defined
+     * @see https://github.com/diggy/polylang-cli/issues/113#issuecomment-394281604
+     */
+    public function set_polylang_pro_license()
+    {
+        if (
+            ! defined('POLYLANG_PRO')
+            || ! defined('RHAU_POLYLANG_PRO_LICENSE')
+            || empty(RHAU_POLYLANG_PRO_LICENSE)) {
+            return;
+        }
+
+        $licenses = (array) get_option('polylang_licenses');
+        if (empty($licenses['polylang-pro']['key'] ?? null)) {
+            $license = new \PLL_License(POLYLANG_FILE, 'Polylang Pro', POLYLANG_VERSION, 'Frédéric Demarle');
+            $license->activate_license(RHAU_POLYLANG_PRO_LICENSE);
+        }
     }
 }
