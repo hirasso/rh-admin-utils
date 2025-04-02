@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.23
+
+### Patch Changes
+
+- ff5b8b3: Automatically activate Polylang Pro if `RHAU_POLYLANG_PRO_LICENSE` is defined
+
 ## 3.0.22
 
 ### Patch Changes
