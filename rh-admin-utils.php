@@ -41,6 +41,10 @@ function baseDir()
     return __DIR__;
 }
 
+function pluginFile() {
+    return __FILE__;
+}
+
 /**
  * Initialize main class
  */

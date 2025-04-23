@@ -49,9 +49,9 @@ class EditorsAddUsers extends Singleton
      */
     private function plugin_version_changed(): bool
     {
-        $option_key = 'rh_editors_add_users_version';
-        $plugin = get_plugin_data(__FILE__);
-        $version = $plugin['Version'] ?? false;
+        $option_key = 'rhau_editors_add_users_version';
+        $plugin = get_plugin_data(pluginFile());
+        $version = $plugin['Version'] ?? null;
         $db_version = get_option($option_key);
         update_option($option_key, $version);
         return $db_version !== $version;
