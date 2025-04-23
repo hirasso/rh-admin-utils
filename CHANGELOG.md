@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.24
+
+### Patch Changes
+
+- ac3978f: Fix `EditorsAddUsers` plugin version detection
+
 ## 3.0.23
 
 ### Patch Changes
