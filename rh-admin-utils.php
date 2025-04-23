@@ -41,7 +41,8 @@ function baseDir()
     return __DIR__;
 }
 
-function pluginFile() {
+function pluginFile()
+{
     return __FILE__;
 }
 
