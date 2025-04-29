@@ -26,6 +26,7 @@ class PageRestrictions
             return;
         }
         add_action('plugins_loaded', [__CLASS__, 'on_plugins_loaded']);
+        add_filter('pll_copy_post_metas', [__CLASS__, 'pll_copy_post_metas'], 10, 4);
     }
 
     /**
@@ -535,5 +536,35 @@ class PageRestrictions
         $data['post_name'] = $old_post->post_name;
 
         return $data;
+    }
+
+    /**
+     * Sync restriction settings between Polylang translations
+     *
+     * @since 3.7
+     *
+     * @param string[]   $metas List of custom fields names.
+     * @param bool       $sync  True if it is synchronization, false if it is a copy.
+     * @param int|string $from  ID of the object from which we copy information.
+     * @param int|string $to    ID of the object to which we copy information.
+     * @return string[]
+     */
+    public static function pll_copy_post_metas(
+        array $metas,
+        bool $sync,
+        int|string $from,
+        int|string $to
+    ): array {
+        if (is_string($from) || is_string($to)) {
+            return $metas;
+        }
+
+        $metas = [
+            self::get_locked_meta_key(),
+            self::get_disallow_children_meta_key(),
+            ...$metas
+        ];
+
+        return $metas;
     }
 }
