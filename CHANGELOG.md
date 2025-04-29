@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.25
+
+### Patch Changes
+
+- 26187d3: Sync page restrictions between Polylang translations
+
 ## 3.0.24
 
 ### Patch Changes
