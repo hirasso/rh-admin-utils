@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.26
+
+### Patch Changes
+
+- 81b0f3b: Do not assume HTTP_HOST is set (in WP_CLI commands, for example)
+
 ## 3.0.25
 
 ### Patch Changes
