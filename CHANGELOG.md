@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.0.27
+
+### Patch Changes
+
+- b69fbb4: Use `acf/get_field_label` to render ACF image field instructions
+
+  That is necessary due to a change in ACF version 6.4.3 where HTML field labels is being escaped.
+
 ## 3.0.26
 
 ### Patch Changes
