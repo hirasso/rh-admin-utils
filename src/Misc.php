@@ -7,7 +7,7 @@ class Misc extends Singleton
     public function __construct()
     {
         add_filter('xmlrpc_enabled', '__return_false');
-        add_filter('acf/prepare_field/type=image', [$this, 'prepare_image_field']);
+        add_filter('acf/get_field_label', [$this, 'modify_image_field_label'], 10, 2);
         add_action('admin_init', [$this, 'redirect_edit_php']);
         add_action('current_screen', [$this, 'redirect_initial_admin_url']);
         add_action('plugins_loaded', [$this, 'limit_revisions']);
@@ -61,17 +61,16 @@ class Misc extends Singleton
     /**
      * Add general instructions to image fields
      *
-     * @param  array  $field
+     * @param string $label
      * @return array $field
      */
-    public function prepare_image_field($field)
+    public function modify_image_field_label(string $label, array $field)
     {
-        if (! is_admin() || ! $field || empty($field['label'])) {
-            return $field;
+        if (! is_admin() || $field['type'] !== 'image') {
+            return $label;
         }
-        $field['label'] .= " <span title='JPG for photos or drawings, PNG for transparency or simple graphics (larger file size).' class='dashicons dashicons-info acf-js-tooltip rhau-icon--info'></span>";
 
-        return $field;
+        return "$label <span title='JPG for photos or drawings, PNG for transparency or simple graphics (larger file size).' class='dashicons dashicons-info acf-js-tooltip rhau-icon--info'></span>";
     }
 
     /**
