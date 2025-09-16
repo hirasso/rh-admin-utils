@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.0.28
+
+### Patch Changes
+
+- 322297d: Only temove the tools admin menu if it doesn't have any sub pages
+- 7f700f9: Uninstall `friendsofphp/php-cs-fixer`
+- b5a0f16: Remove automatic Polylang Pro activation via `RHAU_POLYLANG_PRO_LICENSE`
+
 ## 3.0.27
 
 ### Patch Changes
