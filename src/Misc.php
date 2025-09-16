@@ -14,7 +14,7 @@ class Misc extends Singleton
         add_action('after_setup_theme', [$this, 'after_setup_theme']);
         add_action('admin_bar_menu', [$this, 'admin_bar_menu'], 999);
         add_filter('gu_set_options', [$this, 'gu_set_options']);
-        add_action('admin_menu', [$this, 'admin_menu']);
+        add_action('admin_menu', [$this, 'remove_admin_menu_tools'], 11);
         add_filter('debug_bar_enable', [$this, 'debug_bar_enable']);
         add_action('map_meta_cap', [$this, 'map_meta_cap_privacy_options'], 1, 4);
         add_action('admin_init', [$this, 'remove_privacy_policy_notice']);
@@ -202,15 +202,22 @@ class Misc extends Singleton
     }
 
     /**
-     * Remove some admin menu pages for some users
+     * Remove the tools admin menu if it doesn't have any sub pages
      *
      * @return void
      */
-    public function admin_menu()
+    public function remove_admin_menu_tools()
     {
-        if (! current_user_can('manage_options')) {
-            remove_menu_page('tools.php');
+        if (current_user_can('manage_options')) {
+            return;
         }
+        global $submenu;
+
+        if (count($submenu['tools.php'] ?? []) < 2) {
+            remove_menu_page('tools-php');
+        }
+
+        remove_submenu_page('tools.php', 'tools.php');
     }
 
     /**
