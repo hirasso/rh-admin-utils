@@ -28,9 +28,6 @@ class Misc extends Singleton
         add_action('admin_enqueue_scripts', [$this, 'remove_qtranslate_admin_styles'], 11);
 
         add_filter('wp_admin_notice_markup', [$this, 'maybe_hide_update_nag'], 10, 3);
-
-        // polylang pro
-        add_action('after_setup_theme', [$this, 'set_polylang_pro_license']);
     }
 
     public function after_setup_theme()
@@ -343,25 +340,5 @@ class Misc extends Singleton
         }
 
         return $markup;
-    }
-
-    /**
-     * Automatically set the polylang pro license if it is defined
-     * @see https://github.com/diggy/polylang-cli/issues/113#issuecomment-394281604
-     */
-    public function set_polylang_pro_license()
-    {
-        if (
-            ! defined('POLYLANG_PRO')
-            || ! defined('RHAU_POLYLANG_PRO_LICENSE')
-            || empty(RHAU_POLYLANG_PRO_LICENSE)) {
-            return;
-        }
-
-        $licenses = (array) get_option('polylang_licenses');
-        if (empty($licenses['polylang-pro']['key'] ?? null)) {
-            $license = new \PLL_License(POLYLANG_FILE, 'Polylang Pro', POLYLANG_VERSION, 'Frédéric Demarle');
-            $license->activate_license(RHAU_POLYLANG_PRO_LICENSE);
-        }
     }
 }
