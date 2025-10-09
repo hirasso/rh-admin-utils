@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.29
+
+### Patch Changes
+
+- 27172af: Automatically set max login attempts in sg-security to `10`
+
 ## 3.0.28
 
 ### Patch Changes
