@@ -22,6 +22,7 @@ class Misc extends Singleton
         add_filter('admin_body_class', [$this, 'admin_body_class']);
         // Disable Siteground Security logs
         add_filter('pre_option_sg_security_disable_activity_log', '__return_true');
+        add_filter('pre_option_sg_security_login_attempts', static fn () => 10);
 
         // qtranslate
         add_action('admin_init', [$this, 'overwrite_qtranslate_defaults']);
