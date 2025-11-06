@@ -35,11 +35,28 @@ class Misc extends Singleton
     {
         add_filter('map_meta_cap', [$this, 'disable_capabilities'], 10, 4);
         add_action('init', [$this, 'schedule_sg_security_cronjob']);
+        self::native_emoji();
     }
 
     public function remove_privacy_policy_notice()
     {
         remove_action('admin_notices', ['WP_Privacy_Policy_Content', 'notice']);
+    }
+
+    /**
+     * Enable native emojis / disable twemojis
+     */
+    private function native_emoji()
+    {
+        if (!(bool) apply_filters('rhau/native_emoji', true)) {
+            return;
+        }
+
+        remove_filter('wp_head', 'print_emoji_detection_script', 7);
+        remove_filter('wp_print_styles', 'print_emoji_styles');
+        remove_filter('admin_print_scripts', 'print_emoji_detection_script');
+        remove_filter('admin_print_styles', 'print_emoji_styles');
+        add_filter('tiny_mce_plugins', fn ($plugins) => array_diff($plugins, ['wpemoji']));
     }
 
     /**
