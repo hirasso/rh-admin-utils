@@ -122,7 +122,7 @@ class Environments extends Singleton
      */
     private function init_environment_links(): void
     {
-        if (!current_user_can('administrator')) {
+        if (!rhau()->is_dev() && !current_user_can('administrator')) {
             return;
         }
 

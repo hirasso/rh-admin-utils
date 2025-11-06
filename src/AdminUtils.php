@@ -73,9 +73,9 @@ class AdminUtils extends Singleton
     /**
      * Helper function to detect a development environment
      */
-    private function is_dev()
+    public function is_dev()
     {
-        return defined('WP_ENV') && WP_ENV === 'development';
+        return defined('WP_ENV') && in_array(WP_ENV, ['development', 'local'], true);
     }
 
     /**
