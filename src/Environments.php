@@ -128,8 +128,10 @@ class Environments extends Singleton
 
         add_action('wp_enqueue_scripts', [$this, 'assets']);
         add_action('admin_enqueue_scripts', [$this, 'assets']);
+        add_action('login_enqueue_scripts', [$this, 'assets']);
         add_action('wp_footer', [$this, 'render_environment_links']);
         add_action('admin_footer', [$this, 'render_environment_links']);
+        add_action('login_footer', [$this, 'render_environment_links']);
     }
 
     /**

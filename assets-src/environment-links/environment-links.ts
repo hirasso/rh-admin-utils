@@ -1,15 +1,8 @@
 import "./environment-links.scss";
 
 class EnvironmentLinksDialog extends HTMLDialogElement {
-  shadowRoot: ShadowRoot;
-
   constructor() {
     super();
-
-    // this.attachShadow({
-    //   mode: "open",
-    //   delegatesFocus: true,
-    // });
   }
 
   connectedCallback() {
@@ -34,10 +27,10 @@ class EnvironmentLinksDialog extends HTMLDialogElement {
   };
 
   onClick = (e: MouseEvent) => {
-    const target = e.target as HTMLElement;
+    const target = e.target as Element;
 
     if (target.matches("rhau-environment-link")) {
-      return this.openEnvironmentLink(e.target);
+      return this.openEnvironmentLink(target);
     }
 
     if (target.closest("rhau-environment-links")) return;
@@ -59,7 +52,7 @@ class EnvironmentLinksDialog extends HTMLDialogElement {
     }
 
     return el?.matches(
-      `button, input, textarea, select, a, [contenteditable="true"]`,
+      `button, input, textarea, select, a, [contenteditable="true"]`
     );
   }
 
@@ -78,7 +71,7 @@ class EnvironmentLinksDialog extends HTMLDialogElement {
     e.stopPropagation();
 
     if (target.matches("rhau-environment-link")) {
-      this.openEnvironmentLink(e.target);
+      this.openEnvironmentLink(e.target as Element);
       return;
     }
 
@@ -88,17 +81,17 @@ class EnvironmentLinksDialog extends HTMLDialogElement {
 
   focusFirstLink() {
     this.querySelector<HTMLElement>(
-      "rhau-environment-link:first-of-type",
+      "rhau-environment-link:first-of-type"
     )?.focus();
   }
 
   focusLastLink() {
     this.querySelector<HTMLElement>(
-      "rhau-environment-link:last-of-type",
+      "rhau-environment-link:last-of-type"
     )?.focus();
   }
 
-  handleEscapeDown(e) {
+  handleEscapeDown(e: KeyboardEvent) {
     if (!this.open) return;
 
     e.preventDefault();
@@ -107,12 +100,12 @@ class EnvironmentLinksDialog extends HTMLDialogElement {
     this.close();
   }
 
-  openEnvironmentLink(el) {
+  openEnvironmentLink(el: Element) {
     if (!this.open) return;
 
     const localUrl = new URL(window.location.href);
     const localPath = localUrl.pathname + localUrl.search + localUrl.hash;
-    const remoteUrl = new URL(el.getAttribute("data-remote-host"));
+    const remoteUrl = new URL(el.getAttribute("data-remote-host")!);
 
     window.open(remoteUrl.origin + localPath);
 
