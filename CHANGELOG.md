@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.30
+
+### Patch Changes
+
+- abb7e14: In `development` & `local` environments, print environment links also if not logged in.
+
 ## 3.0.29
 
 ### Patch Changes
