@@ -1,5 +1,21 @@
 # Changelog
 
+## 3.1.0
+
+### Minor Changes
+
+- 9005397: Disable twemoji / Use native emojis
+
+  If you want to keep using twemoji, you can do so using a filter:
+
+  ```php
+  add_filter('rhau/native_emoji', '__return_false');
+  ```
+
+### Patch Changes
+
+- 4fc6e8a: Render environment links on the `wp-login.php`, as well
+
 ## 3.0.30
 
 ### Patch Changes
