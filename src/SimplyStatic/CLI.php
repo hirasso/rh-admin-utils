@@ -18,106 +18,6 @@ if (! defined('ABSPATH')) {
 class CLI
 {
     /**
-     * Validate post IDs for filtered export.
-     *
-     * @param string|null $ids_string Comma-separated post IDs.
-     * @return array Array of valid post IDs.
-     */
-    private function validate_post_ids($ids_string)
-    {
-        if (! $ids_string) {
-            return [];
-        }
-
-        $ids = array_map('absint', explode(',', $ids_string));
-        $ids = array_filter($ids);
-
-        if (empty($ids)) {
-            WP_CLI::error("No valid post IDs provided.");
-        }
-
-        $valid_ids = [];
-
-        foreach ($ids as $post_id) {
-            $post = get_post($post_id);
-
-            if (! $post) {
-                WP_CLI::warning("Post ID {$post_id} does not exist. Skipping.");
-                continue;
-            }
-
-            if ($post->post_status !== 'publish') {
-                WP_CLI::warning("Post ID {$post_id} not published (status: {$post->post_status}). Skipping.");
-                continue;
-            }
-
-            $valid_ids[] = $post_id;
-        }
-
-        if (empty($valid_ids)) {
-            WP_CLI::error("No valid published posts found.");
-        }
-
-        return $valid_ids;
-    }
-
-    /**
-     * Filter pages table to only include specified post IDs.
-     *
-     * @param object $job      Archive creation job.
-     * @param array  $post_ids Array of post IDs to keep.
-     */
-    private function filter_pages_by_post_ids($job, $post_ids)
-    {
-        // Wait for URL discovery to complete
-        WP_CLI::log('Waiting for URL discovery...');
-        $discovery_wait = 0;
-        $max_discovery_wait = 60;
-
-        while ($discovery_wait < $max_discovery_wait) {
-            $current_task = $job->get_current_task();
-
-            if (! $current_task || $current_task !== 'Simply_Static\Discover_Urls_Task') {
-                break;
-            }
-
-            sleep(1);
-            $discovery_wait++;
-        }
-
-        if ($discovery_wait >= $max_discovery_wait) {
-            WP_CLI::warning('URL discovery timed out. Filtering may not work correctly.');
-        }
-
-        // Get URLs for the specified post IDs
-        $post_urls = array_map('get_permalink', $post_ids);
-        $post_urls = array_filter($post_urls);
-
-        if (empty($post_urls)) {
-            WP_CLI::error('Could not get permalinks for specified post IDs.');
-        }
-
-        // Always include front page
-        $post_urls[] = home_url('/');
-
-        $post_urls = array_unique(array_filter($post_urls));
-
-        // Filter pages table
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'ss_pages';
-        $placeholders = implode(',', array_fill(0, count($post_urls), '%s'));
-
-        $deleted = $wpdb->query(
-            $wpdb->prepare(
-                "DELETE FROM {$table_name} WHERE url NOT IN ($placeholders)", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-                $post_urls
-            )
-        );
-
-        WP_CLI::log("Filtered to " . count($post_urls) . " URL(s) (removed {$deleted} URLs)");
-    }
-
-    /**
      * Generate a static site export as a ZIP file.
      *
      * ## OPTIONS
@@ -127,9 +27,6 @@ class CLI
      *
      * [--filename=<name>]
      * : Custom filename for the ZIP file (without .zip extension). Defaults to auto-generated name.
-     *
-     * [--ids=<ids>]
-     * : Export only specific posts by ID (comma-separated, for faster testing during development).
      *
      * ## EXAMPLES
      *
@@ -142,23 +39,12 @@ class CLI
      *     # Generate with custom filename
      *     $ wp simply-static run --filename=my-static-site
      *
-     *     # Export only specific posts (for development testing)
-     *     $ wp simply-static run --ids=123,456,789
-     *
      * @param array $args       Positional arguments.
      * @param array $assoc_args Named arguments.
      */
     public function run($args, $assoc_args)
     {
         WP_CLI::log('Starting Simply Static export...');
-
-        // Validate post IDs for filtered export
-        $ids_string = isset($assoc_args['ids']) ? $assoc_args['ids'] : null;
-        $post_ids = $this->validate_post_ids($ids_string);
-
-        if (! empty($post_ids)) {
-            WP_CLI::log('Filtering export to ' . count($post_ids) . ' post(s): ' . implode(', ', $post_ids));
-        }
 
         // Get output directory (default to current working directory)
         $output_dir = isset($assoc_args['output']) ? $assoc_args['output'] : getcwd();
@@ -195,11 +81,6 @@ class CLI
         WP_CLI::log('Initializing export...');
         if (! Plugin::instance()->run_static_export($blog_id, 'export')) {
             WP_CLI::error('Failed to start export. Check Simply Static settings and logs.');
-        }
-
-        // Filter to specific post IDs if requested
-        if (! empty($post_ids)) {
-            // $this->filter_pages_by_post_ids($job, $post_ids);
         }
 
         // Poll for completion
