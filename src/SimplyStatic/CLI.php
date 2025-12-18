@@ -144,10 +144,6 @@ class CLI
             }
         }
 
-        if ($done_message = ($status_messages['done'] ?? null)) {
-            WP_CLI::success($done_message['message']);
-        }
-
         // Find the generated ZIP file
         $temp_dir = Util::get_temp_dir();
         $archive_name = $options->get('archive_name');
