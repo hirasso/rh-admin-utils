@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.2.0
+
+### Minor Changes
+
+- ea94f80: Add a WP-CLI command to generate a static site using simply-static:
+
+  ```shell
+  wp rhau simply-static run
+  ```
+
 ## 3.1.0
 
 ### Minor Changes
