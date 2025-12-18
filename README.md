@@ -26,6 +26,7 @@
 - Adds a download button to TinyMCE (classic editor)
 - if WP Super Cache is installed, adds a button to the admin bar to clear the whole cache
 - Adds a WP CLI command `wp rhau acf-sync-field-groups` to sync all ACF field groups
+- Adds a WP CLI command `wp rhau simply-static run` to generate a static version of your site (requires the plugin simply-static to be installed)
 
 ## Other Features
 
