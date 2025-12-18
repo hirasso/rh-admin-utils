@@ -15,6 +15,8 @@ declare(strict_types=1);
 
 namespace RH\AdminUtils;
 
+use RH\AdminUtils\SimplyStatic\SimplyStatic;
+
 // Exit if accessed directly
 if (!defined('ABSPATH')) {
     exit;
@@ -89,6 +91,7 @@ AdminDashboard::init();
 TinyMcePlugins::init();
 WpCliCommands::init();
 ACFCodeField::init();
+SimplyStatic::init();
 ACFTextField::init();
 Misc::getInstance();
 

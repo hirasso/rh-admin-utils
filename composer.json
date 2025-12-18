@@ -19,7 +19,8 @@
     "yahnis-elsts/plugin-update-checker": "^5.5"
   },
   "require-dev": {
-    "laravel/pint": "^1.21"
+    "laravel/pint": "^1.21",
+    "php-stubs/wp-cli-stubs": "^2.12"
   },
   "scripts-descriptions": {},
   "config": {
