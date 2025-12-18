@@ -1,6 +1,7 @@
 {
   "intelephense.environment.includePaths": [
       "../simply-static/",
-      "vendor"
+      "./vendor/",
+      "../../../core/"
   ]
 }
