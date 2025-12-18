@@ -90,9 +90,20 @@ class CLI
         $check_interval = 2; // seconds
         $last_task = '';
 
+        // Use reflection to access the protected handle() method for synchronous processing
+        $reflection = new \ReflectionClass($job);
+        $handle_method = $reflection->getMethod('handle');
+
         while (! $job->is_job_done() && $elapsed < $max_wait) {
-            // Process the background queue manually for CLI using the cron healthcheck
-            $job->handle_cron_healthcheck();
+            // Check if there's work to do and no lock
+            if ($job->is_queued() && ! $job->is_processing()) {
+                // Process the queue synchronously instead of using async dispatch
+                try {
+                    $handle_method->invoke($job);
+                } catch (\Exception $e) {
+                    WP_CLI::error("Error processing queue: {$e->getMessage()}");
+                }
+            }
 
             // Small delay to prevent tight loop
             sleep($check_interval);
