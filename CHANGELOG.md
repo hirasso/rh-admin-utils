@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.1
+
+### Patch Changes
+
+- 2e96710: Fixe PHP 8.4 deprecation warnings
+
 ## 3.2.0
 
 ### Minor Changes
