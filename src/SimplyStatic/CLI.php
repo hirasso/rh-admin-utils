@@ -199,6 +199,10 @@ class CLI
      */
     public function cancel()
     {
+        if (!is_plugin_active('simply-static/simply-static.php')) {
+            WP_CLI::error('The plugin simply-static is required for this script', true);
+        }
+
         $job = Plugin::instance()->get_archive_creation_job();
 
         if ($job->is_job_done()) {
