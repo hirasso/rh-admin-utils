@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.2
+
+### Patch Changes
+
+- 52421a9: Make sure to fail gracefully if simply-static is not installed
+
 ## 3.2.1
 
 ### Patch Changes
