@@ -44,6 +44,10 @@ class CLI
      */
     public function run($args, $assoc_args)
     {
+        if (!is_plugin_active('simply-static/simply-static.php')) {
+            WP_CLI::error('The plugin simply-static is required for this script', true);
+        }
+
         WP_CLI::log('Starting Simply Static export...');
 
         // Get output directory (default to current working directory)
