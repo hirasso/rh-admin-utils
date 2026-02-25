@@ -105,9 +105,9 @@ class EnvironmentLinksDialog extends HTMLDialogElement {
 
     const localUrl = new URL(window.location.href);
     const localPath = localUrl.pathname + localUrl.search + localUrl.hash;
-    const remoteUrl = new URL(el.getAttribute("data-remote-host")!);
+    const remoteOrigin = new URL(el.getAttribute("data-remote-origin")!);
 
-    window.open(remoteUrl.origin + localPath);
+    window.open(remoteOrigin.origin + localPath);
 
     this.close();
   }

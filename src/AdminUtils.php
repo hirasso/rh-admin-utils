@@ -71,6 +71,18 @@ class AdminUtils extends Singleton
     }
 
     /**
+     * Throw, only if in dev
+     * @param class-string<\Exception> $exceptionClass
+     */
+    public function throw_in_dev(string $message, string $exceptionClass = \Exception::class): null
+    {
+        if ($this->is_dev()) {
+            throw new $exceptionClass($message);
+        }
+        return null;
+    }
+
+    /**
      * Helper function to detect a development environment
      */
     public function is_dev()
