@@ -1,3 +1,5 @@
+@use "sass:map";
+@use "sass:math";
 $media-direction: min; // min / max — default is min (mobile first)
 
 $breakpoints: (
@@ -20,15 +22,15 @@ $breakpoints: (
 // $direction: $media-direction = das was ihr in den Settings eingestellt habt.
 @mixin bp($breakpoint, $direction: $media-direction) {
   // Es wird gecheckt ob der Wert in der Sass Map vorhanden ist
-  @if map-has-key($breakpoints, $breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
     // Ausgabe
-    @media (#{$direction}-width: #{map-get($breakpoints, $breakpoint)}) {
+    @media (#{$direction}-width: #{map.get($breakpoints, $breakpoint)}) {
       @content;
     }
   }
 
   // Wenn ihr oben einen Wert eingetragen habt wird hier gecheckt ob ihr einen Einheit angehängt habt. Falls nicht wird px genutzt.
-  @else if unitless($breakpoint) {
+  @else if math.is-unitless($breakpoint) {
     $breakpoint: $breakpoint + 0px;
 
     // Ausgabe

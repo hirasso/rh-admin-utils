@@ -2,10 +2,14 @@
 
 namespace RH\AdminUtils;
 
+use InvalidArgumentException;
+
 class Environments extends Singleton
 {
     private string $env;
-    private array $environments = [];
+
+    /** @var array<string, Environment> $environments */
+    private readonly array $environments;
 
     /**
      * Constructor
@@ -17,7 +21,7 @@ class Environments extends Singleton
             add_action('pre_option_blog_public', '__return_zero');
         };
 
-        $this->environments = $this->get_environments();
+        $this->environments = $this->parse_environments();
 
         add_action('after_setup_theme', [$this, 'setup']);
     }
@@ -37,24 +41,31 @@ class Environments extends Singleton
     }
 
     /**
-     * Get available environments
+     * Parse available environments from the config
+     *
+     * @return array<string, Environment>
      */
-    private function get_environments(): array
+    private function parse_environments(): array
     {
-        if (defined('RHAU_ENVIRONMENTS') && is_array(RHAU_ENVIRONMENTS)) {
-            return RHAU_ENVIRONMENTS;
+        /** @var array<string, string> $config */
+        $raw = defined('RHAU_ENVIRONMENTS') && is_array(RHAU_ENVIRONMENTS)
+            ? RHAU_ENVIRONMENTS
+            : [
+                'production' => defined('WP_HOME_PROD') ? WP_HOME_PROD : null,
+                'development' => defined('WP_HOME_DEV') ? WP_HOME_DEV : null,
+                'staging' => defined('WP_HOME_STAG') ? WP_HOME_STAG : null,
+            ];
+
+        $raw = array_map(fn ($url) => $this->get_origin($url), $raw);
+        $raw = array_filter($raw, $this->is_non_empty_string(...));
+
+        $result = [];
+
+        foreach ($raw as $name => $url) {
+            $result[$name] = new Environment($name, $url);
         }
 
-        $environments = [
-            'production' => defined('WP_HOME_PROD') ? WP_HOME_PROD : null,
-            'development' => defined('WP_HOME_DEV') ? WP_HOME_DEV : null,
-            'staging' => defined('WP_HOME_STAG') ? WP_HOME_STAG : null,
-        ];
-
-        return array_filter(
-            $environments,
-            fn ($host) => !empty($host)
-        );
+        return $result;
     }
 
     /**
@@ -105,7 +116,7 @@ class Environments extends Singleton
         }
 
         add_filter('wp_calculate_image_srcset', [$this, 'calculate_image_srcset'], 11, 5);
-        add_filter('wp_get_attachment_url', [$this, 'get_attachment_url'], 11, 2);
+        add_filter('wp_get_attachment_url', [$this, 'maybe_get_remote_url'], 11, 2);
         add_filter('document_title_parts', [$this, 'document_title_parts'], PHP_INT_MAX - 100);
         add_filter('admin_title', [$this, 'admin_title']);
 
@@ -152,24 +163,60 @@ class Environments extends Singleton
     {
         ?>
         <dialog is="rhau-environment-links" data-rhau-environment-links>
-            <?php foreach ($this->environments as $environment => $host) : ?>
-                <?php if ($environment === $this->env) {
+            <?php foreach ($this->environments as $environment) : ?>
+                <?php if ($environment->name === $this->env) {
                     continue;
                 } ?>
-                <rhau-environment-link tabindex="0" data-remote-host="<?= $host ?>">
-                    <?= ucfirst($environment) ?>
+                <rhau-environment-link tabindex="0" data-remote-origin="<?= $environment->origin ?>">
+                    <?= ucfirst($environment->name) ?>
                 </rhau-environment-link>
             <?php endforeach; ?>
         </dialog>
 <?php
     }
 
-    /**
-     * Get the current host
-     */
-    private function get_current_origin(): string
+    private function is_non_empty_string(mixed $value): bool
     {
-        return set_url_scheme('http://' . ($_SERVER['HTTP_HOST'] ?? ''));
+        return is_string($value) && $value !== '';
+    }
+
+    /**
+     * Get the origin from a URL
+     */
+    private function get_origin(mixed $url): ?string
+    {
+        if (!$this->is_non_empty_string($url)) {
+            return rhau()->throw_in_dev(
+                "Please provide a non-empty string",
+                InvalidArgumentException::class
+            );
+        }
+
+        $scheme = parse_url($url, PHP_URL_SCHEME);
+
+        if (!$scheme) {
+            return rhau()->throw_in_dev(
+                sprintf("No scheme in %s", $url),
+                InvalidArgumentException::class
+            );
+        }
+
+        $host = parse_url($url, PHP_URL_HOST);
+        $port = parse_url($url, PHP_URL_PORT);
+
+        return $port
+            ? "{$scheme}://{$host}:{$port}"
+            : "{$scheme}://{$host}";
+    }
+
+    /**
+     * Get the current origin
+     */
+    private function get_current_origin(): ?string
+    {
+        return isset($_SERVER['HTTP_HOST'])
+            ? set_url_scheme('http://' . ($_SERVER['HTTP_HOST'] ?? ''))
+            : null;
     }
 
     /**
@@ -241,14 +288,6 @@ class Environments extends Singleton
     }
 
     /**
-     * Filter attachments
-     */
-    public function get_attachment_url(string $url, int $id): string
-    {
-        return $this->maybe_get_remote_url($url, $id);
-    }
-
-    /**
      * Filter srcsets
      */
     public function calculate_image_srcset(
@@ -288,36 +327,46 @@ class Environments extends Singleton
      */
     private function is_internal_url(string $url): bool
     {
+        if (!$currentOrigin = $this->get_current_origin()) {
+            return false;
+        }
+
         return str_starts_with(
-            wp_parse_url($url)['host'] ?? '',
-            wp_parse_url($this->get_current_origin())['host'] ?? ''
+            (string) wp_parse_url($url, PHP_URL_HOST),
+            (string) wp_parse_url($currentOrigin, PHP_URL_HOST)
         );
+    }
+
+    /**
+     * Get the remote assets origin
+     */
+    private function get_remote_assets_origin(): ?string
+    {
+        if (defined('RHAU_REMOTE_ASSETS_ORIGIN')) {
+            return $this->get_origin(RHAU_REMOTE_ASSETS_ORIGIN);
+        }
+
+        $env = $this->environments['production']
+            ?? $this->environments['staging']
+            ?? null;
+
+        return $env->origin ?? null;
     }
 
     /**
      * Try to load files from a different environment if they don't exist locally
      */
-    private function maybe_get_remote_url(string $attachmentURL, int $attachmentID): string
+    public function maybe_get_remote_url(string $attachmentURL, int $attachmentID): string
     {
         if (file_exists(get_attached_file($attachmentID))) {
             return $attachmentURL;
         }
 
-        $currentOrigin = $this->environments[$this->env] ?? get_option('home');
-
-        $remoteOrigin =
-            $this->environments['production']
-            ?? $this->environments['staging']
-            ?? null;
-
-        if (
-            defined('RHAU_REMOTE_ASSETS_ORIGIN')
-            && !empty(RHAU_REMOTE_ASSETS_ORIGIN)
-            && str_starts_with(RHAU_REMOTE_ASSETS_ORIGIN, 'http')
-        ) {
-            $remoteOrigin = RHAU_REMOTE_ASSETS_ORIGIN;
+        if (!$currentOrigin = $this->get_current_origin()) {
+            return $attachmentURL;
         }
-        if (empty($remoteOrigin)) {
+
+        if (!$remoteOrigin = $this->get_remote_assets_origin()) {
             return $attachmentURL;
         }
 
