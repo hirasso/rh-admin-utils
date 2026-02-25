@@ -1,3 +1,5 @@
+@use "../inc/mixins";
+
 /*
 * Qtranslate Admin Language Switcher
 */
@@ -51,5 +53,5 @@
 .acf-field-qtranslate-textarea
   .multi-language-field
   > textarea:not(.current-language) {
-  @include visually-hidden;
+  @include mixins.visually-hidden;
 }

@@ -1,9 +1,9 @@
-@import "./inc/mixins";
-@import "./modules/qtranslate";
-@import "./modules/acf";
-@import "./modules/user-forms";
-@import "./modules/tinymce-plugins";
-@import "./modules/ads.scss";
+@use "inc/mixins";
+@use "modules/qtranslate";
+@use "modules/acf";
+@use "modules/user-forms";
+@use "modules/tinymce-plugins";
+@use "modules/ads.scss";
 
 #submitdiv:not(.rhau-enabled) {
   input[type="submit"] {
@@ -22,7 +22,7 @@
 }
 .rhau-icon--info {
   color: rgba(0, 0, 0, 0.3);
-  @include hover {
+  @include mixins.hover {
     color: rgba(0, 0, 0, 0.7);
   }
 }

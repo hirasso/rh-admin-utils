@@ -9,8 +9,8 @@
   "license": "ISC",
   "scripts": {
     "prepare": "git config core.hooksPath .githooks",
-    "watch": "rm -f .is-built && webpack --config config/webpack.config.js --watch --mode=development --progress --stats minimal",
-    "build": "[ -f .is-built ] && exit 0; webpack --config config/webpack.config.js --mode=production --progress --stats minimal && touch .is-built",
+    "watch": "webpack --config config/webpack.config.js --watch --mode=development --progress --stats minimal",
+    "build": "webpack --config config/webpack.config.js --mode=production --progress --stats minimal",
     "format:assets": "pnpm exec prettier --write ./assets-src/ ./config/cli/",
     "format:php": "./vendor/bin/pint",
     "format": "pnpm run format:assets && pnpm run format:php",
@@ -60,7 +60,7 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "onFail": "error"
+      "onFail": "warn"
     }
   }
 }

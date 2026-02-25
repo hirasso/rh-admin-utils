@@ -1,3 +1,4 @@
+@use "sass:map";
 $ease: (
   in-quad: cubic-bezier(0.55, 0.085, 0.68, 0.53),
   in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19),
@@ -26,8 +27,8 @@ $ease: (
 );
 
 @function ease($key) {
-  @if map-has-key($ease, $key) {
-    @return map-get($ease, $key);
+  @if map.has-key($ease, $key) {
+    @return map.get($ease, $key);
   }
 
   @warn "Unkown '#{$key}' in $ease.";
