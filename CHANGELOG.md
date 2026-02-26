@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.3
+
+### Patch Changes
+
+- 6f23e14: Make the Environments helper more robust
+
 ## 3.2.2
 
 ### Patch Changes
