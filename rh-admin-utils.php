@@ -85,6 +85,7 @@ AttachmentsHelper::init();
 RemoveAds::getInstance();
 PageRestrictions::init();
 ACFSyncPostDate::init();
+UserEnumeration::init();
 ACFOembedCache::init();
 QueryOptimizer::init();
 AdminDashboard::init();
