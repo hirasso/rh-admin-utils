@@ -56,8 +56,8 @@ class Environments extends Singleton
                 'staging' => defined('WP_HOME_STAG') ? WP_HOME_STAG : null,
             ];
 
-        $raw = array_map(fn ($url) => $this->get_origin($url), $raw);
         $raw = array_filter($raw, $this->is_non_empty_string(...));
+        $raw = array_map(fn ($url) => $this->get_origin($url), $raw);
 
         $result = [];
 
