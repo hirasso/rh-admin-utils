@@ -6,7 +6,6 @@ class Misc extends Singleton
 {
     public function __construct()
     {
-        add_filter('xmlrpc_enabled', '__return_false');
         add_filter('acf/get_field_label', [$this, 'modify_image_field_label'], 10, 2);
         add_action('admin_init', [$this, 'redirect_edit_php']);
         add_action('current_screen', [$this, 'redirect_initial_admin_url']);

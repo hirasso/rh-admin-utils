@@ -94,6 +94,7 @@ ACFCodeField::init();
 SimplyStatic::init();
 ACFTextField::init();
 Misc::getInstance();
+Hardening::init();
 
 /**
  * Support for manual (non-composer) updates
