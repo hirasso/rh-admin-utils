@@ -10,25 +10,25 @@ class Hardening
 
         /** Hide the WordPress version */
         remove_action('wp_head', 'wp_generator');
-        add_filter('script_loader_src', self::obfuscateWPVersionQueryParam(...), 9999);
-        add_filter('style_loader_src', self::obfuscateWPVersionQueryParam(...), 9999);
+        add_filter('script_loader_src', self::obfuscateVersionQueryParam(...), 9999);
+        add_filter('style_loader_src', self::obfuscateVersionQueryParam(...), 9999);
     }
 
     /**
-     * Replace `ver={{$wp_version}}` with a hashed version in script loader tags
+     * Replace any `ver=` query param with a hashed version in script/style loader tags
      */
-    private static function obfuscateWPVersionQueryParam(string $src): string
+    private static function obfuscateVersionQueryParam(string $src): string
     {
-        $wp_version = get_bloginfo('version');
+        parse_str(wp_parse_url($src, PHP_URL_QUERY) ?? '', $params);
 
-        if (str_contains($src, "ver=$wp_version")) {
-            $src = remove_query_arg('ver', $src);
-            $hash = substr(md5($wp_version . wp_salt('rh-admin-utils')), 0, 8);
-            $src = add_query_arg('v', $hash, $src);
+        if (empty($params['ver'])) {
+            return $src;
         }
+
+        $hash = substr(md5($params['ver'] . wp_salt('rh-admin-utils')), 0, 8);
+        $src = remove_query_arg('ver', $src);
+        $src = add_query_arg('v', $hash, $src);
 
         return $src;
     }
-
-
 }
