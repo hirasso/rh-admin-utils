@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.4
+
+### Patch Changes
+
+- f469e7a: Hide the WordPress version in the frontend
+
 ## 3.2.3
 
 ### Patch Changes
