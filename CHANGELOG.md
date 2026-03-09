@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.5
+
+### Patch Changes
+
+- cec5feb: Prevent fatal errors when Environment origin can't be parsed
+
 ## 3.2.4
 
 ### Patch Changes
