@@ -58,6 +58,8 @@ class Environments extends Singleton
 
         $raw = array_filter($raw, $this->is_non_empty_string(...));
         $raw = array_map(fn ($url) => $this->get_origin($url), $raw);
+        /** filter again, get_origin can return null */
+        $raw = array_filter($raw, $this->is_non_empty_string(...));
 
         $result = [];
 
@@ -186,10 +188,7 @@ class Environments extends Singleton
     private function get_origin(mixed $url): ?string
     {
         if (!$this->is_non_empty_string($url)) {
-            return rhau()->throw_in_dev(
-                "Please provide a non-empty string",
-                InvalidArgumentException::class
-            );
+            return null;
         }
 
         $scheme = parse_url($url, PHP_URL_SCHEME);
