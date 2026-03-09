@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.7
+
+### Patch Changes
+
+- 51bb88f: Block user enumeration via REST API or user archive URLs
+
 ## 3.2.6
 
 ### Patch Changes
