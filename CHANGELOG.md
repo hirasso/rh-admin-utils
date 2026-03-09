@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.6
+
+### Patch Changes
+
+- 5d1e2d4: Obfuscate _any_ version query parameter in script or style URLs
+
 ## 3.2.5
 
 ### Patch Changes
