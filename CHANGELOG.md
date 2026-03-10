@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.2.9
+
+### Patch Changes
+
+- cef7c79: Obscure login errors that reveal whether a username/email exists
+- 06679b2: Block user enumeration via the built-in `wp-sitemap.xml`
+
 ## 3.2.8
 
 ### Patch Changes
