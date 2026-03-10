@@ -11,6 +11,7 @@ class BlockUserEnumeration
         add_action('pre_get_posts', self::disableAuthorArchives(...));
         add_filter('rest_endpoints', self::blockRestUsersEndpoint(...));
         add_filter('wp_sitemaps_add_provider', self::blockSitemapUsersProvider(...), 10, 2);
+        add_filter('authenticate', self::obscureLoginErrors(...), 100);
     }
 
     private static function isEnabled(): bool
@@ -43,9 +44,13 @@ class BlockUserEnumeration
     /**
      * Remove users from the wp-sitemap.xml
      *
-     * This must return \"rest_no_route\": `curl -s https://example.com/wp-sitemap.xml | grep users`
+     * `curl -s https://example.com/wp-sitemap.xml | grep users`
+     *
+     * @param \WP_Sitemaps_Provider|false $provider
+     * @param string $name
+     * @return \WP_Sitemaps_Provider|false $provider
      */
-    private static function blockSitemapUsersProvider(\WP_Sitemaps_Provider|false $provider, string $name): \WP_Sitemaps_Provider|false
+    private static function blockSitemapUsersProvider(mixed $provider, string $name): mixed
     {
         if (!self::isEnabled()) {
             return $provider;
@@ -56,6 +61,39 @@ class BlockUserEnumeration
         }
 
         return $provider;
+    }
+
+    /**
+     * Obscure login errors that reveal whether a username/email exists
+     *
+     * `curl -sc /tmp/c https://example.com/wp-login.php \
+     *   && curl -s -b /tmp/c -d "log=admin&pwd=wrong&wp-submit=Log+In" \
+     *   -D - https://example.com/wp-login.php | grep -i location`
+     *
+     * @param \WP_User|\WP_Error|null $user
+     * @return \WP_User|\WP_Error|null
+     */
+    private static function obscureLoginErrors($user)
+    {
+        if (!$user || $user instanceof \WP_User) {
+            return $user;
+        }
+
+        if (!self::isEnabled()) {
+            return $user;
+        }
+
+        /**
+         * Returning null for all of these errors will make the error messages unhelpful.
+         */
+        $codes = ['invalid_username', 'invalid_email', 'incorrect_password', 'invalidcombo'];
+        foreach ($user->get_error_codes() as $code) {
+            if (in_array($code, $codes, true)) {
+                return;
+            }
+        }
+
+        return $user;
     }
 
     /**
