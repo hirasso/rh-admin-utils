@@ -10,6 +10,7 @@ class BlockUserEnumeration
     {
         add_action('pre_get_posts', self::disableAuthorArchives(...));
         add_filter('rest_endpoints', self::blockRestUsersEndpoint(...));
+        add_filter('wp_sitemaps_add_provider', self::blockSitemapUsersProvider(...), 10, 2);
     }
 
     private static function isEnabled(): bool
@@ -37,6 +38,24 @@ class BlockUserEnumeration
             $query->set_404();
             status_header(404);
         }
+    }
+
+    /**
+     * Remove users from the wp-sitemap.xml
+     *
+     * This must return \"rest_no_route\": `curl -s https://example.com/wp-sitemap.xml | grep users`
+     */
+    private static function blockSitemapUsersProvider(\WP_Sitemaps_Provider|false $provider, string $name): \WP_Sitemaps_Provider|false
+    {
+        if (!self::isEnabled()) {
+            return $provider;
+        }
+
+        if ($name === 'users') {
+            return false;
+        }
+
+        return $provider;
     }
 
     /**
