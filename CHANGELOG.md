@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.10
+
+### Patch Changes
+
+- a32750f: Remove the forced value of 10 failed login attempts in sg-security
+
 ## 3.2.9
 
 ### Patch Changes
