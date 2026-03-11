@@ -28,17 +28,28 @@
     "laravel/pint": "^1.21",
     "php-stubs/wordpress-stubs": "^6.9",
     "php-stubs/wp-cli-stubs": "^2.12",
+    "roots/wordpress": "^6.9",
     "wpackagist-plugin/simply-static": "^3.5"
   },
   "extra": {
     "installer-paths": {
-      "vendor/wp-plugins/{$name}/": ["type:wordpress-plugin"]
-    }
+      "vendor/.wp/mu-plugins/{$name}/": [
+        "type:wordpress-muplugin"
+      ],
+      "vendor/.wp/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ],
+      "vendor/.wp/themes/{$name}/": [
+        "type:wordpress-theme"
+      ]
+    },
+    "wordpress-install-dir": "vendor/.wp/core"
   },
   "scripts-descriptions": {},
   "config": {
     "allow-plugins": {
-      "composer/installers": true
+      "composer/installers": true,
+      "roots/wordpress-core-installer": true
     },
     "optimize-autoloader": true,
     "preferred-install": "dist",
