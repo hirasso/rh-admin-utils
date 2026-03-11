@@ -1,17 +1,7 @@
-# git & GitHub
-.git/ export-ignore
-.githooks/ export-ignore
-.github/ export-ignore
-.gitignore export-ignore
-.gitattributes export-ignore
-
-.vscode export-ignore
-.changeset export-ignore
-.browserslistrc export-ignore
-.editorconfig export-ignore
+# hidden files and folders
+.* export-ignore
 
 # Tooling
-.prettierignore export-ignore
 assets-src export-ignore
 package.json export-ignore
 pnpm-lock.yaml export-ignore
@@ -19,6 +9,8 @@ postcss.config.cjs export-ignore
 bin export-ignore
 *.sh export-ignore
 config/ export-ignore
+pint.json export-ignore
+pnpm-workspace.yaml export-ignore
 
 # composer
 composer.lock export-ignore
