@@ -109,7 +109,7 @@ final class Hardening
          * Directory hardening. Uses nowdoc to bypass any parsing
          * https://stackoverflow.com/a/36525712/586823
          */
-        $content = <<<APACHE
+        $content = <<<'EOF'
             <FilesMatch "\.(?i:sql|ini|log|sh|sql\.gz|env)$">
                 <IfModule !mod_authz_core.c>
                     Order allow,deny
@@ -124,7 +124,7 @@ final class Hardening
                 Header always set X-Frame-Options "SAMEORIGIN"
                 Header always set Referrer-Policy "strict-origin-when-cross-origin"
             </IfModule>
-            APACHE;
+            EOF;
 
         $directives = explode("\n", trim($content));
 
