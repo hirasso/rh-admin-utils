@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.0
+
+### Minor Changes
+
+- e8901d0: Automatically add .htaccess security directives to sites running on Apache
+
 ## 3.2.10
 
 ### Patch Changes
