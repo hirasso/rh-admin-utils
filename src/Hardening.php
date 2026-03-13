@@ -110,7 +110,7 @@ final class Hardening
          * https://stackoverflow.com/a/36525712/586823
          */
         $content = <<<APACHE
-            <FilesMatch "\.(?i:php|sql|xlsx|ini|log|sh|sql\.gz)$">
+            <FilesMatch "\.(?i:sql|ini|log|sh|sql\.gz|env)$">
                 <IfModule !mod_authz_core.c>
                     Order allow,deny
                     Deny from all
