@@ -290,13 +290,17 @@ final class Hardening
 
             # Block direct access to sensitive file types
             <FilesMatch "\.(?i:sql|ini|log|sh|sql\.gz|env)$">
-                <IfModule !mod_authz_core.c>
-                    Order allow,deny
-                    Deny from all
-                </IfModule>
-                <IfModule mod_authz_core.c>
-                    Require all denied
-                </IfModule>
+                Require all denied
+            </FilesMatch>
+
+            # Block access to version-revealing files
+            <FilesMatch "^(readme\.html|license\.txt)$">
+                Require all denied
+            </FilesMatch>
+
+            # Block access to dotfiles (e.g. .git, .env, .htpasswd)
+            <FilesMatch "^\.">
+                Require all denied
             </FilesMatch>
 
             # Security headers
