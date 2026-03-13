@@ -42,11 +42,23 @@ final class Hardening
     }
 
     /**
+     * Check if currently running on Apache
+     */
+    private static function isApache(): bool
+    {
+        if (function_exists('apache_get_modules')) {
+            return true;
+        }
+        $software = $_SERVER['SERVER_SOFTWARE'] ?? '';
+        return stripos($software, 'apache') !== false;
+    }
+
+    /**
      * Check if the site is already hardened
      */
     private static function needsHtaccessHardening(): bool
     {
-        return !(bool) get_option(self::$htaccessHardenedOption);
+        return self::isApache() && !(bool) get_option(self::$htaccessHardenedOption);
     }
 
     /**
@@ -98,7 +110,7 @@ final class Hardening
         ob_start(); ?>
         <div class="notice notice-success is-dismissible">
             <p>
-                <?php _e('Hardening directives applied to the <code>.htaccess</code>', 'rh-admin-utils') ?>
+                <?php _e('Successfully applied hardening directives to the <code>.htaccess</code>', 'rh-admin-utils') ?>
             </p>
         </div>
         <?php echo ob_get_clean();
