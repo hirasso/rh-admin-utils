@@ -130,7 +130,7 @@ final class Hardening
     }
 
     /**
-     * Get a message from a store, reusable
+     * Get a message from a store, reusable in both HTML and WP CLI
      */
     private static function getMessage(string $key): string
     {
