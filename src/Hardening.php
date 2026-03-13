@@ -103,7 +103,7 @@ final class Hardening
             return;
         }
 
-        $htaccessFile = untrailingslashit(get_home_path()) . '/.htaccess';
+        $htaccessFile = get_home_path() . '.htaccess';
 
         /**
          * Directory hardening. Uses nowdoc to bypass any parsing
