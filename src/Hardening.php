@@ -270,7 +270,7 @@ final class Hardening
         }
 
         // add_filter('insert_with_markers_inline_instructions', '__return_empty_array');
-        insert_with_markers($htaccessFile, self::class, explode("\n", trim($directives)));
+        insert_with_markers($htaccessFile, 'AdminUtils\Hardening', explode("\n", trim($directives)));
         // remove_filter('insert_with_markers_inline_instructions', '__return_empty_array');
 
         update_option(self::$htaccessHardenedOption, true);
