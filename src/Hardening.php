@@ -243,6 +243,9 @@ final class Hardening
      */
     private static function getHtaccessFilePath(): string
     {
+        // Ensure get_home_path() is declared
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+
         if (self::isWpCli()) {
             $_SERVER['SCRIPT_FILENAME'] = ABSPATH;
         }
@@ -259,17 +262,18 @@ final class Hardening
      */
     private static function writeToHtaccess(string $directives): void
     {
-        require_once(ABSPATH . 'wp-admin/includes/misc.php');
+        // Ensure insert_with_markers() is declared
+        require_once ABSPATH . 'wp-admin/includes/misc.php';
 
         $htaccessFile = self::getHtaccessFilePath();
 
         if (!self::isWritable($htaccessFile)) {
-            throw new Exception(sprintf("The <code>.htaccess</code> is not writable."));
+            throw new Exception(sprintf("The <code>.htaccess</code> is not writable"));
         }
 
-        // add_filter('insert_with_markers_inline_instructions', '__return_empty_array');
-        insert_with_markers($htaccessFile, 'AdminUtils\Hardening', explode("\n", trim($directives)));
-        // remove_filter('insert_with_markers_inline_instructions', '__return_empty_array');
+        if (!insert_with_markers($htaccessFile, 'AdminUtils\Hardening', explode("\n", trim($directives)))) {
+            throw new Exception(sprintf("Could not update the <code>.htaccess</code> file"));
+        }
 
         update_option(self::$htaccessHardenedOption, true);
     }
@@ -281,6 +285,7 @@ final class Hardening
     private static function getHardeningDirectives(): string
     {
         return <<<'EOF'
+            Options -Indexes
             <FilesMatch "\.(?i:sql|ini|log|sh|sql\.gz|env)$">
                 <IfModule !mod_authz_core.c>
                     Order allow,deny
