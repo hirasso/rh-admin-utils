@@ -4,6 +4,7 @@ namespace RH\AdminUtils;
 
 final class Hardening
 {
+    /** Bump the version suffix to re-trigger hardening on already-hardened sites */
     private static $hardenedOptionName = 'rhau-hardened-v1';
 
     public static function init()
