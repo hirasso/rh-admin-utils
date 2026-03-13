@@ -119,17 +119,17 @@ final class Hardening
                     Require all denied
                 </IfModule>
             </FilesMatch>
+            <IfModule mod_headers.c>
+                Header always set X-Content-Type-Options "nosniff"
+                Header always set X-Frame-Options "SAMEORIGIN"
+                Header always set Referrer-Policy "strict-origin-when-cross-origin"
+            </IfModule>
             APACHE;
 
         $directives = explode("\n", trim($content));
 
         add_filter('insert_with_markers_inline_instructions', '__return_empty_array');
-        // Update the .htaccess file
-        insert_with_markers(
-            $htaccessFile,
-            __METHOD__,
-            $directives
-        );
+        insert_with_markers($htaccessFile, self::class, $directives);
         remove_filter('insert_with_markers_inline_instructions', '__return_empty_array');
     }
 
