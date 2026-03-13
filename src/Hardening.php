@@ -171,8 +171,6 @@ final class Hardening
      */
     private static function maybeApplyHtaccessHardening(): void
     {
-        delete_option(self::$htaccessHardenedOption);
-
         if (!self::isHardenHtaccessActionUrl()) {
             return;
         }
