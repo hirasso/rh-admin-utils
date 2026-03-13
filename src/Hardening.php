@@ -2,6 +2,8 @@
 
 namespace RH\AdminUtils;
 
+use Exception;
+
 final class Hardening
 {
     /** Bump the version suffix to re-trigger hardening on already-hardened sites */
@@ -17,7 +19,7 @@ final class Hardening
         add_filter('style_loader_src', self::obfuscateVersionQueryParam(...), 9999);
 
         add_action('admin_init', self::maybeHardenSite(...));
-        add_action('admin_notices', self::printHardeningNotice(...));
+        add_action('admin_notices', self::printAdminNotices(...));
     }
 
     /**
@@ -49,21 +51,33 @@ final class Hardening
     /**
      * Print a notice to administrators to harden the website via .htaccess directives
      */
-    private static function printHardeningNotice()
+    private static function printAdminNotices()
     {
         if (self::isHardened()) {
             return;
         }
 
-        $message = sprintf(__('This site is not yet hardened.', 'rh-admin-utils'));
-        $buttonLabel = sprintf(__('Harden now', 'rh-admin-utils'));
-        $url = wp_nonce_url(add_query_arg('action', 'rhau-harden-site'), 'rhau-harden-site');
+        if (!self::isHardenSiteActionUrl()) {
+            $message = sprintf(__('This site is not yet hardened.', 'rh-admin-utils'));
+            $buttonLabel = sprintf(__('Harden now', 'rh-admin-utils'));
+            $url = wp_nonce_url(add_query_arg('action', 'rhau-harden-site'), 'rhau-harden-site');
 
-        echo <<<HTML
-        <div class="notice notice-success is-dismissible">
-            <p>$message <a class="button-primary" href="$url">$buttonLabel</a></p>
-        </div>
-        HTML;
+            echo <<<HTML
+            <div class="notice notice-success is-dismissible">
+                <p>$message <a class="button-primary" href="$url">$buttonLabel</a></p>
+            </div>
+            HTML;
+        }
+
+    }
+
+    /**
+     * Check if we are currently on ?action=rhau-harden-site
+     */
+    private static function isHardenSiteActionUrl(): bool
+    {
+        $action = $_GET['action'] ?? null;
+        return is_admin() && $action === 'rhau-harden-site';
     }
 
     /**
@@ -71,46 +85,71 @@ final class Hardening
      */
     private static function maybeHardenSite(): void
     {
-        $action = $_GET['action'] ?? null;
-
-        if ($action === 'rhau-harden-site' && check_admin_referer('rhau-harden-site')) {
-            self::hardenSiteViaHtaccess();
+        if (!self::isHardenSiteActionUrl() || !check_admin_referer('rhau-harden-site')) {
+            return;
         }
+
+        $directives = self::getHardeningDirectives();
+
+        try {
+            self::writeToHtaccess($directives);
+            // update_option(self::$hardenedOptionName, true);
+        } catch (Exception $e) {
+            // rhau()->add_admin_notice(
+            //     'rhau-hardening-directives',
+            //     <<<HTML
+            //     Could not write to the <code>.htaccess</code> file.
+            //     Please do it manually: <pre>$directives</pre>
+            //     HTML,
+            //     'warning',
+            // );
+        }
+
+        $notice = sprintf(<<<HTML
+            Could not write to the <code>.htaccess</code> file.
+            Please do it manually: <pre>%s</pre>
+        HTML, esc_html($directives));
+
+        rhau()->add_admin_notice('rhau-hardening-directives', $notice, 'warning');
+
     }
 
     /**
-     * Check if the .htaccess file is writable
+     * Check if a file can be written or created
      */
-    private static function isHtaccessWritable(): bool
+    private static function isWritable(string $file): bool
     {
-        $homePath = get_home_path();
-        if (
-            is_writable($homePath)
-            && !file_exists($homePath . '.htaccess')
-        ) {
-            return true;
-        }
-        return is_writable($homePath . '.htaccess');
+        $dir = dirname($file);
+        return is_writable($file) || (is_writable($dir) && !file_exists($file));
     }
 
     /**
      * Harden the site via .htaccess
+     *
+     * @throws Exception
      */
-    private static function hardenSiteViaHtaccess(): void
+    private static function writeToHtaccess(string $directives): void
     {
         require_once(ABSPATH . 'wp-admin/includes/misc.php');
 
-        if (!self::isHtaccessWritable()) {
-            return;
-        }
-
         $htaccessFile = get_home_path() . '.htaccess';
 
-        /**
-         * Directory hardening. Uses nowdoc to bypass any parsing
-         * https://stackoverflow.com/a/36525712/586823
-         */
-        $content = <<<'EOF'
+        if (!self::isWritable($htaccessFile)) {
+            throw new Exception(sprintf("The <code>.htaccess</code> is not writable."));
+        }
+
+        add_filter('insert_with_markers_inline_instructions', '__return_empty_array');
+        insert_with_markers($htaccessFile, self::class, explode("\n", trim($directives)));
+        remove_filter('insert_with_markers_inline_instructions', '__return_empty_array');
+    }
+
+    /**
+     * Hardening directives. Uses nowdoc to bypass any parsing
+     * @see https://stackoverflow.com/a/36525712/586823
+     */
+    private static function getHardeningDirectives(): string
+    {
+        return <<<'EOF'
             <FilesMatch "\.(?i:sql|ini|log|sh|sql\.gz|env)$">
                 <IfModule !mod_authz_core.c>
                     Order allow,deny
@@ -126,12 +165,6 @@ final class Hardening
                 Header always set Referrer-Policy "strict-origin-when-cross-origin"
             </IfModule>
             EOF;
-
-        $directives = explode("\n", trim($content));
-
-        add_filter('insert_with_markers_inline_instructions', '__return_empty_array');
-        insert_with_markers($htaccessFile, self::class, $directives);
-        remove_filter('insert_with_markers_inline_instructions', '__return_empty_array');
     }
 
 }
