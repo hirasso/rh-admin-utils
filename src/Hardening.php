@@ -7,7 +7,7 @@ use Exception;
 final class Hardening
 {
     /** Bump the version suffix to re-trigger hardening on already-hardened sites */
-    private static $hardenedOptionName = 'rhau-hardened-v1';
+    private static $htaccessHardenedOption = 'rhau-hardened-v1';
 
     public static function init()
     {
@@ -18,8 +18,9 @@ final class Hardening
         add_filter('script_loader_src', self::obfuscateVersionQueryParam(...), 9999);
         add_filter('style_loader_src', self::obfuscateVersionQueryParam(...), 9999);
 
-        add_action('admin_init', self::maybeHardenSite(...));
-        add_action('admin_notices', self::printAdminNotices(...));
+        /** Hardening via .htaccess */
+        add_action('admin_init', self::maybeApplyHtaccessHardening(...));
+        add_action('admin_notices', self::showHtaccessHardeningNotice(...));
     }
 
     /**
@@ -43,75 +44,112 @@ final class Hardening
     /**
      * Check if the site is already hardened
      */
-    private static function isHardened(): bool
+    private static function needsHtaccessHardening(): bool
     {
-        return (bool) get_option(self::$hardenedOptionName);
+        return !(bool) get_option(self::$htaccessHardenedOption);
     }
 
     /**
      * Print a notice to administrators to harden the website via .htaccess directives
      */
-    private static function printAdminNotices()
+    private static function showHtaccessHardeningNotice()
     {
-        if (self::isHardened()) {
+        if (!self::needsHtaccessHardening()) {
             return;
         }
 
-        if (!self::isHardenSiteActionUrl()) {
-            $message = sprintf(__('This site is not yet hardened.', 'rh-admin-utils'));
-            $buttonLabel = sprintf(__('Harden now', 'rh-admin-utils'));
-            $url = wp_nonce_url(add_query_arg('action', 'rhau-harden-site'), 'rhau-harden-site');
+        $url = wp_nonce_url(add_query_arg('rhau-action', 'harden-htaccess'), 'rhau-harden-htaccess');
 
-            echo <<<HTML
-            <div class="notice notice-success is-dismissible">
-                <p>$message <a class="button-primary" href="$url">$buttonLabel</a></p>
-            </div>
-            HTML;
-        }
+        ob_start(); ?>
+        <div class="notice notice-warning">
+            <p>
+                <?php _e('This site can be hardened using <code>.htaccess</code> directives:', 'rh-admin-utils') ?>
+                <?php echo self::renderCodeBlock(self::getHardeningDirectives()) ?>
 
+                <a
+                    class="button-primary"
+                    href="<?= $url ?>">
+                    <?= __('Apply directives automatically', 'rh-admin-utils') ?>
+                </a>
+            </p>
+        </div>
+        <?php echo ob_get_clean();
+    }
+
+    /**
+     * Render source code in a block
+     */
+    private static function renderCodeBlock(string $code): string
+    {
+        ob_start() ?>
+        <pre style="
+            border-radius: 3px;
+            background: rgb(0 0 0 / 0.1);
+            padding: 1rem;
+            border: 1px solid rgb(0 0 0 / 0.1);"><?php echo esc_html($code) ?></pre>
+        <?php return ob_get_clean();
+    }
+
+    /**
+     * Show a notice when the website was successfully hardened
+     */
+    private static function showHardenSuccessNotice(): void
+    {
+        ob_start(); ?>
+        <div class="notice notice-success is-dismissible">
+            <p>
+                <?php _e('Hardening directives applied to the <code>.htaccess</code>', 'rh-admin-utils') ?>
+            </p>
+        </div>
+        <?php echo ob_get_clean();
+    }
+
+    /**
+     * Show a notice for manually applying the .htaccess hardening code
+     */
+    private static function showManualHardeningNotice(): void
+    {
+        ob_start(); ?>
+        <div class="notice notice-warning is-dismissible">
+            <p>
+                <?php _e('Could not update the <code>.htaccess</code> file. Copy and paste manually:', 'rh-admin-utils') ?>
+                <?php echo self::renderCodeBlock(self::getHardeningDirectives()) ?>
+            </p>
+        </div>
+        <?php echo ob_get_clean();
     }
 
     /**
      * Check if we are currently on ?action=rhau-harden-site
      */
-    private static function isHardenSiteActionUrl(): bool
+    private static function isHardenHtaccessActionUrl(): bool
     {
-        $action = $_GET['action'] ?? null;
-        return is_admin() && $action === 'rhau-harden-site';
+        $action = $_GET['rhau-action'] ?? null;
+        return is_admin() && $action === 'harden-htaccess';
     }
 
     /**
-     * Harden the site via .htaccess
+     * Write hardening directives to the .htaccess file
      */
-    private static function maybeHardenSite(): void
+    private static function maybeApplyHtaccessHardening(): void
     {
-        if (!self::isHardenSiteActionUrl() || !check_admin_referer('rhau-harden-site')) {
+        delete_option(self::$htaccessHardenedOption);
+
+        if (!self::isHardenHtaccessActionUrl()) {
             return;
         }
+
+        check_admin_referer('rhau-harden-htaccess');
 
         $directives = self::getHardeningDirectives();
 
         try {
             self::writeToHtaccess($directives);
-            // update_option(self::$hardenedOptionName, true);
+            update_option(self::$htaccessHardenedOption, true);
+            add_action('admin_notices', self::showHardenSuccessNotice(...));
         } catch (Exception $e) {
-            // rhau()->add_admin_notice(
-            //     'rhau-hardening-directives',
-            //     <<<HTML
-            //     Could not write to the <code>.htaccess</code> file.
-            //     Please do it manually: <pre>$directives</pre>
-            //     HTML,
-            //     'warning',
-            // );
+            add_action('admin_notices', self::showManualHardeningNotice(...));
         }
-
-        $notice = sprintf(<<<HTML
-            Could not write to the <code>.htaccess</code> file.
-            Please do it manually: <pre>%s</pre>
-        HTML, esc_html($directives));
-
-        rhau()->add_admin_notice('rhau-hardening-directives', $notice, 'warning');
-
     }
 
     /**
