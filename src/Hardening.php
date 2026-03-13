@@ -285,7 +285,10 @@ final class Hardening
     private static function getHardeningDirectives(): string
     {
         return <<<'EOF'
+            # Disable directory listing
             Options -Indexes
+
+            # Block direct access to sensitive file types
             <FilesMatch "\.(?i:sql|ini|log|sh|sql\.gz|env)$">
                 <IfModule !mod_authz_core.c>
                     Order allow,deny
@@ -295,9 +298,14 @@ final class Hardening
                     Require all denied
                 </IfModule>
             </FilesMatch>
+
+            # Security headers
             <IfModule mod_headers.c>
+                # Prevent MIME type sniffing
                 Header always set X-Content-Type-Options "nosniff"
+                # Disallow embedding in iframes from other origins
                 Header always set X-Frame-Options "SAMEORIGIN"
+                # Control referrer information sent with requests
                 Header always set Referrer-Policy "strict-origin-when-cross-origin"
             </IfModule>
             EOF;
