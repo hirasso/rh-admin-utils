@@ -56,7 +56,7 @@ final class Hardening
 
         $message = sprintf(__('This site is not yet hardened.', 'rh-admin-utils'));
         $buttonLabel = sprintf(__('Harden now', 'rh-admin-utils'));
-        $url = add_query_arg('action', 'rhau-harden-site');
+        $url = wp_nonce_url(add_query_arg('action', 'rhau-harden-site'), 'rhau-harden-site');
 
         echo <<<HTML
         <div class="notice notice-success is-dismissible">
@@ -72,7 +72,7 @@ final class Hardening
     {
         $action = $_GET['action'] ?? null;
 
-        if ($action === 'rhau-harden-site') {
+        if ($action === 'rhau-harden-site' && check_admin_referer('rhau-harden-site')) {
             self::hardenSiteViaHtaccess();
         }
     }
