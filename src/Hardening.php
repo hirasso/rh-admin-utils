@@ -3,6 +3,7 @@
 namespace RH\AdminUtils;
 
 use Exception;
+use WP_CLI;
 
 final class Hardening
 {
@@ -21,6 +22,18 @@ final class Hardening
         /** Hardening via .htaccess */
         add_action('admin_init', self::maybeApplyHtaccessHardening(...));
         add_action('admin_notices', self::showHtaccessHardeningNotice(...));
+
+        if (self::isWpCli()) {
+            WP_CLI::add_command('rhau harden:htaccess', self::wpCliApplyHtaccessHardening(...));
+        }
+    }
+
+    /**
+     * Currently within WP CLI?
+     */
+    private static function isWpCli()
+    {
+        return defined('WP_CLI') && WP_CLI;
     }
 
     /**
@@ -58,7 +71,7 @@ final class Hardening
      */
     private static function needsHtaccessHardening(): bool
     {
-        return self::isApache() && !(bool) get_option(self::$htaccessHardenedOption);
+        return !(bool) get_option(self::$htaccessHardenedOption);
     }
 
     /**
@@ -66,7 +79,7 @@ final class Hardening
      */
     private static function showHtaccessHardeningNotice()
     {
-        if (!self::needsHtaccessHardening()) {
+        if (!self::isApache() || !self::needsHtaccessHardening()) {
             return;
         }
 
@@ -110,10 +123,23 @@ final class Hardening
         ob_start(); ?>
         <div class="notice notice-success is-dismissible">
             <p>
-                <?php _e('Successfully applied hardening directives to the <code>.htaccess</code>', 'rh-admin-utils') ?>
+                <?php echo self::getMessage('successfully_updated_htaccess') ?>
             </p>
         </div>
         <?php echo ob_get_clean();
+    }
+
+    /**
+     * Get a message from a store, reusable
+     */
+    private static function getMessage(string $key): string
+    {
+        $map = [
+            'successfully_updated_htaccess' => __('Successfully updated the .htaccess file', 'rh-admin-utils'),
+            'could_not_update_htaccess' => __('Could not update the .htaccess file. Copy and paste manually:', 'rh-admin-utils')
+        ];
+
+        return $map[$key] ?? '';
     }
 
     /**
@@ -124,7 +150,7 @@ final class Hardening
         ob_start(); ?>
         <div class="notice notice-warning is-dismissible">
             <p>
-                <?php _e('Could not update the <code>.htaccess</code> file. Copy and paste manually:', 'rh-admin-utils') ?>
+                <?php self::getMessage('could_not_update_htaccess') ?>
                 <?php echo self::renderCodeBlock(self::getHardeningDirectives()) ?>
             </p>
         </div>
@@ -157,11 +183,49 @@ final class Hardening
 
         try {
             self::writeToHtaccess($directives);
-            update_option(self::$htaccessHardenedOption, true);
             add_action('admin_notices', self::showHardenSuccessNotice(...));
         } catch (Exception $e) {
             add_action('admin_notices', self::showManualHardeningNotice(...));
         }
+    }
+
+    /**
+     * Write hardening directives to the .htaccess file.
+     *
+     * ## OPTIONS
+     *
+     * [--force]
+     * : Apply even if the site is already marked as hardened.
+     *
+     * ## EXAMPLES
+     *
+     *     wp rhau harden:htaccess
+     *     wp rhau harden:htaccess --force
+     */
+    private static function wpCliApplyHtaccessHardening($args, array $options): void
+    {
+        if (!rhau()->is_wp_cli()) {
+            throw new Exception('%s can only be invoked via WP CLI', __METHOD__);
+        }
+
+        $force = $options['force'] ?? false;
+
+        if (!self::needsHtaccessHardening() && !$force) {
+            WP_CLI::success('.htaccess already hardened');
+            return;
+        }
+
+        $directives = self::getHardeningDirectives();
+
+        try {
+            self::writeToHtaccess($directives);
+            WP_CLI::success(self::getMessage('successfully_updated_htaccess'));
+        } catch (Exception $e) {
+            WP_CLI::error($e->getMessage(), false);
+            WP_CLI::line(self::getMessage('could_not_update_htaccess'));
+            WP_CLI::error_multi_line(explode("\n", $directives));
+        }
+
     }
 
     /**
@@ -174,6 +238,23 @@ final class Hardening
     }
 
     /**
+     * Get the path to the .htaccess file.
+     * Augments $_SERVER['SCRIPT_FILENAME'] in wp cli to make get_home_path work
+     *
+     * @see https://github.com/wp-cli/rewrite-command/blob/e3b67911c92aca8e07692b515594af33301efcc9/src/Rewrite_Command.php#L329-L330
+     */
+    private static function getHtaccessFilePath(): string
+    {
+        if (self::isWpCli()) {
+            $_SERVER['SCRIPT_FILENAME'] = ABSPATH;
+        }
+
+        $filePath = get_home_path() . '.htaccess';
+
+        return $filePath;
+    }
+
+    /**
      * Harden the site via .htaccess
      *
      * @throws Exception
@@ -182,15 +263,17 @@ final class Hardening
     {
         require_once(ABSPATH . 'wp-admin/includes/misc.php');
 
-        $htaccessFile = get_home_path() . '.htaccess';
+        $htaccessFile = self::getHtaccessFilePath();
 
         if (!self::isWritable($htaccessFile)) {
             throw new Exception(sprintf("The <code>.htaccess</code> is not writable."));
         }
 
-        add_filter('insert_with_markers_inline_instructions', '__return_empty_array');
+        // add_filter('insert_with_markers_inline_instructions', '__return_empty_array');
         insert_with_markers($htaccessFile, self::class, explode("\n", trim($directives)));
-        remove_filter('insert_with_markers_inline_instructions', '__return_empty_array');
+        // remove_filter('insert_with_markers_inline_instructions', '__return_empty_array');
+
+        update_option(self::$htaccessHardenedOption, true);
     }
 
     /**
