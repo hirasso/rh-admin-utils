@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.3.1
+
+### Patch Changes
+
+- f63c02d: Block access to version-revealing and hidden files
+- 7190343: Add explanatory comments to the `.htaccess` hardening snippet
+- 3dcce9c: Prevent directory listing via `Options -Indexes` in the `.htaccess`
+
 ## 3.3.0
 
 ### Minor Changes
