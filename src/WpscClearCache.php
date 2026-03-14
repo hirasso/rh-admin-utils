@@ -2,6 +2,8 @@
 
 namespace RH\AdminUtils;
 
+use WP_Admin_Bar;
+
 class WpscClearCache extends Singleton
 {
     public function __construct()
@@ -54,11 +56,8 @@ class WpscClearCache extends Singleton
 
     /**
      * Adds the Item to the admin bar menu. Replaces WPSC's item
-     *
-     * @param [Class] $wp_admin_bar
-     * @return void
      */
-    public function replace_wp_super_cache_admin_bar_button($wp_admin_bar)
+    public function replace_wp_super_cache_admin_bar_button(WP_Admin_Bar $wp_admin_bar): void
     {
         global $super_cache_enabled, $cache_enabled;
 

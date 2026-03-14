@@ -1,0 +1,9 @@
+parameters:
+  level: 0
+  paths:
+    - rh-admin-utils.php
+    - src/
+  scanDirectories:
+    - vendor/.wp
+    - vendor/wp-cli/wp-cli
+  ignoreErrors:

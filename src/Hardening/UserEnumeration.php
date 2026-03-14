@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace RH\AdminUtils;
+namespace RH\AdminUtils\Hardening;
 
-class BlockUserEnumeration
+class UserEnumeration
 {
     public static function init(): void
     {
