@@ -55,7 +55,7 @@ class ACFOembedWhitelist
 
         $whitelist = implode('|', array_map('trim', explode(',', $whitelist)));
 
-        $response = wp_oembed_get($url, $field['width'], $field['height']);
+        $response = wp_oembed_get($url, ['width' => $field['width'], 'height' => $field['height']]);
 
         $is_valid = preg_match('/(' . $whitelist . ')/i', $response);
 

@@ -1,5 +1,5 @@
 parameters:
-  level: 0
+  level: 1
   paths:
     - rh-admin-utils.php
     - src/
@@ -7,3 +7,6 @@ parameters:
     - vendor/.wp
     - vendor/wp-cli/wp-cli
   ignoreErrors:
+    # WordPress constants are defined inside function bodies (e.g. wp_initial_constants())
+    # and are therefore invisible to static analysis without a full WP bootstrap.
+    - identifier: constant.notFound
