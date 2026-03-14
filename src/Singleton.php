@@ -6,6 +6,7 @@ namespace RH\AdminUtils;
  * Singleton Abstract
  *
  * @url reference https://blog.cotten.io/how-to-screw-up-singletons-in-php-3e8c83b63189
+ * @phpstan-consistent-constructor
  */
 abstract class Singleton
 {
@@ -28,7 +29,4 @@ abstract class Singleton
     {
     }
 
-    public function __wakeup()
-    {
-    }
 }
