@@ -1,24 +1,17 @@
 <?php
 
-namespace RH\AdminUtils;
+namespace RH\AdminUtils\Hardening;
 
 use Exception;
 use WP_CLI;
 
-final class Hardening
+final class HardenHtaccess
 {
     /** Bump the version suffix to re-trigger hardening on already-hardened sites */
     private static $htaccessHardenedOption = 'rhau-hardened-v1';
 
     public static function init()
     {
-        add_filter('xmlrpc_enabled', '__return_false');
-
-        /** Hide the WordPress version */
-        remove_action('wp_head', 'wp_generator');
-        add_filter('script_loader_src', self::obfuscateVersionQueryParam(...), 9999);
-        add_filter('style_loader_src', self::obfuscateVersionQueryParam(...), 9999);
-
         /** Hardening via .htaccess */
         add_action('admin_init', self::maybeApplyHtaccessHardening(...));
         add_action('admin_notices', self::showHtaccessHardeningNotice(...));
