@@ -83,11 +83,11 @@ class ACFSyncPostDate
         }
 
         /** Ensure the post_date has a format of 'Y-m-d H:i:s' */
-        $post_date = match ($field['type']) {
-            'date_picker' => date_create_immutable_from_format('Ymd', $value, wp_timezone())->format('Y-m-d') . ' 23:59:59',
-            'date_time_picker' => $value,
-            default => $value,
-        };
+        $post_date = self::parse_post_date($value);
+
+        if ($post_date === null) {
+            return $value;
+        }
 
         wp_update_post([
             'ID'                => $post_id,
@@ -96,6 +96,28 @@ class ACFSyncPostDate
         ]);
 
         return $value;
+    }
+
+    /**
+     * Parse a date value into 'Y-m-d H:i:s', trying known ACF date formats.
+     * Returns null if the value doesn't match any known format.
+     */
+    private static function parse_post_date(string $value): ?string
+    {
+        $formats = [
+            'Y-m-d H:i:s' => fn ($d) => $d->format('Y-m-d H:i:s'),
+            'Y-m-d'       => fn ($d) => $d->format('Y-m-d') . ' 23:59:59',
+            'Ymd'         => fn ($d) => $d->format('Y-m-d') . ' 23:59:59',
+        ];
+
+        foreach ($formats as $format => $formatter) {
+            $date = date_create_immutable_from_format($format, $value, wp_timezone());
+            if ($date !== false && $date->format($format) === $value) {
+                return $formatter($date);
+            }
+        }
+
+        return null;
     }
 
     /**
