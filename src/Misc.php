@@ -73,9 +73,6 @@ class Misc extends Singleton
 
     /**
      * Add general instructions to image fields
-     *
-     * @param string $label
-     * @return array $field
      */
     public function modify_image_field_label(string $label, array $field)
     {

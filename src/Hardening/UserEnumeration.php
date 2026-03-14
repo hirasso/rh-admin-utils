@@ -69,11 +69,8 @@ class UserEnumeration
      * `curl -sc /tmp/c https://example.com/wp-login.php \
      *   && curl -s -b /tmp/c -d "log=admin&pwd=wrong&wp-submit=Log+In" \
      *   -D - https://example.com/wp-login.php | grep -i location`
-     *
-     * @param \WP_User|\WP_Error|null $user
-     * @return \WP_User|\WP_Error|null
      */
-    private static function obscureLoginErrors($user)
+    private static function obscureLoginErrors(\WP_User|\WP_Error|null $user): \WP_User|\WP_Error|null
     {
         if (!$user || $user instanceof \WP_User) {
             return $user;
@@ -89,7 +86,7 @@ class UserEnumeration
         $codes = ['invalid_username', 'invalid_email', 'incorrect_password', 'invalidcombo'];
         foreach ($user->get_error_codes() as $code) {
             if (in_array($code, $codes, true)) {
-                return;
+                return null;
             }
         }
 

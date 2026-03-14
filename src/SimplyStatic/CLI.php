@@ -62,7 +62,7 @@ class CLI
         }
 
         // Get options and ensure delivery method is set to zip
-        $options = $this->getOptionsInstance();
+        $options = $this->getCastedInstance(\Simply_Static\Options::class);
         $original_delivery_method = $options->get('delivery_method');
 
         // Temporarily set delivery method to zip
@@ -72,7 +72,7 @@ class CLI
         $blog_id = get_current_blog_id();
 
         // Get archive creation job
-        $plugin = $this->getPluginInstance();
+        $plugin = $this->getCastedInstance(\Simply_Static\Plugin::class);
         $job = $plugin->get_archive_creation_job();
 
         // Check if a job is already running
@@ -190,21 +190,19 @@ class CLI
     }
 
     /**
-     * Get the options instance (works around incorrect return type `Simply_Static`)
-     * @return \Simply_Static\Options
+     * Calls ::instance() on a class and casts the return type correctly.
+     * Workaround for Simply Static's incorrect `@return Simply_Static` docblocks.
+     *
+     * @template T of object
+     * @param class-string<T> $class
+     * @return T
      */
-    private function getOptionsInstance()
+    private function getCastedInstance(string $class): object
     {
-        return \Simply_Static\Options::instance();
-    }
-
-    /**
-     * Get the plugin instance (works around incorrect return type `Simply_Static`)
-     * @return \Simply_Static\Plugin
-     */
-    private function getPluginInstance()
-    {
-        return \Simply_Static\Plugin::instance();
+        /** @phpstan-ignore staticMethod.notFound */
+        $instance = $class::instance();
+        /** @var T $instance */
+        return $instance;
     }
 
     /**
@@ -220,7 +218,7 @@ class CLI
             WP_CLI::error('The plugin simply-static is required for this script', true);
         }
 
-        $job = $this->getPluginInstance()->get_archive_creation_job();
+        $job = $this->getCastedInstance(\Simply_Static\Plugin::class)->get_archive_creation_job();
 
         if ($job->is_job_done()) {
             WP_CLI::warning('No export is currently running.');
@@ -228,7 +226,7 @@ class CLI
         }
 
         WP_CLI::log('Cancelling export...');
-        $this->getPluginInstance()->cancel_static_export();
+        $this->getCastedInstance(\Simply_Static\Plugin::class)->cancel_static_export();
 
         WP_CLI::success('Export cancelled.');
     }
@@ -243,8 +241,8 @@ class CLI
      */
     public function status()
     {
-        $job = $this->getPluginInstance()->get_archive_creation_job();
-        $options = $this->getOptionsInstance();
+        $job = $this->getCastedInstance(\Simply_Static\Plugin::class)->get_archive_creation_job();
+        $options = $this->getCastedInstance(\Simply_Static\Options::class);
 
         if ($job->is_job_done()) {
             $start_time = $options->get('archive_start_time');
