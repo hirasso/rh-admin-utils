@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "821e64096ab51d31862cb252872783e5",
+    "content-hash": "e6b322664a72255465bb60e57fe45f04",
     "packages": [
         {
             "name": "composer/installers",
@@ -4803,6 +4803,24 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/classic-editor/"
+        },
+        {
+            "name": "wpackagist-plugin/sg-security",
+            "version": "1.5.9",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/sg-security/",
+                "reference": "tags/1.5.9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/sg-security.1.5.9.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/sg-security/"
         },
         {
             "name": "wpackagist-plugin/simply-static",

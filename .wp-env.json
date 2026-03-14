@@ -7,6 +7,7 @@
     ".",
     "./vendor/.wp/plugins/advanced-custom-fields-pro",
     "./vendor/.wp/plugins/classic-editor",
+    "./vendor/.wp/plugins/sg-security",
     "./tests/E2E"
   ],
   "env": {
