@@ -284,7 +284,7 @@ class ACFOembedCache
                     count($cache_entries)
                 ) ?>
             </p>
-            <pre id="rhau-oembed-cache-output"><?= var_dump($cache_entries) ?></pre>
+            <pre id="rhau-oembed-cache-output"><?php var_dump($cache_entries) ?></pre>
 
             <a
                 class="button button-primary button-large"

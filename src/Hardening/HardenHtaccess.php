@@ -195,7 +195,7 @@ final class HardenHtaccess
      */
     private static function wpCliApplyHtaccessHardening($args, array $options): void
     {
-        if (!rhau()->is_wp_cli()) {
+        if (!self::isWpCli()) {
             throw new Exception('%s can only be invoked via WP CLI', __METHOD__);
         }
 
