@@ -49,7 +49,6 @@ class ACFRestrictToPostTypes
             return null;
         }
 
-        /** @var string[] $postTypes */
         $postTypes = $field['rhau_restrict_to_post_types'] ?? [];
 
         if (empty($postTypes) || !is_array($postTypes)) {

@@ -25,6 +25,7 @@ class ACFSyncFieldGroups
      */
     private static function is_wp_cli(): bool
     {
+        /** @phpstan-ignore booleanAnd.rightAlwaysTrue   */
         return defined('WP_CLI') && WP_CLI;
     }
 

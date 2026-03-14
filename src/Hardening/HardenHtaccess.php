@@ -26,25 +26,8 @@ final class HardenHtaccess
      */
     private static function isWpCli()
     {
+        /** @phpstan-ignore booleanAnd.rightAlwaysTrue */
         return defined('WP_CLI') && WP_CLI;
-    }
-
-    /**
-     * Replace any `ver=` query param with a hashed version in script/style loader tags
-     */
-    private static function obfuscateVersionQueryParam(string $src): string
-    {
-        parse_str(wp_parse_url($src, PHP_URL_QUERY) ?? '', $params);
-
-        if (empty($params['ver'])) {
-            return $src;
-        }
-
-        $hash = substr(md5($params['ver'] . wp_salt('rh-admin-utils')), 0, 8);
-        $src = remove_query_arg('ver', $src);
-        $src = add_query_arg('v', $hash, $src);
-
-        return $src;
     }
 
     /**

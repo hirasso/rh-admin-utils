@@ -214,7 +214,7 @@ class Environments extends Singleton
     private function get_current_origin(): ?string
     {
         return isset($_SERVER['HTTP_HOST'])
-            ? set_url_scheme('http://' . ($_SERVER['HTTP_HOST'] ?? ''))
+            ? set_url_scheme('http://' . ($_SERVER['HTTP_HOST'] ?: ''))
             : null;
     }
 

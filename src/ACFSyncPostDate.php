@@ -86,6 +86,7 @@ class ACFSyncPostDate
         $post_date = match ($field['type']) {
             'date_picker' => date_create_immutable_from_format('Ymd', $value, wp_timezone())->format('Y-m-d') . ' 23:59:59',
             'date_time_picker' => $value,
+            default => $value,
         };
 
         wp_update_post([

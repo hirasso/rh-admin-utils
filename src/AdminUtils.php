@@ -172,11 +172,10 @@ class AdminUtils extends Singleton
 
     /**
      * Conditional to check if inside WP_CLI
-     *
-     * @return boolean
      */
     public function is_wp_cli(): bool
     {
+        /** @phpstan-ignore booleanAnd.rightAlwaysTrue */
         return defined('WP_CLI') && WP_CLI;
     }
 

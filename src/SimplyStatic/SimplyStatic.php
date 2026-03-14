@@ -2,6 +2,8 @@
 
 namespace RH\AdminUtils\SimplyStatic;
 
+use function RH\AdminUtils\rhau;
+
 // Exit if accessed directly.
 if (! defined('ABSPATH')) {
     exit;
@@ -14,7 +16,7 @@ class SimplyStatic
 {
     public static function init()
     {
-        if (defined('WP_CLI') && WP_CLI) {
+        if (rhau()->is_wp_cli()) {
             \WP_CLI::add_command('rhau simply-static', __NAMESPACE__ . '\\CLI');
         }
     }

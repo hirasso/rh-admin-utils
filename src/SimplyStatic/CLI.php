@@ -133,7 +133,7 @@ class CLI
         /**
          * Check for errors in status messages
          *
-         * @var array<string, array{
+         * @var null|array<string, array{
          *   message: string,
          *   datetime: string
          * }> $status_messages
