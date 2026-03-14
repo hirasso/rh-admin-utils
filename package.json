@@ -2,11 +2,9 @@
   "name": "rh-admin-utils",
   "version": "3.3.1",
   "private": true,
-  "description": "Build process for frontend assets",
-  "main": "index.js",
   "type": "module",
   "author": "Rasso Hilber",
-  "license": "ISC",
+  "license": "GPL-2.0-or-later",
   "scripts": {
     "prepare": "git config core.hooksPath .githooks",
     "make-pot": "tools/make-pot.sh",
@@ -17,10 +15,10 @@
     "format": "pnpm run format:assets && pnpm run format:php",
     "version": "pnpm changeset version && config/cli/cli.js version:patch",
     "wp-env": "wp-env",
-    "wp-env:cli": "pnpm run wp-env run cli --env-cwd=wp-content/plugins/acf-frontend-forms",
-    "wp-env:cli:tests": "pnpm run wp-env run tests-cli --env-cwd=wp-content/plugins/acf-frontend-forms",
-    "wp-env:open": "open http://localhost:22333",
-    "wp-env:open:tests": "open http://localhost:22334",
+    "wp-env:cli": "pnpm run wp-env run cli --env-cwd=wp-content/plugins/rh-admin-utils",
+    "wp-env:cli:tests": "pnpm run wp-env run tests-cli --env-cwd=wp-content/plugins/rh-admin-utils",
+    "wp-env:open": "open http://localhost:7428",
+    "wp-env:open:tests": "open http://localhost:7429",
     "test": "pnpm test:pest && pnpm wp-env clean && pnpm wp-env start && pnpm test:e2e",
     "test:pest": "pnpm run wp-env:cli:tests vendor/bin/pest --no-coverage",
     "test:pest:ci": "pnpm run wp-env:cli:tests vendor/bin/pest --coverage-clover coverage.xml",
@@ -33,7 +31,7 @@
     "@playwright/test": "^1.57.0",
     "@types/jquery": "^3.5.33",
     "@types/node": "^25.0.3",
-    "@wordpress/env": "^10.37.0",
+    "@wordpress/env": "^10.34.0",
     "autoprefixer": "^10.4.19",
     "browser-sync": "^3.0.2",
     "browserslist": "^4.23.2",
@@ -72,11 +70,5 @@
     "alpinejs": "^3.14.1",
     "codemirror": "^6.0.1",
     "feather-icons": "^4.29.2"
-  },
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "onFail": "warn"
-    }
   }
 }

@@ -43,7 +43,7 @@ importers:
         specifier: ^25.0.3
         version: 25.5.0
       '@wordpress/env':
-        specifier: ^10.37.0
+        specifier: ^10.34.0
         version: 10.39.0(@types/node@25.5.0)
       autoprefixer:
         specifier: ^10.4.19
@@ -5698,8 +5698,8 @@ snapshots:
   call-bind@1.0.8:
     dependencies:
       call-bind-apply-helpers: 1.0.2
-      es-define-property: 1.0.0
-      get-intrinsic: 1.2.4
+      es-define-property: 1.0.1
+      get-intrinsic: 1.3.0
       set-function-length: 1.2.2
 
   call-bound@1.0.4:
@@ -6210,7 +6210,7 @@ snapshots:
       etag: 1.8.1
       finalhandler: 1.3.2
       fresh: 0.5.2
-      http-errors: 2.0.0
+      http-errors: 2.0.1
       merge-descriptors: 1.0.3
       methods: 1.1.2
       on-finished: 2.4.1
@@ -6223,7 +6223,7 @@ snapshots:
       send: 0.19.2
       serve-static: 1.16.3
       setprototypeof: 1.2.0
-      statuses: 2.0.1
+      statuses: 2.0.2
       type-is: 1.6.18
       utils-merge: 1.0.1
       vary: 1.1.2
@@ -6508,7 +6508,7 @@ snapshots:
 
   has-tostringtag@1.0.2:
     dependencies:
-      has-symbols: 1.0.3
+      has-symbols: 1.1.0
 
   hasown@2.0.2:
     dependencies:

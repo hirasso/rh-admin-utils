@@ -7,17 +7,17 @@
     ".",
     "./vendor/.wp/plugins/advanced-custom-fields-pro",
     "./vendor/.wp/plugins/classic-editor",
-    "./tests/E2E/bootstrap.php"
+    "./tests/E2E/e2e-bootstrap"
   ],
   "env": {
     "development": {
-      "port": 22333,
+      "port": 7428,
       "config": {
         "RHAU_WP_ENV": "development"
       }
     },
     "tests": {
-      "port": 22334,
+      "port": 7429,
       "config": {
         "WP_DEBUG": true,
         "RHAU_WP_ENV": "tests"
