@@ -79,7 +79,8 @@ class PageRestrictionsOptionsPage
         add_settings_section(
             id: 'rhau_restrictions_section',
             title: '',
-            callback: function () {},
+            callback: function () {
+            },
             page: 'rhau-permissions-section',
             args: [],
         );
