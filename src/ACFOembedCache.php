@@ -106,7 +106,7 @@ class ACFOembedCache
     /** Disables the built-in formatting for oembed fields */
     public static function disable_default_oembed_format_value(): void
     {
-        /** @var \acf_field_oembed $field_type */
+        /** @var \acf_field_oembed $oembed_field */
         $oembed_field = \acf_get_field_type('oembed');
         remove_filter('acf/format_value/type=oembed', [$oembed_field, 'format_value']);
     }

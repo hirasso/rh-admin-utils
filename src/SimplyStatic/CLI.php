@@ -2,8 +2,6 @@
 
 namespace RH\AdminUtils\SimplyStatic;
 
-use Simply_Static\Options;
-use Simply_Static\Plugin;
 use Simply_Static\Util;
 use WP_CLI;
 
@@ -64,7 +62,7 @@ class CLI
         }
 
         // Get options and ensure delivery method is set to zip
-        $options = Options::instance();
+        $options = $this->getOptionsInstance();
         $original_delivery_method = $options->get('delivery_method');
 
         // Temporarily set delivery method to zip
@@ -74,7 +72,8 @@ class CLI
         $blog_id = get_current_blog_id();
 
         // Get archive creation job
-        $job = Plugin::instance()->get_archive_creation_job();
+        $plugin = $this->getPluginInstance();
+        $job = $plugin->get_archive_creation_job();
 
         // Check if a job is already running
         if (! $job->is_job_done()) {
@@ -83,7 +82,7 @@ class CLI
 
         // Start the export
         WP_CLI::log('Initializing export...');
-        if (! Plugin::instance()->run_static_export($blog_id, 'export')) {
+        if (! $plugin->run_static_export($blog_id, 'export')) {
             WP_CLI::error('Failed to start export. Check Simply Static settings and logs.');
         }
 
@@ -143,7 +142,8 @@ class CLI
         if (is_array($status_messages)) {
             foreach ($status_messages as $key => $message) {
                 if ($key === 'error' || str_contains(strtolower($message['message']), 'error')) {
-                    WP_CLI::error("Export failed: {$message}");
+                    WP_CLI::error("Export failed:", false);
+                    dd($message);
                 }
             }
         }
@@ -190,12 +190,29 @@ class CLI
     }
 
     /**
+     * Get the options instance (works around incorrect return type `Simply_Static`)
+     * @return \Simply_Static\Options
+     */
+    private function getOptionsInstance()
+    {
+        return \Simply_Static\Options::instance();
+    }
+
+    /**
+     * Get the plugin instance (works around incorrect return type `Simply_Static`)
+     * @return \Simply_Static\Plugin
+     */
+    private function getPluginInstance()
+    {
+        return \Simply_Static\Plugin::instance();
+    }
+
+    /**
      * Cancel a running export.
      *
      * ## EXAMPLES
      *
      *     $ wp simply-static cancel
-     *
      */
     public function cancel()
     {
@@ -203,7 +220,7 @@ class CLI
             WP_CLI::error('The plugin simply-static is required for this script', true);
         }
 
-        $job = Plugin::instance()->get_archive_creation_job();
+        $job = $this->getPluginInstance()->get_archive_creation_job();
 
         if ($job->is_job_done()) {
             WP_CLI::warning('No export is currently running.');
@@ -211,7 +228,7 @@ class CLI
         }
 
         WP_CLI::log('Cancelling export...');
-        Plugin::instance()->cancel_static_export();
+        $this->getPluginInstance()->cancel_static_export();
 
         WP_CLI::success('Export cancelled.');
     }
@@ -226,8 +243,8 @@ class CLI
      */
     public function status()
     {
-        $job = Plugin::instance()->get_archive_creation_job();
-        $options = Options::instance();
+        $job = $this->getPluginInstance()->get_archive_creation_job();
+        $options = $this->getOptionsInstance();
 
         if ($job->is_job_done()) {
             $start_time = $options->get('archive_start_time');

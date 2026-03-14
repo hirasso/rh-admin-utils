@@ -34,7 +34,7 @@ class UpdateChecker
 
         /**
          * Expect a "$name.zip" attached to every release
-         * @var \YahnisElsts\PluginUpdateChecker\v5p5\Vcs\GitHubApi $api
+         * @var \YahnisElsts\PluginUpdateChecker\v5p6\Vcs\GitHubApi $api
          */
         $api = $checker->getVcsApi();
         $api->enableReleaseAssets("/$name\.zip/i", $api::REQUIRE_RELEASE_ASSETS);

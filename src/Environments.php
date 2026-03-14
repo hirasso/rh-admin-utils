@@ -47,7 +47,7 @@ class Environments extends Singleton
      */
     private function parse_environments(): array
     {
-        /** @var array<string, string> $config */
+        /** @var array<string, string> $raw */
         $raw = defined('RHAU_ENVIRONMENTS') && is_array(RHAU_ENVIRONMENTS)
             ? RHAU_ENVIRONMENTS
             : [

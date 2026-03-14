@@ -60,17 +60,6 @@ class AdminUtils extends Singleton
     }
 
     /**
-     * Helper function to transform an array to an object
-     *
-     * @param array $array
-     * @return stdClass
-     */
-    public function to_object($array)
-    {
-        return json_decode(json_encode($array));
-    }
-
-    /**
      * Throw, only if in dev
      * @param class-string<\Exception> $exceptionClass
      */

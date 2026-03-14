@@ -2,6 +2,8 @@
 
 namespace RH\AdminUtils;
 
+use WP_REST_Request;
+
 class DisableComments extends Singleton
 {
     public function __construct()
@@ -35,7 +37,7 @@ class DisableComments extends Singleton
         add_filter('wp_headers', [$this, 'filter_wp_headers']);
         add_filter('xmlrpc_methods', [$this, 'disable_xmlrc_comments']);
         add_filter('rest_endpoints', [$this, 'filter_rest_endpoints']);
-        add_filter('rest_pre_insert_comment', [$this, 'disable_rest_API_comments']);
+        add_filter('rest_pre_insert_comment', [$this, 'disable_rest_api_comments']);
         add_action('template_redirect', [$this, 'filter_query'], 9);   // before redirect_canonical.
     }
 
@@ -80,15 +82,12 @@ class DisableComments extends Singleton
 
     /**
      * Disable Rest API Comments
-     *
-     * @param [type] $prepared_comment
-     * @param [type] $request
-     * @return void
-     * @author Rasso Hilber <mail@rassohilber.com>
      */
-    public function disable_rest_API_comments($prepared_comment, $request): void
-    {
-        return;
+    public function disable_rest_api_comments(
+        array|\WP_Error $prepared_comment,
+        WP_REST_Request $request
+    ): array|\WP_Error {
+        return new \WP_Error('rest_comments_disabled', __('Comments are disabled.'), ['status' => 403]);
     }
 
     /**
