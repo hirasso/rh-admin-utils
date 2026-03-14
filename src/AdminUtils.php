@@ -104,10 +104,8 @@ class AdminUtils extends Singleton
 
     /**
      * Delete deprecated plugins
-     *
-     * @return void
      */
-    public function delete_conflicting_plugins()
+    public function delete_conflicting_plugins(): void
     {
         $found_one = false;
         $is_redirect = $_GET['rhau-deleted-depreated'] ?? null;
@@ -129,14 +127,13 @@ class AdminUtils extends Singleton
 
     /**
      * Adds an admin notice
-     *
-     * @param string $key
-     * @param string $message
-     * @param string $type
-     * @return void
      */
-    public function add_admin_notice($key, $message, $type = 'warning', $is_dismissible = false)
-    {
+    public function add_admin_notice(
+        string $key,
+        string $message,
+        string $type = 'warning',
+        bool $is_dismissible = false
+    ): void {
         $notices = get_transient("rhau-admin-notices");
         if (!$notices) {
             $notices = [];
@@ -151,10 +148,8 @@ class AdminUtils extends Singleton
 
     /**
      * Shows admin notices from transient
-     *
-     * @return void
      */
-    public function show_admin_notices()
+    public function show_admin_notices(): void
     {
         $notices = get_transient("rhau-admin-notices");
         delete_transient("rhau-admin-notices");

@@ -24,13 +24,19 @@
     "yahnis-elsts/plugin-update-checker": "^5.6"
   },
   "require-dev": {
-    "laravel/pint": "^1.21",
+    "guzzlehttp/guzzle": "^7.10",
+    "laravel/pint": "^1.25",
+    "pestphp/pest": "^1.23",
     "phpstan/extension-installer": "^1.4",
     "phpstan/phpstan": "^2.1",
-    "roots/wordpress": "^6.9",
+    "roots/wordpress": "^6.8",
+    "symfony/var-dumper": "^7.1",
+    "vinkla/extended-acf": "^14.6",
     "wp-cli/wp-cli": "^2.12",
-    "wpackagist-plugin/advanced-custom-fields": "^6.7",
-    "wpackagist-plugin/simply-static": "^3.5"
+    "wp-phpunit/wp-phpunit": "^6.9",
+    "wpackagist-plugin/simply-static": "^3.5",
+    "wpackagist-theme/twentytwentyfive": "^1.4",
+    "yoast/wp-test-utils": "^1.2"
   },
   "extra": {
     "installer-paths": {
@@ -47,12 +53,21 @@
     "wordpress-install-dir": "vendor/.wp/core"
   },
   "scripts": {
-    "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G"
+    "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
+    "post-install-cmd": [
+      "tools/install-acf-pro vendor/.wp/plugins"
+    ],
+    "post-update-cmd": [
+      "tools/install-acf-pro vendor/.wp/plugins"
+    ]
   },
-  "scripts-descriptions": {},
+  "scripts-descriptions": {
+    "analyse": "Run static analysis"
+  },
   "config": {
     "allow-plugins": {
       "composer/installers": true,
+      "pestphp/pest-plugin": true,
       "phpstan/extension-installer": true,
       "roots/wordpress-core-installer": true
     },

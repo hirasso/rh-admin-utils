@@ -22,3 +22,12 @@ dist/
 *.sql
 *.log
 *.zip
+
+# Testing tools and outputs
+/tests/**/reports/
+/tests/**/results/
+**/playwright-report/
+**/playwright/.cache
+**/playwright/.auth
+playwright-results.json
+.wp-env.override.json

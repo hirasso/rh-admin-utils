@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/wp-env.json",
+  "phpVersion": "8.3",
+  "core": "./vendor/.wp/core",
+  "themes": ["./vendor/.wp/themes/twentytwentyfive"],
+  "plugins": [
+    ".",
+    "./vendor/.wp/plugins/advanced-custom-fields-pro",
+    "./vendor/.wp/plugins/classic-editor",
+    "./tests/E2E/bootstrap.php"
+  ],
+  "env": {
+    "development": {
+      "port": 22333,
+      "config": {
+        "RHAU_WP_ENV": "development"
+      }
+    },
+    "tests": {
+      "port": 22334,
+      "config": {
+        "WP_DEBUG": true,
+        "RHAU_WP_ENV": "tests"
+      }
+    }
+  },
+  "lifecycleScripts": {
+    "afterStart": "./tools/wp-env-after-start.sh"
+  }
+}
