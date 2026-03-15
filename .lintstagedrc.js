@@ -9,7 +9,7 @@ export default {
   ],
   "**/*.php": [
     "vendor/bin/pint",
-    () => "composer analyse", // ← ignore files
+    () => "composer analyse", // ← ignore files (otherwise pest files would be analysed, too)
     () => "tools/make-pot.sh", // ← ignore files
     () => "git add ./languages", // ← ignore files
   ],
