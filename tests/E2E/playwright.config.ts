@@ -108,9 +108,8 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    // url: baseURL,
+    url: baseURL.href,
     command: "pnpm run wp-env start --update",
-    port: baseUrl.port,
     timeout: 120_000,
     reuseExistingServer: !isCI,
   },
