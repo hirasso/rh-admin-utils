@@ -46,15 +46,21 @@ runs:
         echo '{"core": null, "phpVersion": "${{ inputs.php-version }}"}' > .wp-env.override.json
         pnpm run wp-env start
 
-    - name: Install Playwright
+    - name: Cache Playwright
       if: ${{ inputs.playwright == 'true' }}
-      id: install-playwright
-      uses: ./.github/actions/install-playwright
+      id: playwright-cache
+      uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
 
-    - name: Debug Playwright Cache
-      if: ${{ inputs.playwright == 'true' }}
+    - name: Install Playwright and its dependencies
+      if: ${{ inputs.playwright == 'true' && steps.playwright-cache.outputs.cache-hit != 'true' }}
       shell: bash
-      run: |
-        echo "Playwright version: ${{ steps.install-playwright.outputs.version }}"
-        echo "Playwright cached: ${{ steps.install-playwright.outputs.cache-hit }}"
+      run: npx playwright install chromium webkit firefox --with-deps
+
+    - name: Install just Playwright's dependencies
+      if: ${{ inputs.playwright == 'true' && steps.playwright-cache.outputs.cache-hit == 'true' }}
+      shell: bash
+      run: npx playwright install-deps
 
