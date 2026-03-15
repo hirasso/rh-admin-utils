@@ -20,7 +20,7 @@ class ACFCodeField
     {
 
         acf_render_field_setting($field, [
-            'label'  => __('Code field'),
+            'label'  => __('Code field', 'rh-admin-utils'),
             'instructions'  => 'Convert to a code field for the selected language',
             'name' => 'rhau_code_field',
             'type' => 'select',
@@ -32,7 +32,7 @@ class ACFCodeField
         ]);
 
         acf_render_field_setting($field, [
-            'label'  => __('Code Field: Allow Line Wrapping'),
+            'label'  => __('Code Field: Allow Line Wrapping', 'rh-admin-utils'),
             'instructions'  => '',
             'name' => 'rhau_code_field_line_wrapping',
             'type' => 'true_false',

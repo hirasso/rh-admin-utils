@@ -280,6 +280,7 @@ class ACFOembedCache
         <?php else : ?>
             <p>
                 <?php printf(
+                    // translators: %d: number of cached oEmbed responses
                     __('There are %d oEmbed responses cached globally.', 'rh-admin-utils'),
                     count($cache_entries)
                 ) ?>

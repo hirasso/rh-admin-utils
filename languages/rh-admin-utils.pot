@@ -39,6 +39,14 @@ msgstr ""
 msgid "https://rassohilber.com"
 msgstr ""
 
+#: src/ACFCodeField.php:23
+msgid "Code field"
+msgstr ""
+
+#: src/ACFCodeField.php:35
+msgid "Code Field: Allow Line Wrapping"
+msgstr ""
+
 #: src/ACFOembedCache.php:98
 msgid "RH Admin Utils: Global oEmbed cache"
 msgstr ""
@@ -47,17 +55,52 @@ msgstr ""
 msgid "There global ACF oEmbed cache is currently empty."
 msgstr ""
 
-#: src/ACFOembedCache.php:283
+#. translators: %d: number of cached oEmbed responses
+#: src/ACFOembedCache.php:284
 #, php-format
 msgid "There are %d oEmbed responses cached globally."
 msgstr ""
 
-#: src/Environments.php:402
+#: src/ACFOembedWhitelist.php:29
+msgid "Whitelist"
+msgstr ""
+
+#: src/ACFRestrictFieldAccess.php:22
+msgid "Roles allowed to edit this field"
+msgstr ""
+
+#: src/ACFRestrictToPostTypes.php:22
+msgid "Restrict visibility to Post Types"
+msgstr ""
+
+#: src/ACFSyncPostDate.php:30
+msgid "Sync the post date with this field"
+msgstr ""
+
+#: src/ACFTextField.php:26
+msgid "Mask field"
+msgstr ""
+
+#: src/DisableComments.php:86
+msgid "Comments are disabled."
+msgstr ""
+
+#: src/DisableComments.php:95
+msgid "Comments are closed."
+msgstr ""
+
+#: src/DisableComments.php:109
+msgid "Comments are disabled. Some settings on this page are being ignored and/or overwritten."
+msgstr ""
+
+#. translators: %1$s: opening link tag, %2$s: closing link tag
+#: src/Environments.php:403
 #, php-format
 msgid "%1$sSearch engine indexing%2$s has been discouraged on this site."
 msgstr ""
 
-#: src/Environments.php:407
+#. translators: %1$s: admin email address
+#: src/Environments.php:409
 #, php-format
 msgid "If you want to go live, please <a href=\"mailto:%1$s\">notify your site administrator</a>."
 msgstr ""
@@ -78,7 +121,12 @@ msgstr ""
 msgid "Could not update the .htaccess file. Copy and paste manually:"
 msgstr ""
 
+#: src/PageRestrictions.php:384
+msgid "Locked"
+msgstr ""
+
 #: src/PageRestrictionsMetaBox.php:40
+#: src/PageRestrictionsOptionsPage.php:13
 msgid "Restrictions"
 msgstr ""
 
@@ -96,4 +144,8 @@ msgstr ""
 
 #: src/PageRestrictionsMetaBox.php:101
 msgid "Disallow Children"
+msgstr ""
+
+#: src/PageRestrictionsOptionsPage.php:12
+msgid "Global Page Restrictions"
 msgstr ""

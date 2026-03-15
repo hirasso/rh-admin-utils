@@ -9,8 +9,8 @@ class PageRestrictionsOptionsPage
 
     public static function init()
     {
-        self::$page_title = __('Global Page Restrictions', 'rhau');
-        self::$menu_title = __('Restrictions', 'rhau');
+        self::$page_title = __('Global Page Restrictions', 'rh-admin-utils');
+        self::$menu_title = __('Restrictions', 'rh-admin-utils');
 
         add_action('admin_menu', [__CLASS__, 'add_options_page']);
         add_action('admin_init', [__CLASS__, 'register_options_page_settings']);

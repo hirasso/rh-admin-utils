@@ -27,7 +27,7 @@ class ACFSyncPostDate
     public static function render_field_settings(array $field): void
     {
         acf_render_field_setting($field, [
-            'label'  => __('Sync the post date with this field'),
+            'label'  => __('Sync the post date with this field', 'rh-admin-utils'),
             'instructions'  => '',
             'name' => 'rhau_sync_post_date',
             'type' => 'true_false',

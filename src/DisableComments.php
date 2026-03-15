@@ -83,7 +83,7 @@ class DisableComments extends Singleton
      */
     public function disable_rest_api_comments(): \WP_Error
     {
-        return new \WP_Error('rest_comments_disabled', __('Comments are disabled.'), ['status' => 403]);
+        return new \WP_Error('rest_comments_disabled', __('Comments are disabled.', 'rh-admin-utils'), ['status' => 403]);
     }
 
     /**
@@ -92,7 +92,7 @@ class DisableComments extends Singleton
     public function filter_query()
     {
         if (is_comment_feed()) {
-            wp_die(__('Comments are closed.', 'disable-comments'), '', ['response' => 403]);
+            wp_die(__('Comments are closed.', 'rh-admin-utils'), '', ['response' => 403]);
         }
     }
 
@@ -106,7 +106,7 @@ class DisableComments extends Singleton
     {
         global $pagenow;
         if ($pagenow === 'options-discussion.php') {
-            rhau()->add_admin_notice('comments-disabled', __('[RH Admin Utils] Comments are disabled. Some settings on this page are being ignored and/or overwritten.'));
+            rhau()->add_admin_notice('comments-disabled', __('Comments are disabled. Some settings on this page are being ignored and/or overwritten.', 'rh-admin-utils'));
         }
     }
 

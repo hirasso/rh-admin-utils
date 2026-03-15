@@ -399,11 +399,13 @@ class Environments extends Singleton
 
         $icon = '<span class="dashicons dashicons-hidden"></span>';
         $message1 = sprintf(
+            // translators: %1$s: opening link tag, %2$s: closing link tag
             __('%1$sSearch engine indexing%2$s has been discouraged on this site.', 'rh-admin-utils'),
             '<a href="https://en.wikipedia.org/wiki/Search_engine_indexing" target="_blank">',
             '</a>'
         );
         $message2 = sprintf(
+            // translators: %1$s: admin email address
             __('If you want to go live, please <a href="mailto:%1$s">notify your site administrator</a>.', 'rh-admin-utils'),
             get_option('admin_email')
         );

@@ -21,9 +21,8 @@ class ACFTextField
      */
     public static function render_field_settings(array $field): void
     {
-
         acf_render_field_setting($field, [
-            'label'  => __('Mask field'),
+            'label'  => __('Mask field', 'rh-admin-utils'),
             'instructions'  => 'Apply a mask to the field\'s value. See <a href="https://alpinejs.dev/plugins/mask">Alpine.js Mask Plugin</a>',
             'name' => 'rhau_mask_field',
             'type' => 'text',

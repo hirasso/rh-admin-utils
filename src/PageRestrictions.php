@@ -230,7 +230,7 @@ class PageRestrictions
     public static function before_delete_post(int $post_id, \WP_Post $post): void
     {
         if (self::is_locked($post)) {
-            wp_die(__("Can't delete post <strong>{$post->post_title} (#{$post->ID})</strong> as it is locked."));
+            wp_die(__("Can't delete post <strong>{$post->post_title} (#{$post->ID})</strong> as it is locked.", 'rh-admin-utils'));
         }
     }
 
@@ -381,7 +381,7 @@ class PageRestrictions
             return $cols;
         }
 
-        $cols["rhau_is_locked"] = __('Locked');
+        $cols["rhau_is_locked"] = __('Locked', 'rh-admin-utils');
 
         return $cols;
     }

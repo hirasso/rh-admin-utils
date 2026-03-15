@@ -19,7 +19,7 @@ class ACFRestrictToPostTypes
     public static function render_field_settings($field)
     {
         acf_render_field_setting($field, [
-            'label'         => __('Restrict visibility to Post Types'),
+            'label'         => __('Restrict visibility to Post Types', 'rh-admin-utils'),
             'instructions'  => '',
             'name'          => 'rhau_restrict_to_post_types',
             'type'          => 'select',

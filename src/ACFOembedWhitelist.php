@@ -26,7 +26,7 @@ class ACFOembedWhitelist
     public static function render_field_settings(array $field): void
     {
         acf_render_field_setting($field, [
-            'label'  => __('Whitelist'),
+            'label'  => __('Whitelist', 'rh-admin-utils'),
             'instructions'  => 'Comma-separated list of allowed hosts, for example <code>vimeo.com,youtube.com</code>',
             'name' => 'rhau_oembed_whitelist',
             'type' => 'text',

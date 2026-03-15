@@ -19,7 +19,7 @@ class ACFRestrictFieldAccess
     public static function render_field_settings($field)
     {
         acf_render_field_setting($field, [
-            'label'         => __('Roles allowed to edit this field'),
+            'label'         => __('Roles allowed to edit this field', 'rh-admin-utils'),
             'instructions'  => '',
             'name'          => 'restrict_access',
             'type'          => 'select',
