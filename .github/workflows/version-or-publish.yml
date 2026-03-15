@@ -103,6 +103,8 @@ jobs:
           version: pnpm run version
           publish: pnpm changeset tag
         env:
+          # do not run the pre-commit hook
+          HUSKY: 0
           # doesn't work with GITHUB_TOKEN for some reason
           GITHUB_TOKEN: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
 
