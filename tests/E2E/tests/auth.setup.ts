@@ -3,7 +3,7 @@ import { authFile, baseURL } from "../playwright.config.js";
 
 setup("authenticate", async ({ page }) => {
   // Perform authentication steps.
-  await page.goto(`${baseURL}/wp-admin/`);
+  await page.goto(`/wp-admin/`);
   await page.fill("#user_login", "admin");
   await page.fill("#user_pass", "password");
   await page.click("#wp-submit");
