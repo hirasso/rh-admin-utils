@@ -24,16 +24,10 @@ import path, { resolve } from "path";
 import { fileURLToPath } from "url";
 import RemoveEmptyScriptsPlugin from "webpack-remove-empty-scripts";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import LiveReloadPlugin from "webpack-livereload-plugin";
-import browserSync from "browser-sync";
-import fs from "fs";
-import chokidar from "chokidar";
-import { throttle } from "lodash-es";
 import * as dotenv from "dotenv";
 import { EsbuildPlugin } from "esbuild-loader";
 import { resolveToEsbuildTarget } from "esbuild-plugin-browserslist";
 import browserslist from "browserslist";
-import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import findup from "findup-sync";
 import { cwd } from "process";
 dotenv.config({ path: findup(".env") });
@@ -45,7 +39,9 @@ const settings = {
   entryPoints: {
     "rhau-admin": ["./assets-src/rhau-admin.js"],
     "rhau-tinymce-plugins": ["./assets-src/rhau-tinymce-plugins.js"],
-    "rhau-environment-links": ["./assets-src/environment-links/environment-links.ts"],
+    "rhau-environment-links": [
+      "./assets-src/environment-links/environment-links.ts",
+    ],
   },
   outputPath: resolve(cwd(), "assets"),
   watchExtraFiles: "**/**.php",

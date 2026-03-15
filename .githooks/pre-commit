@@ -1,4 +1,0 @@
-#!/bin/sh
-pnpm run build
-git add ./assets
-pnpm run format:php
