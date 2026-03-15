@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches:
+      main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  php-tests:
+    name: PHP ${{ matrix.php }} Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.2, 8.3, 8.4]
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run Shared Setup
+        uses: ./.github/actions/shared-setup
+        with:
+          php-version: ${{ matrix.php }}
+
+      - name: Setup and Start wp-env
+        uses: hirasso/setup-wp-env@a94fb23f6f0b480767e634b478f615076e2baddf # v1.0.0
+        with:
+          # fixes hanging wp-env in CI
+          core: 'null'
+          phpVersion: ${{ matrix.php }}
+
+      - name: Run PHPStan Tests
+        run: pnpm run analyse
+
+      - name: Run Pest Tests
+        run: pnpm run test:pest:ci
+
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run Shared Setup
+        uses: ./.github/actions/shared-setup
+        with:
+          php-version: ${{ matrix.php }}
+          playwright: true
+
+      - name: Setup and Start wp-env
+        uses: godaddy-wordpress/setup-wp-env@a94fb23f6f0b480767e634b478f615076e2baddf # 1.0.0
+        with:
+          phpVersion: 8.3
+
+      - name: Run E2E Tests
+        run: |
+          pnpm run test:e2e
+
+      - uses: daun/playwright-report-summary@1229105480a2a4bdd91598d8a146fbab41343fce # v3.11.0
+        if: always()
+        with:
+          report-file: playwright-results.json
+

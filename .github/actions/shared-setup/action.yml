@@ -1,0 +1,51 @@
+name: Run Shared Setup
+description: Setup everything required
+
+inputs:
+  php-version:
+    description: The PHP version to install
+    default: 8.3
+  playwright:
+    description: Should Playwright be installed?
+    default: false
+
+runs:
+  using: composite
+  steps:
+    - name: Setup PNPM
+      uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+      with:
+        version: latest
+
+    - name: Setup Node.js
+      uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+      with:
+        node-version-file: package.json
+        cache: pnpm
+
+    - name: Install Dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
+
+    - name: Install Playwright
+      if: ${{ inputs.playwright == 'true' }}
+      id: install-playwright
+      uses: ./.github/actions/install-playwright
+
+    - name: Debug Playwright Cache
+      if: ${{ inputs.playwright == 'true' }}
+      shell: bash
+      run: |
+        echo "Playwright version: ${{ steps.install-playwright.outputs.version }}"
+        echo "Playwright cached: ${{ steps.install-playwright.outputs.cache-hit }}"
+
+    # NEEDS to run after installing node.js dependencies
+    - name: Setup PHP
+      uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # 2.36.0
+      with:
+        php-version: ${{ inputs.php-version }}
+        tools: composer:v2
+        coverage: xdebug
+
+    - name: Install Composer Dependencies
+      uses: ramsey/composer-install@a35c6ebd3d08125aaf8852dff361e686a1a67947 # 3.2.0

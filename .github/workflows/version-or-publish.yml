@@ -21,7 +21,7 @@ jobs:
       packageName: ${{ steps.package-infos.outputs.packageName }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Read and Write Package Infos to Output
         id: package-infos
@@ -49,22 +49,22 @@ jobs:
           git config --global user.name "Rasso Hilber's Bot"
 
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Setup PHP and Composer
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # 2.36.0
         with:
           php-version: "8.2"
           tools: composer
 
       # Setup PNPM before node.js, so that we use the cache in the next action
       - name: Setup PNPM
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
         with:
           version: latest
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: 20
           cache: pnpm
@@ -78,7 +78,7 @@ jobs:
           zip -rq assets.zip assets
 
       - name: Checkout Distribution Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: ${{ needs.package-infos.outputs.fullName }}-dist
           ref: empty
@@ -96,7 +96,7 @@ jobs:
       # or if the commit message matches the release PR (= new versions must be published to NPM)
       - name: Create changesets PR or Publish
         id: cs
-        uses: changesets/action@v1
+        uses: changesets/action@6a0a831ff30acef54f2c6aa1cbbc1096b066edaf # v1.7.0
         with:
           title: "[CI] Release"
           commit: "[CI] Release"
@@ -108,10 +108,10 @@ jobs:
 
       - name: "Get Latest Tag"
         id: latest-tag
-        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        uses: "WyriHaximus/github-action-get-previous-tag@61819f33034117e6c686e6a31dba995a85afc9de" # v2.0.0
 
       - name: Add artifacts to the latest release
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
         if: steps.cs.outputs.published == 'true'
         with:
           tag: ${{ steps.latest-tag.outputs.tag }}
