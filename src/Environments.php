@@ -18,7 +18,7 @@ class Environments extends Singleton
     {
         // Allow to define DISALLOW_INDEXING in the config
         if (defined('DISALLOW_INDEXING') && DISALLOW_INDEXING === true) {
-            add_action('pre_option_blog_public', '__return_zero');
+            add_filter('pre_option_blog_public', '__return_zero');
         };
 
         $this->environments = $this->parse_environments();
@@ -75,11 +75,8 @@ class Environments extends Singleton
      */
     public function network_admin_url(string $url, string $path): string
     {
-        if (defined('WP_SITEURL')) {
-            $path = substr($url, strpos($url, '/wp-admin/'));
-            $url = WP_SITEURL . $path;
-        }
-        return $url;
+        $path = substr($url, strpos($url, '/wp-admin/'));
+        return get_site_url($path);
     }
 
     /**

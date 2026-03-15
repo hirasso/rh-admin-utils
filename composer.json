@@ -37,6 +37,7 @@
     "phpstan/phpstan": "^2.1",
     "roots/wordpress": "^6.8",
     "symfony/var-dumper": "^7.1",
+    "szepeviktor/phpstan-wordpress": "^2.0",
     "vinkla/extended-acf": "^14.6",
     "wp-cli/wp-cli": "^2.12",
     "wp-phpunit/wp-phpunit": "^6.9",

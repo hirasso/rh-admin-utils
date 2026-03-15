@@ -15,7 +15,7 @@ class Misc extends Singleton
         add_filter('gu_set_options', [$this, 'gu_set_options']);
         add_action('admin_menu', [$this, 'remove_admin_menu_tools'], 11);
         add_filter('debug_bar_enable', [$this, 'debug_bar_enable']);
-        add_action('map_meta_cap', [$this, 'map_meta_cap_privacy_options'], 1, 4);
+        add_filter('map_meta_cap', [$this, 'map_meta_cap_privacy_options'], 1, 4);
         add_action('admin_init', [$this, 'remove_privacy_policy_notice']);
         add_action('init', [$this, 'edit_screen_columns'], 999);
         add_filter('admin_body_class', [$this, 'admin_body_class']);

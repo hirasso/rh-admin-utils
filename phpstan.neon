@@ -7,9 +7,5 @@ parameters:
     - vendor/.wp
     - vendor/wp-cli/wp-cli
   bootstrapFiles:
-    # Makes common constants avaliable to phpstan
-    - vendor/yoast/wp-test-utils/src/BrainMonkey/bootstrap.php
+
   ignoreErrors:
-    # WP_PLUGIN_DIR is not defined in vendor/yoast/wp-test-utils/src/BrainMonkey/bootstrap.php
-    # but the recommended way to find plugins in the plugin directory.
-    - message: '#Constant WP_PLUGIN_DIR not found\.#'

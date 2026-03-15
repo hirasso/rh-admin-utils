@@ -14,11 +14,11 @@ class ACFSyncPostDate
 
         add_filter('acf/load_value/type=date_picker', [__CLASS__, 'load_value'], 10, 3);
         add_filter('acf/update_value/type=date_picker', [__CLASS__, 'update_value'], 10, 4);
-        add_filter('acf/render_field/type=date_picker', [__CLASS__, 'render_field'], 10);
+        add_action('acf/render_field/type=date_picker', [__CLASS__, 'render_field'], 10);
 
         add_filter('acf/load_value/type=date_time_picker', [__CLASS__, 'load_value'], 10, 3);
         add_filter('acf/update_value/type=date_time_picker', [__CLASS__, 'update_value'], 10, 4);
-        add_filter('acf/render_field/type=date_time_picker', [__CLASS__, 'render_field'], 10);
+        add_action('acf/render_field/type=date_time_picker', [__CLASS__, 'render_field'], 10);
     }
 
     /**

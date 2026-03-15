@@ -88,11 +88,11 @@ function deleteDirectory(string $dir): void
 }
 
 /**
- * Fetches the download URL of the latest GitHub release asset matching a pattern.
+ * Fetches the download URL and version of the latest GitHub release asset matching a pattern.
  *
- * @return string|null The browser_download_url of the matching asset, or null if none found
+ * @return array{url: string, version: string}|null
  */
-function getLatestReleaseAsset(Client $client, string $owner, string $repo, string $pattern): ?string
+function getLatestReleaseAsset(Client $client, string $owner, string $repo, string $pattern): ?array
 {
     $url = "https://api.github.com/repos/$owner/$repo/releases/latest";
 
@@ -111,8 +111,31 @@ function getLatestReleaseAsset(Client $client, string $owner, string $repo, stri
 
     foreach ($release['assets'] as $asset) {
         if (preg_match($pattern, $asset['name'])) {
-            return $asset['browser_download_url'] ?? null;
+            return [
+                'url'     => $asset['browser_download_url'] ?? null,
+                'version' => ltrim($release['tag_name'] ?? '', 'v'),
+            ];
         }
+    }
+
+    return null;
+}
+
+/**
+ * Reads the installed version from a WordPress plugin file header.
+ */
+function getInstalledVersion(string $pluginDir, string $pluginFile): ?string
+{
+    $path = $pluginDir . DIRECTORY_SEPARATOR . $pluginFile;
+
+    if (!file_exists($path)) {
+        return null;
+    }
+
+    $contents = file_get_contents($path);
+
+    if (preg_match('/^\s*\*\s*Version:\s*(.+)$/mi', $contents, $matches)) {
+        return trim($matches[1]);
     }
 
     return null;
@@ -163,24 +186,31 @@ try {
         exit(1);
     }
 
-    $url = getLatestReleaseAsset(
+    $acfProDir = $targetDir . DIRECTORY_SEPARATOR . 'advanced-custom-fields-pro';
+    $zipFile   = $targetDir . DIRECTORY_SEPARATOR . 'acf-pro.zip';
+
+    $release = getLatestReleaseAsset(
         $client,
         'pronamic',
         'advanced-custom-fields-pro',
         '/advanced-custom-fields-pro.*\.zip$/'
     );
 
-    if (!$url) {
+    if (!$release) {
         $logger->error("No matching asset found.");
         exit(1);
     }
 
-    $zipFile = $targetDir . DIRECTORY_SEPARATOR . 'acf-pro.zip';
-    $acfProDir = $targetDir . DIRECTORY_SEPARATOR . 'advanced-custom-fields-pro';
+    $installedVersion = getInstalledVersion($acfProDir, 'advanced-custom-fields-pro.php');
+
+    if ($installedVersion !== null && $installedVersion === $release['version']) {
+        $logger->log("Already at latest version:", $installedVersion);
+        exit(0);
+    }
 
     // Download the zip
-    $logger->log("Downloading:", $url);
-    downloadFile($client, $url, $zipFile);
+    $logger->log("Downloading:", $release['url']);
+    downloadFile($client, $release['url'], $zipFile);
 
     // Empty existing installation if present
     if (is_dir($acfProDir)) {
