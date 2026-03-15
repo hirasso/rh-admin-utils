@@ -1,5 +1,5 @@
 import { test as setup, expect } from "@playwright/test";
-import { authFile, baseURL } from "../playwright.config.js";
+import { authFile } from "../playwright.config.js";
 
 setup("authenticate", async ({ page }) => {
   // Perform authentication steps.
