@@ -20,6 +20,19 @@
     {
       "type": "composer",
       "url": "https://wpackagist.org"
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "pronamic/advanced-custom-fields-pro",
+        "version": "dev-main",
+        "type": "wordpress-plugin",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/pronamic/advanced-custom-fields-pro",
+          "reference": "main"
+        }
+      }
     }
   ],
   "require": {
@@ -35,6 +48,7 @@
     "pestphp/pest": "^1.23",
     "phpstan/extension-installer": "^1.4",
     "phpstan/phpstan": "^2.1",
+    "pronamic/advanced-custom-fields-pro": "dev-main",
     "roots/wordpress": "^6.8",
     "symfony/var-dumper": "^7.1",
     "szepeviktor/phpstan-wordpress": "^2.0",
@@ -54,7 +68,8 @@
         "type:wordpress-muplugin"
       ],
       "vendor/.wp/plugins/{$name}/": [
-        "type:wordpress-plugin"
+        "type:wordpress-plugin",
+        "pronamic/advanced-custom-fields-pro"
       ],
       "vendor/.wp/themes/{$name}/": [
         "type:wordpress-theme"
@@ -63,13 +78,7 @@
     "wordpress-install-dir": "vendor/.wp/core"
   },
   "scripts": {
-    "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
-    "post-install-cmd": [
-      "tools/install-acf-pro vendor/.wp/plugins"
-    ],
-    "post-update-cmd": [
-      "tools/install-acf-pro vendor/.wp/plugins"
-    ]
+    "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G"
   },
   "scripts-descriptions": {
     "analyse": "Run static analysis"
