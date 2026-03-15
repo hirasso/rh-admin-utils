@@ -53,8 +53,7 @@ runs:
     - name: Setup and Start wp-env
       shell: bash
       run: |
-        pnpm -g i @wordpress/env
         # fixes hanging wp-env in CI
         # @see https://github.com/WordPress/gutenberg/issues/44338
         echo '{"core": null, "phpVersion": "${{ inputs.php-version }}"}' > .wp-env.override.json
-        wp-env start
+        pnpm run wp-env start
