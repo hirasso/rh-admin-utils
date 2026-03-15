@@ -30,9 +30,10 @@ jobs:
           php-version: ${{ matrix.php }}
 
       - name: Setup and Start wp-env
-        uses: hirasso/setup-wp-env@a94fb23f6f0b480767e634b478f615076e2baddf # v1.0.0
+        uses: hirasso/setup-wp-env@05d3846bdadc3e7b337af87895e2489e3fe2dd36 # 1.0.1
         with:
           # fixes hanging wp-env in CI
+          # @see https://github.com/WordPress/gutenberg/issues/44338
           core: null
           phpVersion: ${{ matrix.php }}
 
