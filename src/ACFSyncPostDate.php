@@ -102,8 +102,12 @@ class ACFSyncPostDate
      * Parse a date value into 'Y-m-d H:i:s', trying known ACF date formats.
      * Returns null if the value doesn't match any known format.
      */
-    private static function parse_post_date(string $value): ?string
+    public static function parse_post_date(mixed $value): ?string
     {
+        if (!is_string($value)) {
+            return null;
+        }
+
         $formats = [
             'Y-m-d H:i:s' => fn ($d) => $d->format('Y-m-d H:i:s'),
             'Y-m-d'       => fn ($d) => $d->format('Y-m-d') . ' 23:59:59',
