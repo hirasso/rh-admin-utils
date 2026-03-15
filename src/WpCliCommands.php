@@ -25,11 +25,6 @@ class WpCliCommands
      *
      * [--type=<string>]
      * : A comma-separated list of post types to be processed
-     *
-     *
-     * @param array $args
-     * @param array $assoc_args
-     * @return void
      */
     public static function wp_cli_do_action_save_post(array $args = [], array $assoc_args = []): void
     {

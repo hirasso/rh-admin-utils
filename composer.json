@@ -44,6 +44,7 @@
     "wpackagist-plugin/classic-editor": "^1.6",
     "wpackagist-plugin/sg-security": "^1.5",
     "wpackagist-plugin/simply-static": "^3.5",
+    "wpackagist-plugin/wp-super-cache": "^3.0",
     "wpackagist-theme/twentytwentyfive": "^1.4",
     "yoast/wp-test-utils": "^1.2"
   },

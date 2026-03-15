@@ -20,8 +20,6 @@ class ACFSyncFieldGroups
 
     /**
      * Conditional to check if inside WP_CLI
-     *
-     * @return boolean
      */
     private static function is_wp_cli(): bool
     {
@@ -31,8 +29,6 @@ class ACFSyncFieldGroups
 
     /**
      * Add the WP_CLI command
-     *
-     * @return void
      */
     public static function add_wp_cli_command(): void
     {
@@ -45,10 +41,6 @@ class ACFSyncFieldGroups
      * Syncs all ACF field groups
      *
      * ## OPTIONS
-     *
-     * @param array $args
-     * @param array $assoc_args
-     * @return void
      */
     public static function wp_cli_acf_sync_field_groups(array $args = [], array $assoc_args = []): void
     {

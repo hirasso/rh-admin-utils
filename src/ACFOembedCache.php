@@ -149,11 +149,6 @@ class ACFOembedCache
      * Checks for a cached result (stored as custom post or in the post meta).
      *
      * @see  \WP_Embed::shortcode()
-     *
-     * @param  mixed   $value   The URL to cache.
-     * @param  integer $post_id The post ID to save against.
-     * @param  array   $field   The field structure.
-     * @return string|null The embed HTML on success, otherwise the original URL.
      */
     private static function acf_oembed_get(mixed $value, string|int $post_id, array $field): string|false|null
     {

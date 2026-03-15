@@ -51,12 +51,12 @@ msgstr ""
 msgid "RH Admin Utils: Global oEmbed cache"
 msgstr ""
 
-#: src/ACFOembedCache.php:278
+#: src/ACFOembedCache.php:273
 msgid "There global ACF oEmbed cache is currently empty."
 msgstr ""
 
 #. translators: %d: number of cached oEmbed responses
-#: src/ACFOembedCache.php:284
+#: src/ACFOembedCache.php:279
 #, php-format
 msgid "There are %d oEmbed responses cached globally."
 msgstr ""
@@ -77,30 +77,30 @@ msgstr ""
 msgid "Sync the post date with this field"
 msgstr ""
 
-#: src/ACFTextField.php:25
+#: src/ACFTextField.php:22
 msgid "Mask field"
 msgstr ""
 
-#: src/DisableComments.php:86
+#: src/DisableComments.php:71
 msgid "Comments are disabled."
 msgstr ""
 
-#: src/DisableComments.php:95
+#: src/DisableComments.php:80
 msgid "Comments are closed."
 msgstr ""
 
-#: src/DisableComments.php:109
+#: src/DisableComments.php:91
 msgid "Comments are disabled. Some settings on this page are being ignored and/or overwritten."
 msgstr ""
 
 #. translators: %1$s: opening link tag, %2$s: closing link tag
-#: src/Environments.php:403
+#: src/Environments.php:398
 #, php-format
 msgid "%1$sSearch engine indexing%2$s has been discouraged on this site."
 msgstr ""
 
 #. translators: %1$s: admin email address
-#: src/Environments.php:409
+#: src/Environments.php:404
 #, php-format
 msgid "If you want to go live, please <a href=\"mailto:%1$s\">notify your site administrator</a>."
 msgstr ""

@@ -11,9 +11,6 @@ class DisableComments extends Singleton
 
     /**
      * Inits the class
-     *
-     * @return void
-     * @author Rasso Hilber <mail@rassohilber.com>
      */
     public function after_setup_theme(): void
     {
@@ -41,10 +38,6 @@ class DisableComments extends Singleton
 
     /**
      * Remove the X-Pingback HTTP header
-     *
-     * @param array $headers
-     * @return array
-     * @author Rasso Hilber <mail@rassohilber.com>
      */
     public function filter_wp_headers(array $headers): array
     {
@@ -54,10 +47,6 @@ class DisableComments extends Singleton
 
     /**
      * Remove method wp.newComment
-     *
-     * @param array $methods
-     * @return array
-     * @author Rasso Hilber <mail@rassohilber.com>
      */
     public function disable_xmlrc_comments(array $methods): array
     {
@@ -67,10 +56,6 @@ class DisableComments extends Singleton
 
     /**
      * Remove the comments endpoint for the REST API
-     *
-     * @param array $endpoints
-     * @return array
-     * @author Rasso Hilber <mail@rassohilber.com>
      */
     public function filter_rest_endpoints(array $endpoints): array
     {
@@ -98,9 +83,6 @@ class DisableComments extends Singleton
 
     /**
      * Admin INIT
-     *
-     * @return void
-     * @author Rasso Hilber <mail@rassohilber.com>
      */
     public function admin_init(): void
     {
@@ -112,9 +94,6 @@ class DisableComments extends Singleton
 
     /**
      * Automatically sets the settings for disabling comments
-     *
-     * @return void
-     * @author Rasso Hilber <mail@rassohilber.com>
      */
     private function overwrite_discussion_options(): void
     {
@@ -136,10 +115,6 @@ class DisableComments extends Singleton
 
     /**
      * Removes the comments node from the admin bar
-     *
-     * @param \WP_Admin_Bar $admin_bar
-     * @return void
-     * @author Rasso Hilber <mail@rassohilber.com>
      */
     public function admin_bar_menu(\WP_Admin_Bar $admin_bar): void
     {
@@ -148,9 +123,6 @@ class DisableComments extends Singleton
 
     /**
      * Removes the comments admin menu item
-     *
-     * @return void
-     * @author Rasso Hilber <mail@rassohilber.com>
      */
     public function admin_menu(): void
     {

@@ -14,9 +14,6 @@ class ACFRelationshipField
 
     /**
      * Handle ACF code fields
-     *
-     * @param array $field
-     * @return array
      */
     public static function prepare_field(array $field): array
     {

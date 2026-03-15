@@ -145,8 +145,6 @@ class EditorsAddUsers extends Singleton
      *
      * @since 2.8.0
      *
-     * @param string[] $caps    Array of the user's capabilities.
-     * @param string   $cap     Capability name.
      * @param int      $user_id The user ID.
      * @param array    $args    Adds the context to the cap. Typically the object ID.
      */

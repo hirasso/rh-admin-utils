@@ -45,10 +45,6 @@ class UserEnumeration
      * Remove users from the wp-sitemap.xml
      *
      * `curl -s https://example.com/wp-sitemap.xml | grep users`
-     *
-     * @param \WP_Sitemaps_Provider|false $provider
-     * @param string $name
-     * @return \WP_Sitemaps_Provider|false $provider
      */
     private static function blockSitemapUsersProvider(mixed $provider, string $name): mixed
     {

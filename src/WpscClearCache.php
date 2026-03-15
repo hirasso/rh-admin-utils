@@ -83,15 +83,11 @@ class WpscClearCache extends Singleton
     }
 
     /**
-     * Clears WP Super Cache cache directory on acf save post of options pages
+     * Clear WP Super Cache cache directory on acf save post of options pages
      *
      * @see https://support.advancedcustomfields.com/forums/topic/clear-wp-super-cache-on-update/
-     *
-     * @param mixed $post_id
-     * @return void
-     * @author Rasso Hilber <mail@rassohilber.com>
      */
-    public function acf_save_post($post_id): void
+    public function acf_save_post(mixed $post_id): void
     {
         if (is_string($post_id)) {
             $this->clear_cache();
@@ -118,9 +114,6 @@ class WpscClearCache extends Singleton
 
     /**
      * Calls the WP Super Cache API function to clear the full cache directory
-     *
-     * @return boolean
-     * @author Rasso Hilber <mail@rassohilber.com>
      */
     private function clear_cache(): bool
     {

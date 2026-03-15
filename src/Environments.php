@@ -42,8 +42,6 @@ class Environments extends Singleton
 
     /**
      * Parse available environments from the config
-     *
-     * @return array<string, Environment>
      */
     private function parse_environments(): array
     {
@@ -258,9 +256,6 @@ class Environments extends Singleton
 
     /**
      * Filter admin title
-     *
-     * @param string $title
-     * @return string
      */
     public function admin_title(?string $title): ?string
     {
@@ -415,8 +410,6 @@ class Environments extends Singleton
 
     /**
      * Set the auth cookie expiration to one year if in development
-     *
-     * @param int $ttl            time to live. default DAY_IN_SECOND*2
      */
     public function auth_cookie_expiration(int $ttl, int $user_id, bool $remember): int
     {

@@ -16,8 +16,6 @@ class AdminDashboard
 
     /**
      * Disable some dashboard widgets
-     *
-     * @return void
      */
     private static function disable_widgets(): void
     {

@@ -13,8 +13,6 @@ class EditorInChief extends Singleton
 
     /**
      * Add the role if it doesn't exist already
-     *
-     * @return void
      */
     public function add_role(): void
     {

@@ -14,8 +14,6 @@ class PendingReviews extends Singleton
 
     /**
      * Adds a checkbox to user edit forms to be notified about pending reviews
-     *
-     * @return void
      */
     public function acf_init()
     {
@@ -62,12 +60,6 @@ class PendingReviews extends Singleton
 
     /**
      * Undocumented function
-     *
-     * @param boolean $match
-     * @param array $rule
-     * @param array $screen
-     * @param array $field_group
-     * @return boolean
      */
     public function acf_location_rule_match(bool $match, array $rule, array $screen, array $field_group): bool
     {
@@ -97,9 +89,6 @@ class PendingReviews extends Singleton
 
     /**
      * Sends an email notification each time someone submits a post for review
-     *
-     * @param integer $post_id
-     * @return void
      */
     public function save_post(int $post_id): void
     {
@@ -141,9 +130,6 @@ class PendingReviews extends Singleton
 
     /**
      * Filter the content type for wp_mail
-     *
-     * @param string $content_type
-     * @return string
      */
     public function wp_mail_content_type(string $content_type): string
     {
@@ -152,9 +138,6 @@ class PendingReviews extends Singleton
 
     /**
      * Send a notification email each time a post is submitted for review
-     *
-     * @param integer $post_id
-     * @return boolean
      */
     private function send_pending_review_notifiation(int $post_id): bool
     {
@@ -183,8 +166,6 @@ class PendingReviews extends Singleton
 
     /**
      * Get users emails for all users that are subsribed to pending reviews
-     *
-     * @return array
      */
     private function get_subscriber_emails(): array
     {
@@ -203,8 +184,6 @@ class PendingReviews extends Singleton
     /**
      * Renders a 'pending' badge in the admin_menu for all post types
      * that support 'rhau-pending-badge'
-     *
-     * @return void
      */
     public function admin_menu_add_pending_badges(): void
     {

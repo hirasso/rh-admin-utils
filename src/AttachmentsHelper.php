@@ -18,9 +18,6 @@ class AttachmentsHelper
 
     /**
      * Allow searching for "id:12345" on upload.php list view
-     *
-     * @param \WP_Query $query
-     * @return void
      */
     public static function pre_get_posts(\WP_Query $query): void
     {
@@ -46,9 +43,6 @@ class AttachmentsHelper
 
     /**
      * Allow searching for "id:12345" on upload.php grid view
-     *
-     * @param array $args
-     * @return array
      */
     public static function ajax_query_attachments_args(array $args): array
     {

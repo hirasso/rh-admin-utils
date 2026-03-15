@@ -23,9 +23,6 @@ class ACFPasswordUtilities
 
     /**
      * Adds buttons to password field
-     *
-     * @param array $field
-     * @return void
      */
     public static function after_render_field_password(array $field): void
     {

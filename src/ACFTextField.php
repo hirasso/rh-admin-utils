@@ -15,9 +15,6 @@ class ACFTextField
 
     /**
      * Render custom ACF field settings
-     *
-     * @param array $field
-     * @return void
      */
     public static function render_field_settings(array $field): void
     {
@@ -31,9 +28,6 @@ class ACFTextField
 
     /**
      * Handle ACF text fields
-     *
-     * @param array $field
-     * @return array
      */
     public static function prepare_text_field(array $field): array
     {

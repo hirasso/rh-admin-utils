@@ -542,12 +542,6 @@ class PageRestrictions
      * Sync restriction settings between Polylang translations
      *
      * @since 3.7
-     *
-     * @param string[]   $metas List of custom fields names.
-     * @param bool       $sync  True if it is synchronization, false if it is a copy.
-     * @param int|string $from  ID of the object from which we copy information.
-     * @param int|string $to    ID of the object to which we copy information.
-     * @return string[]
      */
     public static function pll_copy_post_metas(
         array $metas,
