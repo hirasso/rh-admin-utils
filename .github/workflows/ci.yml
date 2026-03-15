@@ -105,6 +105,9 @@ jobs:
 
       - name: Run Shared Setup
         uses: ./.github/actions/shared-setup
+        with:
+          php: false
+          wp-env: false
 
       - name: Build and bundle assets
         run: |

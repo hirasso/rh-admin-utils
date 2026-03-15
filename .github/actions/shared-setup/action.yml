@@ -8,6 +8,12 @@ inputs:
   playwright:
     description: Should Playwright be installed?
     default: false
+  wp-env:
+    description: Should wp-env be set up and started?
+    default: true
+  php:
+    description: Should PHP be set up?
+    default: true
 
 runs:
   using: composite
@@ -29,6 +35,7 @@ runs:
 
     # HAS to run after installing node.js dependencies
     - name: Setup PHP
+      if: ${{ inputs.php == 'true' }}
       uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # 2.36.0
       with:
         php-version: ${{ inputs.php-version }}
@@ -36,9 +43,11 @@ runs:
         coverage: xdebug
 
     - name: Install Composer Dependencies
+      if: ${{ inputs.php == 'true' }}
       uses: ramsey/composer-install@a35c6ebd3d08125aaf8852dff361e686a1a67947 # 3.2.0
 
     - name: Setup and Start wp-env
+      if: ${{ inputs.wp-env == 'true' }}
       shell: bash
       # Setting "core" to `null` fixes hanging wp-env in CI
       # @see https://github.com/WordPress/gutenberg/issues/44338
