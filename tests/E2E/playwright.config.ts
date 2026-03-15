@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 import wpEnv from "../../.wp-env.json" with { type: 'json' };
 const devURL = `http://localhost:${wpEnv.env.development.port}`;
 const testURL = `http://localhost:${wpEnv.env.tests.port}`;
-export const baseURL = testURL;
+export const baseURL = new URL(testURL);
 export const authFile = path.join(__dirname, "playwright/.auth/user.json");
 
 const isCI = !!process.env.CI;
@@ -58,14 +58,23 @@ export default defineConfig({
 
   /* Shared settings for all the projects below. See https://playwright.dev/website/api/class-testoptions. */
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL,
-    /* Collect trace when retrying the failed test. See https://playwright.dev/website/trace-viewer */
-    trace: "on-first-retry",
-    /* Capture screenshot after each test failure. */
-    screenshot: "only-on-failure",
-    /* Capture video if failed tests. */
-    video: "retain-on-failure",
+    baseURL: baseURL.href,
+		headless: true,
+		viewport: {
+			width: 960,
+			height: 700,
+		},
+		ignoreHTTPSErrors: true,
+		locale: 'en-US',
+		contextOptions: {
+			reducedMotion: 'reduce',
+			strictSelectors: true,
+		},
+		storageState: process.env.STORAGE_STATE_PATH,
+		actionTimeout: 10_000, // 10 seconds.
+		trace: 'retain-on-failure',
+		screenshot: 'only-on-failure',
+		video: 'on-first-retry',
   },
 
   /* Configure projects for setup and major browsers */
@@ -99,8 +108,10 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    url: baseURL,
+    // url: baseURL,
     command: "pnpm run wp-env start --update",
-    reuseExistingServer: true,
+    port: baseUrl.port,
+    timeout: 120_000,
+    reuseExistingServer: !isCI,
   },
 });
