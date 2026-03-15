@@ -11,5 +11,6 @@ export default {
     "vendor/bin/phpstan analyze --memory-limit=2G",
     "vendor/bin/pint",
     () => "tools/make-pot.sh", // ← ignore files
+    () => "git add ./languages", // ← ignore files
   ],
 };

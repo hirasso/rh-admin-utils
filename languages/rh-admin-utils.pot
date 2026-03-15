@@ -77,7 +77,7 @@ msgstr ""
 msgid "Sync the post date with this field"
 msgstr ""
 
-#: src/ACFTextField.php:26
+#: src/ACFTextField.php:25
 msgid "Mask field"
 msgstr ""
 
