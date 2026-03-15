@@ -14,7 +14,7 @@ const testURL = `http://localhost:${wpEnv.env.tests.port}`;
 
 export const authFile = path.join(__dirname, "playwright/.auth/user.json");
 
-const isCI = process.env.CI;
+const isCI = Boolean(process.env.CI);
 
 export const baseURL = new URL(isCI ? devURL : testURL);
 
