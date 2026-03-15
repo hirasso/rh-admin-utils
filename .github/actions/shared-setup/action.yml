@@ -49,3 +49,11 @@ runs:
 
     - name: Install Composer Dependencies
       uses: ramsey/composer-install@a35c6ebd3d08125aaf8852dff361e686a1a67947 # 3.2.0
+
+    - name: Setup and Start wp-env
+      uses: hirasso/setup-wp-env@05d3846bdadc3e7b337af87895e2489e3fe2dd36 # 1.0.1
+      with:
+        # fixes hanging wp-env in CI
+        # @see https://github.com/WordPress/gutenberg/issues/44338
+        core: null
+        phpVersion: ${{ inputs.php-version }}
