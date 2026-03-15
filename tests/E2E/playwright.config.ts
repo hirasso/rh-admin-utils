@@ -8,12 +8,15 @@ const __dirname = path.dirname(__filename);
 
 /** The URL of the wp-env development site */
 import wpEnv from "../../.wp-env.json" with { type: 'json' };
+
 const devURL = `http://localhost:${wpEnv.env.development.port}`;
 const testURL = `http://localhost:${wpEnv.env.tests.port}`;
-export const baseURL = new URL(testURL);
+
 export const authFile = path.join(__dirname, "playwright/.auth/user.json");
 
-const isCI = !!process.env.CI;
+const isCI = process.env.CI;
+
+export const baseURL = new URL(isCI ? devURL : testURL);
 
 /**
  * See https://playwright.dev/website/test-configuration.
@@ -111,6 +114,6 @@ export default defineConfig({
     url: baseURL.href,
     command: "pnpm run wp-env start --update",
     timeout: 120_000,
-    reuseExistingServer: !isCI,
+    reuseExistingServer: true,
   },
 });
