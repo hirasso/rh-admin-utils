@@ -48,29 +48,8 @@ jobs:
           git config --global user.email "bot@rassohilber.com"
           git config --global user.name "Rasso Hilber's Bot"
 
-      - name: Check out repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - name: Setup PHP and Composer
-        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # 2.36.0
-        with:
-          php-version: "8.2"
-          tools: composer
-
-      # Setup PNPM before node.js, so that we use the cache in the next action
-      - name: Setup PNPM
-        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
-        with:
-          version: latest
-
-      - name: Setup Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
-        with:
-          node-version: 20
-          cache: pnpm
-
-      - name: Install Asset Dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Run Shared Setup
+        uses: ./.github/actions/shared-setup
 
       - name: Build and bundle assets
         run: |
