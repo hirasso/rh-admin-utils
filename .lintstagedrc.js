@@ -8,8 +8,8 @@ export default {
     () => "git add ./assets", // ← ignore files
   ],
   "**/*.php": [
-    "vendor/bin/phpstan analyze --memory-limit=2G",
     "vendor/bin/pint",
+    () => "composer analyse", // ← ignore files
     () => "tools/make-pot.sh", // ← ignore files
     () => "git add ./languages", // ← ignore files
   ],

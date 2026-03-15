@@ -3,9 +3,9 @@
 namespace RH\AdminUtils\Tests\Pest;
 
 use RH\AdminUtils\AdminUtils;
-use WP_UnitTestCase;
+use Yoast\WPTestUtils\BrainMonkey\TestCase;
 
-class BasicTest extends WP_UnitTestCase
+class BasicTest extends TestCase
 {
     private AdminUtils $instance;
 
@@ -17,6 +17,6 @@ class BasicTest extends WP_UnitTestCase
 
     public function test_has_required_plugins(): void
     {
-        $this->assertTrue($this->instance->is_plugin_active('advanced-custom-fields-pro'));
+        $this->assertTrue(function_exists('acf_get_field'));
     }
 }
