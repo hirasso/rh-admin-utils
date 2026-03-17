@@ -1,5 +1,8 @@
 # RH Admin Utils
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/hirasso/rh-admin-utils.svg)](https://packagist.org/packages/hirasso/rh-admin-utils)
+[![Test Status](https://img.shields.io/github/actions/workflow/status/hirasso/rh-admin-utils/ci.yml?label=tests)](https://github.com/hirasso/rh-admin-utils/actions/workflows/ci.yml)
+
 **A WordPress utility plugin 🥞**
 
 > [!IMPORTANT]
