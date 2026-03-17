@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.3.2
+
+### Patch Changes
+
+- 254d2ad: Make date parsing more robust in the `ACFSyncPostDate` component
+- 8f20926: Re-organize code, add static analysis using phpstan
+- f2bfb2e: Add unit and e2e tests
+
 ## 3.3.1
 
 ### Patch Changes
