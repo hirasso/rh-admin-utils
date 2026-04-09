@@ -1,5 +1,23 @@
 # Changelog
 
+## 3.3.3
+
+### Patch Changes
+
+- f7c65af: Allow pretty permalinks for custom post stati (private, draft etc.). This adds support for [@swup/fragment-plugin](https://swup.js.org/plugins/fragment-plugin/) to preview URLs. Can also be used for future posts:
+
+  ```php
+  /**
+   * Allow pretty permalinks for posts with post status 'future':
+   */
+  add_filter('rhau/pretty_permalinks/post_stati', function(array $post_stati, string $post_type): array {
+    if ($post_type === 'event') {
+      $post_stati[] = 'future';
+    }
+    return $post_stati;
+  }, 10, 2);
+  ```
+
 ## 3.3.2
 
 ### Patch Changes
