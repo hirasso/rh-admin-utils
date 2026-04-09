@@ -10,7 +10,7 @@
   /**
    * Allow pretty permalinks for posts with post status 'future':
    */
-  add_filters('rhau/pretty_permalinks/post_stati', function(array $post_stati, string $post_type): array {
+  add_filter('rhau/pretty_permalinks/post_stati', function(array $post_stati, string $post_type): array {
     if ($post_type === 'event') {
       $post_stati[] = 'future';
     }
