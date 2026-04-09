@@ -85,6 +85,7 @@ ForceLowercaseURLs::init();
 AttachmentsHelper::init();
 RemoveAds::getInstance();
 PageRestrictions::init();
+PrettyPermalinks::init();
 ACFSyncPostDate::init();
 ACFOembedCache::init();
 QueryOptimizer::init();
