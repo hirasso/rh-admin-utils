@@ -10,8 +10,9 @@ permissions:
   contents: write # for merging the PR and creating the release
   pull-requests: write # for creating the version PR
 
+# Cancel all previous workflow runs for pull requests that have not completed
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.head_ref || github.sha }}
   cancel-in-progress: true
 
 jobs:
