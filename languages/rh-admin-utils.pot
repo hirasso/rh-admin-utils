@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: RH Admin Utilities 3.3.2\n"
+"Project-Id-Version: RH Admin Utilities 3.3.3\n"
 "Report-Msgid-Bugs-To: https://github.com/hirasso/rh-admin-utils/\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,13 +94,13 @@ msgid "Comments are disabled. Some settings on this page are being ignored and/o
 msgstr ""
 
 #. translators: %1$s: opening link tag, %2$s: closing link tag
-#: src/Environments.php:398
+#: src/Environments.php:388
 #, php-format
 msgid "%1$sSearch engine indexing%2$s has been discouraged on this site."
 msgstr ""
 
 #. translators: %1$s: admin email address
-#: src/Environments.php:404
+#: src/Environments.php:394
 #, php-format
 msgid "If you want to go live, please <a href=\"mailto:%1$s\">notify your site administrator</a>."
 msgstr ""

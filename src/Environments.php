@@ -31,7 +31,6 @@ class Environments extends Singleton
         $this->env = $this->get_environment_type();
 
         add_action('admin_init', [$this, 'update_network_sites']);
-        add_filter('network_admin_url', [$this, 'network_admin_url'], 10, 2);
         add_filter('auth_cookie_expiration', [$this, 'auth_cookie_expiration'], PHP_INT_MAX - 1, 3);
 
         $this->add_non_production_hooks();
@@ -66,15 +65,6 @@ class Environments extends Singleton
         }
 
         return $result;
-    }
-
-    /**
-     * Filter network admin url
-     */
-    public function network_admin_url(string $url, string $path): string
-    {
-        $path = substr($url, strpos($url, '/wp-admin/'));
-        return get_site_url($path);
     }
 
     /**
