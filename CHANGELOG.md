@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.3.4
+
+### Patch Changes
+
+- 7cc4a46: Remove the overly naive `update_network_sites()` function
+- 01d3884: Remove filter for `network_admin_url` – the behavior with custom directory structures was fixed in core
+
 ## 3.3.3
 
 ### Patch Changes
