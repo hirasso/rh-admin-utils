@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.5
+
+### Patch Changes
+
+- a87d05a: Allow users to access the privacy policy guide page
+
 ## 3.3.4
 
 ### Patch Changes
