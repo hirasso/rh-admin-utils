@@ -76,7 +76,7 @@ WpscClearCache::getInstance();
 PendingReviews::getInstance();
 ACFPasswordUtilities::init();
 ACFRelationshipField::init();
-EditorInChief::getInstance();
+RolesAndCaps::getInstance();
 Environments::getInstance();
 Hardening\Hardening::init();
 ACFSyncFieldGroups::init();
