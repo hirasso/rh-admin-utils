@@ -62,8 +62,7 @@ final class RolesAndCaps extends Singleton
         }
 
         if (current_user_can('manage_privacy_options')) {
-            wp_redirect(admin_url('privacy-policy-guide.php'));
-            exit;
+            rhau()->redirect(admin_url('privacy-policy-guide.php'));
         }
     }
 

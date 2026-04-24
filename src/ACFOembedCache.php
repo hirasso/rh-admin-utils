@@ -308,12 +308,14 @@ class ACFOembedCache
      */
     public static function redirect_cache_post_edit_php(): void
     {
-        if (rhau()->getCurrentScreen()?->id !== 'edit-rhau-oembed-cache') {
+        if (rhau()->get_current_screen()?->id !== 'edit-rhau-oembed-cache') {
             return;
         }
+
         $post_id = self::get_oembed_cache_post_id();
-        $edit_link = get_edit_post_link($post_id, 'raw');
-        \wp_safe_redirect($edit_link);
-        exit;
+
+        if ($edit_link = get_edit_post_link($post_id, 'raw')) {
+            rhau()->redirect($edit_link);
+        }
     }
 }

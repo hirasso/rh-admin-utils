@@ -137,8 +137,7 @@ class Misc extends Singleton
         // Allow themes to filter the redirect url
         $redirect_url = apply_filters('rhau/edit_php_redirect_url', $redirect_url);
 
-        wp_safe_redirect($redirect_url);
-        exit;
+        rhau()->redirect($redirect_url);
     }
 
     /**
@@ -150,7 +149,7 @@ class Misc extends Singleton
      */
     public function redirect_initial_admin_url()
     {
-        if (rhau()->getCurrentScreen()?->id !== 'dashboard') {
+        if (rhau()->get_current_screen()?->id !== 'dashboard') {
             return;
         }
 
@@ -163,8 +162,7 @@ class Misc extends Singleton
             return;
         }
 
-        wp_safe_redirect(admin_url("/$initial_admin_url"));
-        exit;
+        rhau()->redirect(admin_url("/$initial_admin_url"));
     }
 
     /**

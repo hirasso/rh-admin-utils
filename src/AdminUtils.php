@@ -119,8 +119,7 @@ class AdminUtils extends Singleton
             }
         }
         if ($found_one && !$is_redirect) {
-            wp_safe_redirect(add_query_arg('rhau-deleted-depreated', true));
-            exit;
+            rhau()->redirect(add_query_arg('rhau-deleted-depreated', true));
         }
     }
 
@@ -200,11 +199,53 @@ class AdminUtils extends Singleton
     /**
      * Safely get the current WP admin screen
      */
-    public function getCurrentScreen(): ?WP_Screen
+    public function get_current_screen(): ?WP_Screen
     {
         if (!function_exists('get_current_screen')) {
             return null;
         }
         return get_current_screen();
+    }
+
+    /**
+     * Redirect a URI – prevent TOO_MANY_REDIRECTS
+     */
+    public function redirect(string $redirect_url, int $status = 302, string $x_redirect_by = 'WordPress'): void
+    {
+        $redirect_url = $this->make_absolute_url($redirect_url);
+        $current_url = $this->get_current_url();
+
+        if (!$redirect_url || !$current_url) {
+            return;
+        }
+
+        if (rawurldecode($redirect_url) === rawurldecode($current_url)) {
+            return;
+        }
+
+        wp_redirect($redirect_url, $status, $x_redirect_by);
+        exit;
+    }
+
+    /**
+     * Get the current URL
+     */
+    public function get_current_url(): ?string
+    {
+        return empty($_SERVER['HTTP_HOST'])
+            ? null
+            : home_url(add_query_arg(null, null));
+    }
+
+    /**
+     * Convert any URL into an absolute URL
+     */
+    public function make_absolute_url(string $url): string
+    {
+        if (parse_url($url, PHP_URL_SCHEME) !== null) {
+            return $url; // Already absolute, leave it alone
+        }
+
+        return home_url($url);
     }
 }

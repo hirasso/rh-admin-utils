@@ -50,8 +50,7 @@ class WpscClearCache extends Singleton
         $notice = apply_filters('rh/wpsc-cc/cache_deleted_notice', __('Cache deleted.'));
         rhau()->add_admin_notice('cache-cleared', $notice, 'success');
 
-        wp_safe_redirect($redirect_url);
-        exit;
+        rhau()->redirect($redirect_url);
     }
 
     /**

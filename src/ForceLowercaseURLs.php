@@ -54,25 +54,25 @@ class ForceLowercaseURLs
         }
 
         // Grab URL information for the current request
-        $parsed = wp_parse_url($_SERVER['REQUEST_URI'] ?? '/');
+        $parsed = parse_url($_SERVER['REQUEST_URI'] ?? '/');
 
         // Grab the relevant parts from the parsed URL
         $path = $parsed['path'] ?? '/';
         $query = $parsed['query'] ?? null;
 
         // Create a lowercase copy of the path
-        $lowercase_path = strtolower($path);
+        $lowercase_path = mb_strtolower(rawurldecode($path));
 
         // Bail early if the path already is lowercase
-        if ($path === $lowercase_path) {
-            return;
-        }
+        // if (rawurldecode($path) === $lowercase_path) {
+        //     return;
+        // }
 
         // Construct the redirect url
         $redirect_uri = empty($query) ? $lowercase_path : "$lowercase_path?$query";
+        // dd(compact('redirect_uri'));
 
         // Perform a permanent redirect
-        wp_safe_redirect($redirect_uri, 301);
-        exit;
+        rhau()->redirect($redirect_uri, 301);
     }
 }
