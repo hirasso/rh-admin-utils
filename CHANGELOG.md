@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.6
+
+### Patch Changes
+
+- 966aa9c: Add a new `rhau()->redirect()` function with built-in protection against `TOO_MANY_REDIRECTS`
+
 ## 3.3.5
 
 ### Patch Changes
