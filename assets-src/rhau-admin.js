@@ -4,7 +4,7 @@
 const $ = window.jQuery;
 const acf = window.acf;
 
-import "./scss/rhau.scss";
+import "./scss/rhau-admin.scss";
 
 import Alpine from "alpinejs";
 import mask from "@alpinejs/mask";
