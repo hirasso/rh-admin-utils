@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.3.7
+
+### Patch Changes
+
+- f030348: Expand category divs in the `post.php` so that they don't have overflow. Behaviour can be disabled:
+
+  ```php
+  add_filters('rhau/expand_category_divs', '__return_false');
+  ```
+
 ## 3.3.6
 
 ### Patch Changes
