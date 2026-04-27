@@ -26,6 +26,8 @@ class Misc extends Singleton
         add_action('admin_enqueue_scripts', [$this, 'remove_qtranslate_admin_styles'], 11);
 
         add_filter('wp_admin_notice_markup', [$this, 'maybe_hide_update_nag'], 10, 3);
+
+        add_action('admin_head', $this->maybe_expand_category_divs(...));
     }
 
     public function after_setup_theme()
@@ -328,5 +330,25 @@ class Misc extends Singleton
         }
 
         return $markup;
+    }
+
+    /**
+     * Maybe expand category divs to show all filters by default
+     */
+    private function maybe_expand_category_divs(): void
+    {
+        if (!(bool) apply_filters('rhau/expand_category_divs', true)) {
+            return;
+        }
+
+        echo <<<HTML
+        <style>
+            .categorydiv div.tabs-panel,
+            .tagsdiv div.tabs-panel {
+                height: auto !important;
+                max-height: none !important;
+            }
+        </style>
+        HTML;
     }
 }
