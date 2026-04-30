@@ -1,5 +1,5 @@
 /**
- * Converts an ACF textarea field to a code field
+ * Render order options for the ACF relationship field
  */
 export default () => {
   return {
