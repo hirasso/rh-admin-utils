@@ -1,6 +1,7 @@
 @use "inc/mixins";
 @use "modules/qtranslate";
-@use "modules/acf";
+@use "modules/acf-base";
+@use "modules/acf-field-relationship";
 @use "modules/user-forms";
 @use "modules/tinymce-plugins";
 @use "modules/ads.scss";
