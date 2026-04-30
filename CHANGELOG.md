@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.8
+
+### Patch Changes
+
+- 80649ae: Enhance ACF relationship results to display the post type and an edit link for each post
+
 ## 3.3.7
 
 ### Patch Changes
