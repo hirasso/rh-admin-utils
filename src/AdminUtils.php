@@ -234,7 +234,7 @@ class AdminUtils extends Singleton
     {
         return empty($_SERVER['HTTP_HOST'])
             ? null
-            : home_url(add_query_arg(null, null));
+            : home_url(add_query_arg([]));
     }
 
     /**
