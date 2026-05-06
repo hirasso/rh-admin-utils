@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.9
+
+### Patch Changes
+
+- 3529da6: Prevent notices from the `add_query_arg`-trick within `get_current_url` in PHP 8.5
+
 ## 3.3.8
 
 ### Patch Changes
