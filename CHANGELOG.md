@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.10
+
+### Patch Changes
+
+- 73c2d99: Suppress email notifications for successful automatic plugin/core updates
+
 ## 3.3.9
 
 ### Patch Changes
