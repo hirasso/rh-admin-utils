@@ -28,6 +28,11 @@ class Misc extends Singleton
         add_filter('wp_admin_notice_markup', [$this, 'maybe_hide_update_nag'], 10, 3);
 
         add_action('admin_head', $this->maybe_expand_category_divs(...));
+
+        add_filter('auto_plugin_update_send_email', $this->auto_update_plugin_theme_send_email(...), 10, 2);
+        add_filter('auto_theme_update_send_email', $this->auto_update_plugin_theme_send_email(...), 10, 2);
+
+        add_filter('auto_core_update_send_email', $this->auto_core_update_send_email(...), 10, 2);
     }
 
     public function after_setup_theme()
@@ -350,5 +355,32 @@ class Misc extends Singleton
             }
         </style>
         HTML;
+    }
+
+    /**
+     * Disable email notifications for auto updates without failures
+     *
+     * @param list<object{
+     *      result: \WP_Error|string|true|array,
+     * }> $update_results
+     */
+    private function auto_update_plugin_theme_send_email(bool $send, array $update_results): bool
+    {
+        foreach ($update_results as $r) {
+            if ($r->result !== true) {
+                return $send;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Suppress update notification emails for successful core updates
+     *
+     * @param "success"|"fail"|"critical" $type
+     */
+    private function auto_core_update_send_email(bool $send, string $type): bool
+    {
+        return $type !== 'success';
     }
 }
