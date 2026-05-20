@@ -47,7 +47,7 @@ final class HardenHtaccess
      */
     private static function needsHtaccessHardening(): bool
     {
-        return !(bool) get_option(self::$htaccessHardenedOption);
+        return !(bool) get_network_option(null, self::$htaccessHardenedOption);
     }
 
     /**
@@ -251,7 +251,7 @@ final class HardenHtaccess
             throw new Exception(sprintf("Could not update the <code>.htaccess</code> file"));
         }
 
-        update_option(self::$htaccessHardenedOption, true);
+        update_network_option(null, self::$htaccessHardenedOption, true);
     }
 
     /**
