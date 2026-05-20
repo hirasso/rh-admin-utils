@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.11
+
+### Patch Changes
+
+- 71b8b32: Store the state of `rhau-hardened-v1` in a network option
+
 ## 3.3.10
 
 ### Patch Changes
