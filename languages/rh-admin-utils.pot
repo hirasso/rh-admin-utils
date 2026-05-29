@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: RH Admin Utilities 3.3.10\n"
+"Project-Id-Version: RH Admin Utilities 3.3.11\n"
 "Report-Msgid-Bugs-To: https://github.com/hirasso/rh-admin-utils/\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,19 +105,19 @@ msgstr ""
 msgid "If you want to go live, please <a href=\"mailto:%1$s\">notify your site administrator</a>."
 msgstr ""
 
-#: src/Hardening/HardenHtaccess.php:67
-msgid "This site can be hardened using <code>.htaccess</code> directives:"
+#: src/Hardening/HardenHtaccess.php:71
+msgid "This site should be hardened using <code>.htaccess</code> directives:"
 msgstr ""
 
-#: src/Hardening/HardenHtaccess.php:73
-msgid "Apply directives automatically"
+#: src/Hardening/HardenHtaccess.php:77
+msgid "Apply directives now"
 msgstr ""
 
-#: src/Hardening/HardenHtaccess.php:114
+#: src/Hardening/HardenHtaccess.php:118
 msgid "Successfully updated the .htaccess file"
 msgstr ""
 
-#: src/Hardening/HardenHtaccess.php:115
+#: src/Hardening/HardenHtaccess.php:119
 msgid "Could not update the .htaccess file. Copy and paste manually:"
 msgstr ""
 

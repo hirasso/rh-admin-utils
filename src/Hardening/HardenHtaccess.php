@@ -55,6 +55,10 @@ final class HardenHtaccess
      */
     private static function showHtaccessHardeningNotice()
     {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+
         if (!self::isApache() || !self::needsHtaccessHardening()) {
             return;
         }
@@ -62,15 +66,15 @@ final class HardenHtaccess
         $url = wp_nonce_url(add_query_arg('rhau-action', 'harden-htaccess'), 'rhau-harden-htaccess');
 
         ob_start(); ?>
-        <div class="notice notice-warning">
+        <div class="notice notice-info">
             <p>
-                <?php _e('This site can be hardened using <code>.htaccess</code> directives:', 'rh-admin-utils') ?>
+                <?php _e('This site should be hardened using <code>.htaccess</code> directives:', 'rh-admin-utils') ?>
                 <?php echo self::renderCodeBlock(self::getHardeningDirectives()) ?>
 
                 <a
                     class="button-primary"
                     href="<?= $url ?>">
-                    <?= __('Apply directives automatically', 'rh-admin-utils') ?>
+                    <?= __('Apply directives now', 'rh-admin-utils') ?>
                 </a>
             </p>
         </div>
