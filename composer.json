@@ -45,9 +45,10 @@
   "require-dev": {
     "guzzlehttp/guzzle": "^7.10",
     "laravel/pint": "^1.25",
-    "pestphp/pest": "^1.23",
+    "pestphp/pest": "^3.0",
     "phpstan/extension-installer": "^1.4",
     "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^11.0",
     "pronamic/advanced-custom-fields-pro": "dev-main",
     "roots/wordpress": "^6.8",
     "symfony/var-dumper": "^7.1",
@@ -60,7 +61,7 @@
     "wpackagist-plugin/simply-static": "^3.5",
     "wpackagist-plugin/wp-super-cache": "^3.0",
     "wpackagist-theme/twentytwentyfive": "^1.4",
-    "yoast/wp-test-utils": "^1.2"
+    "yoast/phpunit-polyfills": "^4.0"
   },
   "extra": {
     "installer-paths": {
@@ -78,10 +79,12 @@
     "wordpress-install-dir": "vendor/.wp/core"
   },
   "scripts": {
-    "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G"
-  },
-  "scripts-descriptions": {
-    "analyse": "Run static analysis"
+    "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
+    "test": "pest",
+    "test:watch": [
+      "Composer\\Config::disableProcessTimeout",
+      "phpunit-watcher watch"
+    ]
   },
   "config": {
     "allow-plugins": {

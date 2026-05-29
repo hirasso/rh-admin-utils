@@ -2,9 +2,7 @@
 
 namespace RH\AdminUtils\Tests\Pest;
 
-use Yoast\WPTestUtils\BrainMonkey\TestCase;
-
-class BasicTest extends TestCase
+class BasicTest extends IntegrationTestCase
 {
     public function setUp(): void
     {

@@ -6,6 +6,7 @@ parameters:
   scanDirectories:
     - vendor/.wp
     - vendor/wp-cli/wp-cli
+    - vendor/wp-phpunit/wp-phpunit
   bootstrapFiles:
 
   ignoreErrors:

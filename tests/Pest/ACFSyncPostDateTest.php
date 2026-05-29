@@ -3,9 +3,8 @@
 namespace RH\AdminUtils\Tests\Pest;
 
 use RH\AdminUtils\ACFSyncPostDate;
-use Yoast\WPTestUtils\BrainMonkey\TestCase;
 
-class ACFSyncPostDateTest extends TestCase
+class ACFSyncPostDateTest extends IntegrationTestCase
 {
     public function test_correctly_parses_post_date(): void
     {
