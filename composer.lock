@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77bc0b5b4f4166d5e20777520f7d320c",
+    "content-hash": "79d14c9621787a291da96e7c65ecc223",
     "packages": [
         {
             "name": "composer/installers",
@@ -5309,32 +5309,32 @@
         },
         {
             "name": "vinkla/extended-acf",
-            "version": "14.6.2",
+            "version": "15.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vinkla/extended-acf.git",
-                "reference": "0d8f9f93b3ac3b6e6ae2c8273218560f493dbc7c"
+                "reference": "ae586e594cefb308f51c2487ab2bec0137870408"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vinkla/extended-acf/zipball/0d8f9f93b3ac3b6e6ae2c8273218560f493dbc7c",
-                "reference": "0d8f9f93b3ac3b6e6ae2c8273218560f493dbc7c",
+                "url": "https://api.github.com/repos/vinkla/extended-acf/zipball/ae586e594cefb308f51c2487ab2bec0137870408",
+                "reference": "ae586e594cefb308f51c2487ab2bec0137870408",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.2"
+                "php": "^8.4"
             },
             "require-dev": {
-                "phpunit/phpunit": "^11.0 || ^12.0",
-                "symfony/var-dumper": "^7.0"
+                "phpunit/phpunit": "^12.0",
+                "symfony/var-dumper": "^8.0"
             },
             "suggest": {
-                "symfony/var-dumper": "Required to use the dump method (^7.0)."
+                "symfony/var-dumper": "Required to use the dump method (^8.0)."
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "14.7-dev"
+                    "dev-master": "15.0-dev"
                 }
             },
             "autoload": {
@@ -5366,9 +5366,9 @@
             ],
             "support": {
                 "issues": "https://github.com/vinkla/extended-acf/issues",
-                "source": "https://github.com/vinkla/extended-acf/tree/14.6.2"
+                "source": "https://github.com/vinkla/extended-acf/tree/15.0.0"
             },
-            "time": "2026-01-22T13:29:00+00:00"
+            "time": "2026-03-05T19:02:18+00:00"
         },
         {
             "name": "webmozart/assert",
