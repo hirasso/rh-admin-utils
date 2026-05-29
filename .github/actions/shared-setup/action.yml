@@ -4,7 +4,7 @@ description: Setup everything required
 inputs:
   php-version:
     description: The PHP version to install
-    default: 8.3
+    default: 8.4
   playwright:
     description: Should Playwright be installed?
     default: false
