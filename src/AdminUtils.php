@@ -234,7 +234,15 @@ class AdminUtils extends Singleton
     {
         return empty($_SERVER['HTTP_HOST'])
             ? null
-            : home_url(add_query_arg([]));
+            : $this->normalize_query_string(home_url($_SERVER['REQUEST_URI']));
+    }
+
+    /**
+     * Normalize the query string of a URL
+     */
+    private function normalize_query_string(string $url): string
+    {
+        return add_query_arg([], $url);
     }
 
     /**
@@ -242,10 +250,10 @@ class AdminUtils extends Singleton
      */
     public function make_absolute_url(string $url): string
     {
-        if (parse_url($url, PHP_URL_SCHEME) !== null) {
-            return $url; // Already absolute, leave it alone
-        }
+        $url = parse_url($url, PHP_URL_SCHEME) !== null
+                ? $url // Already absolute, leave it alone
+                : home_url($url);
 
-        return home_url($url);
+        return $this->normalize_query_string($url);
     }
 }
