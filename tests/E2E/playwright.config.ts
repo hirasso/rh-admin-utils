@@ -47,7 +47,7 @@ export default defineConfig({
     ? [
         ["dot"],
         ["github"],
-        ["json", { outputFile: "../../playwright-results.json" }],
+        ["json", { outputFile: "../../../playwright-results.json" }],
       ]
     : [
         ["list"],
