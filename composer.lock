@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3aeced48b280f589ac82b8c732200eea",
+    "content-hash": "c2f8c544d428ebdd9fa3a18e8b66a546",
     "packages": [
         {
             "name": "composer/installers",
@@ -5808,7 +5808,7 @@
             "time": "2026-02-04T01:48:23+00:00"
         },
         {
-            "name": "wpackagist-plugin/classic-editor",
+            "name": "wp-plugin/classic-editor",
             "version": "1.7.0",
             "source": {
                 "type": "svn",
@@ -5820,13 +5820,26 @@
                 "url": "https://downloads.wordpress.org/plugin/classic-editor.1.7.0.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/classic-editor/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "WordPress.org"
+                }
+            ],
+            "description": "Enables the previous \"classic\" editor and the old-style Edit Post screen with TinyMCE, Meta Boxes, etc. Supports all plugins that extend this screen.",
+            "homepage": "https://wordpress.org/plugins/classic-editor/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/classic-editor/#developers",
+                "issues": "https://wordpress.org/support/plugin/classic-editor",
+                "source": "https://plugins.svn.wordpress.org/classic-editor"
+            },
+            "time": "2026-05-28T01:55:49+00:00"
         },
         {
-            "name": "wpackagist-plugin/sg-security",
+            "name": "wp-plugin/sg-security",
             "version": "1.6.2",
             "source": {
                 "type": "svn",
@@ -5838,13 +5851,26 @@
                 "url": "https://downloads.wordpress.org/plugin/sg-security.1.6.2.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/sg-security/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "SiteGround"
+                }
+            ],
+            "description": "Secure your WordPress site from brute-force attacks, threats, malware, and bots. Free to use and easy to set up.",
+            "homepage": "https://siteground.com",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/sg-security/#developers",
+                "issues": "https://wordpress.org/support/plugin/sg-security",
+                "source": "https://plugins.svn.wordpress.org/sg-security"
+            },
+            "time": "2026-05-15T08:51:17+00:00"
         },
         {
-            "name": "wpackagist-plugin/simply-static",
+            "name": "wp-plugin/simply-static",
             "version": "3.7.3",
             "source": {
                 "type": "svn",
@@ -5856,13 +5882,26 @@
                 "url": "https://downloads.wordpress.org/plugin/simply-static.3.7.3.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/simply-static/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Simply Static"
+                }
+            ],
+            "description": "Convert WordPress to static HTML. Boost performance 3-5x. Eliminate security vulnerabilities. Deploy anywhere.",
+            "homepage": "https://simplystatic.com",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/simply-static/#developers",
+                "issues": "https://wordpress.org/support/plugin/simply-static",
+                "source": "https://plugins.svn.wordpress.org/simply-static"
+            },
+            "time": "2026-05-28T09:41:16+00:00"
         },
         {
-            "name": "wpackagist-plugin/wp-super-cache",
+            "name": "wp-plugin/wp-super-cache",
             "version": "3.1.1",
             "source": {
                 "type": "svn",
@@ -5874,13 +5913,26 @@
                 "url": "https://downloads.wordpress.org/plugin/wp-super-cache.3.1.1.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/wp-super-cache/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Automattic"
+                }
+            ],
+            "description": "A very fast caching engine for WordPress that produces static html files.",
+            "homepage": "https://wordpress.org/plugins/wp-super-cache/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wp-super-cache/#developers",
+                "issues": "https://wordpress.org/support/plugin/wp-super-cache",
+                "source": "https://plugins.svn.wordpress.org/wp-super-cache"
+            },
+            "time": "2026-05-27T17:41:44+00:00"
         },
         {
-            "name": "wpackagist-theme/twentytwentyfive",
+            "name": "wp-theme/twentytwentyfive",
             "version": "1.5",
             "source": {
                 "type": "svn",
@@ -5892,10 +5944,18 @@
                 "url": "https://downloads.wordpress.org/theme/twentytwentyfive.1.5.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-theme",
-            "homepage": "https://wordpress.org/themes/twentytwentyfive/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "description": "Twenty Twenty-Five emphasizes simplicity and adaptability. It offers flexible design options, supported by a variety of patterns for different page types, such as services and landing pages, making it ideal for building personal blogs, professional portfolios, online magazines, or business websites. Its templates cater to various blog styles, from text-focused to image-heavy layouts. Additionally, it supports international typography and diverse color palettes, ensuring accessibility and customization for users worldwide.",
+            "homepage": "https://wordpress.org/themes/twentytwentyfive/",
+            "support": {
+                "changelog": "https://wordpress.org/themes/twentytwentyfive/#developers",
+                "issues": "https://wordpress.org/support/theme/twentytwentyfive",
+                "source": "https://themes.svn.wordpress.org/twentytwentyfive"
+            },
+            "time": "2026-05-20T21:56:34+00:00"
         },
         {
             "name": "yoast/phpunit-polyfills",

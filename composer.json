@@ -18,10 +18,6 @@
   "prefer-stable": true,
   "repositories": [
     {
-      "type": "composer",
-      "url": "https://wpackagist.org"
-    },
-    {
       "type": "package",
       "package": {
         "name": "pronamic/advanced-custom-fields-pro",
@@ -33,6 +29,11 @@
           "reference": "main"
         }
       }
+    },
+    {
+      "name": "wp-packages",
+      "type": "composer",
+      "url": "https://repo.wp-packages.org"
     }
   ],
   "require": {
@@ -56,11 +57,11 @@
     "vinkla/extended-acf": "^15.0",
     "wp-cli/wp-cli": "^2.12",
     "wp-phpunit/wp-phpunit": "^6.9",
-    "wpackagist-plugin/classic-editor": "^1.6",
-    "wpackagist-plugin/sg-security": "^1.5",
-    "wpackagist-plugin/simply-static": "^3.5",
-    "wpackagist-plugin/wp-super-cache": "^3.0",
-    "wpackagist-theme/twentytwentyfive": "^1.4",
+    "wp-plugin/classic-editor": "^1.6",
+    "wp-plugin/sg-security": "^1.5",
+    "wp-plugin/simply-static": "^3.5",
+    "wp-plugin/wp-super-cache": "^3.0",
+    "wp-theme/twentytwentyfive": "^1.4",
     "yoast/phpunit-polyfills": "^4.0"
   },
   "extra": {
