@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.3.12
+
+### Patch Changes
+
+- 3c89aad: Only show the hardening UI to users with administrator privileges
+- 52c7ebf: Prevent infinite redirects by normalizing query strings before comparing URLs
+
 ## 3.3.11
 
 ### Patch Changes
