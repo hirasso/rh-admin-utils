@@ -66,10 +66,10 @@ runs:
     - name: Install Playwright and its dependencies
       if: ${{ inputs.playwright == 'true' && steps.playwright-cache.outputs.cache-hit != 'true' }}
       shell: bash
-      run: npx playwright install chromium webkit firefox --with-deps
+      run: pnpm exec playwright install chromium webkit firefox --with-deps
 
     - name: Install just Playwright's dependencies
       if: ${{ inputs.playwright == 'true' && steps.playwright-cache.outputs.cache-hit == 'true' }}
       shell: bash
-      run: npx playwright install-deps
+      run: pnpm exec playwright install-deps
 
