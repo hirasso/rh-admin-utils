@@ -212,7 +212,7 @@ export async function createRelease() {
   info("Ensuring php-scoper is available...");
 
   if (!existsSync(phpScoperPath)) {
-    run(`curl -sL https://github.com/humbug/php-scoper/releases/download/0.18.15/php-scoper.phar -o ${phpScoperPath}`); // prettier-ignore
+    run(`curl -sL https://github.com/humbug/php-scoper/releases/download/0.18.19/php-scoper.phar -o ${phpScoperPath}`); // prettier-ignore
     run(`chmod +x ${phpScoperPath}`);
   }
 
@@ -227,8 +227,8 @@ export async function createRelease() {
 
   info(`Copying main plugin file and src directory into ${scopedFolder}...`);
   warn(`If ever required, patch src files here with prefixed namespaces here`);
-  cpSync('./src', `${scopedFolder}/src`, { recursive: true });
-  (await fg('*.php')).forEach(file => {
+  cpSync("./src", `${scopedFolder}/src`, { recursive: true });
+  (await fg("*.php")).forEach((file) => {
     cpSync(`./${file}`, `${scopedFolder}/${file}`);
   });
 

@@ -39,113 +39,140 @@ msgstr ""
 msgid "https://rassohilber.com"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/ACFCodeField.php:23
 #: src/ACFCodeField.php:23
 msgid "Code field"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/ACFCodeField.php:35
 #: src/ACFCodeField.php:35
 msgid "Code Field: Allow Line Wrapping"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/ACFOembedCache.php:98
 #: src/ACFOembedCache.php:98
 msgid "RH Admin Utils: Global oEmbed cache"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/ACFOembedCache.php:273
 #: src/ACFOembedCache.php:273
 msgid "There global ACF oEmbed cache is currently empty."
 msgstr ""
 
 #. translators: %d: number of cached oEmbed responses
+#: scoped/rh-admin-utils/src/ACFOembedCache.php:279
 #: src/ACFOembedCache.php:279
 #, php-format
 msgid "There are %d oEmbed responses cached globally."
 msgstr ""
 
+#: scoped/rh-admin-utils/src/ACFOembedWhitelist.php:29
 #: src/ACFOembedWhitelist.php:29
 msgid "Whitelist"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/ACFRestrictFieldAccess.php:22
 #: src/ACFRestrictFieldAccess.php:22
 msgid "Roles allowed to edit this field"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/ACFRestrictToPostTypes.php:22
 #: src/ACFRestrictToPostTypes.php:22
 msgid "Restrict visibility to Post Types"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/ACFSyncPostDate.php:30
 #: src/ACFSyncPostDate.php:30
 msgid "Sync the post date with this field"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/ACFTextField.php:22
 #: src/ACFTextField.php:22
 msgid "Mask field"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/DisableComments.php:71
 #: src/DisableComments.php:71
 msgid "Comments are disabled."
 msgstr ""
 
+#: scoped/rh-admin-utils/src/DisableComments.php:80
 #: src/DisableComments.php:80
 msgid "Comments are closed."
 msgstr ""
 
+#: scoped/rh-admin-utils/src/DisableComments.php:91
 #: src/DisableComments.php:91
 msgid "Comments are disabled. Some settings on this page are being ignored and/or overwritten."
 msgstr ""
 
 #. translators: %1$s: opening link tag, %2$s: closing link tag
+#: scoped/rh-admin-utils/src/Environments.php:361
 #: src/Environments.php:361
 #, php-format
 msgid "%1$sSearch engine indexing%2$s has been discouraged on this site."
 msgstr ""
 
 #. translators: %1$s: admin email address
+#: scoped/rh-admin-utils/src/Environments.php:367
 #: src/Environments.php:367
 #, php-format
 msgid "If you want to go live, please <a href=\"mailto:%1$s\">notify your site administrator</a>."
 msgstr ""
 
+#: scoped/rh-admin-utils/src/Hardening/HardenHtaccess.php:71
 #: src/Hardening/HardenHtaccess.php:71
 msgid "This site should be hardened using <code>.htaccess</code> directives:"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/Hardening/HardenHtaccess.php:77
 #: src/Hardening/HardenHtaccess.php:77
 msgid "Apply directives now"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/Hardening/HardenHtaccess.php:118
 #: src/Hardening/HardenHtaccess.php:118
 msgid "Successfully updated the .htaccess file"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/Hardening/HardenHtaccess.php:119
 #: src/Hardening/HardenHtaccess.php:119
 msgid "Could not update the .htaccess file. Copy and paste manually:"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/PageRestrictions.php:384
 #: src/PageRestrictions.php:384
 msgid "Locked"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/PageRestrictionsMetaBox.php:40
+#: scoped/rh-admin-utils/src/PageRestrictionsOptionsPage.php:13
 #: src/PageRestrictionsMetaBox.php:40
 #: src/PageRestrictionsOptionsPage.php:13
 msgid "Restrictions"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/PageRestrictionsMetaBox.php:51
 #: src/PageRestrictionsMetaBox.php:51
 msgid "Lock the slug, parent, status, visiblity and template for users without administrator privileges."
 msgstr ""
 
+#: scoped/rh-admin-utils/src/PageRestrictionsMetaBox.php:52
 #: src/PageRestrictionsMetaBox.php:52
 msgid "Don't allow children for this page (applied to all users)."
 msgstr ""
 
+#: scoped/rh-admin-utils/src/PageRestrictionsMetaBox.php:88
 #: src/PageRestrictionsMetaBox.php:88
 msgid "Lock this Page"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/PageRestrictionsMetaBox.php:101
 #: src/PageRestrictionsMetaBox.php:101
 msgid "Disallow Children"
 msgstr ""
 
+#: scoped/rh-admin-utils/src/PageRestrictionsOptionsPage.php:12
 #: src/PageRestrictionsOptionsPage.php:12
 msgid "Global Page Restrictions"
 msgstr ""

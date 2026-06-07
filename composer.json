@@ -65,18 +65,18 @@
   },
   "extra": {
     "installer-paths": {
-      "vendor/.wp/mu-plugins/{$name}/": [
+      "vendor/__wp/mu-plugins/{$name}/": [
         "type:wordpress-muplugin"
       ],
-      "vendor/.wp/plugins/{$name}/": [
+      "vendor/__wp/plugins/{$name}/": [
         "type:wordpress-plugin",
         "pronamic/advanced-custom-fields-pro"
       ],
-      "vendor/.wp/themes/{$name}/": [
+      "vendor/__wp/themes/{$name}/": [
         "type:wordpress-theme"
       ]
     },
-    "wordpress-install-dir": "vendor/.wp/core"
+    "wordpress-install-dir": "vendor/__wp/core"
   },
   "scripts": {
     "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",

@@ -1,13 +1,13 @@
 {
   "$schema": "https://schemas.wp.org/trunk/wp-env.json",
   "phpVersion": "8.4",
-  "core": "./vendor/.wp/core",
-  "themes": ["./vendor/.wp/themes/twentytwentyfive"],
+  "core": "./vendor/__wp/core",
+  "themes": ["./vendor/__wp/themes/twentytwentyfive"],
   "plugins": [
     ".",
-    "./vendor/.wp/plugins/advanced-custom-fields-pro",
-    "./vendor/.wp/plugins/classic-editor",
-    "./vendor/.wp/plugins/sg-security",
+    "./vendor/__wp/plugins/advanced-custom-fields-pro",
+    "./vendor/__wp/plugins/classic-editor",
+    "./vendor/__wp/plugins/sg-security",
     "./tests/E2E"
   ],
   "env": {

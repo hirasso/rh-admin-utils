@@ -8,6 +8,9 @@ use Exception;
 use SplFileInfo;
 use ZipArchive;
 
+/** @see https://github.com/humbug/php-scoper/issues/672 */
+ini_set('memory_limit', '1024M');
+
 /**
  * php-scoper config for creating a scoped release asset for GitHub Releases
  * This release asset serves as the source of truth for non-composer plugin updates
