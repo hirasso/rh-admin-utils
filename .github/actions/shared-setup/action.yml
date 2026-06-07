@@ -19,12 +19,12 @@ runs:
   using: composite
   steps:
     - name: Setup PNPM
-      uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+      uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
       with:
         version: 11
 
     - name: Setup Node.js
-      uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+      uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
       with:
         node-version: 24
         cache: pnpm
@@ -36,7 +36,7 @@ runs:
     # HAS to run after installing node.js dependencies
     - name: Setup PHP
       if: ${{ inputs.php == 'true' }}
-      uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # 2.36.0
+      uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # 2.37.1
       with:
         php-version: ${{ inputs.php-version }}
         tools: composer:v2
@@ -44,7 +44,7 @@ runs:
 
     - name: Install Composer Dependencies
       if: ${{ inputs.php == 'true' }}
-      uses: ramsey/composer-install@a35c6ebd3d08125aaf8852dff361e686a1a67947 # 3.2.0
+      uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
 
     - name: Setup and Start wp-env
       if: ${{ inputs.wp-env == 'true' }}
@@ -58,7 +58,7 @@ runs:
     - name: Cache Playwright
       if: ${{ inputs.playwright == 'true' }}
       id: playwright-cache
-      uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
       with:
         path: ~/.cache/ms-playwright
         key: playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
