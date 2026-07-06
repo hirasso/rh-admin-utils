@@ -3,13 +3,10 @@
   "phpVersion": "8.4",
   "core": "./vendor/__wp/core",
   "themes": ["./vendor/__wp/themes/twentytwentyfive"],
-  "plugins": [
-    ".",
-    "./vendor/__wp/plugins/advanced-custom-fields-pro",
-    "./vendor/__wp/plugins/classic-editor",
-    "./vendor/__wp/plugins/sg-security",
-    "./tests/E2E"
-  ],
+  "plugins": [".", "./tests/E2E"],
+  "mappings": {
+    "wp-content/plugins": "./vendor/__wp/plugins"
+  },
   "env": {
     "development": {
       "port": 7428,
