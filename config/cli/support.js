@@ -288,7 +288,7 @@ function readFile(path) {
 }
 
 /**
- * Run Unit and E2E tests from the unscoped version
+ * Run Unit and e2e tests from the unscoped version
  */
 export function testDev() {
   if (existsSync(".wp-env.override.json")) {
@@ -318,7 +318,7 @@ function writeJsonFile(name, data) {
 }
 
 /**
- * Run E2E tests from the scoped release folder.
+ * Run e2e tests from the scoped release folder.
  * This command is only required for local tests.
  */
 export function testRelease() {

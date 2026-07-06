@@ -121,7 +121,7 @@ msgstr ""
 msgid "Could not update the .htaccess file. Copy and paste manually:"
 msgstr ""
 
-#: src/PageRestrictions.php:384
+#: src/PageRestrictions.php:382
 msgid "Locked"
 msgstr ""
 

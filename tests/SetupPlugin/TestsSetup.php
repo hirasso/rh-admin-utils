@@ -1,6 +1,6 @@
 <?php
 
-namespace RH\AdminUtils\Tests\E2E;
+namespace RH\AdminUtils\Tests\SetupPlugin;
 
 use Exception;
 use Extended\ACF\Fields\Image;
@@ -19,7 +19,7 @@ if (!\defined('ABSPATH')) {
 /**
  * Setup context to run e2e tests against
  */
-final class Setup
+final class TestsSetup
 {
     protected WP_Post $testPage;
 

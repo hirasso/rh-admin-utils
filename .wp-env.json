@@ -3,7 +3,7 @@
   "phpVersion": "8.4",
   "core": "./vendor/__wp/core",
   "themes": ["./vendor/__wp/themes/twentytwentyfive"],
-  "plugins": [".", "./tests/E2E"],
+  "plugins": [".", "./tests/SetupPlugin"],
   "mappings": {
     "wp-content/plugins": "./vendor/__wp/plugins"
   },

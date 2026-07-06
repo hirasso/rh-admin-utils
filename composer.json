@@ -58,8 +58,11 @@
     "wp-cli/wp-cli": "^2.12",
     "wp-phpunit/wp-phpunit": "^6.9",
     "wp-plugin/classic-editor": "^1.6",
+    "wp-plugin/post-type-switcher": "^4.0",
     "wp-plugin/sg-security": "^1.5",
+    "wp-plugin/simple-page-ordering": "^2.8",
     "wp-plugin/simply-static": "^3.5",
+    "wp-plugin/user-switching": "^1.12",
     "wp-plugin/wp-super-cache": "^3.0",
     "wp-theme/twentytwentyfive": "^1.4",
     "yoast/phpunit-polyfills": "^4.0"

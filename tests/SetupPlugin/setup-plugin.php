@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Plugin Name: e2e tests bootstrap plugin
- * Description: Prepares the @wordpress/env tests environment for e2e tests
+ * Plugin Name: RH Admin Utils Setup Plugin
+ * Description: Helps with development and e2e tests
  * Version: 10000.0.0
  */
 
-namespace RH\AdminUtils\Tests\E2E;
+namespace RH\AdminUtils\Tests\SetupPlugin;
 
 /** Exit if accessed directly */
 if (!\defined('ABSPATH')) {
@@ -28,6 +28,10 @@ function getCurrentEnv(): ?string
         : null;
 }
 
-if (getCurrentEnv() === 'tests') {
-    \add_action('after_setup_theme', fn () => new Setup());
-};
+
+\add_action('after_setup_theme', function () {
+
+    getCurrentEnv() === 'tests'
+        ? new TestsSetup()
+        : new DevSetup();
+});
