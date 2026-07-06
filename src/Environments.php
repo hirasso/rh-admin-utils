@@ -35,7 +35,7 @@ class Environments extends Singleton
         $this->add_non_production_hooks();
         $this->init_environment_links();
 
-        add_action('admin_notices', [$this, 'disallow_indexing_notice']);
+        add_action('admin_notices', $this->show_disallow_indexing_warning(...));
     }
 
     /**
@@ -346,12 +346,19 @@ class Environments extends Singleton
      * - Either activating "Discourage search engines from indexing this site" under wp-admin/options-reading.php
      * - Or defining DISALLOW_INDEXING in the config (should be done in staging)
      */
-    public function disallow_indexing_notice()
+    private function show_disallow_indexing_warning()
     {
         /**
          * This will also be false if DISALLOW_INDEXING is set to true
          */
         if ((bool) get_option('blog_public')) {
+            return;
+        }
+
+        /**
+         * Hide the warning via filters
+         */
+        if (!apply_filters('rhau/show_disallow_indexing_warning', true)) {
             return;
         }
 
