@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.3.13
+
+### Patch Changes
+
+- 562b118: Disable checkboxes for locked/restricted pages, so that they can't be edited via bulk edit
+- d3925a1: Add new filter `rhau/show_disallow_indexing_warning` to disable the warning about a site not being public
+
 ## 3.3.12
 
 ### Patch Changes
