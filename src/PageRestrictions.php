@@ -57,18 +57,10 @@ class PageRestrictions
             add_filter('theme_page_templates', [__CLASS__, 'filter_page_templates'], 10, 4);
             add_action('admin_head', [__CLASS__, 'inject_styles']);
             add_filter('wp_insert_post_data', [__CLASS__, 'wp_insert_post_data'], 10, 4);
-            /** Only allow administrators to change the post status using the plugin "Post Type Switcher" */
-            add_filter('pts_allowed_pages', '__return_empty_array');
         }
 
-        /**
-         * Remove custom page row actions added by Simple Page Ordering, because
-         *  - they conflict with the parent/child restrictions from this plugin
-         *  - they clutter the edit screen unnecessarily
-         */
-        add_action('load-edit.php', function () {
-            remove_action('page_row_actions', 'SimplePageOrdering\\Simple_Page_Ordering::page_row_actions');
-        }, 11);
+        /** Not compatible with page restrictions. Also not a great feature overall */
+        add_filter('simple_page_ordering_allow_row_actions', '__return_false');
     }
 
     /**
@@ -192,6 +184,32 @@ class PageRestrictions
                 line-height: 1;
                 margin-left: -0.3em;
                 color: rgb(0 0 0 / 0.4);\"></span>";
+    }
+
+    /**
+     * Get a script that will immediately disable the current row's checkbox
+     */
+    private static function get_disable_list_table_checkbox(): string
+    {
+        // disable the checkbox for this row
+        return <<<HTML
+        <script>
+            (() => {
+                const column = document
+                    .currentScript
+                    ?.closest('tr')
+                    ?.querySelector('.check-column');
+
+                column
+                    ?.querySelector('input[type="checkbox"]')
+                    ?.setAttribute('disabled', '');
+
+                column
+                    ?.querySelector('label')
+                    ?.setAttribute('style', 'background: transparent');
+            })()
+        </script>
+        HTML;
     }
 
     /**
@@ -375,7 +393,7 @@ class PageRestrictions
     /**
      * Render a column with a lock for locked posts
      */
-    public static function pages_list_col($cols, $post_type = 'page'): array
+    public static function pages_list_col(array $cols, $post_type = 'page'): array
     {
         if ($post_type !== 'page') {
             return $cols;
@@ -391,12 +409,14 @@ class PageRestrictions
      */
     public static function pages_list_col_value(string $column_name, int $post_id): void
     {
+
         if ($column_name !== "rhau_is_locked") {
             return;
         }
 
         if (self::is_locked($post_id)) {
             echo self::get_locked_icon();
+            echo self::get_disable_list_table_checkbox();
         }
     }
 
@@ -444,7 +464,7 @@ class PageRestrictions
         if (empty($actions)) {
             return $actions;
         }
-        unset($actions['edit']);
+        // unset($actions['edit']);
         return $actions;
     }
 
