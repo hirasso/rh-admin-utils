@@ -92,6 +92,7 @@ QueryOptimizer::init();
 AdminDashboard::init();
 TinyMcePlugins::init();
 WpCliCommands::init();
+SendTestEmail::init();
 ACFCodeField::init();
 SimplyStatic::init();
 ACFTextField::init();
