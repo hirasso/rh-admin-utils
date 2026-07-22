@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.4.0
+
+### Minor Changes
+
+- 6320da3: Add `wp rhau send-test-email` WP-CLI command for sending a test email, with `--to`, `--subject`, and `--body` options
+
+### Patch Changes
+
+- a4056e7: Allow users with role `editor_in_chief` to update themes
+
 ## 3.3.13
 
 ### Patch Changes
