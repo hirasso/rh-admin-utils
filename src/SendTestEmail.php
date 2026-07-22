@@ -70,10 +70,6 @@ final class SendTestEmail
 
         WP_CLI::error('Error sending email: ' . ($error?->get_error_message() ?? 'unknown error'), false);
 
-        if ($error) {
-            WP_CLI::error_multi_line($error->get_error_messages());
-        }
-
         exit(1);
     }
 }
