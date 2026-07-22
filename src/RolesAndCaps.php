@@ -83,6 +83,7 @@ final class RolesAndCaps extends Singleton
         $caps = wp_parse_args([
             'update_core' => true,
             'update_plugins' => true,
+            'update_themes' => true,
         ], get_role('editor')->capabilities);
 
         add_role(
