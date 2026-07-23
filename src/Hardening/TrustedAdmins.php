@@ -29,6 +29,7 @@ final class TrustedAdmins
         'delete_users',
         'unfiltered_html',
         'activate_plugins',
+        'switch_to_user', // from the "User Switching" plugin
     ];
 
     public static function init(): void

@@ -18,6 +18,8 @@ require_once \getenv('WP_PHPUNIT__DIR') . '/includes/functions.php';
 \tests_add_filter('muplugins_loaded', function () use ($pluginsDir) {
     // require ACF, which is a dependency of ACFML
     require_once("$pluginsDir/advanced-custom-fields-pro/acf.php");
+    // require the User Switching plugin, whose `switch_to_user` capability is restricted by TrustedAdmins
+    require_once("$pluginsDir/user-switching/user-switching.php");
     // require the main plugin file
     require_once("$pluginsDir/rh-admin-utils/rh-admin-utils.php");
 });
