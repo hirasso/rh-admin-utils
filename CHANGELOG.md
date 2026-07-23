@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.1
+
+### Patch Changes
+
+- 13bd898: Define `RHAU_TRUSTED_ADMINS` or filter `rhau/trusted_admins` to restrict install/delete/edit-file/unfiltered_html/switch-user capabilities to an allowlist of trusted admins. Inactive unless a site defines the constant or hooks the filter. Trusted admins can only be deleted by other trusted admins, never by a non-trusted administrator.
+
 ## 3.4.0
 
 ### Minor Changes
