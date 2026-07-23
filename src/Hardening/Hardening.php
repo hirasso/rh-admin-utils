@@ -14,5 +14,6 @@ final class Hardening
         UserEnumeration::init();
         HardenHtaccess::init();
         ObfuscateVersion::init();
+        TrustedAdmins::init();
     }
 }
