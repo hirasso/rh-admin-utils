@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.4.2
+
+### Patch Changes
+
+- 976abf6: New flag `--smtp-debug` for sending emails via SMTP
+
+  ```
+  wp rhau send-test-email --smtp-debug
+  ```
+
+- 0694395: Do not assume that `.filters` exist within an ACF relationship field
+
 ## 3.4.1
 
 ### Patch Changes
