@@ -11,6 +11,10 @@ export default () => {
     renderSelect() {
       const $filters = this.$root.querySelector(".filters");
 
+      if (!$filters) {
+        return;
+      }
+
       const $select = document.createElement("div");
       $select.classList.add("filter", "-order");
       $select.innerHTML = `<select data-rhau-action="order">
