@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.3
+
+### Patch Changes
+
+- dbb6a8b: Make ACF field customizations more robust against JIT field mutations
+
 ## 3.4.2
 
 ### Patch Changes
