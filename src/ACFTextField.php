@@ -9,8 +9,8 @@ class ACFTextField
      */
     public static function init()
     {
-        add_action('acf/render_field_settings/type=text', [__CLASS__, 'render_field_settings']);
-        add_filter('acf/prepare_field/type=text', [__CLASS__, 'prepare_text_field']);
+        add_action('acf/render_field_settings/type=text', self::render_field_settings(...));
+        add_filter('acf/prepare_field', self::prepare_text_field(...), 20);
     }
 
     /**
@@ -29,9 +29,15 @@ class ACFTextField
     /**
      * Handle ACF text fields
      */
-    public static function prepare_text_field(array $field): array
+    public static function prepare_text_field(?array $field): ?array
     {
+        $type = $field['type'] ?? null;
+        if ($type !== 'text') {
+            return $field;
+        }
+
         $mask_field = $field['rhau_mask_field'] ?? null;
+
         if (!$mask_field) {
             return $field;
         }

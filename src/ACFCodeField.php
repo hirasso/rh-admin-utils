@@ -9,8 +9,8 @@ class ACFCodeField
      */
     public static function init()
     {
-        add_action('acf/render_field_settings/type=textarea', [__CLASS__, 'render_field_settings']);
-        add_filter('acf/prepare_field/type=textarea', [__CLASS__, 'prepare_acf_code_field']);
+        add_action('acf/render_field_settings/type=textarea', self::render_field_settings(...));
+        add_filter('acf/prepare_field', self::prepare_acf_code_field(...), 20);
     }
 
     /**
@@ -51,8 +51,13 @@ class ACFCodeField
     /**
      * Handle ACF code fields
      */
-    public static function prepare_acf_code_field(array $field): array
+    public static function prepare_acf_code_field(?array $field): ?array
     {
+        $type = $field['type'] ?? null;
+        if ($type !== 'textarea') {
+            return $field;
+        }
+
         $language = $field['rhau_code_field'] ?? null;
         if (!$language) {
             return $field;

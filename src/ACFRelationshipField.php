@@ -12,15 +12,22 @@ class ACFRelationshipField
     public static function init()
     {
         add_filter("acf/fields/relationship/result", self::relationship_result(...), 10, 2);
-        add_filter('acf/prepare_field/type=relationship', self::prepare_field(...));
+        add_filter('acf/prepare_field', self::prepare_field(...), 20);
     }
 
     /**
      * Handle ACF code fields
      */
-    private static function prepare_field(array $field): array
+    private static function prepare_field(?array $field): ?array
     {
+        $type = $field['type'] ?? null;
+
+        if ($type !== 'relationship') {
+            return $field;
+        }
+
         $field['wrapper']['rhau-x-data'] = 'ACFRelationshipField';
+
         return $field;
     }
 
