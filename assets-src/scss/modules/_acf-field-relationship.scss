@@ -37,3 +37,6 @@
   top: 50%;
   transform: translateY(-50%);
 }
+.acf-rel-item .thumbnail:has(img[src=""]) {
+  display: none;
+}
