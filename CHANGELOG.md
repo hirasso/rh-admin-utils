@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.4
+
+### Patch Changes
+
+- 08141b9: Minor style optimizations for ACF fields
+
 ## 3.4.3
 
 ### Patch Changes
