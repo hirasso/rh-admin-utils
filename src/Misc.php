@@ -33,6 +33,9 @@ class Misc extends Singleton
         add_filter('auto_theme_update_send_email', $this->auto_update_plugin_theme_send_email(...), 10, 2);
 
         add_filter('auto_core_update_send_email', $this->auto_core_update_send_email(...), 10, 2);
+
+        // Don't convert :) etc. to emoji. not using `pre_option_` since it doesn't work with `__return_false`
+        add_filter('option_use_smilies', '__return_false');
     }
 
     public function after_setup_theme()
