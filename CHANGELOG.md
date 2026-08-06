@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.5
+
+### Patch Changes
+
+- d49ee89: Don't convert :) etc. to emoji
+
 ## 3.4.4
 
 ### Patch Changes
