@@ -1,0 +1,6 @@
+/**
+ * Hide the media file name overlays introduced in WP 7.0
+ */
+.wp-core-ui .attachment:not(:has(.filename))::after {
+  visibility: hidden;
+}

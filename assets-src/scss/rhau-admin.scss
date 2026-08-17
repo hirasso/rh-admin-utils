@@ -6,6 +6,7 @@
 @use "modules/user-forms";
 @use "modules/tinymce-plugins";
 @use "modules/ads.scss";
+@use "modules/media.scss";
 
 #submitdiv:not(.rhau-enabled) {
   input[type="submit"] {
