@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.6
+
+### Patch Changes
+
+- f6a7bf2: Hide the media file name overlays introduced in WP 7.0
+
 ## 3.4.5
 
 ### Patch Changes
