@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.7
+
+### Patch Changes
+
+- eacabfe: Allways allow file mods for the automatic updater, even if `DISALLOW_FILE_MODS` is `true`
+
 ## 3.4.6
 
 ### Patch Changes
