@@ -20,14 +20,19 @@ final class Hardening
     }
 
     /**
-     * Allways allow file mods for the automatic updater,
-     * even if DISALLOW_FILE_MODS is true.
+     * Revert DISALLOW_FILE_MODS=true in certain contexts:
+     *
+     *  - the automatic updater is currently running
+     *  - /wp-admin/update-core.php is accessed directly
      */
     private static function file_mod_allowed(bool $allowed, string $context): bool
     {
-        if ($context === 'automatic_updater') {
+        global $pagenow;
+
+        if ($context === 'automatic_updater' || $pagenow === 'update-core.php') {
             return true;
         }
+
         return $allowed;
     }
 }
