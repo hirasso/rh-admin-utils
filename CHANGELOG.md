@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.9
+
+### Patch Changes
+
+- 64b81ab: Declare `Requires PHP: 8.4` in `readme.txt` so that the PHP requirement is actually part of the update metadata that plugin-update-checker reports to WordPress
+
 ## 3.4.8
 
 ### Patch Changes
