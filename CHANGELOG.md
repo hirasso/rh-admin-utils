@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.8
+
+### Patch Changes
+
+- 2b8b1b3: Always allow access to `/wp-admin/update-core.php` even if `DISALLOW_FILE_MODS` is set to `true`
+
 ## 3.4.7
 
 ### Patch Changes
