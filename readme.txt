@@ -1,5 +1,6 @@
 === RH Admin Utils ===
 Contributors: Rasso Hilber
+Requires PHP: 8.4
 License: GPL-3.0-or-later
 
 A WordPress utility plugin 🥞

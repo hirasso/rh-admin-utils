@@ -192,6 +192,63 @@ export const validateDirectories = async (dir1, dir2, ignore = [".git"]) => {
 };
 
 /**
+ * Extract the first version number from a composer constraint
+ * e.g. ">=8.4" => "8.4"
+ * @param {string|undefined} constraint
+ * @return {string|undefined}
+ */
+const extractVersion = (constraint) => constraint?.match(/\d+(\.\d+)*/)?.[0];
+
+/**
+ * Extract a header from a plugin file or a readme.txt
+ * e.g. "Requires PHP: 8.4" => "8.4"
+ * @param {string|undefined} contents
+ * @param {string} header
+ * @return {string|undefined}
+ */
+const extractHeader = (contents, header) =>
+  contents?.match(new RegExp(`^[ \\t/*#@]*${header}:(.*)$`, "mi"))?.[1].trim();
+
+/**
+ * Make sure the required PHP version is declared consistently everywhere.
+ * Each of these is read by a different consumer:
+ * - the main plugin file: WordPress, when activating or installing an upload
+ * - readme.txt: plugin-update-checker, when reporting available updates
+ * - composer.json: php-scoper, via config/scoper.config.php
+ * - composer.dist.json: composer, for installs of the released plugin
+ */
+export function validatePHPVersion() {
+  const { packageName, dependencies } = getInfosFromComposerJSON();
+  const distDependencies =
+    JSON.parse(readFile("composer.dist.json") || "{}").require || {};
+
+  /** @type {Record<string, string|undefined>} */
+  const versions = {
+    [`${packageName}.php`]: extractHeader(
+      readFile(`${packageName}.php`),
+      "Requires PHP",
+    ),
+    "readme.txt": extractHeader(readFile("readme.txt"), "Requires PHP"),
+    "composer.json": extractVersion(dependencies.php),
+    "composer.dist.json": extractVersion(distDependencies.php),
+  };
+
+  const declarations = Object.entries(versions)
+    .map(([file, version]) => `  - ${blue(file)}: ${version ?? red("missing")}`)
+    .join("\n");
+
+  if (Object.values(versions).some((version) => !version)) {
+    error(`The required PHP version is not declared everywhere:`, `\n${declarations}`); // prettier-ignore
+  }
+
+  if (new Set(Object.values(versions)).size > 1) {
+    error(`The required PHP version is declared inconsistently:`, `\n${declarations}`); // prettier-ignore
+  }
+
+  success(`Required PHP version is consistently declared as ${Object.values(versions)[0]}`); // prettier-ignore
+}
+
+/**
  * Create release files for usage in the release asset and dist repo
  * - scopes dependency namespaces using php-scoper
  * - creates a folder scoped/ with all required plugin files
@@ -199,6 +256,9 @@ export const validateDirectories = async (dir1, dir2, ignore = [".git"]) => {
  */
 export async function createRelease() {
   headline(`Creating Release Files...`);
+
+  /** Bail early if the required PHP version got out of sync */
+  validatePHPVersion();
 
   const { packageName } = getInfosFromComposerJSON();
   const scopedFolder = getScopedFolder();
