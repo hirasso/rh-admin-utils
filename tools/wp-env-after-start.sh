@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 set -e
 
-pnpm run env-cli wp theme activate twentytwentyfive
-pnpm run env-cli wp rewrite structure '/%postname%/' --hard
-pnpm run env-cli wp plugin activate --all
+# Each `wp-env run` is a separate docker exec round trip, so batch the commands
+# per environment instead of invoking wp-cli once per command.
+setup="wp theme activate twentytwentyfive \
+  && wp rewrite structure '/%postname%/' --hard \
+  && wp plugin activate --all"
 
-pnpm run env-tests-cli wp theme activate twentytwentyfive
-pnpm run env-tests-cli wp rewrite structure '/%postname%/' --hard
-pnpm run env-tests-cli wp plugin activate --all
+# CI only ever talks to the tests environment, so don't set up the development one there.
+if [[ -z "$CI" ]]; then
+  pnpm run env-cli sh -c "$setup"
+fi
+
+pnpm run env-tests-cli sh -c "$setup"

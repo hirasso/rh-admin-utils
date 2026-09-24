@@ -17,6 +17,24 @@ concurrency:
 
 jobs:
 
+  # PHPStan needs no WordPress runtime, so it skips wp-env and runs in parallel
+  # to the test matrix instead of waiting ~80s behind `wp-env start`.
+  phpStan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - name: Run Shared Setup
+        uses: ./.github/actions/shared-setup
+        with:
+          php-version: 8.4
+          wp-env: false
+
+      - name: Run PHPStan
+        run: composer analyse
+
   phpTests:
     name: PHP ${{ matrix.php }} Tests
     runs-on: ubuntu-latest
@@ -34,11 +52,8 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
 
-      - name: Run PHPStan Tests
-        run: composer analyse
-
       - name: Run Pest Tests
-        run: pnpm run test:pest:ci
+        run: pnpm run test:pest
 
   # Deactivated due to issues in CI. Also SLOOOW! Can simply be reactivated if needed.
   # e2eTests:
@@ -71,6 +86,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     needs:
+      - phpStan
       - phpTests
       # - e2eTests
     outputs:

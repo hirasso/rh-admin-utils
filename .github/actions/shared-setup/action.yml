@@ -40,7 +40,7 @@ runs:
       with:
         php-version: ${{ inputs.php-version }}
         tools: composer:v2
-        coverage: xdebug
+        coverage: none
 
     - name: Install Composer Dependencies
       if: ${{ inputs.php == 'true' }}
