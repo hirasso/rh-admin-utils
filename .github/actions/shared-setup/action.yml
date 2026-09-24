@@ -53,8 +53,7 @@ runs:
       # @see https://github.com/WordPress/gutenberg/issues/44338
       run: |
         echo '{"core": null, "phpVersion": "${{ inputs.php-version }}"}' > .wp-env.override.json
-        # TEMPORARY: --debug to get a phase breakdown of `wp-env start`. Revert after measuring.
-        pnpm run env start --debug
+        pnpm run env start
 
     - name: Cache Playwright
       if: ${{ inputs.playwright == 'true' }}
