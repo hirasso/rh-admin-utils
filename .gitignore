@@ -11,12 +11,11 @@ package-lock.json
 
 # Composer
 vendor/
-php-scoper-wordpress-excludes/
 
 # Releases
 php-scoper
+config/wordpress-excludes/
 scoped/
-dist/
 
 # Other
 *.sql
