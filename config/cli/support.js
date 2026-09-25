@@ -10,7 +10,7 @@ import {
 import { fileURLToPath } from "node:url";
 import path, { basename, extname, resolve } from "node:path";
 import { execSync } from "node:child_process";
-import { chdir, cwd, env, exit } from "node:process";
+import { cwd, env, exit } from "node:process";
 import pc from "picocolors";
 import fg from "fast-glob";
 
@@ -166,32 +166,6 @@ export const debug = (...args) => {
 export const isGitHubActions = () => env.GITHUB_ACTIONS === "true";
 
 /**
- * Compare two directories
- * @param {string} dir1
- * @param {string} dir2
- * @param {string[]} ignore
- */
-export const validateDirectories = async (dir1, dir2, ignore = [".git"]) => {
-  try {
-    const pattern = ["*", ...ignore.map((ig) => `!${ig}`)];
-
-    const { files1, files2 } = {
-      files1: await fg(pattern, { cwd: dir1, onlyFiles: false }),
-      files2: await fg(pattern, { cwd: dir2, onlyFiles: false }),
-    };
-
-    return (
-      !!files1.length &&
-      !!files2.length &&
-      files1.length === files2.length &&
-      files1.every((file, index) => file === files2[index])
-    );
-  } catch (err) {
-    error("Error comparing directories:", err);
-  }
-};
-
-/**
  * Extract the first version number from a composer constraint
  * e.g. ">=8.4" => "8.4"
  * @param {string|undefined} constraint
@@ -272,9 +246,23 @@ export async function createRelease() {
   info("Ensuring php-scoper is available...");
 
   if (!existsSync(phpScoperPath)) {
-    run(`curl -sL https://github.com/humbug/php-scoper/releases/download/0.18.19/php-scoper.phar -o ${phpScoperPath}`); // prettier-ignore
+    run(`curl -sfL https://github.com/humbug/php-scoper/releases/download/0.18.19/php-scoper.phar -o ${phpScoperPath}`); // prettier-ignore
     run(`chmod +x ${phpScoperPath}`);
   }
+
+  /**
+   * Fetch the WordPress symbol excludes for php-scoper.
+   * Tracked at master on purpose: the list is a superset, so being ahead of the
+   * targeted WordPress version is harmless, while being behind would wrongly
+   * prefix newly added core symbols.
+   * @see https://github.com/snicco/php-scoper-wordpress-excludes
+   */
+  const excludesDir = "config/wordpress-excludes";
+  info("Fetching the WordPress excludes for php-scoper...");
+  mkdirSync(excludesDir, { recursive: true });
+  ["classes", "functions", "constants"].forEach((type) => {
+    run(`curl -sfL https://raw.githubusercontent.com/snicco/php-scoper-wordpress-excludes/master/generated/exclude-wordpress-${type}.json -o ${excludesDir}/exclude-wordpress-${type}.json`); // prettier-ignore
+  });
 
   info("Installing non-dev composer dependencies...");
   run("composer install --no-scripts --no-dev --quiet");
@@ -427,46 +415,6 @@ export function testRelease() {
 }
 
 /**
- * Prepare the dist folder
- * - clones the dist repo into dist/
- * - checks out the empty root commit in dist/
- * - copies all files from scoped/ into dist/
- */
-export function prepareDistFolder() {
-  headline(`Preparing Dist Folder...`);
-
-  const { fullName } = getInfosFromComposerJSON();
-  const scopedFolder = getScopedFolder();
-
-  /** Check if the scoped folder exists */
-  if (!existsSync(scopedFolder)) {
-    error(`'${scopedFolder}' scoped folder does not exist`);
-  }
-
-  /** Re-create the release files if the scoped folder is not clean */
-  if (existsSync(`${scopedFolder}/phpunit.xml`)) {
-    createRelease();
-  }
-
-  /** Initialize the dist folder if not in GitHub Actions */
-  if (env.GITHUB_ACTIONS !== "true") {
-    info(`Cloning the dist repo into dist/...`);
-    rmSync("dist", { recursive: true, force: true });
-    run(`git clone -b empty git@github.com:${fullName}-dist.git dist/`); // prettier-ignore
-  }
-
-  info(`Checking out the empty tagged root commit..`);
-  run("git -C dist checkout --detach empty");
-
-  line();
-
-  info(`Copying files from ${scopedFolder} to dist/...`);
-  cpSync(scopedFolder, "dist", { recursive: true, force: true });
-
-  success(`Dist folder preparation complete!`);
-}
-
-/**
  * Copy files from one foldder to another
  *
  * @param {string} sourceDir
@@ -495,59 +443,6 @@ export async function copyFiles(sourceDir, destDir, pattern = "**/*.{js,css}") {
 
     success(`Copied: ${sourceDir}/${relativePath} → ${destPath}`);
   });
-}
-
-/**
- * Push scoped release files to the dist repo
- */
-export async function pushReleaseToDist() {
-  const rootDir = cwd();
-  const packageInfos = getInfosFromPackageJSON();
-  const { packageName } = getInfosFromComposerJSON();
-  const packageVersion = `v${packageInfos.version}`;
-  const scopedFolder = getScopedFolder();
-
-  const onGitHub = isGitHubActions();
-  debug({ onGitHub });
-
-  const hasValidDirectories = await validateDirectories(scopedFolder, "dist");
-
-  debug({ hasValidDirectories });
-
-  if (hasValidDirectories !== true) {
-    error(
-      `The validation of the scoped and dist folder failed.`,
-      `Did you run 'release:prepare'?`,
-    );
-  }
-
-  /** Ensure the script is running in a GitHub Action */
-  if (!onGitHub) {
-    error(`${basename(__filename)} can only run on GitHub`);
-  }
-
-  if (!packageVersion) {
-    error("Empty package version");
-  }
-
-  info(`Committing and pushing new release: 'v${packageVersion}'...`);
-  line();
-
-  /** Navigate to the dist folder and perform Git operations */
-  try {
-    chdir("dist/");
-    run(`git add .`);
-    run(`git commit -m "Release: ${packageName}@${packageVersion}"`);
-    run(`git tag "${packageVersion}"`);
-    run(`git push origin "${packageVersion}"`);
-    success(`Released '${packageVersion}' to the dist repo.`);
-    chdir(rootDir);
-  } catch (err) {
-    error("An error occurred while releasing the package.", err);
-  }
-
-  /** Change back to the root dir */
-  chdir(rootDir);
 }
 
 /**
