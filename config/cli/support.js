@@ -284,15 +284,11 @@ export async function createRelease() {
   run("composer install --no-scripts --quiet");
 
   /**
-   * This needs to be done manually, since PUC causes problems when scoped.
-   * All changes to the vendor dir have to run BEFORE dumping the autolaoder!
+   * lib/ holds the bundled plugin-update-checker, which causes problems when scoped.
+   * Copying it verbatim keeps it out of php-scoper's reach, same as src/ above.
    */
-  info(`Copying plugin-update-checker/ to ${scopedFolder}/...`);
-  cpSync(
-    "vendor/yahnis-elsts/plugin-update-checker",
-    `${scopedFolder}/vendor/yahnis-elsts/plugin-update-checker`,
-    { force: true, recursive: true },
-  );
+  info(`Copying lib/ to ${scopedFolder}/...`);
+  cpSync("./lib", `${scopedFolder}/lib`, { force: true, recursive: true });
 
   /** Dump the autoloader in the scoped directory */
   info(`Dumping the autoloader in ${scopedFolder}...`);

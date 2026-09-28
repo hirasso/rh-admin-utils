@@ -5,5 +5,5 @@
     "simplified_null_return": true,
     "array_indentation": true
   },
-  "exclude": []
+  "exclude": ["lib"]
 }

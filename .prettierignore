@@ -12,3 +12,4 @@ assets-src/icons
 .vscode
 *.php
 package-lock.json
+lib

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RH\AdminUtils;
 
 use Exception;
-use SplFileInfo;
 use ZipArchive;
 
 /** @see https://github.com/humbug/php-scoper/issues/672 */
@@ -29,19 +28,6 @@ $finder = \Isolated\Symfony\Component\Finder\Finder::class;
 $extraFiles = getExtraFiles();
 
 /**
- * Exclude yahnis-elsts/plugin-update-checker
- * I don't know why, but this still scopes the plugin-update-checker.
- * Resorted to a custom patcher for now.
- */
-// $excludeFiles = array_map(
-//     static fn (SplFileInfo $fileInfo) => $fileInfo->getPathName(),
-//     iterator_to_array(
-//         $finder::create()->files()->in('vendor/yahnis-elsts/'),
-//         false
-//     )
-// );
-
-/**
  * Return the config for php-scoper
  * @see https://github.com/humbug/php-scoper/blob/main/docs/configuration.md
  */
@@ -49,7 +35,10 @@ return [
     'prefix' => __NAMESPACE__ . '\\Vendor',
     'exclude-namespaces' => [
         __NAMESPACE__,
-        /** Exclude plugin-update-checker in our plugin code */
+        /**
+         * plugin-update-checker is bundled in lib/ and copied into the release
+         * verbatim, so it must stay unprefixed wherever it is referenced.
+         */
         'YahnisElsts\PluginUpdateChecker',
     ],
     'php-version' => ComposerJSON::instance()->phpVersion,
@@ -163,7 +152,8 @@ function getWpExcludes(): array
 
 /**
  * Get all <git archive>-able files and folders.
- * Exclude any php files and anything in the src folder.
+ * Exclude any php files and anything in the src and lib folders.
+ * Both are copied into the release verbatim by the `createRelease` script.
  * @TODO: This should be done in the `createRelease` script instead
  */
 function getExtraFiles(): array
@@ -187,6 +177,7 @@ function getExtraFiles(): array
             str_ends_with($path, '/') // exclude directories
             || str_ends_with($path, '.php') // exclude any php files
             || str_starts_with($path, 'src/') // exclude the whole src folder
+            || str_starts_with($path, 'lib/') // exclude the whole lib folder
         ) {
             continue;
         }

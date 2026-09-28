@@ -4,6 +4,7 @@ parameters:
     - rh-admin-utils.php
     - src/
   scanDirectories:
+    - lib/plugin-update-checker
     - vendor/__wp
     - vendor/wp-cli/wp-cli
     - vendor/wp-phpunit/wp-phpunit
