@@ -13,7 +13,7 @@
     "format:assets": "pnpm exec prettier --write ./assets-src/ ./config/cli/",
     "format:php": "./vendor/bin/pint",
     "format": "pnpm run format:assets && pnpm run format:php",
-    "version": "pnpm changeset version && config/cli/cli.js version:patch",
+    "version": "pnpm changeset version && config/cli/cli.js version:patch && pnpm run make-pot",
     "env": "wp-env",
     "env-cli": "wp-env run cli --env-cwd=wp-content/plugins/rh-admin-utils",
     "env-tests-cli": "wp-env run tests-cli --env-cwd=wp-content/plugins/rh-admin-utils",
