@@ -124,12 +124,15 @@ final class HardenHtaccess
     /**
      * Show a notice for manually applying the .htaccess hardening code
      */
-    private static function showManualHardeningNotice(): void
+    private static function showManualHardeningNotice(string $reason = ''): void
     {
         ob_start(); ?>
         <div class="notice notice-warning is-dismissible">
             <p>
-                <?php self::getMessage('could_not_update_htaccess') ?>
+                <?php echo esc_html(self::getMessage('could_not_update_htaccess')) ?>
+                <?php if ($reason !== '') : ?>
+                    <br><em><?php echo wp_kses_post($reason) ?></em>
+                <?php endif; ?>
                 <?php echo self::renderCodeBlock(self::getHardeningDirectives()) ?>
             </p>
         </div>
@@ -170,7 +173,7 @@ final class HardenHtaccess
             self::writeToHtaccess($directives);
             add_action('admin_notices', self::showHardenSuccessNotice(...));
         } catch (Exception $e) {
-            add_action('admin_notices', self::showManualHardeningNotice(...));
+            add_action('admin_notices', fn () => self::showManualHardeningNotice($e->getMessage()));
         }
     }
 
@@ -243,7 +246,12 @@ final class HardenHtaccess
     }
 
     /**
-     * Harden the site via .htaccess
+     * Harden the site via .htaccess, then make sure the site still responds.
+     *
+     * Apache exposes no API for reading `AllowOverride`, so the only way to find out
+     * whether these directives are permitted is to apply them and request the site:
+     * a directive the vhost disallows makes Apache return a 500 for the whole
+     * directory. The previous file is restored verbatim if that happens.
      *
      * @throws Exception
      */
@@ -258,11 +266,61 @@ final class HardenHtaccess
             throw new Exception(sprintf("The <code>.htaccess</code> is not writable"));
         }
 
+        /** Establish that the site responds before touching anything */
+        $respondedBefore = self::siteResponds();
+
+        $backup = file_exists($htaccessFile) ? file_get_contents($htaccessFile) : null;
+
         if (!insert_with_markers($htaccessFile, 'AdminUtils\Hardening', explode("\n", trim($directives)))) {
             throw new Exception(sprintf("Could not update the <code>.htaccess</code> file"));
         }
 
+        /**
+         * Only trust the check if the site was reachable to begin with. Loopback
+         * requests are blocked on plenty of hosts, and treating that as a failure
+         * would mean those sites could never be hardened at all.
+         */
+        if ($respondedBefore && !self::siteResponds()) {
+            self::restoreHtaccess($htaccessFile, $backup);
+            throw new Exception(
+                'The directives made the site return a server error, so they were rolled back. '
+                . 'The vhost is most likely not allowing them via <code>AllowOverride</code>.'
+            );
+        }
+
         update_network_option(null, self::$htaccessHardenedOption, true);
+    }
+
+    /**
+     * Request the home URL and check that the site isn't erroring
+     */
+    private static function siteResponds(): bool
+    {
+        $response = wp_remote_get(home_url('/'), [
+            'timeout' => 10,
+            'redirection' => 0,
+            'sslverify' => false,
+            'headers' => ['Cache-Control' => 'no-cache'],
+        ]);
+
+        if (is_wp_error($response)) {
+            return false;
+        }
+
+        return wp_remote_retrieve_response_code($response) < 500;
+    }
+
+    /**
+     * Put the .htaccess file back the way it was before we wrote to it
+     */
+    private static function restoreHtaccess(string $file, ?string $backup): void
+    {
+        if ($backup === null) {
+            @unlink($file);
+            return;
+        }
+
+        file_put_contents($file, $backup);
     }
 
     /**
