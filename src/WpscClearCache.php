@@ -38,6 +38,16 @@ class WpscClearCache extends Singleton
     private function clear_cache_and_redirect()
     {
         global $cache_path;
+
+        /** Same capability the admin bar button requires */
+        if (!current_user_can('edit_others_posts')) {
+            wp_die(
+                __('Sorry, you are not allowed to clear the cache.', 'rh-admin-utils'),
+                '',
+                ['response' => 403]
+            );
+        }
+
         check_admin_referer('rh_clear_cache');
 
         $this->clear_cache();

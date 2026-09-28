@@ -155,3 +155,7 @@ msgstr ""
 #: src/PageRestrictionsOptionsPage.php:12
 msgid "Global Page Restrictions"
 msgstr ""
+
+#: src/WpscClearCache.php:45
+msgid "Sorry, you are not allowed to clear the cache."
+msgstr ""
