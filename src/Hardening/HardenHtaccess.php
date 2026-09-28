@@ -68,8 +68,7 @@ final class HardenHtaccess
         ob_start(); ?>
         <div class="notice notice-info">
             <p>
-                <?php _e('This site should be hardened using <code>.htaccess</code> directives:', 'rh-admin-utils') ?>
-                <?php echo self::renderCodeBlock(self::getHardeningDirectives()) ?>
+                <?php _e('This site should be hardened using <code>.htaccess</code> directives.', 'rh-admin-utils') ?>
 
                 <a
                     class="button-primary"
@@ -153,6 +152,14 @@ final class HardenHtaccess
     {
         if (!self::isHardenHtaccessActionUrl()) {
             return;
+        }
+
+        if (!current_user_can('edit_others_posts')) {
+            wp_die(
+                __('Sorry, you are not allowed to harden this site.', 'rh-admin-utils'),
+                '',
+                ['response' => 403]
+            );
         }
 
         check_admin_referer('rhau-harden-htaccess');
