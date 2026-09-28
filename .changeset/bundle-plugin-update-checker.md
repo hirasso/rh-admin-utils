@@ -1,5 +1,5 @@
 ---
-"hirasso/rh-admin-utils": patch
+"rh-admin-utils": patch
 ---
 
 Bundle plugin-update-checker in `lib/` instead of requiring it via Composer
