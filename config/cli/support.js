@@ -309,8 +309,13 @@ export async function createRelease() {
 
   line();
 
-  /** Create a zip file from the scoped directory */
+  /**
+   * Create a zip file from the scoped directory.
+   * `zip` appends to an existing archive, so remove a leftover one first – otherwise a
+   * local rebuild keeps every file that any previous build ever produced.
+   */
   info(`Creating a zip file from ${scopedFolder}...`);
+  rmSync(`${packageName}.zip`, { force: true });
   run(
     `cd ${scopedFolder} && zip -rq "../../${packageName}.zip" . && cd - >/dev/null`,
   );
