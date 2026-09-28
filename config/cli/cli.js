@@ -11,9 +11,7 @@ import {
   dd,
   createRelease,
   testRelease,
-  pushReleaseToDist,
   patchVersion,
-  prepareDistFolder,
   isAtRootDir,
   validatePHPVersion,
   testDev,
@@ -48,14 +46,6 @@ const commands = {
   "version:patch": {
     fn: patchVersion,
     description: "Patch the version in the main plugin file",
-  },
-  "dist:prepare": {
-    fn: prepareDistFolder,
-    description: "Prepare the folder for pushing to the dist repo",
-  },
-  "dist:push": {
-    fn: pushReleaseToDist,
-    description: "Push the prepared dist folder to the dist repo",
   },
   // "test:dev": {
   //   fn: testDev,

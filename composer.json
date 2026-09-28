@@ -39,8 +39,7 @@
   "require": {
     "php": ">=8.4",
     "composer/installers": "^1.0 || ^2.0",
-    "sniccowp/php-scoper-wordpress-excludes": "*",
-    "symfony/var-dumper": "^7.1",
+    "symfony/var-dumper": "*",
     "yahnis-elsts/plugin-update-checker": "^5.6"
   },
   "require-dev": {
@@ -52,7 +51,6 @@
     "phpunit/phpunit": "^11.0",
     "pronamic/advanced-custom-fields-pro": "dev-main",
     "roots/wordpress": "^6.8",
-    "symfony/var-dumper": "^7.1",
     "szepeviktor/phpstan-wordpress": "^2.0",
     "vinkla/extended-acf": "^15.0",
     "wp-cli/wp-cli": "^2.12",

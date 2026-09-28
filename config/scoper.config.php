@@ -80,10 +80,7 @@ return [
     'finders' => [
         $finder::create()->files()->in('vendor')->ignoreVCS(true)
             ->notName('/.*\\.sh|composer\\.(json|lock)/')
-            ->exclude([
-                'sniccowp/php-scoper-wordpress-excludes',
-                'bin'
-            ]),
+            ->exclude(['bin']),
         $finder::create()->append(glob('assets/*')),
         $finder::create()->append($extraFiles),
     ]
@@ -145,12 +142,12 @@ final readonly class ComposerJSON
 }
 
 /**
- * Read WordPress excludes from sniccowp/php-scoper-wordpress-excludes
+ * Read the WordPress excludes fetched by the release script
  * @see https://github.com/humbug/php-scoper/blob/main/docs/further-reading.md#wordpress-support
  */
 function getWpExcludes(): array
 {
-    $baseDir = dirname(__DIR__) . '/vendor/sniccowp/php-scoper-wordpress-excludes/generated';
+    $baseDir = __DIR__ . '/wordpress-excludes';
 
     $excludes = [];
 

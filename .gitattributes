@@ -11,9 +11,15 @@ bin export-ignore
 config/ export-ignore
 pint.json export-ignore
 pnpm-workspace.yaml export-ignore
+tools export-ignore
 
 # composer
 composer.lock export-ignore
 composer.dist.json export-ignore
 
 *.md export-ignore
+
+# Testing and static analysis
+tests export-ignore
+phpunit.xml.dist export-ignore
+phpstan.neon export-ignore

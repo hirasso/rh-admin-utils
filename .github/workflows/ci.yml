@@ -133,20 +133,9 @@ jobs:
           pnpm build
           zip -rq assets.zip assets
 
-      - name: Checkout Distribution Repository
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-        with:
-          repository: ${{ needs.packageInfos.outputs.fullName }}-dist
-          ref: empty
-          path: dist
-          # secrets.GITHUB_TOKEN is not enough to push to the dist repo (needed later)
-          token: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
-
       # Run this before changesets, to make sure releases actually work
-      - name: Create Release Files and Prepare Dist Folder
-        run: |
-          config/cli/cli.js release:create
-          config/cli/cli.js dist:prepare
+      - name: Create Release Files
+        run: config/cli/cli.js release:create
 
       # Run changesets action either if there are unreleased changesets (= a PR must be created)
       # or if the commit message matches the release PR (= new versions must be published to NPM)
@@ -178,8 +167,3 @@ jobs:
           omitNameDuringUpdate: true
           omitPrereleaseDuringUpdate: true
           artifacts: "${{ needs.packageInfos.outputs.packageName }}.zip,assets.zip"
-
-      - name: Push release to dist repo
-        if: steps.cs.outputs.published == 'true'
-        run: |
-          config/cli/cli.js dist:push
