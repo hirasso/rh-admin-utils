@@ -11,6 +11,7 @@ bin export-ignore
 config/ export-ignore
 pint.json export-ignore
 pnpm-workspace.yaml export-ignore
+tools export-ignore
 
 # composer
 composer.lock export-ignore
