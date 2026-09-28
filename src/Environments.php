@@ -127,8 +127,8 @@ class Environments extends Singleton
                 <?php if ($environment->name === $this->env) {
                     continue;
                 } ?>
-                <rhau-environment-link tabindex="0" data-remote-origin="<?= $environment->origin ?>">
-                    <?= ucfirst($environment->name) ?>
+                <rhau-environment-link tabindex="0" data-remote-origin="<?= esc_attr($environment->origin) ?>">
+                    <?= esc_html(ucfirst($environment->name)) ?>
                 </rhau-environment-link>
             <?php endforeach; ?>
         </dialog>

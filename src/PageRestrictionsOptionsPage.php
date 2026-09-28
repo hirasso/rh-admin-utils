@@ -50,7 +50,7 @@ class PageRestrictionsOptionsPage
     {
         ?>
         <div class="wrap">
-            <h2><?= self::$page_title ?></h2>
+            <h2><?= esc_html(self::$page_title) ?></h2>
             <form method="post" action="options.php">
                 <?php settings_fields('rhau_restrictions_options'); ?>
                 <?php do_settings_sections('rhau-permissions-section'); ?>
@@ -111,7 +111,7 @@ class PageRestrictionsOptionsPage
                 $checked = checked(array_key_exists($file, $protected_templates), true, false);
                 ?>
                 <label for="<?= $id ?>">
-                    <input id="<?= $id ?>" type="checkbox" name="rhau_protected_templates[]" value="<?= $file ?>" <?= $checked ?>></input>
+                    <input id="<?= esc_attr($id) ?>" type="checkbox" name="rhau_protected_templates[]" value="<?= esc_attr($file) ?>" <?= $checked ?>></input>
                     <?php echo esc_html($name); ?>
                 </label><br>
             <?php endforeach; ?>

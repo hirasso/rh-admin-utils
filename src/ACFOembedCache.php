@@ -284,7 +284,7 @@ class ACFOembedCache
 
             <a
                 class="button button-primary button-large"
-                href="<?= get_delete_post_link(get_post(), null, true) ?>">
+                href="<?= esc_url(get_delete_post_link(get_post(), null, true)) ?>">
                 Flush oEmbed Cache
             </a>
 

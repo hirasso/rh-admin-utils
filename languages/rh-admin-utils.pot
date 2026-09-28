@@ -131,7 +131,13 @@ msgstr ""
 msgid "Sorry, you are not allowed to harden this site."
 msgstr ""
 
-#: src/PageRestrictions.php:402
+#. translators: 1: post title, 2: post ID
+#: src/PageRestrictions.php:254
+#, php-format
+msgid "Can't delete post <strong>%1$s (#%2$d)</strong> as it is locked."
+msgstr ""
+
+#: src/PageRestrictions.php:413
 msgid "Locked"
 msgstr ""
 

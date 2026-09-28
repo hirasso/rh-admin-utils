@@ -72,7 +72,7 @@ final class HardenHtaccess
 
                 <a
                     class="button-primary"
-                    href="<?= $url ?>">
+                    href="<?= esc_url($url) ?>">
                     <?= __('Apply directives now', 'rh-admin-utils') ?>
                 </a>
             </p>

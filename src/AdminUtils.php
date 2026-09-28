@@ -156,8 +156,8 @@ class AdminUtils extends Singleton
         }
         foreach ($notices as $notice) {
             ob_start() ?>
-            <div class="notice notice-<?= $notice['type'] ?> <?= $notice['is_dismissible'] ? 'is-dismissible' : '' ?>">
-                <p><?= $notice['message'] ?></p>
+            <div class="notice notice-<?= esc_attr($notice['type']) ?> <?= $notice['is_dismissible'] ? 'is-dismissible' : '' ?>">
+                <p><?= wp_kses_post($notice['message']) ?></p>
             </div>
             <?php echo ob_get_clean();
         }

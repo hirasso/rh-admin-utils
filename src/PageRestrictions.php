@@ -155,12 +155,13 @@ class PageRestrictions
         }
 
         $title = __('Permalink:');
-        $permalink = get_permalink($post_id);
-        $display_permalink = preg_replace('/\/([^\/]*)\/$/', "/<strong>$1</strong>/", $permalink);
+        $permalink = (string) get_permalink($post_id);
+        /** Escape before adding the markup, so the <strong> survives */
+        $display_permalink = preg_replace('/\/([^\/]*)\/$/', "/<strong>$1</strong>/", esc_html($permalink));
         $locked_icon = self::get_locked_icon();
 
-        $html = "<strong>$title</strong>\n";
-        $html .= "<a href=\"$permalink\" target=\"_blank\">$display_permalink</a> $locked_icon\n";
+        $html = '<strong>' . esc_html($title) . "</strong>\n";
+        $html .= '<a href="' . esc_url($permalink) . "\" target=\"_blank\">$display_permalink</a> $locked_icon\n";
         return $html;
     }
 
@@ -248,7 +249,12 @@ class PageRestrictions
     public static function before_delete_post(int $post_id, \WP_Post $post): void
     {
         if (self::is_locked($post)) {
-            wp_die(__("Can't delete post <strong>{$post->post_title} (#{$post->ID})</strong> as it is locked.", 'rh-admin-utils'));
+            wp_die(sprintf(
+                /* translators: 1: post title, 2: post ID */
+                __('Can\'t delete post <strong>%1$s (#%2$d)</strong> as it is locked.', 'rh-admin-utils'),
+                esc_html($post->post_title),
+                $post->ID
+            ));
         }
     }
 
@@ -351,6 +357,11 @@ class PageRestrictions
         string $hidden_field_value
     ): void {
         $locked_icon = self::get_locked_icon();
+        $label_prefix = esc_html($label_prefix);
+        $label_title = esc_html($label_title);
+        $hidden_field_name = esc_attr($hidden_field_name);
+        $hidden_field_value = esc_attr($hidden_field_value);
+
         $out = "<p class=\"post-attributes-label-wrapper\"><strong>$label_prefix</strong>:<br>$label_title $locked_icon</p>";
         $out .= "<input type='hidden' name='$hidden_field_name' value='$hidden_field_value'></input>";
         echo $out;
