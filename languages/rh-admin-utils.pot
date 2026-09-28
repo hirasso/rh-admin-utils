@@ -61,8 +61,14 @@ msgstr ""
 msgid "There are %d oEmbed responses cached globally."
 msgstr ""
 
-#: src/ACFOembedWhitelist.php:29
+#: src/ACFOembedWhitelist.php:30
 msgid "Whitelist"
+msgstr ""
+
+#. translators: %s: comma-separated list of allowed hosts
+#: src/ACFOembedWhitelist.php:84
+#, php-format
+msgid "Please provide a valid value (allowed: %s)."
 msgstr ""
 
 #: src/ACFRestrictFieldAccess.php:22
