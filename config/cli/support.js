@@ -8,7 +8,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { fileURLToPath } from "node:url";
-import path, { basename, extname, resolve } from "node:path";
+import path, { basename, dirname, extname, resolve } from "node:path";
 import { execSync } from "node:child_process";
 import { cwd, env, exit } from "node:process";
 import pc from "picocolors";
@@ -53,11 +53,11 @@ export function getInfosFromPackageJSON() {
 }
 
 /**
- * Get the path to the scoped folder
+ * Get the path to the release build folder
  */
-export function getScopedFolder() {
+export function getBuildFolder() {
   const { packageName } = getInfosFromComposerJSON();
-  return `scoped/${packageName}`;
+  return `build/${packageName}`;
 }
 
 /**
@@ -188,13 +188,10 @@ const extractHeader = (contents, header) =>
  * Each of these is read by a different consumer:
  * - the main plugin file: WordPress, when activating or installing an upload
  * - readme.txt: plugin-update-checker, when reporting available updates
- * - composer.json: php-scoper, via config/scoper.config.php
- * - composer.dist.json: composer, for installs of the released plugin
+ * - composer.json: composer, for both composer installs and Strauss
  */
 export function validatePHPVersion() {
   const { packageName, dependencies } = getInfosFromComposerJSON();
-  const distDependencies =
-    JSON.parse(readFile("composer.dist.json") || "{}").require || {};
 
   /** @type {Record<string, string|undefined>} */
   const versions = {
@@ -204,7 +201,6 @@ export function validatePHPVersion() {
     ),
     "readme.txt": extractHeader(readFile("readme.txt"), "Requires PHP"),
     "composer.json": extractVersion(dependencies.php),
-    "composer.dist.json": extractVersion(distDependencies.php),
   };
 
   const declarations = Object.entries(versions)
@@ -223,10 +219,12 @@ export function validatePHPVersion() {
 }
 
 /**
- * Create release files for usage in the release asset and dist repo
- * - scopes dependency namespaces using php-scoper
- * - creates a folder scoped/ with all required plugin files
- * - creates a zip file from the scoped/ folder, named after the package
+ * Create the release asset.
+ *
+ * The plugin ships identically through both channels: composer serves the git archive
+ * of the tag, and this zip is that same archive plus freshly built assets. Dependencies
+ * are already prefixed into vendor-prefixed/ by Strauss and committed, so there is
+ * nothing to scope at release time.
  */
 export async function createRelease() {
   headline(`Creating Release Files...`);
@@ -234,97 +232,163 @@ export async function createRelease() {
   /** Bail early if the required PHP version got out of sync */
   validatePHPVersion();
 
+  /** Bail early if the committed prefixed dependencies are stale */
+  await verifyPrefixedDependencies();
+
   const { packageName } = getInfosFromComposerJSON();
-  const scopedFolder = getScopedFolder();
+  const buildFolder = getBuildFolder();
 
   line();
-  info(`Creating a scoped release in ${blue(scopedFolder)}...`);
+  info(`Creating a release in ${blue(buildFolder)}...`);
   line();
-
-  /** Ensure php-scoper is available */
-  const phpScoperPath = "config/php-scoper";
-  info("Ensuring php-scoper is available...");
-
-  if (!existsSync(phpScoperPath)) {
-    run(`curl -sfL https://github.com/humbug/php-scoper/releases/download/0.18.19/php-scoper.phar -o ${phpScoperPath}`); // prettier-ignore
-    run(`chmod +x ${phpScoperPath}`);
-  }
 
   /**
-   * Fetch the WordPress symbol excludes for php-scoper.
-   * Tracked at master on purpose: the list is a superset, so being ahead of the
-   * targeted WordPress version is harmless, while being behind would wrongly
-   * prefix newly added core symbols.
-   * @see https://github.com/snicco/php-scoper-wordpress-excludes
+   * Export the tracked files, honouring the export-ignore rules in .gitattributes.
+   * --worktree-attributes so a change to .gitattributes takes effect before it is committed.
    */
-  const excludesDir = "config/wordpress-excludes";
-  info("Fetching the WordPress excludes for php-scoper...");
-  mkdirSync(excludesDir, { recursive: true });
-  ["classes", "functions", "constants"].forEach((type) => {
-    run(`curl -sfL https://raw.githubusercontent.com/snicco/php-scoper-wordpress-excludes/master/generated/exclude-wordpress-${type}.json -o ${excludesDir}/exclude-wordpress-${type}.json`); // prettier-ignore
-  });
-
-  info("Installing non-dev composer dependencies...");
-  run("composer install --no-scripts --no-dev --quiet");
-
-  info("Scoping non-dev dependencies...");
-  rmSync(scopedFolder, { recursive: true, force: true });
-  run(`${phpScoperPath} add-prefix --quiet --output-dir=${scopedFolder} --config=config/scoper.config.php`); // prettier-ignore
-  success("Successfully scoped all namespaces!");
-  line();
-
-  info(`Copying main plugin file and src directory into ${scopedFolder}...`);
-  warn(`If ever required, patch src files here with prefixed namespaces here`);
-  cpSync("./src", `${scopedFolder}/src`, { recursive: true });
-  (await fg("*.php")).forEach((file) => {
-    cpSync(`./${file}`, `${scopedFolder}/${file}`);
-  });
-
-  info("Re-installing dev depdendencies...");
-  run("composer install --no-scripts --quiet");
+  info(`Exporting tracked files to ${buildFolder}...`);
+  rmSync(dirname(buildFolder), { recursive: true, force: true });
+  mkdirSync(buildFolder, { recursive: true });
+  run(`git archive --worktree-attributes --format=tar HEAD | tar -x -C ${buildFolder}`); // prettier-ignore
 
   /**
-   * lib/ holds the bundled plugin-update-checker, which causes problems when scoped.
-   * Copying it verbatim keeps it out of php-scoper's reach, same as src/ above.
+   * Overlay the built assets. They are committed, but `pnpm build` runs immediately
+   * before this in CI, so prefer the working tree over whatever is in HEAD.
    */
-  info(`Copying lib/ to ${scopedFolder}/...`);
-  cpSync("./lib", `${scopedFolder}/lib`, { force: true, recursive: true });
-
-  /** Dump the autoloader in the scoped directory */
-  info(`Dumping the autoloader in ${scopedFolder}...`);
-  run(
-    `composer dump-autoload --working-dir=${scopedFolder} --classmap-authoritative`,
-  );
-
-  line();
-
-  /** Clean up the scoped directory */
-  info(`Cleaning up ${scopedFolder}...`);
-  ["composer.json", "composer.lock"].forEach((file) => {
-    rmSync(resolve(`${cwd()}/${scopedFolder}`, file), { force: true });
-  });
-
-  info(`Overwriting the composer.json in ${scopedFolder}/...`);
-  cpSync("composer.dist.json", `${scopedFolder}/composer.json`);
+  info(`Overlaying freshly built assets into ${buildFolder}...`);
+  cpSync("./assets", `${buildFolder}/assets`, { recursive: true, force: true });
 
   line();
 
   /**
-   * Create a zip file from the scoped directory.
+   * Create a zip file from the build folder.
    * `zip` appends to an existing archive, so remove a leftover one first – otherwise a
    * local rebuild keeps every file that any previous build ever produced.
    */
-  info(`Creating a zip file from ${scopedFolder}...`);
+  info(`Creating a zip file from ${buildFolder}...`);
   rmSync(`${packageName}.zip`, { force: true });
-  run(
-    `cd ${scopedFolder} && zip -rq "../../${packageName}.zip" . && cd - >/dev/null`,
-  );
+  run(`cd ${buildFolder} && zip -rq "${resolve(cwd(), `${packageName}.zip`)}" . && cd - >/dev/null`); // prettier-ignore
 
   line();
-  success(`Created a scoped release folder: ${blue(scopedFolder)}`);
-  success(`Created a scoped release asset: ${blue(`${packageName}.zip`)}`);
+  success(`Created a release folder: ${blue(buildFolder)}`);
+  success(`Created a release asset: ${blue(`${packageName}.zip`)}`);
   line();
 }
+
+/**
+ * Verify the committed vendor-prefixed/ is in sync with composer.lock, and that
+ * prefixing actually covered every symbol.
+ *
+ * Committed build output drifts silently, so this runs in CI as well as at release time.
+ */
+export async function verifyPrefixedDependencies() {
+  const { prefixedNamespaces, namespacePrefix } = getStraussConfig();
+
+  info("Regenerating the prefixed dependencies...");
+  run("composer prefix --quiet");
+
+  /**
+   * Compare against the index rather than `git status`, so that a freshly staged
+   * vendor-prefixed/ counts as in sync: what matters is that regenerating changed
+   * nothing, not whether the result has been committed yet.
+   */
+  const capture = (command) => execSync(command, { encoding: "utf-8" }).trim();
+
+  const changed = [
+    capture("git diff --name-only -- vendor-prefixed"),
+    capture("git ls-files --others --exclude-standard -- vendor-prefixed"),
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  if (changed.length) {
+    error(
+      `vendor-prefixed/ is out of sync with composer.lock. Run ${blue("composer prefix")} and commit the result:`,
+      `\n${changed}`,
+    );
+  }
+
+  success("vendor-prefixed/ is in sync with composer.lock");
+
+  /**
+   * Guard against symbols Strauss can miss: dynamic class names, `class_exists('Foo\\Bar')`,
+   * class names in config arrays. Those fail at runtime, in production, on whichever
+   * path no test covered.
+   */
+  info("Checking that no unprefixed namespaces survived...");
+
+  const files = await fg("**/*.php", {
+    cwd: "vendor-prefixed",
+    absolute: true,
+  });
+  const leaked = [];
+
+  for (const file of files) {
+    /** Normalise escaped backslashes so `'Foo\\Bar'` inside a string is matched too */
+    const contents = readFileSync(file, "utf-8").replaceAll("\\\\", "\\");
+
+    for (const prefixedNamespace of prefixedNamespaces) {
+      const pattern = new RegExp(
+        `(?<!${escapeRegExp(`${namespacePrefix}\\`)})\\b${escapeRegExp(prefixedNamespace)}\\\\`,
+      );
+      if (pattern.test(contents)) {
+        leaked.push(
+          `  - ${prefixedNamespace} in ${path.relative(cwd(), file)}`,
+        );
+      }
+    }
+  }
+
+  if (leaked.length) {
+    error(`Unprefixed namespaces survived in vendor-prefixed/:`, `\n${leaked.join("\n")}`); // prettier-ignore
+  }
+
+  success("No unprefixed namespaces found in vendor-prefixed/");
+}
+
+/**
+ * Read the Strauss config, deriving the namespaces that were actually prefixed
+ * from the generated autoloader rather than hardcoding a list.
+ *
+ * The full namespaces matter, not just their vendor segment: var-dumper carries
+ * `use` statements for optional integrations it was never shipped with
+ * (Symfony\\Component\\HttpFoundation, ...), and those are correctly left alone.
+ *
+ * @return {{ prefixedNamespaces: string[], namespacePrefix: string }}
+ */
+function getStraussConfig() {
+  const composerJson = JSON.parse(readFile("composer.json") || "{}");
+  const strauss = composerJson.extra?.strauss ?? {};
+  const namespacePrefix = (strauss.namespace_prefix ?? "").replace(/\\+$/, "");
+
+  if (!namespacePrefix) {
+    error(`No extra.strauss.namespace_prefix found in composer.json`);
+  }
+
+  const psr4 = readFile("vendor-prefixed/composer/autoload_psr4.php") || "";
+
+  /** e.g. "RH\\AdminUtils\\Vendor\\Symfony\\Component\\VarDumper\\" => "Symfony\\Component\\VarDumper" */
+  const prefixedNamespaces = [
+    ...new Set(
+      [...psr4.matchAll(/'((?:[A-Za-z0-9_]+\\\\)+)'\s*=>/g)]
+        .map(([, ns]) => ns.replaceAll("\\\\", "\\").replace(/\\+$/, ""))
+        .filter((ns) => ns.startsWith(`${namespacePrefix}\\`))
+        .map((ns) => ns.slice(namespacePrefix.length + 1)),
+    ),
+  ];
+
+  if (!prefixedNamespaces.length) {
+    error(`No prefixed namespaces found in vendor-prefixed/composer/autoload_psr4.php`); // prettier-ignore
+  }
+
+  return { prefixedNamespaces, namespacePrefix };
+}
+
+/**
+ * Escape a string for literal use inside a RegExp
+ * @param {string} value
+ */
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /**
  * Read a file, fall back to undefined if it doesn't exist
@@ -373,9 +437,9 @@ function writeJsonFile(name, data) {
 export function testRelease() {
   createRelease();
 
-  const scopedFolder = getScopedFolder();
+  const buildFolder = getBuildFolder();
 
-  // info(`Installing dev dependencies in ${scopedFolder}...`);
+  // info(`Installing dev dependencies in ${buildFolder}...`);
   // const { devDependencies } = getInfosFromComposerJSON();
 
   // const requireDev = Object.entries(devDependencies).reduce(
@@ -391,7 +455,7 @@ export function testRelease() {
   //   [],
   // );
 
-  // run(`composer require --dev ${requireDev.join(" ")} --quiet --working-dir=${scopedFolder} --with-all-dependencies`); // prettier-ignore
+  // run(`composer require --dev ${requireDev.join(" ")} --quiet --working-dir=${buildFolder} --with-all-dependencies`); // prettier-ignore
 
   if (!isGitHubActions()) {
     /** @type {{ plugins: string[] }} */
@@ -399,19 +463,19 @@ export function testRelease() {
     const overrides = JSON.parse(readFile(".wp-env.override.json") || "{}");
 
     overrides.plugins = plugins.map((path) => {
-      // return path.replace(/^\.\/?/, `./${scopedFolder}/`);
-      return path === "." ? `./${scopedFolder}/` : path;
+      // return path.replace(/^\.\/?/, `./${buildFolder}/`);
+      return path === "." ? `./${buildFolder}/` : path;
     });
 
     writeJsonFile(".wp-env.override.json", overrides);
     debug("Contents of .wp-env.override.json:", overrides);
 
-    info(`Re-Starting wp-env with ${scopedFolder}...`);
+    info(`Re-Starting wp-env with ${buildFolder}...`);
 
     run(`wp-env start --update`);
   }
 
-  info(`Running e2e tests against ${scopedFolder}...`);
+  info(`Running e2e tests against ${buildFolder}...`);
   run("pnpm run test:e2e");
 }
 

@@ -11,6 +11,7 @@ import {
   dd,
   createRelease,
   testRelease,
+  verifyPrefixedDependencies,
   patchVersion,
   isAtRootDir,
   validatePHPVersion,
@@ -36,7 +37,12 @@ const __filename = fileURLToPath(import.meta.url);
 const commands = {
   "release:create": {
     fn: createRelease,
-    description: "Create a scoped release",
+    description: "Create the release folder and zip asset",
+  },
+  "verify:prefixed": {
+    fn: verifyPrefixedDependencies,
+    description:
+      "Verify the committed vendor-prefixed/ is in sync and fully prefixed",
   },
   "validate:php": {
     fn: validatePHPVersion,

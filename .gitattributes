@@ -15,7 +15,10 @@ tools export-ignore
 
 # composer
 composer.lock export-ignore
-composer.dist.json export-ignore
+
+# Prefixed dependencies: shipped in both channels, but collapsed in diffs
+vendor-prefixed/** linguist-vendored
+vendor-prefixed/** -diff
 
 *.md export-ignore
 

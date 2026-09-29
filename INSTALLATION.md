@@ -1,5 +1,15 @@
 # Installation
 
+The plugin ships as one directory regardless of how it is installed: its dependencies
+are prefixed and committed, so the composer package and the release zip contain the same
+files. Sites that install via composer can therefore also update through the WP admin
+without leaving stale dependencies behind in the site's vendor folder.
+
+Note that a WP admin update still leaves the site's `composer.lock` reporting the
+version that composer installed. Run `composer update hirasso/rh-admin-utils` afterwards
+to bring the lock back in line, or the next `composer install` will reinstate the older
+version.
+
 ## Via Composer
 
 ```shell
