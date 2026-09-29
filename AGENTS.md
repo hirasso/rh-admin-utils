@@ -20,8 +20,8 @@ Look into composer.json and package.json for the available commands
 
 ## After making changes
 
-- **PHP files** → run `ddev exec pnpm analyse:php`
-- **TypeScript files** → run `ddev exec pnpm analyse:ts`
+- write tests where appropriate
+- keep tests lean
 
 ## Commits and pull requests
 
