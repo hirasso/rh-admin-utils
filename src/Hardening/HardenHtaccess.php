@@ -247,11 +247,9 @@ final class HardenHtaccess
 
     /**
      * Harden the site via .htaccess, then make sure the site still responds.
-     *
-     * Apache exposes no API for reading `AllowOverride`, so the only way to find out
-     * whether these directives are permitted is to apply them and request the site:
-     * a directive the vhost disallows makes Apache return a 500 for the whole
-     * directory. The previous file is restored verbatim if that happens.
+     * Apache exposes no API for reading `AllowOverride`, so the only way to know a
+     * directive is permitted is to apply it and request the site: a disallowed one
+     * 500s the whole directory. The previous file is then restored verbatim.
      *
      * @throws Exception
      */
@@ -275,11 +273,7 @@ final class HardenHtaccess
             throw new Exception(sprintf("Could not update the <code>.htaccess</code> file"));
         }
 
-        /**
-         * Only trust the check if the site was reachable to begin with. Loopback
-         * requests are blocked on plenty of hosts, and treating that as a failure
-         * would mean those sites could never be hardened at all.
-         */
+        /** Only trust the check if the site responded before: plenty of hosts block loopback requests */
         if ($respondedBefore && !self::siteResponds()) {
             self::restoreHtaccess($htaccessFile, $backup);
             throw new Exception(

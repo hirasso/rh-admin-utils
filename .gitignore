@@ -13,9 +13,7 @@ package-lock.json
 /vendor/
 
 # Releases
-php-scoper
-config/wordpress-excludes/
-scoped/
+tools/strauss.phar
 
 # Other
 *.sql
@@ -31,3 +29,5 @@ scoped/
 playwright-results.json
 .wp-env.override.json
 .phpunit.result.cache
+# Releases
+build/

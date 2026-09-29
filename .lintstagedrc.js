@@ -7,11 +7,12 @@ export default {
     () => "pnpm run build", // ← ignore files
     () => "git add ./assets", // ← ignore files
   ],
-  "**/*.php": [
+  // Our own sources only: lib/ and vendor-prefixed/ are third-party
+  "{*.php,{src,tests,tools}/**/*.php}": [
     "vendor/bin/pint",
     () => "composer analyse", // ← ignore files (otherwise pest files would be analysed, too)
     () => "tools/make-pot.sh", // ← ignore files
     () => "git add ./languages", // ← ignore files
   ],
-  "*": () => "config/cli/cli.js validate:php",
+  "*": () => "pnpm run validate:php",
 };

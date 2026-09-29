@@ -35,6 +35,14 @@ jobs:
       - name: Run PHPStan
         run: composer analyse
 
+      # extra.strauss is part of composer's content hash, so changing it silently
+      # invalidates the lock
+      - name: Validate composer.json and composer.lock
+        run: composer validate --no-check-all --no-check-publish
+
+      - name: Verify prefixed dependencies
+        run: pnpm run verify:prefixed
+
   phpTests:
     name: PHP ${{ matrix.php }} Tests
     runs-on: ubuntu-latest
@@ -91,7 +99,6 @@ jobs:
       # - e2eTests
     outputs:
       fullName: ${{ steps.packageInfos.outputs.fullName }}
-      vendorName: ${{ steps.packageInfos.outputs.vendorName }}
       packageName: ${{ steps.packageInfos.outputs.packageName }}
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
@@ -101,7 +108,6 @@ jobs:
         run: |
           NAME=$(jq -r '.name' composer.json)
           echo "fullName=${NAME}" >> $GITHUB_OUTPUT
-          echo "vendorName=${NAME%%/*}" >> $GITHUB_OUTPUT
           echo "packageName=${NAME#*/}" >> $GITHUB_OUTPUT
           cat "$GITHUB_OUTPUT"
 
@@ -135,7 +141,7 @@ jobs:
 
       # Run this before changesets, to make sure releases actually work
       - name: Create Release Files
-        run: config/cli/cli.js release:create
+        run: pnpm run release:create
 
       # Run changesets action either if there are unreleased changesets (= a PR must be created)
       # or if the commit message matches the release PR (= new versions must be published to NPM)

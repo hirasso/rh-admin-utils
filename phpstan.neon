@@ -5,6 +5,7 @@ parameters:
     - src/
   scanDirectories:
     - lib/plugin-update-checker
+    - vendor-prefixed
     - vendor/__wp
     - vendor/wp-cli/wp-cli
     - vendor/wp-phpunit/wp-phpunit

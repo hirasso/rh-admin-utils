@@ -13,3 +13,4 @@ assets-src/icons
 *.php
 package-lock.json
 lib
+vendor-prefixed
