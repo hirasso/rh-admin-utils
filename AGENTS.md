@@ -13,6 +13,8 @@ Look into composer.json and package.json for the available commands
 - derive from the existing code
 - keep comments as short as possible
 - do not add comments if not really required
+- also keep changesets as brief as possible
+- if a changeset already exists that contains obsolete information, delete it
 
 ## Before making changes
 
