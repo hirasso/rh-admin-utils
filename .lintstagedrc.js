@@ -14,5 +14,5 @@ export default {
     () => "tools/make-pot.sh", // ← ignore files
     () => "git add ./languages", // ← ignore files
   ],
-  "*": () => "tools/cli/cli.js validate:php",
+  "*": () => "pnpm run validate:php",
 };
