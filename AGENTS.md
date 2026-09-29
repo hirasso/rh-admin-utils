@@ -36,3 +36,8 @@ Look into composer.json and package.json for the available commands
 
 - No commits without explicit request
 - do not edit TODO files
+
+# Avoid conflicts with multiple sessions
+
+- every new claude session creates a new branch off main if there are code changes
+- when the task is complete, merge back into main without asking
