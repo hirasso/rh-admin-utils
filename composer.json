@@ -37,7 +37,7 @@
     }
   ],
   "require": {
-    "php": ">=8.4",
+    "php": ">=8.4.0",
     "composer/installers": "^1.0 || ^2.0"
   },
   "require-dev": {
@@ -110,6 +110,9 @@
     ]
   },
   "config": {
+    "platform": {
+      "php": "8.4.0"
+    },
     "allow-plugins": {
       "composer/installers": true,
       "pestphp/pest-plugin": true,

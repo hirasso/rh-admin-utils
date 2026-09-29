@@ -20,7 +20,7 @@ import {
  * current version in the package.json. That one is the source of
  * truth, as releases are handled by @changesets/action.
  */
-export async function patchVersion() {
+export async function patchPluginVersion() {
   const { version } = JSON.parse(readFileSync(path.join(cwd(), "package.json"), "utf8")); // prettier-ignore
   const { packageName } = getInfosFromComposerJSON();
 
@@ -65,4 +65,4 @@ export async function patchVersion() {
   line();
 }
 
-runAsScript(import.meta.url, patchVersion);
+runAsScript(import.meta.url, patchPluginVersion);
