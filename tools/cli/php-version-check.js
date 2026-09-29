@@ -33,10 +33,13 @@ const extractHeader = (contents, header) =>
  * Each of these is read by a different consumer:
  * - the main plugin file: WordPress, when activating or installing an upload
  * - readme.txt: plugin-update-checker, when reporting available updates
- * - composer.json: composer, for both composer installs and Strauss
+ * - composer.json `require`: composer, for both composer installs and Strauss
+ * - composer.json `config.platform`: composer, when resolving. Without it, resolution
+ *   happens against whatever PHP is installed locally, so a dependency needing a newer
+ *   patch version than we support would be picked without complaint.
  */
-export function validatePHPVersion() {
-  const { packageName, dependencies } = getInfosFromComposerJSON();
+export function checkPHPVersion() {
+  const { packageName, dependencies, platform } = getInfosFromComposerJSON();
 
   /** @type {Record<string, string|undefined>} */
   const versions = {
@@ -45,7 +48,8 @@ export function validatePHPVersion() {
       "Requires PHP",
     ),
     "readme.txt": extractHeader(readFile("readme.txt"), "Requires PHP"),
-    "composer.json": extractVersion(dependencies.php),
+    "composer.json (require)": extractVersion(dependencies.php),
+    "composer.json (config.platform)": extractVersion(platform.php),
   };
 
   const declarations = Object.entries(versions)
@@ -63,4 +67,4 @@ export function validatePHPVersion() {
   success(`Required PHP version is consistently declared as ${Object.values(versions)[0]}`); // prettier-ignore
 }
 
-runAsScript(import.meta.url, validatePHPVersion);
+runAsScript(import.meta.url, checkPHPVersion);
