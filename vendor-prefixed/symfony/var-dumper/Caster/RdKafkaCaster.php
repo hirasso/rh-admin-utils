@@ -29,7 +29,7 @@ use RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Cloner\Stub;
  *
  * @author Romain Neutron <imprec@gmail.com>
  *
- * @internal
+ * @internal since Symfony 7.3
  */
 class RdKafkaCaster
 {

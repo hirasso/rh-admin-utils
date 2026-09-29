@@ -20,7 +20,7 @@ use RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Cloner\Stub;
  *
  * @final
  *
- * @internal
+ * @internal since Symfony 7.3
  */
 class XmlReaderCaster
 {

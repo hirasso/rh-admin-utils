@@ -17,7 +17,7 @@ use RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Cloner\Stub;
 /**
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  *
- * @internal
+ * @internal since Symfony 7.3
  */
 final class UuidCaster
 {

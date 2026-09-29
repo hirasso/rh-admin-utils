@@ -37,7 +37,7 @@
     }
   ],
   "require": {
-    "php": ">=8.4.1",
+    "php": ">=8.4",
     "composer/installers": "^1.0 || ^2.0"
   },
   "require-dev": {
@@ -49,7 +49,7 @@
     "phpunit/phpunit": "^11.0",
     "pronamic/advanced-custom-fields-pro": "dev-main",
     "roots/wordpress": "^6.8",
-    "symfony/var-dumper": "*",
+    "symfony/var-dumper": "^7.4",
     "szepeviktor/phpstan-wordpress": "^2.0",
     "vinkla/extended-acf": "^15.0",
     "wp-cli/i18n-command": "^2.7",

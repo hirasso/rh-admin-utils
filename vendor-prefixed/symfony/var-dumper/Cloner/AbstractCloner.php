@@ -29,7 +29,6 @@ abstract class AbstractCloner implements ClonerInterface
 
         'RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\CutStub' => ['RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\StubCaster', 'castStub'],
         'RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\CutArrayStub' => ['RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\StubCaster', 'castCutArray'],
-        'RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\ClassDumpStub' => ['RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\StubCaster', 'castClassDump'],
         'RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\ConstStub' => ['RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\StubCaster', 'castStub'],
         'RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\EnumStub' => ['RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\StubCaster', 'castEnum'],
         'RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\ScalarStub' => ['RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\StubCaster', 'castScalar'],
@@ -168,6 +167,8 @@ abstract class AbstractCloner implements ClonerInterface
         'CurlHandle' => ['RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\CurlCaster', 'castCurl'],
 
         'Dba\Connection' => ['RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\ResourceCaster', 'castDba'],
+        ':dba' => ['RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\ResourceCaster', 'castDba'],
+        ':dba persistent' => ['RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\ResourceCaster', 'castDba'],
 
         'GdImage' => ['RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\GdCaster', 'castGd'],
 

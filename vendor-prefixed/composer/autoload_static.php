@@ -7,6 +7,7 @@ namespace RH\AdminUtils\Vendor\Composer\Autoload;
 class ComposerStaticInitcc04f03401a6c0cdcf09e24e37351b25
 {
     public static $files = array (
+        '480ae35a233ad244434a5bf4a538cbcf' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         'd932bed042d9001b26e782d33d3fa836' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '2df08fb9c91308905211ca7c767910bf' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
     );
