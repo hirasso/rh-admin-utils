@@ -6,7 +6,6 @@ assets-src export-ignore
 package.json export-ignore
 pnpm-lock.yaml export-ignore
 postcss.config.cjs export-ignore
-bin export-ignore
 *.sh export-ignore
 config/ export-ignore
 pint.json export-ignore

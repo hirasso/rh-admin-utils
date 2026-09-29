@@ -13,7 +13,7 @@ package-lock.json
 /vendor/
 
 # Releases
-bin/strauss.phar
+tools/strauss.phar
 
 # Other
 *.sql
