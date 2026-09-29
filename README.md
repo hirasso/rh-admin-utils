@@ -56,6 +56,12 @@ Two consequences worth knowing before you touch a dependency:
   `require` would be installed _unprefixed_ into the vendor folder of every site that
   installs this plugin via composer. Keeping them in `require-dev` also means
   `composer audit` still reports CVEs in the code that ships.
+- **Prefixing takes away globals the dependency used to declare.** var-dumper's
+  `dump()` and `dd()` become `rhau_vendor_*`, so the plugin re-serves both — namespaced
+  as `RH\AdminUtils\dump()`/`dd()`, and globally for themes and other plugins. The
+  global pair is only declared if nothing else has, and can be turned off with
+  `define('RHAU_GLOBAL_DEBUG_FUNCTIONS', false)` in wp-config.php. Any future dependency
+  that ships global functions needs the same treatment.
 - **`src/` references the prefixed namespaces directly** (`RH\AdminUtils\Vendor\...`),
   in development as well as in a release. There is no unprefixed variant of the source,
   so static analysis and your editor resolve what actually runs in production.

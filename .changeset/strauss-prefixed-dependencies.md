@@ -24,8 +24,11 @@ no longer installs anything into the consuming site on the plugin's behalf.
 - The plugin's own classes are autoloaded by a small PSR-4 registration in the main
   plugin file instead of a composer autoloader, so it no longer depends on a
   plugin-local `vendor/` that only ever existed in one of the two channels.
-- `dump()` and `dd()` are now namespaced to `RH\AdminUtils`; Strauss prefixes
-  var-dumper's globals, so the plugin declares no global functions at all.
+- Strauss prefixes var-dumper's `dump()`/`dd()` to `rhau_vendor_*`, so the plugin
+  re-serves them: `RH\AdminUtils\dump()`/`dd()` for its own code, and global
+  `dump()`/`dd()` for everything else on the site. The globals are declared only when
+  nothing else has, so a site that already loads an unprefixed var-dumper keeps its own
+  copy. Define `RHAU_GLOBAL_DEBUG_FUNCTIONS` as `false` in wp-config.php to opt out.
 - `composer.dist.json`, `config/scoper.config.php` and the php-scoper WordPress
   symbol excludes are gone.
 - `composer prefix` regenerates `vendor-prefixed/`, wired to `post-update-cmd` only —

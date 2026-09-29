@@ -56,21 +56,15 @@ spl_autoload_register(static function (string $class): void {
 require_once __DIR__ . '/vendor-prefixed/autoload.php';
 
 /**
- * Debug helpers, namespaced to this plugin.
- *
- * Strauss prefixes symfony/var-dumper's global `dump()`/`dd()` to `rhau_vendor_*`,
- * so nothing global is declared and no other plugin's copy can collide with ours.
- * Call sites in this namespace resolve to these; other namespaces import them via
- * `use function RH\AdminUtils\dd;`.
+ * The `RH\AdminUtils\dump()`/`dd()` helpers, which route to the prefixed var-dumper
  */
-function dump(mixed ...$vars): mixed
-{
-    return rhau_vendor_dump(...$vars);
-}
+require_once __DIR__ . '/src/functions.php';
 
-function dd(mixed ...$vars): never
-{
-    rhau_vendor_dd(...$vars);
+/**
+ * Re-serve `dump()` and `dd()` globally, unless opted out of in wp-config.php
+ */
+if (!defined('RHAU_GLOBAL_DEBUG_FUNCTIONS') || RHAU_GLOBAL_DEBUG_FUNCTIONS) {
+    require_once __DIR__ . '/src/global-functions.php';
 }
 
 /** Get the plugin's base URL */
