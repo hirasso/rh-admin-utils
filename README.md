@@ -68,7 +68,7 @@ Two consequences worth knowing before you touch a dependency:
 After changing a dependency, verify the committed output:
 
 ```shell
-node config/cli/cli.js verify:prefixed
+node tools/cli/cli.js verify:prefixed
 ```
 
 This regenerates `vendor-prefixed/`, fails if the result differs from what is committed,

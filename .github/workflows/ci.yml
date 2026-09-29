@@ -41,7 +41,7 @@ jobs:
         run: composer validate --no-check-all --no-check-publish
 
       - name: Verify prefixed dependencies
-        run: node config/cli/cli.js verify:prefixed
+        run: node tools/cli/cli.js verify:prefixed
 
   phpTests:
     name: PHP ${{ matrix.php }} Tests
@@ -143,7 +143,7 @@ jobs:
 
       # Run this before changesets, to make sure releases actually work
       - name: Create Release Files
-        run: config/cli/cli.js release:create
+        run: tools/cli/cli.js release:create
 
       # Run changesets action either if there are unreleased changesets (= a PR must be created)
       # or if the commit message matches the release PR (= new versions must be published to NPM)

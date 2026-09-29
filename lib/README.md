@@ -12,8 +12,7 @@ whole site's dependency graph.
 - Upstream: https://github.com/YahnisElsts/plugin-update-checker
 
 Loaded on demand by `RH\AdminUtils\UpdateChecker::loadLibrary()`. It is excluded from
-php-scoper (see `config/scoper.config.php`) and from Pint, and copied into the release
-archive as-is by `config/cli/support.js`.
+Pint, and copied into the release archive as-is by `tools/cli/support.js`.
 
 To update, replace the folder with a fresh copy of the release and bump the version above:
 
