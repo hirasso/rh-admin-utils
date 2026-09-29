@@ -3,7 +3,7 @@
 /**
  * Plugin Name: RH Admin Utilities
  * Plugin URI: https://github.com/hirasso/rh-admin-utils
- * Version: 4.0.2
+ * Version: 4.1.0
  * Requires PHP: 8.4.0
  * Author: Rasso Hilber
  * Description: Admin Utilities for WordPress. Removes plugin ads, adds custom buttons to the admin bar (publish, clear cache), allows editors to add users (except administrators), disables comments. Provides filters to adjust functionality.
