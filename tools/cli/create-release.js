@@ -15,7 +15,7 @@ import {
   runAsScript,
   success,
 } from "./lib.js";
-import { validatePHPVersion } from "./validate-php.js";
+import { checkPHPVersion } from "./php-version-check.js";
 import { verifyPrefixedDependencies } from "./verify-prefixed.js";
 
 /**
@@ -26,7 +26,7 @@ export async function createRelease() {
   headline(`Creating Release Files...`);
 
   /** Bail early if the required PHP version got out of sync */
-  validatePHPVersion();
+  checkPHPVersion();
 
   /** Bail early if the committed prefixed dependencies are stale */
   await verifyPrefixedDependencies();

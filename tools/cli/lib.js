@@ -73,7 +73,7 @@ export function readFile(path) {
 
 /**
  * Get infos from the composer.json
- * @return {{ packageName: string, dependencies: Record<string, string> }}
+ * @return {{ packageName: string, dependencies: Record<string, string>, platform: Record<string, string> }}
  */
 export function getInfosFromComposerJSON() {
   const json = JSON.parse(readFileSync(path.join(cwd(), "composer.json"), "utf8")); // prettier-ignore
@@ -91,6 +91,7 @@ export function getInfosFromComposerJSON() {
   return {
     packageName: fullName.split("/")[1],
     dependencies: json["require"] || {},
+    platform: json["config"]?.platform || {},
   };
 }
 

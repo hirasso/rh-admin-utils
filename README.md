@@ -61,6 +61,10 @@ Two consequences worth knowing before you touch a dependency:
   polyfilling. Each declaration is `function_exists`-guarded in its own file, so a site
   that already has its own copy keeps it and nothing is ever redeclared. This is
   all-or-nothing: Strauss has no per-function exclusion.
+- **`config.platform.php` pins the PHP version composer resolves against.** Without it
+  resolution happens against whatever PHP is installed locally, so a dependency needing
+  a newer patch release than the plugin supports gets picked without complaint —
+  `require.php` is only checked afterwards, it does not constrain the solver.
 - **`src/` references the prefixed namespaces directly** (`RH\AdminUtils\Vendor\...`),
   in development as well as in a release. There is no unprefixed variant of the source,
   so static analysis and your editor resolve what actually runs in production.
