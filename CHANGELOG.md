@@ -1,5 +1,59 @@
 # Changelog
 
+## 4.0.2
+
+### Patch Changes
+
+- 7cf692e: Escape dynamic values printed in the admin
+
+  Several admin sinks printed dynamic values unescaped: the stored admin notice
+  message and type, locked page attributes and the sample permalink (both built from
+  post titles and URLs), the oEmbed cache flush link, the environment links, the
+  protected-templates checkbox values and the "not allowed to delete" message.
+
+  Notice messages go through `wp_kses_post()` rather than `esc_html()`, since the
+  `rh/wpsc-cc/cache_deleted_notice` filter lets a theme put markup in one.
+
+  The ACF post-date field label is printed inside a CSS string in a `<style>` block,
+  where entity escaping renders literally instead of protecting anything. It now gets
+  the CSS string delimiters escaped and `</` broken up so the element can't be closed
+  early.
+
+- 41bcb2c: Require a capability to apply the .htaccess hardening
+
+  Applying the directives was gated on a valid nonce alone. It now also checks
+  `edit_others_posts`. The notice no longer prints the directives it is about to
+  write; the fallback notice shown when the write fails still does, since its
+  purpose is to let them be applied by hand.
+
+- 3259c3b: Roll back the .htaccess hardening if it breaks the site
+
+  Apache exposes no API for reading `AllowOverride`, so directives it doesn't permit
+  would take the whole site down with a 500. The home URL is now requested once
+  before and once after the directives are written, and the previous file is restored
+  verbatim if it starts erroring. The notice then names the reason instead of only
+  showing the directives.
+
+  The check is skipped when the site was already unreachable before writing, since
+  loopback requests are blocked on plenty of hosts and treating that as a failure
+  would mean those sites could never be hardened.
+
+- 627577b: Fix two security issues in the ACF oEmbed whitelist
+
+  The AJAX handler ran before ACF's own nonce check, so any logged-in user could
+  reach it and make the site fetch an arbitrary URL. It now verifies the nonce the
+  same way ACF does before doing anything else.
+
+  The whitelist was also matched against the oEmbed _response body_ rather than the
+  URL, so any page whose markup happened to contain an allowed host passed. Hosts
+  are now parsed from the URL and compared exactly (subdomains included), before any
+  HTTP request is made.
+
+- debf3c3: Require a capability to clear the WP Super Cache cache
+
+  Clearing the cache was gated on a valid nonce alone. It now also checks
+  `edit_others_posts`, the capability its admin bar button already required.
+
 ## 4.0.1
 
 ### Patch Changes
