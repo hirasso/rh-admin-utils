@@ -52,11 +52,10 @@ class ACFOembedWhitelist
         }
 
         /**
-         * Read the raw $_POST rather than acf_request_args(), which runs values
-         * through wp_kses(). ACF's handler passes the raw $_POST to
-         * acf_field_oembed::get_ajax_query(), so validating the sanitized copies
-         * would leave a gap: `https://youtube.com<x @evil.com>/` survives kses as
-         * `https://youtube.com/` but is fetched with `evil.com` as its host.
+         * Raw $_POST, not acf_request_args(), which runs values through wp_kses().
+         * ACF fetches the raw value, so validating the sanitized copy leaves a gap:
+         * `https://youtube.com<x @evil.com>/` passes kses as `https://youtube.com/`
+         * but is fetched with `evil.com` as its host.
          */
         $url = $_POST['s'] ?? null;
         $field_key = $_POST['field_key'] ?? null;
@@ -161,11 +160,7 @@ class ACFOembedWhitelist
      */
     private static function is_allowed_url(string $url, array $allowed_hosts): bool
     {
-        /**
-         * Reject anything that isn't a clean URL. Parsers disagree about where the
-         * host ends in a URL containing whitespace, angle brackets, a backslash or
-         * control characters, so never hand those on to be resolved elsewhere.
-         */
+        /** Parsers disagree where the host ends once these appear, so never pass them on */
         if (preg_match('/[\s<>\\\\]|[\x00-\x1f\x7f]/', $url)) {
             return false;
         }

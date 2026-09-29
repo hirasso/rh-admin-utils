@@ -152,11 +152,9 @@ class ACFSyncPostDate
 
     /**
      * Escape a value for use inside a double-quoted CSS string.
-     *
-     * esc_html() is the wrong tool here: entities aren't decoded inside a <style>
-     * element, so they would render literally. Escape the CSS string delimiters
-     * instead, collapse whitespace (a raw newline terminates a CSS string) and
-     * break up `</` so that it can't close the element early.
+     * esc_html() is wrong here: entities aren't decoded inside <style>, so they render
+     * literally. Escape the delimiters, collapse whitespace (a newline terminates a CSS
+     * string) and break up `</` so it can't close the element early.
      */
     private static function escape_css_string(string $value): string
     {

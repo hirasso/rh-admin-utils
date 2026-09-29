@@ -220,11 +220,7 @@ export function validatePHPVersion() {
 
 /**
  * Create the release asset.
- *
- * The plugin ships identically through both channels: composer serves the git archive
- * of the tag, and this zip is that same archive plus freshly built assets. Dependencies
- * are already prefixed into vendor-prefixed/ by Strauss and committed, so there is
- * nothing to scope at release time.
+ * Composer serves the tag's git archive; this zip is that same archive plus built assets.
  */
 export async function createRelease() {
   headline(`Creating Release Files...`);
@@ -242,29 +238,19 @@ export async function createRelease() {
   info(`Creating a release in ${blue(buildFolder)}...`);
   line();
 
-  /**
-   * Export the tracked files, honouring the export-ignore rules in .gitattributes.
-   * --worktree-attributes so a change to .gitattributes takes effect before it is committed.
-   */
+  /** --worktree-attributes so an uncommitted .gitattributes still applies */
   info(`Exporting tracked files to ${buildFolder}...`);
   rmSync(dirname(buildFolder), { recursive: true, force: true });
   mkdirSync(buildFolder, { recursive: true });
   run(`git archive --worktree-attributes --format=tar HEAD | tar -x -C ${buildFolder}`); // prettier-ignore
 
-  /**
-   * Overlay the built assets. They are committed, but `pnpm build` runs immediately
-   * before this in CI, so prefer the working tree over whatever is in HEAD.
-   */
+  /** `pnpm build` runs before this in CI, so prefer the working tree over HEAD */
   info(`Overlaying freshly built assets into ${buildFolder}...`);
   cpSync("./assets", `${buildFolder}/assets`, { recursive: true, force: true });
 
   line();
 
-  /**
-   * Create a zip file from the build folder.
-   * `zip` appends to an existing archive, so remove a leftover one first – otherwise a
-   * local rebuild keeps every file that any previous build ever produced.
-   */
+  /** `zip` appends, so a leftover archive would keep stale files */
   info(`Creating a zip file from ${buildFolder}...`);
   rmSync(`${packageName}.zip`, { force: true });
   run(`cd ${buildFolder} && zip -rq "${resolve(cwd(), `${packageName}.zip`)}" . && cd - >/dev/null`); // prettier-ignore
@@ -276,10 +262,8 @@ export async function createRelease() {
 }
 
 /**
- * Verify the committed vendor-prefixed/ is in sync with composer.lock, and that
- * prefixing actually covered every symbol.
- *
- * Committed build output drifts silently, so this runs in CI as well as at release time.
+ * Verify vendor-prefixed/ matches composer.lock and that prefixing covered every symbol.
+ * Committed build output drifts silently, hence the check in CI.
  */
 export async function verifyPrefixedDependencies() {
   const { prefixedNamespaces, namespacePrefix } = getStraussConfig();
@@ -287,11 +271,7 @@ export async function verifyPrefixedDependencies() {
   info("Regenerating the prefixed dependencies...");
   run("composer prefix --quiet");
 
-  /**
-   * Compare against the index rather than `git status`, so that a freshly staged
-   * vendor-prefixed/ counts as in sync: what matters is that regenerating changed
-   * nothing, not whether the result has been committed yet.
-   */
+  /** Against the index, not `git status`: staged-but-uncommitted still counts as in sync */
   const capture = (command) => execSync(command, { encoding: "utf-8" }).trim();
 
   const changed = [
@@ -310,11 +290,7 @@ export async function verifyPrefixedDependencies() {
 
   success("vendor-prefixed/ is in sync with composer.lock");
 
-  /**
-   * Guard against symbols Strauss can miss: dynamic class names, `class_exists('Foo\\Bar')`,
-   * class names in config arrays. Those fail at runtime, in production, on whichever
-   * path no test covered.
-   */
+  /** Catches what a static rewriter misses: dynamic class names, names in strings */
   info("Checking that no unprefixed namespaces survived...");
 
   const files = await fg("**/*.php", {
@@ -324,7 +300,7 @@ export async function verifyPrefixedDependencies() {
   const leaked = [];
 
   for (const file of files) {
-    /** Normalise escaped backslashes so `'Foo\\Bar'` inside a string is matched too */
+    /** Normalise escaped backslashes to match names inside strings too */
     const contents = readFileSync(file, "utf-8").replaceAll("\\\\", "\\");
 
     for (const prefixedNamespace of prefixedNamespaces) {
@@ -347,12 +323,9 @@ export async function verifyPrefixedDependencies() {
 }
 
 /**
- * Read the Strauss config, deriving the namespaces that were actually prefixed
- * from the generated autoloader rather than hardcoding a list.
- *
- * The full namespaces matter, not just their vendor segment: var-dumper carries
- * `use` statements for optional integrations it was never shipped with
- * (Symfony\\Component\\HttpFoundation, ...), and those are correctly left alone.
+ * Read the prefixed namespaces from the generated autoloader rather than hardcoding them.
+ * Full namespaces, not vendor segments: var-dumper imports optional integrations it was
+ * never shipped with, which stay unprefixed on purpose.
  *
  * @return {{ prefixedNamespaces: string[], namespacePrefix: string }}
  */

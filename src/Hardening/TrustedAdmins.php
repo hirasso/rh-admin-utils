@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace RH\AdminUtils\Hardening;
 
 /**
- * Restricts high-privilege administrator capabilities to an explicit allowlist of trusted admins.
+ * Restricts high-privilege administrator capabilities to an allowlist of trusted admins.
  *
- * Inactive by default: a site must either define the `RHAU_TRUSTED_ADMINS`
- * constant or hook `rhau/trusted_admins` (as an array of `user_login`s)
- * to activate this. The constant takes precedence when both are present. Sites that
- * do neither see zero behavior change.
- *
- * Additionally, once active, trusted admins can only be deleted by other
- * trusted admins, never by a non-trusted administrator.
+ * Inactive unless a site defines `RHAU_TRUSTED_ADMINS` or hooks `rhau/trusted_admins`
+ * (an array of `user_login`s); the constant wins if both are present. Once active,
+ * trusted admins can only be deleted by other trusted admins.
  */
 final class TrustedAdmins
 {

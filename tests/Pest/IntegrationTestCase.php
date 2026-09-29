@@ -5,13 +5,9 @@ declare(strict_types=1);
 namespace RH\AdminUtils\Tests\Pest;
 
 /**
- * Custom test case that patches WP_UnitTestCase for PHPUnit 11 compatibility.
- *
- * PHPUnit\Util\Test::parseTestMethodAnnotations() was removed in PHPUnit 11,
- * but wp-phpunit still calls it in expectDeprecated(). We override that method
- * to skip the annotation parsing (which we don't use) while keeping the WP hooks.
- *
- * @see https://github.com/wp-phpunit/wp-phpunit/issues/...
+ * Patches WP_UnitTestCase for PHPUnit 11: wp-phpunit's expectDeprecated() still calls
+ * PHPUnit\Util\Test::parseTestMethodAnnotations(), removed in 11. Keeps the hooks,
+ * drops the annotation parsing, which we don't use.
  */
 class IntegrationTestCase extends \WP_UnitTestCase
 {

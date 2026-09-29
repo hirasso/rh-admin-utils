@@ -66,7 +66,7 @@ msgid "Whitelist"
 msgstr ""
 
 #. translators: %s: comma-separated list of allowed hosts
-#: src/ACFOembedWhitelist.php:84
+#: src/ACFOembedWhitelist.php:83
 #, php-format
 msgid "Please provide a valid value (allowed: %s)."
 msgstr ""

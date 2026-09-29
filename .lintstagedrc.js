@@ -7,7 +7,7 @@ export default {
     () => "pnpm run build", // ← ignore files
     () => "git add ./assets", // ← ignore files
   ],
-  // Scoped to our own sources: vendor-prefixed/ and lib/ are third-party and stay untouched
+  // Our own sources only: lib/ and vendor-prefixed/ are third-party
   "{*.php,{src,tests,config}/**/*.php}": [
     "vendor/bin/pint",
     () => "composer analyse", // ← ignore files (otherwise pest files would be analysed, too)

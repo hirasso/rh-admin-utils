@@ -47,14 +47,8 @@ class UpdateChecker
 
     /**
      * Load the bundled copy of plugin-update-checker.
-     *
-     * The library is vendored into lib/ instead of being a composer dependency, so that
-     * composer installs don't pull it into the consuming project's vendor folder.
-     *
-     * Other plugins may ship their own unscoped copy. PUC is built for that: each file
-     * guards its own declarations and every version registers itself with the factory
-     * under its own namespace, so a second copy of 5.7 is safe to load. Skipping it
-     * anyway avoids a redundant spl_autoload_register() on every request.
+     * Vendored into lib/ so composer installs don't pull it into the consuming project.
+     * A second copy is safe to load; skipping it just avoids a redundant autoloader.
      */
     private static function loadLibrary(): void
     {

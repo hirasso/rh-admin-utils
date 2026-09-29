@@ -35,8 +35,6 @@ jobs:
       - name: Run PHPStan
         run: composer analyse
 
-      # Committed build output drifts silently, so prove vendor-prefixed/ still
-      # matches composer.lock and that prefixing covered every symbol.
       - name: Verify prefixed dependencies
         run: node config/cli/cli.js verify:prefixed
 

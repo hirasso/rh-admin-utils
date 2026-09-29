@@ -12,11 +12,7 @@ class TrustedAdminsTest extends IntegrationTestCase
         'update_themes',
     ];
 
-    /**
-     * `switch_to_user` (from the "User Switching" plugin) always evaluates to
-     * false without a target user id, regardless of trust status, so it can't
-     * be asserted in the generic loops below. It gets its own dedicated tests.
-     */
+    /** `switch_to_user` is always false without a target id, so it needs dedicated tests */
     private const CAPS_REQUIRING_TARGET = [
         'switch_to_user',
     ];
