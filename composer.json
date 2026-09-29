@@ -84,6 +84,7 @@
       "namespace_prefix": "RH\\AdminUtils\\Vendor\\",
       "classmap_prefix": "RHAU_Vendor_",
       "constant_prefix": "RHAU_VENDOR_",
+      "function_prefix": false,
       "packages": [
         "symfony/var-dumper"
       ],

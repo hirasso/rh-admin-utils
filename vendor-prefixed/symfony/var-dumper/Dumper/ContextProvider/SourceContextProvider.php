@@ -44,7 +44,7 @@ final class SourceContextProvider implements ContextProviderInterface
 
         for ($i = 2; $i < $this->limit; ++$i) {
             if (isset($trace[$i]['class'], $trace[$i]['function'])
-                && 'rhau_vendor_dump' === $trace[$i]['function']
+                && 'dump' === $trace[$i]['function']
                 && VarDumper::class === $trace[$i]['class']
             ) {
                 $file = $trace[$i]['file'] ?? $file;

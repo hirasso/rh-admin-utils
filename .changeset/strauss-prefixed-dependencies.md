@@ -14,5 +14,5 @@ into `vendor-prefixed/`, which is committed so that it ships in the tag's archiv
 well as the zip. Nothing that gets prefixed remains in `require`, so composer installs
 nothing on the plugin's behalf.
 
-`dump()` and `dd()` are still served globally, but only when nothing else has defined
-them. Define `RHAU_GLOBAL_DEBUG_FUNCTIONS` as `false` in wp-config.php to opt out.
+Global functions are left unprefixed, so `dump()` and `dd()` keep working site-wide.
+They are only declared when nothing else has already defined them.

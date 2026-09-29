@@ -5,8 +5,6 @@ namespace RH\AdminUtils\SimplyStatic;
 use Simply_Static\Util;
 use WP_CLI;
 
-use function RH\AdminUtils\dd;
-
 // Exit if accessed directly.
 if (! defined('ABSPATH')) {
     exit;

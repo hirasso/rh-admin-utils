@@ -12,12 +12,12 @@
 use RH\AdminUtils\Vendor\Symfony\Component\VarDumper\Caster\ScalarStub;
 use RH\AdminUtils\Vendor\Symfony\Component\VarDumper\VarDumper;
 
-if (!function_exists('rhau_vendor_dump')) {
+if (!function_exists('dump')) {
     /**
      * @author Nicolas Grekas <p@tchwork.com>
      * @author Alexandre Daubois <alex.daubois@gmail.com>
      */
-    function rhau_vendor_dump(mixed ...$vars): mixed
+    function dump(mixed ...$vars): mixed
     {
         if (!$vars) {
             VarDumper::dump(new ScalarStub('🐛'));
@@ -42,8 +42,8 @@ if (!function_exists('rhau_vendor_dump')) {
     }
 }
 
-if (!function_exists('rhau_vendor_dd')) {
-    function rhau_vendor_dd(mixed ...$vars): never
+if (!function_exists('dd')) {
+    function dd(mixed ...$vars): never
     {
         if (!in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) && !headers_sent()) {
             header('HTTP/1.1 500 Internal Server Error');
