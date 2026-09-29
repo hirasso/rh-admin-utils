@@ -37,7 +37,7 @@
     }
   ],
   "require": {
-    "php": ">=8.4",
+    "php": ">=8.4.1",
     "composer/installers": "^1.0 || ^2.0"
   },
   "require-dev": {
@@ -96,7 +96,7 @@
   "scripts": {
     "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
     "prefix": [
-      "sh -c 'test -f ./bin/strauss.phar || curl -sfL https://github.com/BrianHenryIE/strauss/releases/download/0.30.0/strauss.phar -o bin/strauss.phar'",
+      "sh -c 'test -f ./bin/strauss.phar || (mkdir -p bin && curl -sfL https://github.com/BrianHenryIE/strauss/releases/download/0.30.0/strauss.phar -o bin/strauss.phar)'",
       "@php bin/strauss.phar"
     ],
     "post-update-cmd": [

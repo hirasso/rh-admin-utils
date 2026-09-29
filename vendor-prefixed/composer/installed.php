@@ -4,7 +4,7 @@
     'name' => 'hirasso/rh-admin-utils',
     'pretty_version' => 'dev-main',
     'version' => 'dev-main',
-    'reference' => '7cf692ebb3bc26498325b829cdab7cbe759db095',
+    'reference' => '4fc9f3efadf9d67bc7e6f23069667ccbb81aa44c',
     'type' => 'wordpress-plugin',
     'install_path' => __DIR__ . '/../',
     'aliases' => 

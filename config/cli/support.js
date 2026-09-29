@@ -261,6 +261,9 @@ export async function createRelease() {
   line();
 }
 
+/** Regenerated with a different value on every commit, and read by nothing */
+const VOLATILE_PREFIXED_FILE = "vendor-prefixed/composer/installed.php";
+
 /**
  * Verify vendor-prefixed/ matches composer.lock and that prefixing covered every symbol.
  * Committed build output drifts silently, hence the check in CI.
@@ -270,6 +273,12 @@ export async function verifyPrefixedDependencies() {
 
   info("Regenerating the prefixed dependencies...");
   run("composer prefix --quiet");
+
+  /**
+   * installed.php embeds the root package's commit SHA, so it changes on every commit
+   * and could never match what is committed. Nothing reads it, so restore it.
+   */
+  run(`git checkout -- ${VOLATILE_PREFIXED_FILE} 2>/dev/null || true`);
 
   /** Against the index, not `git status`: staged-but-uncommitted still counts as in sync */
   const capture = (command) => execSync(command, { encoding: "utf-8" }).trim();

@@ -36,3 +36,6 @@ no longer installs anything into the consuming site on the plugin's behalf.
 - `config/cli/cli.js verify:prefixed` proves the committed output matches
   `composer.lock` and that no unprefixed namespace survived. It runs in CI and before
   every release.
+- The required PHP version is now declared as 8.4.1 rather than 8.4, which is what the
+  shipped `symfony/var-dumper` actually needs. Previously the plugin would have been
+  installable on 8.4.0 and then fatally thrown from the autoloader's platform check.
