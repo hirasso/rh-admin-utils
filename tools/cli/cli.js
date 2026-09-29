@@ -8,14 +8,11 @@ import pc from "picocolors";
 const { blue, red, bold } = pc;
 
 import {
-  dd,
   createRelease,
-  testRelease,
   verifyPrefixedDependencies,
   patchVersion,
   isAtRootDir,
   validatePHPVersion,
-  testDev,
   error,
 } from "./support.js";
 import { exit } from "node:process";
@@ -53,15 +50,6 @@ const commands = {
     fn: patchVersion,
     description: "Patch the version in the main plugin file",
   },
-  // "test:dev": {
-  //   fn: testDev,
-  //   description:
-  //     "Run tests against the development (unscoped) version of the plugin",
-  // },
-  // "test:release": {
-  //   fn: testRelease,
-  //   description: "Run tests against the release (scoped) version of the plugin",
-  // },
   help: {
     fn: printUsage,
     description: "Show available commands for this cli",
@@ -87,9 +75,9 @@ Available commands:
 
 // Validate correct invocation
 if (!command || typeof commands[command] === "undefined") {
-  console.log(`\n ❌ ${red(bold(`Unkown command: ${command}`))}`);
+  console.log(`\n ❌ ${red(bold(`Unknown command: ${command}`))}`);
   printUsage();
-  exit();
+  exit(1);
 }
 
 // Ensure the script is run from the project root

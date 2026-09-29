@@ -1,5 +1,4 @@
 import {
-  copyFileSync,
   cpSync,
   existsSync,
   mkdirSync,
@@ -7,27 +6,14 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { fileURLToPath } from "node:url";
 import path, { basename, dirname, extname, resolve } from "node:path";
 import { execSync } from "node:child_process";
-import { cwd, env, exit } from "node:process";
+import { cwd, exit } from "node:process";
 import pc from "picocolors";
 import fg from "fast-glob";
 
 /** extract colors from common.js module picocolors */
 const { blue, red, bold, gray, green } = pc;
-
-/** Get the equivalent of __filename */
-const __filename = fileURLToPath(import.meta.url);
-
-/**
- * Dump and die
- * @param {...any} args
- */
-export function dd(...args) {
-  console.log(...args);
-  process.exit();
-}
 
 /**
  * Validate that the script is being run from the root dir
@@ -62,20 +48,13 @@ export function getBuildFolder() {
 
 /**
  * Get infos from the composer.json
- * @return {{
- *    fullName: string,
- *    vendorName: string,
- *    packageName: string,
- *    dependencies: string[],
- *    devDependencies: string[]
- * }}
+ * @return {{ packageName: string, dependencies: Record<string, string> }}
  */
 export function getInfosFromComposerJSON() {
   const composerJsonPath = path.join(process.cwd(), "./composer.json");
   const json = JSON.parse(readFileSync(composerJsonPath, "utf8"));
   const fullName = json.name;
-  const dependencies = json["require"] || {};
-  const devDependencies = json["require-dev"] || {};
+
   if (!fullName) {
     throw new Error(`No name found in composer.json`);
   }
@@ -84,8 +63,11 @@ export function getInfosFromComposerJSON() {
       `Invalid name found in composer.json. It must be 'vendor-name/package-name'`,
     );
   }
-  const [vendorName, packageName] = fullName.split("/");
-  return { fullName, vendorName, packageName, dependencies, devDependencies };
+
+  return {
+    packageName: fullName.split("/")[1],
+    dependencies: json["require"] || {},
+  };
 }
 
 /**
@@ -126,15 +108,6 @@ export const headline = (message) => {
 };
 
 /**
- * Log a warning message
- * @param {string} message
- * @param {...any} rest
- */
-export const warn = (message, ...rest) => {
-  console.log(`🚨 ${bold(`${message}`)}`, ...rest);
-};
-
-/**
  * Log an error message and exit
  * @param {string} message
  * @param {...any} rest
@@ -149,21 +122,6 @@ export const error = (message, ...rest) => {
  * Log a line
  */
 export const line = () => console.log("");
-
-/**
- * Debug something to the console
- * @param {...any} args
- */
-export const debug = (...args) => {
-  line();
-  console.log("🐛 ", ...args);
-  line();
-};
-
-/**
- * Check if currently running on GitHub actions
- */
-export const isGitHubActions = () => env.GITHUB_ACTIONS === "true";
 
 /**
  * Extract the first version number from a composer constraint
@@ -380,116 +338,6 @@ function readFile(path) {
   return existsSync(path)
     ? readFileSync(path, { encoding: "utf-8" })
     : undefined;
-}
-
-/**
- * Run Unit and e2e tests from the unscoped version
- */
-export function testDev() {
-  if (existsSync(".wp-env.override.json")) {
-    info(`Deleting plugins in .wp-env.override.json...`);
-    const overrides = JSON.parse(readFile(".wp-env.override.json") || "{}");
-    rmSync(".wp-env.override.json", { force: true });
-    delete overrides.plugins;
-    if (Object.values(overrides).length) {
-      writeJsonFile(".wp-env.override.json", overrides);
-    }
-
-    info(`Re-Starting wp-env with root folder...`);
-    run(`wp-env start --update`);
-  }
-
-  info(`Running tests against the development version...`);
-  run("pnpm run test");
-}
-
-/**
- * Write JSON to a file
- * @param {string} name
- * @param {any} data
- */
-function writeJsonFile(name, data) {
-  writeFileSync(name, JSON.stringify(data, undefined, 2), "utf-8");
-}
-
-/**
- * Run e2e tests from the scoped release folder.
- * This command is only required for local tests.
- */
-export function testRelease() {
-  createRelease();
-
-  const buildFolder = getBuildFolder();
-
-  // info(`Installing dev dependencies in ${buildFolder}...`);
-  // const { devDependencies } = getInfosFromComposerJSON();
-
-  // const requireDev = Object.entries(devDependencies).reduce(
-  //   /**
-  //    * @param {string[]} acc - The accumulator array.
-  //    * @param {[string, string]} entry - An array containing the dependency name and version.
-  //    * @returns {string[]} The updated accumulator array.
-  //    */
-  //   (acc, [name, version]) => {
-  //     acc.push(`"${name}:${version}"`);
-  //     return acc;
-  //   },
-  //   [],
-  // );
-
-  // run(`composer require --dev ${requireDev.join(" ")} --quiet --working-dir=${buildFolder} --with-all-dependencies`); // prettier-ignore
-
-  if (!isGitHubActions()) {
-    /** @type {{ plugins: string[] }} */
-    const { plugins } = JSON.parse(readFile(".wp-env.json") || "{}");
-    const overrides = JSON.parse(readFile(".wp-env.override.json") || "{}");
-
-    overrides.plugins = plugins.map((path) => {
-      // return path.replace(/^\.\/?/, `./${buildFolder}/`);
-      return path === "." ? `./${buildFolder}/` : path;
-    });
-
-    writeJsonFile(".wp-env.override.json", overrides);
-    debug("Contents of .wp-env.override.json:", overrides);
-
-    info(`Re-Starting wp-env with ${buildFolder}...`);
-
-    run(`wp-env start --update`);
-  }
-
-  info(`Running e2e tests against ${buildFolder}...`);
-  run("pnpm run test:e2e");
-}
-
-/**
- * Copy files from one foldder to another
- *
- * @param {string} sourceDir
- * @param {string} destDir
- * @param {string} pattern
- */
-export async function copyFiles(sourceDir, destDir, pattern = "**/*.{js,css}") {
-  const files = await fg(pattern, {
-    cwd: sourceDir,
-    absolute: true,
-  });
-
-  /** Ensure the destination directory exists */
-  mkdirSync(destDir, { recursive: true });
-
-  /** Copy each file */
-  files.forEach((file) => {
-    const relativePath = path.relative(sourceDir, file);
-    const destPath = path.join(destDir, relativePath);
-
-    /** Ensure destination subdirectories exist */
-    mkdirSync(path.dirname(destPath), { recursive: true });
-
-    /** Copy the file */
-    copyFileSync(file, destPath);
-
-    success(`Copied: ${sourceDir}/${relativePath} → ${destPath}`);
-  });
 }
 
 /**

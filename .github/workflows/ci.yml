@@ -99,7 +99,6 @@ jobs:
       # - e2eTests
     outputs:
       fullName: ${{ steps.packageInfos.outputs.fullName }}
-      vendorName: ${{ steps.packageInfos.outputs.vendorName }}
       packageName: ${{ steps.packageInfos.outputs.packageName }}
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
@@ -109,7 +108,6 @@ jobs:
         run: |
           NAME=$(jq -r '.name' composer.json)
           echo "fullName=${NAME}" >> $GITHUB_OUTPUT
-          echo "vendorName=${NAME%%/*}" >> $GITHUB_OUTPUT
           echo "packageName=${NAME#*/}" >> $GITHUB_OUTPUT
           cat "$GITHUB_OUTPUT"
 
