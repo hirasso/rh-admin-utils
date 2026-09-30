@@ -34,47 +34,7 @@
 
 ## Other Features
 
-- Ships with an instance of [Plugin Update Checker](https://github.com/YahnisElsts/plugin-update-checker) to support updates directly from GitHub
+- Can be installed via composer or manually
+- Ships with an instance of [Plugin Update Checker](https://github.com/YahnisElsts/plugin-update-checker) to support updates from wp-admin
 - Does not rely on the WP.org plugin repository
-- Installs identically via composer or as a plugin zip, so a site can use both (see [Dependencies](#dependencies))
-
-## Dependencies
-
-Runtime dependencies are prefixed into `vendor-prefixed/` by [Strauss](https://github.com/BrianHenryIE/strauss)
-and committed to this repo. That directory is build output, but it has to live in the
-git tag: composer serves the tag's archive, so committing it is what makes a composer
-install and the release zip the same directory. It is regenerated with:
-
-```shell
-composer prefix
-```
-
-Two consequences worth knowing before you touch a dependency:
-
-- **Nothing that gets prefixed may live in `require`.** Runtime dependencies belong in
-  `require-dev` and are listed under `extra.strauss.packages`. Anything left in
-  `require` would be installed _unprefixed_ into the vendor folder of every site that
-  installs this plugin via composer. Keeping them in `require-dev` also means
-  `composer audit` still reports CVEs in the code that ships.
-- **Global functions are deliberately not prefixed** (`function_prefix: false`), so
-  var-dumper keeps serving `dump()` and `dd()` site-wide and the mbstring polyfill keeps
-  polyfilling. Each declaration is `function_exists`-guarded in its own file, so a site
-  that already has its own copy keeps it and nothing is ever redeclared. This is
-  all-or-nothing: Strauss has no per-function exclusion.
-- **`config.platform.php` pins the PHP version composer resolves against.** Without it
-  resolution happens against whatever PHP is installed locally, so a dependency needing
-  a newer patch release than the plugin supports gets picked without complaint —
-  `require.php` is only checked afterwards, it does not constrain the solver.
-- **`src/` references the prefixed namespaces directly** (`RH\AdminUtils\Vendor\...`),
-  in development as well as in a release. There is no unprefixed variant of the source,
-  so static analysis and your editor resolve what actually runs in production.
-
-After changing a dependency, verify the committed output:
-
-```shell
-pnpm run verify:prefixed
-```
-
-This regenerates `vendor-prefixed/`, fails if the result differs from what is committed,
-and fails if any prefixed namespace survived unprefixed — the failure mode a static
-rewriter can produce with dynamic class names. It also runs in CI and before a release.
+- Installs identically via composer or as a plugin zip, so a site can use both
