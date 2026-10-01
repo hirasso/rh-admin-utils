@@ -40,4 +40,5 @@ Look into composer.json and package.json for the available commands
 # Avoid conflicts with multiple sessions
 
 - every new claude session creates a new branch off main if there are code changes
-- when the task is complete, merge back into main without asking
+- when the task is complete, merge back into main after confirmation
+- delete branch after merge without asking
