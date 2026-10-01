@@ -12,7 +12,8 @@ final class Hardening
         add_filter('xmlrpc_enabled', '__return_false');
 
         add_filter('file_mod_allowed', self::file_mod_allowed(...), 10, 2);
-        add_filter('auto_update_plugin', self::auto_update_plugin(...));
+        add_filter('auto_update_plugin', self::maybe_disallow_auto_update(...));
+        add_filter('auto_update_theme', self::maybe_disallow_auto_update(...));
 
         UserEnumeration::init();
         HardenHtaccess::init();
@@ -38,15 +39,15 @@ final class Hardening
     }
 
     /**
-     * Keep plugin auto-updates off if file mods are disallowed.
+     * Keep plugin and theme auto-updates off if file mods are disallowed.
      *
      * Allowing the `automatic_updater` context above re-enables the whole updater,
      * not just core, so it is asked with our own context here. Null is passed
      * through so WordPress can still tell that nothing forced a decision.
      */
-    private static function auto_update_plugin(?bool $update): ?bool
+    private static function maybe_disallow_auto_update(?bool $update): ?bool
     {
-        if (!wp_is_file_mod_allowed('rhau_auto_update_plugin')) {
+        if (!wp_is_file_mod_allowed('rhau_auto_update')) {
             return false;
         }
 

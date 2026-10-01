@@ -4,29 +4,40 @@ namespace RH\AdminUtils\Tests\Pest;
 
 class HardeningTest extends IntegrationTestCase
 {
+    /** @return array<string, array{string}> */
+    public static function auto_update_types(): array
+    {
+        return [
+            'plugin' => ['plugin'],
+            'theme' => ['theme'],
+        ];
+    }
+
     /** Stand in for DISALLOW_FILE_MODS=true, which applies before any filter */
     private function disallow_file_mods(): void
     {
         add_filter('file_mod_allowed', '__return_false', 5);
     }
 
-    private function should_auto_update(?bool $update): ?bool
+    private function should_auto_update(string $type, ?bool $update): ?bool
     {
-        return apply_filters('auto_update_plugin', $update, (object) ['plugin' => 'foo/foo.php']);
+        return apply_filters("auto_update_$type", $update, (object) [$type => "foo/foo.php"]);
     }
 
-    public function test_file_mods_allowed_leaves_plugin_auto_updates_untouched(): void
+    /** @dataProvider auto_update_types */
+    public function test_file_mods_allowed_leave_auto_updates_untouched(string $type): void
     {
-        $this->assertNull($this->should_auto_update(null));
-        $this->assertTrue($this->should_auto_update(true));
+        $this->assertNull($this->should_auto_update($type, null));
+        $this->assertTrue($this->should_auto_update($type, true));
     }
 
-    public function test_disallowed_file_mods_disable_plugin_auto_updates(): void
+    /** @dataProvider auto_update_types */
+    public function test_disallowed_file_mods_disable_auto_updates(string $type): void
     {
         $this->disallow_file_mods();
 
-        $this->assertFalse($this->should_auto_update(null));
-        $this->assertFalse($this->should_auto_update(true));
+        $this->assertFalse($this->should_auto_update($type, null));
+        $this->assertFalse($this->should_auto_update($type, true));
     }
 
     public function test_disallowed_file_mods_still_allow_the_core_updater(): void
