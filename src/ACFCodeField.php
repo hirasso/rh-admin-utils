@@ -51,7 +51,7 @@ class ACFCodeField
     /**
      * Handle ACF code fields
      */
-    public static function prepare_acf_code_field(?array $field): ?array
+    public static function prepare_acf_code_field(mixed $field): mixed
     {
         $type = $field['type'] ?? null;
         if ($type !== 'textarea') {
