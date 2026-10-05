@@ -18,7 +18,7 @@ class ACFRelationshipField
     /**
      * Handle ACF code fields
      */
-    private static function prepare_field(?array $field): ?array
+    private static function prepare_field(mixed $field): mixed
     {
         $type = $field['type'] ?? null;
 

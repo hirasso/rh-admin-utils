@@ -29,7 +29,7 @@ class ACFTextField
     /**
      * Handle ACF text fields
      */
-    public static function prepare_text_field(?array $field): ?array
+    public static function prepare_text_field(mixed $field): mixed
     {
         $type = $field['type'] ?? null;
         if ($type !== 'text') {
