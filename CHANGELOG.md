@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.1.2
+
+### Patch Changes
+
+- f65cb98: Accept any falsy value in `acf/prepare_field` callbacks, as ACF does.
+
 ## 4.1.1
 
 ### Patch Changes
