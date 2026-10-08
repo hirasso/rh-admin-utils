@@ -48,13 +48,13 @@
     "phpstan/phpstan": "^2.1",
     "phpunit/phpunit": "^11.0",
     "pronamic/advanced-custom-fields-pro": "dev-main",
-    "roots/wordpress": "^6.8",
+    "roots/wordpress": "^7.1",
     "symfony/var-dumper": "^7.4",
     "szepeviktor/phpstan-wordpress": "^2.0",
     "vinkla/extended-acf": "^15.0",
     "wp-cli/i18n-command": "^2.7",
     "wp-cli/wp-cli": "^2.12",
-    "wp-phpunit/wp-phpunit": "^6.9",
+    "wp-phpunit/wp-phpunit": "^7.1",
     "wp-plugin/classic-editor": "^1.6",
     "wp-plugin/post-type-switcher": "^4.0",
     "wp-plugin/sg-security": "^1.5",
@@ -95,15 +95,17 @@
     }
   },
   "scripts": {
+    "post-install-cmd": "tools/sync-wp-env-core.sh",
     "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
     "prefix": [
       "sh -c 'test -f ./tools/strauss.phar || curl -sfL https://github.com/BrianHenryIE/strauss/releases/download/0.30.0/strauss.phar -o tools/strauss.phar'",
       "@php tools/strauss.phar"
     ],
     "post-update-cmd": [
-      "@prefix"
+      "@prefix",
+      "tools/sync-wp-env-core.sh"
     ],
-    "test": "pest",
+    "test": "pest --no-coverage",
     "test:watch": [
       "Composer\\Config::disableProcessTimeout",
       "phpunit-watcher watch"

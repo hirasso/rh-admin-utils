@@ -80,7 +80,7 @@ class EditorsAddUsers extends Singleton
     {
         foreach ($this->allowed_roles as $r) {
             $role = get_role($r);
-            if (!$role || is_wp_error($role)) {
+            if (!$role) {
                 continue;
             }
             foreach ($this->caps as $cap) {
@@ -98,7 +98,7 @@ class EditorsAddUsers extends Singleton
         $this->remove_caps();
         foreach ($this->allowed_roles as $r) {
             $role = get_role($r);
-            if (!$role || is_wp_error($role)) {
+            if (!$role) {
                 continue;
             }
             foreach ($this->caps as $cap) {
