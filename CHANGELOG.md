@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.1.3
+
+### Patch Changes
+
+- 97918e8: Throw if the oEmbed cache post can't be created
+
 ## 4.1.2
 
 ### Patch Changes
