@@ -226,7 +226,7 @@ class ACFOembedCache
             'post_title' => 'oEmbed cache',
             'post_type' => self::$cache_post_type,
             'post_status' => 'publish',
-        ]);
+        ], true);
         if ($post_id instanceof \WP_Error) {
             $error_message = $post_id->get_error_message();
             throw new \Error("[acf-oembed-cache] Couldn't create the global acf oembed post. $error_message");
