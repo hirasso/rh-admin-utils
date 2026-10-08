@@ -46,14 +46,12 @@ runs:
       if: ${{ inputs.php == 'true' }}
       uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
 
-    - name: Setup and Start wp-env
+    - name: Start wp-env (tests)
       if: ${{ inputs.wp-env == 'true' }}
       shell: bash
-      # Setting "core" to `null` fixes hanging wp-env in CI
-      # @see https://github.com/WordPress/gutenberg/issues/44338
-      run: |
-        echo '{"core": null, "phpVersion": "${{ inputs.php-version }}"}' > .wp-env.override.json
-        pnpm run env start
+      run: pnpm run env:test start
+      env:
+        WP_ENV_PHP_VERSION: ${{ inputs.php-version }}
 
     - name: Cache Playwright
       if: ${{ inputs.playwright == 'true' }}
