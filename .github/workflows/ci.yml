@@ -77,7 +77,7 @@ jobs:
 
   e2eTests:
     name: E2E Tests
-    runs-on: ubuntu-24.04 # Playwright 1.58 doesn't support ubuntu-latest (26.04)
+    runs-on: ubuntu-latest
     # Playwright's browser download sometimes hangs
     timeout-minutes: 15
 
