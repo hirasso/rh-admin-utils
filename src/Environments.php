@@ -16,7 +16,7 @@ class Environments extends Singleton
      */
     public function __construct()
     {
-        // Allow to define DISALLOW_INDEXING in the config
+        /** Allow to define DISALLOW_INDEXING in the config */
         if (defined('DISALLOW_INDEXING') && DISALLOW_INDEXING === true) {
             add_filter('pre_option_blog_public', '__return_zero');
         };
@@ -327,12 +327,12 @@ class Environments extends Singleton
         $remoteHost = $this->strip_protocol($remoteOrigin);
         $currentHost = $this->strip_protocol($currentOrigin);
 
-        // Bail early if the current host is the remote host
+        /** Bail early if the current host is the remote host */
         if ($currentHost === $remoteHost) {
             return $attachmentURL;
         }
 
-        // Bail early if the attachment URL is external
+        /** Bail early if the attachment URL is external */
         if (!$this->is_internal_url($attachmentURL)) {
             return $attachmentURL;
         }
@@ -383,7 +383,7 @@ class Environments extends Singleton
      */
     public function auth_cookie_expiration(int $ttl, int $user_id, bool $remember): int
     {
-        // Adjust to your working environment needs.
+        /** Adjust to your working environment needs. */
         $dev_environment_types = ['development', 'local'];
 
         if (in_array($this->env, $dev_environment_types, true)) {

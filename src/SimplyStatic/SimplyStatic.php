@@ -4,7 +4,7 @@ namespace RH\AdminUtils\SimplyStatic;
 
 use function RH\AdminUtils\rhau;
 
-// Exit if accessed directly.
+/** Exit if accessed directly. */
 if (! defined('ABSPATH')) {
     exit;
 }

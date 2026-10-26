@@ -18,10 +18,10 @@ class Misc extends Singleton
         add_action('admin_init', [$this, 'remove_privacy_policy_notice']);
         add_action('init', [$this, 'edit_screen_columns'], 999);
         add_filter('admin_body_class', [$this, 'admin_body_class']);
-        // Disable Siteground Security logs
+        /** Disable Siteground Security logs */
         add_filter('pre_option_sg_security_disable_activity_log', '__return_true');
 
-        // qtranslate
+        /** qtranslate */
         add_action('admin_init', [$this, 'overwrite_qtranslate_defaults']);
         add_action('admin_enqueue_scripts', [$this, 'remove_qtranslate_admin_styles'], 11);
 
@@ -34,7 +34,7 @@ class Misc extends Singleton
 
         add_filter('auto_core_update_send_email', $this->auto_core_update_send_email(...), 10, 2);
 
-        // Don't convert :) etc. to emoji. not using `pre_option_` since it doesn't work with `__return_false`
+        /** Don't convert :) etc. to emoji. not using `pre_option_` since it doesn't work with `__return_false` */
         add_filter('option_use_smilies', '__return_false');
     }
 
@@ -103,13 +103,13 @@ class Misc extends Singleton
         if (! isset($q_config)) {
             return;
         }
-        // disable qtranslate styles on the admin LSBs
+        /** disable qtranslate styles on the admin LSBs */
         $q_config['lsb_style'] = 'custom';
-        // do not highlight translatable fields. Set to QTX_HIGHLIGHT_MODE_CUSTOM_CSS
+        /** do not highlight translatable fields. Set to QTX_HIGHLIGHT_MODE_CUSTOM_CSS */
         $q_config['highlight_mode'] = 9;
-        // insert an empty space as custom CSS, so that the qtranslate options page doesn't break
+        /** insert an empty space as custom CSS, so that the qtranslate options page doesn't break */
         $q_config['highlight_mode_custom_css'] = '  ';
-        // hide the 'copy from' button
+        /** hide the 'copy from' button */
         $q_config['hide_lsb_copy_content'] = true;
     }
 
@@ -137,14 +137,14 @@ class Misc extends Singleton
             return;
         }
 
-        // Allow themes to deactivate the redirect
+        /** Allow themes to deactivate the redirect */
         if (! apply_filters('rhau/redirect_edit_php', true)) {
             return;
         }
 
         $redirect_url = admin_url('/edit.php?post_type=page');
 
-        // Allow themes to filter the redirect url
+        /** Allow themes to filter the redirect url */
         $redirect_url = apply_filters('rhau/edit_php_redirect_url', $redirect_url);
 
         rhau()->redirect($redirect_url);
@@ -290,7 +290,7 @@ class Misc extends Singleton
             return $class;
         }
 
-        // allows for themes to disable hiding the application passwords
+        /** allows for themes to disable hiding the application passwords */
         if (apply_filters('rhau/misc/hide-application-passwords', true)) {
             $class = "hide-application-passwords $class";
         }

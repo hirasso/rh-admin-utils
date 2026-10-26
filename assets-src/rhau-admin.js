@@ -25,7 +25,7 @@ export default class RHAU {
 
     this.initAlpine();
 
-    // Handle ACF fields
+    /** Handle ACF fields */
     this.handleACFWysiwygField();
 
     // acfRelationshipAddOrderControl();
@@ -73,7 +73,7 @@ export default class RHAU {
     this.restoreScrollTop();
     this.removeFromStore("scrollTop");
     requestAnimationFrame(() => this.initQtranslateSwitcher());
-    // Try again, in case qtranslate took a while to initialize
+    /** Try again, in case qtranslate took a while to initialize */
     setTimeout(() => this.initQtranslateSwitcher(), 1000);
     setTimeout(() => this.initQtranslateSwitcher(), 2000);
   }
@@ -99,7 +99,7 @@ export default class RHAU {
    * Inits Admin Bar Buttons
    */
   initAdminBarButtons() {
-    // publish/update button
+    /** publish/update button */
     const $wpPublish = $('#submitdiv input[id="publish"]:visible');
     const $rhPublish = $("#wp-admin-bar-rh-publish a");
     if ($rhPublish.length && $wpPublish.length) {
@@ -111,7 +111,7 @@ export default class RHAU {
     } else if ($rhPublish.length) {
       $rhPublish.parent().remove();
     }
-    // save draft button
+    /** save draft button */
     const $wpSave = $('#submitdiv input[id="save-post"]:visible');
     const $rhSave = $("#wp-admin-bar-rh-save a");
     if ($rhSave.length && $wpSave.length) {
@@ -125,7 +125,7 @@ export default class RHAU {
     }
     if (typeof acf !== "undefined" && typeof acf.addFilter !== "undefined") {
       acf.addFilter("validation_complete", (json, $form) => {
-        // check errors
+        /** check errors */
         if (json.errors) {
           if ($rhPublish.length) $rhPublish.removeClass("is-disabled");
           if ($rhSave.length) $rhSave.removeClass("is-disabled");
@@ -181,7 +181,7 @@ export default class RHAU {
     try {
       for (const fieldObject of acf.getFieldObjects()) {
         if (!fieldObject.isOpen()) continue;
-        // disable close function
+        /** disable close function */
         fieldObject.close = () => {};
         openFieldObjects.push(fieldObject.getKey());
       }
@@ -212,19 +212,21 @@ export default class RHAU {
       for (const key of openObjects) {
         const fieldObject = acf.getFieldObject(key);
         const $settings = fieldObject.$el.children(".settings");
-        // copied code from acf-field-group.js
-        // open
+        /**
+         * copied code from acf-field-group.js
+         * open
+         */
         fieldObject.$el.addClass("open");
         $settings.css({ display: "block" });
         acf.doAction("open_field_object", fieldObject);
         fieldObject.trigger("openFieldObject");
-        // action (show)
+        /** action (show) */
         acf.doAction("show", $settings);
       }
     } catch (e) {
       console.warn(e);
     }
-    // removes the property from store
+    /** removes the property from store */
     this.removeFromStore("open-acf-field-objects");
   }
 
@@ -241,17 +243,17 @@ export default class RHAU {
    * This function is being called twice, to make sure it works everywehre.
    */
   initQtranslateSwitcher() {
-    // Bail early if it already ran successfully
+    /** Bail early if it already ran successfully */
     const alreadyRendered = $("#wp-admin-bar-rhau-lsbs").length > 0;
     if (alreadyRendered) return;
 
     const $switcher = $(".qtranxs-lang-switch-wrap:first");
-    // bail early if no switcher could be found
+    /** bail early if no switcher could be found */
     if ($switcher.length === 0) return;
-    // create the wrapper
+    /** create the wrapper */
     const $wrap = $('<li id="wp-admin-bar-rhau-lsbs" class="rhau-lsbs" />');
     $wrap.appendTo($("#wp-admin-bar-root-default"));
-    // append the switcher to the wrap
+    /** append the switcher to the wrap */
     $switcher.appendTo($wrap);
   }
 

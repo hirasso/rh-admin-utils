@@ -41,7 +41,7 @@ export default defineConfig({
   retries: isCI ? 1 : 0,
   /* Limit parallel workers on CI, use default locally. */
   workers: isCI ? 1 : undefined,
-  // Limit the number of failures on CI to save resources
+  /** Limit the number of failures on CI to save resources */
   maxFailures: isCI ? 10 : undefined,
   /* Reporter to use. See https://playwright.dev/website/test-reporters */
   reporter: isCI

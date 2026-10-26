@@ -87,15 +87,15 @@ msgstr ""
 msgid "Mask field"
 msgstr ""
 
-#: src/DisableComments.php:71
+#: src/DisableComments.php:73
 msgid "Comments are disabled."
 msgstr ""
 
-#: src/DisableComments.php:80
+#: src/DisableComments.php:82
 msgid "Comments are closed."
 msgstr ""
 
-#: src/DisableComments.php:91
+#: src/DisableComments.php:93
 msgid "Comments are disabled. Some settings on this page are being ignored and/or overwritten."
 msgstr ""
 

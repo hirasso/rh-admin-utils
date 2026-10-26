@@ -177,8 +177,10 @@ class AdminUtils extends Singleton
      */
     public function activate_ajax_debugging(): void
     {
-        // activate debugging in if doing ajax
-        // @see https://stackoverflow.com/a/68009325/586823
+        /**
+         * activate debugging in if doing ajax
+         * @see https://stackoverflow.com/a/68009325/586823
+         */
         if (wp_doing_ajax()) {
             @ini_set('display_errors', 1);
         }

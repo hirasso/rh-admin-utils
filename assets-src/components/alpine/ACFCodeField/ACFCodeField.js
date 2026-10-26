@@ -62,7 +62,7 @@ export default () => {
           extensions.push(html());
           break;
         default:
-          // Fall back to json for backwards compatibility
+          /** Fall back to json for backwards compatibility */
           extensions.push(json());
           break;
       }

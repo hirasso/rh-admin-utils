@@ -52,7 +52,7 @@ class AttachmentsHelper
             return $args;
         }
 
-        // Convert $args to disable the search and instead return the matched post
+        /** Convert $args to disable the search and instead return the matched post */
         $args['post__in'] = [$post->ID];
 
         unset($args['s']);
@@ -77,7 +77,7 @@ class AttachmentsHelper
             return null;
         }
 
-        // Activate to debug
+        /** Activate to debug */
         // wp_send_json_success(['matches' => $matches]);
 
         if (!$post = get_post(intval($matches['id']))) {

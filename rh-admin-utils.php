@@ -17,7 +17,7 @@ namespace RH\AdminUtils;
 
 use RH\AdminUtils\SimplyStatic\SimplyStatic;
 
-// Exit if accessed directly
+/** Exit if accessed directly */
 if (!defined('ABSPATH')) {
     exit;
 }

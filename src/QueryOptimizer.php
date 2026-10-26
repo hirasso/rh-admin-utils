@@ -40,7 +40,7 @@ class QueryOptimizer
     public static function optimize_query_args(array $args): array
     {
         return array_merge($args, [
-            // only setting this to signal that the query was optimized by Admin Utils
+            /** only setting this to signal that the query was optimized by Admin Utils */
             '__rhau_optimized' => true,
             'no_found_rows' => true,
             'ignore_sticky_posts' => true,

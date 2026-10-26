@@ -44,7 +44,7 @@ class ACFSyncFieldGroups
      */
     public static function wp_cli_acf_sync_field_groups(array $args = [], array $assoc_args = []): void
     {
-        // Only allow this if invoked from WP CLI
+        /** Only allow this if invoked from WP CLI */
         if (!self::is_wp_cli()) {
             return;
         }
@@ -62,10 +62,10 @@ class ACFSyncFieldGroups
         $field_groups_class = acf_get_instance('ACF_Admin_Field_Groups');
         $field_groups_class->setup_sync();
 
-        // Disable "Local JSON" controller to prevent the .json file from being modified during import.
+        /** Disable "Local JSON" controller to prevent the .json file from being modified during import. */
         acf_update_setting('json', false);
 
-        // Sync field groups and generate array of new IDs.
+        /** Sync field groups and generate array of new IDs. */
         $files = acf_get_local_json_files();
         $counter = 0;
 

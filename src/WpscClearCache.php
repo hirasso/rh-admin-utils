@@ -126,7 +126,7 @@ class WpscClearCache extends Singleton
      */
     private function clear_cache(): bool
     {
-        // bail early if wp super cache isn't installed
+        /** bail early if wp super cache isn't installed */
         if (!function_exists('wp_cache_clear_cache')) {
             return false;
         }

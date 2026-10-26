@@ -45,7 +45,7 @@ class EnvironmentLinksDialog extends HTMLDialogElement {
       return false;
     }
 
-    // Check if the element has a valid tabindex
+    /** Check if the element has a valid tabindex */
     const tabindex = el?.getAttribute("tabindex");
     if (tabindex !== null) {
       return !isNaN(parseInt(tabindex)) && parseInt(tabindex) >= 0;

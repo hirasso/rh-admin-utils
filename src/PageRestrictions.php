@@ -34,20 +34,20 @@ class PageRestrictions
      */
     public static function on_plugins_loaded(): void
     {
-        // This applies to all users
+        /** This applies to all users */
         add_filter('manage_pages_columns', [__CLASS__, 'pages_list_col']);
         add_action('manage_pages_custom_column', [__CLASS__, 'pages_list_col_value'], 10, 2);
         add_filter('bulk_actions-edit-page', [__CLASS__, 'remove_page_bulk_action_edit']);
         add_filter('map_meta_cap', [__CLASS__, 'disallow_deletion'], 10, 4);
         add_action('before_delete_post', [__CLASS__, 'before_delete_post'], 10, 2);
 
-        // Admins only
+        /** Admins only */
         if (self::user_can_manage_restrictions()) {
             PageRestrictionsMetaBox::init();
             PageRestrictionsOptionsPage::init();
         }
 
-        // Non-Admins only
+        /** Non-Admins only */
         if (!self::user_can_manage_restrictions()) {
             add_action('add_meta_boxes', [__CLASS__, 'adjust_meta_boxes']);
             add_filter('get_sample_permalink_html', [__CLASS__, 'get_sample_permalink_html'], 10, 5);
@@ -192,7 +192,7 @@ class PageRestrictions
      */
     private static function get_disable_list_table_checkbox(): string
     {
-        // disable the checkbox for this row
+        /** disable the checkbox for this row */
         return <<<HTML
         <script>
             (() => {

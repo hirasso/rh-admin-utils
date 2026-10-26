@@ -21,7 +21,7 @@ class PageRestrictionsMetaBox
     private static string $nonce_action = 'rhau_page_restrictions_box';
     private static string $nonce_name = '_rhau_page_restrictions_nonce';
 
-    // Static function to initialize the meta box
+    /** Static function to initialize the meta box */
     public static function init()
     {
         add_action('add_meta_boxes_page', [__CLASS__, 'add_meta_box']);
@@ -110,7 +110,7 @@ class PageRestrictionsMetaBox
     {
         $nonce = $_POST[self::$nonce_name] ?? null;
 
-        // Verify that the nonce
+        /** Verify that the nonce */
         if (empty($nonce) || !wp_verify_nonce($nonce, self::$nonce_action)) {
             return;
         }

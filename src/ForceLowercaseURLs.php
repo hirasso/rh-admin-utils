@@ -48,31 +48,31 @@ class ForceLowercaseURLs
      */
     public static function server_side_redirect()
     {
-        // Allow to opt-out of this functionality
+        /** Allow to opt-out of this functionality */
         if (!apply_filters('rhau/force_lowercase_urls', true)) {
             return;
         }
 
-        // Grab URL information for the current request
+        /** Grab URL information for the current request */
         $parsed = parse_url($_SERVER['REQUEST_URI'] ?? '/');
 
-        // Grab the relevant parts from the parsed URL
+        /** Grab the relevant parts from the parsed URL */
         $path = $parsed['path'] ?? '/';
         $query = $parsed['query'] ?? null;
 
-        // Create a lowercase copy of the path
+        /** Create a lowercase copy of the path */
         $lowercase_path = mb_strtolower(rawurldecode($path));
 
-        // Bail early if the path already is lowercase
+        /** Bail early if the path already is lowercase */
         // if (rawurldecode($path) === $lowercase_path) {
         //     return;
         // }
 
-        // Construct the redirect url
+        /** Construct the redirect url */
         $redirect_uri = empty($query) ? $lowercase_path : "$lowercase_path?$query";
         // dd(compact('redirect_uri'));
 
-        // Perform a permanent redirect
+        /** Perform a permanent redirect */
         rhau()->redirect($redirect_uri, 301);
     }
 }

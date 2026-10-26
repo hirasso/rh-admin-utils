@@ -14,21 +14,23 @@ class DisableComments extends Singleton
      */
     public function after_setup_theme(): void
     {
-        // allow re-activating comments
+        /** allow re-activating comments */
         if (!apply_filters('rhau/disable_comments', true)) {
             return;
         }
 
         $this->overwrite_discussion_options();
-        // hide comments UI
+        /** hide comments UI */
         add_action('admin_menu', [$this, 'admin_menu'], 999);
         add_action('admin_bar_menu', [$this, 'admin_bar_menu'], 999);
-        // other hooks
+        /** other hooks */
         add_action('admin_init', [$this, 'admin_init']);
         add_action('registered_post_type', [$this, 'registered_post_type'], 999);
 
-        // Filters taken from the plugin "Disable Comments"
-        // @link https://github.com/WPDevelopers/disable-comments/blob/master/disable-comments.php
+        /**
+         * Filters taken from the plugin "Disable Comments"
+         * @link https://github.com/WPDevelopers/disable-comments/blob/master/disable-comments.php
+         */
         add_filter('wp_headers', [$this, 'filter_wp_headers']);
         add_filter('xmlrpc_methods', [$this, 'disable_xmlrc_comments']);
         add_filter('rest_endpoints', [$this, 'filter_rest_endpoints']);
@@ -97,18 +99,18 @@ class DisableComments extends Singleton
      */
     private function overwrite_discussion_options(): void
     {
-        // don't allow comments on new posts
+        /** don't allow comments on new posts */
         add_filter('option_default_comment_status', '__return_empty_string');
-        // don't allow pingbacks and trackbacks
+        /** don't allow pingbacks and trackbacks */
         add_filter('pre_option_default_ping_status', '__return_empty_string');
-        // automatically close comment status on old posts
+        /** automatically close comment status on old posts */
         add_filter('pre_option_close_comments_days_old', '__return_zero');
         add_filter('pre_option_close_comments_for_old_posts', '__return_true');
-        // additional measure: Only allow logged-in users to comment
+        /** additional measure: Only allow logged-in users to comment */
         add_filter('pre_option_comment_registration', '__return_true');
-        // additional measure: All comments must be approved
+        /** additional measure: All comments must be approved */
         add_filter('pre_option_comment_moderation', '__return_true');
-        // don't allow pings or comments
+        /** don't allow pings or comments */
         add_filter('pings_open', '__return_false');
         add_filter('comments_open', '__return_false');
     }

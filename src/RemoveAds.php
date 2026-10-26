@@ -39,7 +39,7 @@ class RemoveAds extends Singleton
      */
     private function hide_email_address_encoder_notices()
     {
-        // the plugin allows a constant to disable notices. Good plugin. :)
+        /** the plugin allows a constant to disable notices. Good plugin. :) */
         define('EAE_DISABLE_NOTICES', true);
     }
 
@@ -52,25 +52,27 @@ class RemoveAds extends Singleton
      */
     public function remove_yoast_ads()
     {
-        // check if class Yoast_Notification_Center exists
+        /** check if class Yoast_Notification_Center exists */
         if (!class_exists('\Yoast_Notification_Center')) {
             return;
         }
         $notification_center = \Yoast_Notification_Center::get();
-        // get all notifications
+        /** get all notifications */
         $notifications = $notification_center->get_sorted_notifications();
-        // loop through all YOAST notifications
+        /** loop through all YOAST notifications */
         foreach ($notifications as $notification) {
-            // transform the notification to an array, so that we can access the message
+            /** transform the notification to an array, so that we can access the message */
             $notification_array = $notification->to_array();
-            // get message from array
+            /** get message from array */
             $notification_message = $notification_array['message'] ?? null;
-            // continue to next notification if no message in array
+            /** continue to next notification if no message in array */
             if (!$notification_message) {
                 continue;
             }
-            // Remove the notification if it contains a string.
-            // You could also check for $notification_array['options']['yoast_branding'] === true
+            /**
+             * Remove the notification if it contains a string.
+             * You could also check for $notification_array['options']['yoast_branding'] === true
+             */
             if (stripos($notification_message, 'Get Yoast SEO Premium') !== false) {
                 $notification_center->remove_notification($notification);
             }

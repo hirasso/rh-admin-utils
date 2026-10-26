@@ -233,7 +233,7 @@ final class HardenHtaccess
      */
     private static function getHtaccessFilePath(): string
     {
-        // Ensure get_home_path() is declared
+        /** Ensure get_home_path() is declared */
         require_once ABSPATH . 'wp-admin/includes/file.php';
 
         if (self::isWpCli()) {
@@ -255,7 +255,7 @@ final class HardenHtaccess
      */
     private static function writeToHtaccess(string $directives): void
     {
-        // Ensure insert_with_markers() is declared
+        /** Ensure insert_with_markers() is declared */
         require_once ABSPATH . 'wp-admin/includes/misc.php';
 
         $htaccessFile = self::getHtaccessFilePath();

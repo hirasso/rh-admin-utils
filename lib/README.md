@@ -12,7 +12,7 @@ whole site's dependency graph.
 - Upstream: https://github.com/YahnisElsts/plugin-update-checker
 
 Loaded on demand by `RH\AdminUtils\UpdateChecker::loadLibrary()`. It is excluded from
-Pint, and copied into the release archive as-is by `tools/cli/support.js`.
+Pint, and ends up in the release archive via `git archive` in `tools/cli/create-release.js`.
 
 To update, replace the folder with a fresh copy of the release and bump the version above:
 
