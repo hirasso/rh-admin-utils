@@ -4,6 +4,7 @@
 # Tooling
 assets-src export-ignore
 package.json export-ignore
+renovate.json export-ignore
 pnpm-lock.yaml export-ignore
 postcss.config.cjs export-ignore
 *.sh export-ignore

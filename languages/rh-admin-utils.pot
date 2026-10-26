@@ -25,17 +25,17 @@ msgid "https://github.com/hirasso/rh-admin-utils"
 msgstr ""
 
 #. Description of the plugin
-#: rh-admin-utils.php:9
+#: rh-admin-utils.php:10
 msgid "Admin Utilities for WordPress. Removes plugin ads, adds custom buttons to the admin bar (publish, clear cache), allows editors to add users (except administrators), disables comments. Provides filters to adjust functionality."
 msgstr ""
 
 #. Author of the plugin
-#: rh-admin-utils.php:8
+#: rh-admin-utils.php:9
 msgid "Rasso Hilber"
 msgstr ""
 
 #. Author URI of the plugin
-#: rh-admin-utils.php:10
+#: rh-admin-utils.php:11
 msgid "https://rassohilber.com"
 msgstr ""
 

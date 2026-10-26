@@ -22,6 +22,7 @@ jobs:
   phpStan:
     name: PHPStan
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
@@ -43,9 +44,14 @@ jobs:
       - name: Verify prefixed dependencies
         run: pnpm run verify:prefixed
 
+      # Prefixed dependencies live in require-dev, so audit those too
+      - name: Audit composer dependencies
+        run: composer audit
+
   phpTests:
     name: PHP ${{ matrix.php }} Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     strategy:
       fail-fast: true
@@ -92,6 +98,7 @@ jobs:
   packageInfos:
     name: Get Package Infos
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     if: github.event_name == 'push'
     needs:
       - phpStan
@@ -117,6 +124,7 @@ jobs:
 
     name: Create Version PR or Publish
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     strategy:
       fail-fast: true
