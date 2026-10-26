@@ -1,6 +1,6 @@
 # For the AGENTS
 
-This is a WordPress plugin that is served via composer + plugin-update-checker. PHP 8.4, webpack, SCSS, wp-env for local dev, changesets for releases.
+This is a WordPress plugin that is served via composer + plugin-update-checker. PHP 8.4, esbuild (`tools/build.mjs`), SCSS, wp-env for local dev, changesets for releases.
 
 ## Local development
 
@@ -8,7 +8,7 @@ Local URL: derive dynamically from `pnpm env status --json`
 
 ```bash
 pnpm env start
-pnpm watch          # webpack watch
+pnpm watch          # esbuild watch with live reload
 ```
 
 ## Key commands
@@ -82,7 +82,7 @@ pnpm wp …                   # WP-CLI inside wp-env
 |------|---------|
 | `rh-admin-utils.php` | Plugin entry point |
 | `src/` | PHP classes (`RH\AdminUtils\` namespace) |
-| `assets-src/` | JS + SCSS source, built by webpack into `assets/` |
+| `assets-src/` | JS + SCSS source, built by esbuild into `assets/` |
 | `lib/` | Bundled third-party libraries (plugin-update-checker) |
 | `vendor-prefixed/` | Strauss-prefixed dependencies |
 | `languages/` | Translations (`pnpm make-pot`) |
