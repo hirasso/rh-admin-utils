@@ -1,4 +1,4 @@
-import "./environment-links.scss";
+import "./environment-links/environment-links.scss";
 
 class EnvironmentLinksDialog extends HTMLDialogElement {
   constructor() {

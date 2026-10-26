@@ -1,5 +1,5 @@
 allowBuilds:
   core-js: false
-  esbuild: false
+  esbuild: true
   fs-ext-extra-prebuilt: true
 ignoreWorkspaceRootCheck: true
