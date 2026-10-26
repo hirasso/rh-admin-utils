@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.1.4
+
+### Patch Changes
+
+- 2d35816: Add an `Update URI` header, so WordPress never offers a wordpress.org plugin with the same slug as an update
+
 ## 4.1.3
 
 ### Patch Changes
