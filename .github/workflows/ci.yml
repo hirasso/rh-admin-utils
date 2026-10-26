@@ -75,31 +75,28 @@ jobs:
       - name: Run Pest Tests
         run: pnpm run test:pest
 
-  # Deactivated due to issues in CI. Also SLOOOW! Can simply be reactivated if needed.
-  # e2eTests:
-  #   name: E2E Tests
-  #   runs-on: ubuntu-latest
+  e2eTests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    # Playwright's browser download sometimes hangs
+    timeout-minutes: 15
 
-  #   strategy:
-  #     fail-fast: true
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
-  #   steps:
-  #     - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - name: Run Shared Setup
+        uses: ./.github/actions/shared-setup
+        with:
+          php-version: 8.4
+          playwright: true
 
-  #     - name: Run Shared Setup
-  #       uses: ./.github/actions/shared-setup
-  #       with:
-  #         php-version: 8.4
-  #         playwright: true
+      - name: Run E2E Tests
+        run: pnpm run test:e2e
 
-  #     - name: Run E2E Tests
-  #       run: |
-  #         pnpm run test:e2e
-
-  #     - uses: daun/playwright-report-summary@8bb85779022480a59ed8d33d9a4b8bda1c67666b # v4.0.0
-  #       if: always()
-  #       with:
-  #         report-file: playwright-results.json
+      - uses: daun/playwright-report-summary@8bb85779022480a59ed8d33d9a4b8bda1c67666b # v4.0.0
+        if: always()
+        with:
+          report-file: playwright-results.json
 
   packageInfos:
     name: Get Package Infos
@@ -109,7 +106,7 @@ jobs:
     needs:
       - phpStan
       - phpTests
-      # - e2eTests
+      - e2eTests
     outputs:
       fullName: ${{ steps.packageInfos.outputs.fullName }}
       packageName: ${{ steps.packageInfos.outputs.packageName }}
