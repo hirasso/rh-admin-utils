@@ -18,60 +18,30 @@ import * as sass from 'sass';
 import postcss from 'postcss';
 import postcssPresetEnv from 'postcss-preset-env';
 import browserslist from 'browserslist';
+import { resolveToEsbuildTarget } from 'esbuild-plugin-browserslist';
 import http from 'node:http';
 import { parseArgs } from 'node:util';
 import { dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
-import { execFileSync } from 'node:child_process';
-import { globSync, readFileSync, mkdirSync, rmSync, watch, existsSync } from 'node:fs';
+import { globSync, readFileSync, rmSync, watch } from 'node:fs';
 
 const { values: args, positionals } = parseArgs({
   allowPositionals: true,
   options: {
-    o:{ type: 'string', default: 'assets/dist' },
+    o: { type: 'string', default: 'assets/dist' },
     production: { type: 'boolean', default: false },
   },
 });
 
 const isProduction = args.production;
 const outDir = args.o;
-const preferredReloadPort = 35799; // 35729 is often taken by other livereload servers
 
 const entryPoints = positionals.flatMap((pattern) => globSync(pattern));
 
 if (!entryPoints.length) {
   console.warn('No entry files given.');
   process.exit(1);
-}
-
-/**
- * Get esbuild targets from the browserslist config in package.json
- * @returns {string[]} e.g. ['chrome100', 'safari15']
- */
-function getEsbuildTargets() {
-  /** @type {Record<string, string>} */
-  const families = {
-    chrome: 'chrome',
-    edge: 'edge',
-    firefox: 'firefox',
-    safari: 'safari',
-    ios_saf: 'ios',
-    opera: 'opera',
-  };
-  /** @type {Map<string, string>} */
-  const minVersions = new Map();
-  for (const entry of browserslist()) {
-    const [name, versions] = entry.split(' ');
-    const family = families[name];
-    if (!family) continue;
-    const version = versions.split('-')[0];
-    const current = minVersions.get(family);
-    if (!current || version.localeCompare(current, undefined, { numeric: true }) < 0) {
-      minVersions.set(family, version);
-    }
-  }
-  return [...minVersions].map(([family, version]) => `${family}${version}`);
 }
 
 /**
@@ -124,10 +94,6 @@ function notifyBrowsers(event, data = '') {
   for (const res of clients) res.write(`event: ${event}\ndata: ${data}\n\n`);
 }
 
-function reloadBrowsers() {
-  notifyBrowsers('reload');
-}
-
 /**
  * Content hashes of the last build's output files
  * @type {Map<string, string>}
@@ -164,7 +130,7 @@ const reloadPlugin = {
       if (changed.every((file) => file.endsWith('.css'))) {
         notifyBrowsers('css', JSON.stringify(changed.map((file) => basename(file))));
       } else {
-        reloadBrowsers();
+        notifyBrowsers('reload');
       }
     });
   },
@@ -204,7 +170,7 @@ const options = {
   outdir: outDir,
   bundle: true,
   format: 'iife',
-  target: ['es2020', ...getEsbuildTargets()],
+  target: ['es2020', ...resolveToEsbuildTarget(browserslist(), { printUnknownTargets: false })],
   minify: isProduction,
   sourcemap: !isProduction,
   resolveExtensions: ['.ts', '.js', '.mjs', '.json', '.scss', '.css'],
@@ -231,13 +197,10 @@ const options = {
 };
 
 /**
- * Start the live reload server (dev only)
- * Falls back to a random free port if the preferred one is taken (e.g. by another watch)
- * Resolves once listening, so a failure happens before outDir gets wiped
- * @param {number} port
- * @returns {Promise<number>} the port actually used
+ * Start the live reload server on a random free port (dev only)
+ * @returns {Promise<number>} the port
  */
-function startReloadServer(port) {
+async function startReloadServer() {
   const server = http.createServer((req, res) => {
     res.writeHead(200, {
       'Content-Type': 'text/event-stream',
@@ -247,46 +210,17 @@ function startReloadServer(port) {
     clients.add(res);
     req.on('close', () => clients.delete(res));
   });
-  return new Promise((resolve, reject) => {
-    server.once('error', (error) => {
-      if (port && /** @type {NodeJS.ErrnoException} */ (error).code === 'EADDRINUSE') {
-        resolve(startReloadServer(0));
-      } else {
-        reject(error);
-      }
-    });
-    server.listen(port, () => {
-      resolve(/** @type {import('node:net').AddressInfo} */ (server.address()).port);
-    });
-  });
-}
-
-/**
- * Get the local site URL from wp-env, or from wp-config.php (WP_HOME_DEV), if available
- * @returns {string | undefined}
- */
-function getSiteUrl() {
-  /** @type {import('node:child_process').ExecFileSyncOptionsWithStringEncoding} */
-  const options = { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] };
-  try {
-    if (existsSync('node_modules/.bin/wp-env')) {
-      const status = execFileSync('node_modules/.bin/wp-env', ['status', '--json'], options);
-      return JSON.parse(status).urls?.development;
-    }
-    return execFileSync('wp', ['config', 'get', 'WP_HOME_DEV'], options).trim();
-  } catch {
-    return undefined;
-  }
+  await new Promise((resolve) => server.listen(0, () => resolve(undefined)));
+  return /** @type {import('node:net').AddressInfo} */ (server.address()).port;
 }
 
 if (!isProduction) {
-  const reloadPort = await startReloadServer(preferredReloadPort);
+  const reloadPort = await startReloadServer();
   options.banner = { js: `(${liveReloadClient})(${reloadPort});` };
   console.log(`Live reload on http://localhost:${reloadPort}`);
 }
 
 rmSync(outDir, { recursive: true, force: true });
-mkdirSync(outDir, { recursive: true });
 
 if (isProduction) {
   await esbuild.build(options);
@@ -297,12 +231,9 @@ if (isProduction) {
   watch('.', { recursive: true }, (_event, file) => {
     if (!file?.endsWith('.php') || /^(node_modules|vendor)\//.test(file)) return;
     clearTimeout(timeout);
-    timeout = setTimeout(reloadBrowsers, 100);
+    timeout = setTimeout(() => notifyBrowsers('reload'), 100);
   });
 
   const ctx = await esbuild.context(options);
   await ctx.watch();
-
-  const siteUrl = getSiteUrl();
-  if (siteUrl) console.log(`\n  ➜  Site: ${siteUrl}\n`);
 }
