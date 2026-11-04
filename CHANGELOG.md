@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.1.5
+
+### Patch Changes
+
+- 12316b9: Remove update checker hooks on deactivation (no more header warnings on `wp plugin deactivate --uninstall`)
+
 ## 4.1.4
 
 ### Patch Changes

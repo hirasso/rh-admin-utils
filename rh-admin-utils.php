@@ -3,7 +3,7 @@
 /**
  * Plugin Name: RH Admin Utilities
  * Plugin URI: https://github.com/hirasso/rh-admin-utils
- * Version: 4.1.4
+ * Version: 4.1.5
  * Requires PHP: 8.4.0
  * Update URI: https://github.com/hirasso/rh-admin-utils
  * Author: Rasso Hilber
