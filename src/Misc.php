@@ -100,7 +100,7 @@ class Misc extends Singleton
     public function overwrite_qtranslate_defaults()
     {
         global $q_config;
-        if (! isset($q_config)) {
+        if (! isset($q_config) || ! self::qtranslate_tweaks_enabled()) {
             return;
         }
         /** disable qtranslate styles on the admin LSBs */
@@ -119,7 +119,17 @@ class Misc extends Singleton
      */
     public function remove_qtranslate_admin_styles()
     {
-        wp_dequeue_style('qtranslate-admin-lsb');
+        if (self::qtranslate_tweaks_enabled()) {
+            wp_dequeue_style('qtranslate-admin-lsb');
+        }
+    }
+
+    /**
+     * Themes can return false to keep qtranslate-xt's defaults
+     */
+    private static function qtranslate_tweaks_enabled(): bool
+    {
+        return (bool) apply_filters('rhau/qtranslate_tweaks', true);
     }
 
     /**
@@ -286,12 +296,16 @@ class Misc extends Singleton
     public function admin_body_class(string $class): string
     {
         global $pagenow;
-        if ($pagenow !== 'user-edit.php') {
-            return $class;
+
+        if (self::qtranslate_tweaks_enabled()) {
+            $class = "rhau-qtranslate-tweaks $class";
         }
 
         /** allows for themes to disable hiding the application passwords */
-        if (apply_filters('rhau/misc/hide-application-passwords', true)) {
+        if (
+            $pagenow === 'user-edit.php'
+            && apply_filters('rhau/misc/hide-application-passwords', true)
+        ) {
             $class = "hide-application-passwords $class";
         }
 

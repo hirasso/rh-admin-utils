@@ -243,6 +243,8 @@ export default class RHAU {
    * This function is being called twice, to make sure it works everywehre.
    */
   initQtranslateSwitcher() {
+    if (!document.body.classList.contains("rhau-qtranslate-tweaks")) return;
+
     /** Bail early if it already ran successfully */
     const alreadyRendered = $("#wp-admin-bar-rhau-lsbs").length > 0;
     if (alreadyRendered) return;

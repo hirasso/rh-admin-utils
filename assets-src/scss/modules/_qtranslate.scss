@@ -1,46 +1,48 @@
 @use "../inc/mixins";
 
-/*
-* Qtranslate Admin Language Switcher
-*/
-.qtranxs-lang-switch-wrap {
-  display: none;
-}
-#wp-admin-bar-rhau-lsbs .qtranxs-lang-switch-wrap {
-  display: flex;
-}
-.post-php #wp-admin-bar-language,
-#qtranxs-meta-box-lsb {
-  display: none !important;
-}
-#wp-admin-bar-rhau-lsbs .qtranxs-lang-switch {
-  cursor: pointer;
-  padding: 0 0.5em;
-  margin: 0;
-  line-height: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-#wp-admin-bar-rhau-lsbs .qtranxs-lang-switch:hover,
-#wp-admin-bar-rhau-lsbs .qtranxs-lang-switch.active {
-  color: var(--rhau-button-primary-color, #fff) !important;
-  background: var(--rhau-button-primary-background, #2271b1) !important;
-}
+.rhau-qtranslate-tweaks {
+  /*
+  * Qtranslate Admin Language Switcher
+  */
+  .qtranxs-lang-switch-wrap {
+    display: none;
+  }
+  #wp-admin-bar-rhau-lsbs .qtranxs-lang-switch-wrap {
+    display: flex;
+  }
+  &.post-php #wp-admin-bar-language,
+  #qtranxs-meta-box-lsb {
+    display: none !important;
+  }
+  #wp-admin-bar-rhau-lsbs .qtranxs-lang-switch {
+    cursor: pointer;
+    padding: 0 0.5em;
+    margin: 0;
+    line-height: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  #wp-admin-bar-rhau-lsbs .qtranxs-lang-switch:hover,
+  #wp-admin-bar-rhau-lsbs .qtranxs-lang-switch.active {
+    color: var(--rhau-button-primary-color, #fff) !important;
+    background: var(--rhau-button-primary-background, #2271b1) !important;
+  }
 
-#wp-admin-bar-rhau-lsbs .qtranxs-lang-switch img {
-  margin-right: 0.4em;
-}
+  #wp-admin-bar-rhau-lsbs .qtranxs-lang-switch img {
+    margin-right: 0.4em;
+  }
 
-/*
-* Qtranslate Options Page
-*/
-.qtranxs-form-table {
-  #option_lsb_style > td,
-  #option_highlight_mode > td {
-    opacity: 0.5;
-    pointer-events: none;
-    user-select: none;
+  /*
+  * Qtranslate Options Page
+  */
+  .qtranxs-form-table {
+    #option_lsb_style > td,
+    #option_highlight_mode > td {
+      opacity: 0.5;
+      pointer-events: none;
+      user-select: none;
+    }
   }
 }
 
