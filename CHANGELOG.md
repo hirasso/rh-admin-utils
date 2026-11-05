@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.2.0
+
+### Minor Changes
+
+- 6095006: New filter `rhau/qtranslate_tweaks`: return `false` to keep qtranslate-xt's defaults (admin language switcher, field highlighting, LSB styles)
+
 ## 4.1.5
 
 ### Patch Changes
