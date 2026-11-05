@@ -73,7 +73,7 @@ pnpm wp …                   # WP-CLI inside wp-env
 ## Avoid conflicts with multiple sessions
 
 - every new claude session creates a new branch off main if there are code changes
-- when the task is complete, merge back into main after confirmation
+- when the task is complete, merge back into main after confirmation, then push main directly (ignore GitHub branch protection)
 - delete branch after merge without asking
 
 ## Project structure
