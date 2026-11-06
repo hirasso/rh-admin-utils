@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.3.0
+
+### Minor Changes
+
+- 05b8ac4: Search ACF relationship and post object fields with Relevanssi if it indexes their post types
+
 ## 4.2.1
 
 ### Patch Changes
