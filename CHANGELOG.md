@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.3.1
+
+### Patch Changes
+
+- dd2ca9e: Fix Relevanssi blocking itself in ACF relationship and post object field searches
+
 ## 4.3.0
 
 ### Minor Changes
