@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.2.1
+
+### Patch Changes
+
+- 659454b: Only show the post type in ACF relationship field results if the field allows multiple
+
 ## 4.2.0
 
 ### Minor Changes
