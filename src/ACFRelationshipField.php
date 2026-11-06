@@ -11,7 +11,7 @@ class ACFRelationshipField
 {
     public static function init()
     {
-        add_filter("acf/fields/relationship/result", self::relationship_result(...), 10, 2);
+        add_filter("acf/fields/relationship/result", self::relationship_result(...), 10, 3);
         add_filter('acf/prepare_field', self::prepare_field(...), 20);
     }
 
@@ -32,13 +32,18 @@ class ACFRelationshipField
     }
 
     /**
-     * Render the post type and an edit link in relationship results
+     * Render an edit link in relationship results, and the post type if the field allows several
      */
-    private static function relationship_result(string $text, WP_Post $post): string
+    private static function relationship_result(string $text, WP_Post $post, array $field): string
     {
+        $post_types = array_filter((array) ($field['post_type'] ?? []));
+
+        if (count($post_types) !== 1) {
+            $text .= sprintf(' (%s)', esc_html(get_post_type($post)));
+        }
+
         return sprintf(
-            "{$text} (%s) %s",
-            esc_html(get_post_type($post)),
+            "{$text} %s",
             sprintf(
                 <<<HTML
                 <a
