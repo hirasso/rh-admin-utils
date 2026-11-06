@@ -33,6 +33,9 @@ class ACFRelationshipField
             return $args;
         }
 
+        /** Relevanssi blocks itself on all `acf…` ajax actions */
+        remove_filter('relevanssi_search_ok', 'relevanssi_acf_relationship_fields');
+
         return [...$args, 'relevanssi' => true];
     }
 

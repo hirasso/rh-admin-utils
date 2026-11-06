@@ -30,5 +30,11 @@ class ACFRelationshipFieldTest extends IntegrationTestCase
         $this->assertTrue($get_args(['s' => 'foo', 'post_type' => ['post', 'page']])['relevanssi'] ?? false);
         $this->assertArrayNotHasKey('relevanssi', $get_args(['s' => 'foo', 'post_type' => ['post', 'attachment']]));
         $this->assertArrayNotHasKey('relevanssi', $get_args(['s' => '', 'post_type' => ['post']]));
+
+        add_filter('relevanssi_search_ok', 'relevanssi_acf_relationship_fields');
+        $get_args(['s' => 'foo', 'post_type' => ['post', 'attachment']]);
+        $this->assertNotFalse(has_filter('relevanssi_search_ok', 'relevanssi_acf_relationship_fields'));
+        $get_args(['s' => 'foo', 'post_type' => ['post']]);
+        $this->assertFalse(has_filter('relevanssi_search_ok', 'relevanssi_acf_relationship_fields'));
     }
 }
