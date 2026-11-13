@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.3.2
+
+### Patch Changes
+
+- 93169e4: Fix fatal error in pretty permalinks on older WordPress versions
+
 ## 4.3.1
 
 ### Patch Changes
