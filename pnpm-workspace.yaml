@@ -1,5 +1,10 @@
 allowBuilds:
+  '@parcel/watcher': false
   core-js: false
   esbuild: true
   fs-ext-extra-prebuilt: true
 ignoreWorkspaceRootCheck: true
+overrides:
+  '@wp-playground/storage>isomorphic-git': 1.38.6
+  express>qs: ^6.16.2
+  rimraf>glob: ^14.0.2
