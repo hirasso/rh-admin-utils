@@ -74,12 +74,13 @@ class PrettyPermalinks
         /** Make sure we have a post name available */
         if (empty($clone->post_name)) {
             $slug = sanitize_title($clone->post_title, "{$clone->ID}");
+            /** positional args: WP < 6.x names the 2nd param $post_ID */
             $clone->post_name = wp_unique_post_slug(
-                slug: $slug,
-                post_id: $clone->ID,
-                post_status: 'publish',
-                post_type: $clone->post_type,
-                post_parent: $clone->post_parent,
+                $slug,
+                $clone->ID,
+                'publish',
+                $clone->post_type,
+                $clone->post_parent,
             );
         }
 
