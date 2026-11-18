@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.4.0
+
+### Minor Changes
+
+- 1ce5266: Hide trashed and deleted attachments in ACF image, file and gallery fields
+- db30b51: Apply .htaccess hardening automatically on Apache, re-apply when the directives change
+
 ## 4.3.2
 
 ### Patch Changes
