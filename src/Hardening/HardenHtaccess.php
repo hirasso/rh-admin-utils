@@ -7,13 +7,18 @@ use WP_CLI;
 
 final class HardenHtaccess
 {
-    /** Bump the version suffix to re-trigger hardening on already-hardened sites */
-    private static $htaccessHardenedOption = 'rhau-hardened-v1';
+    private const MARKER = 'AdminUtils\Hardening';
+    private const CRON_HOOK = 'rhau/harden-htaccess';
+
+    /** Last failed attempt: ['hash' => directives hash, 'reason' => string] */
+    private const FAILURE_OPTION = 'rhau-htaccess-hardening-failure';
 
     public static function init()
     {
         /** Hardening via .htaccess */
         add_action('admin_init', self::maybeApplyHtaccessHardening(...));
+        add_action('admin_init', self::maybeScheduleHtaccessHardening(...));
+        add_action(self::CRON_HOOK, self::autoApplyHtaccessHardening(...));
         add_action('admin_notices', self::showHtaccessHardeningNotice(...));
 
         if (self::isWpCli()) {
@@ -31,27 +36,88 @@ final class HardenHtaccess
     }
 
     /**
-     * Check if currently running on Apache
+     * Check if currently running on Apache (or LiteSpeed, which reads .htaccess too)
      */
     private static function isApache(): bool
     {
-        if (function_exists('apache_get_modules')) {
-            return true;
-        }
-        $software = $_SERVER['SERVER_SOFTWARE'] ?? '';
-        return stripos($software, 'apache') !== false;
+        global $is_apache;
+        return (bool) $is_apache;
     }
 
     /**
-     * Check if the site is already hardened
+     * Check if the .htaccess block differs from the current directives
      */
     private static function needsHtaccessHardening(): bool
     {
-        return !(bool) get_network_option(null, self::$htaccessHardenedOption);
+        /** Ensure extract_from_markers() is declared */
+        require_once ABSPATH . 'wp-admin/includes/misc.php';
+
+        /** extract_from_markers() drops lines starting with # */
+        $expected = array_values(array_filter(
+            self::getHardeningDirectiveLines(),
+            fn (string $line) => !str_starts_with($line, '#')
+        ));
+
+        return extract_from_markers(self::getHtaccessFilePath(), self::MARKER) !== $expected;
     }
 
     /**
-     * Print a notice to administrators to harden the website via .htaccess directives
+     * Get the failure of the last attempt, if it was made with the current directives
+     */
+    private static function getFailureReason(): ?string
+    {
+        $failure = get_network_option(null, self::FAILURE_OPTION);
+
+        if (!is_array($failure) || ($failure['hash'] ?? null) !== self::getDirectivesHash()) {
+            return null;
+        }
+
+        return (string) ($failure['reason'] ?? '');
+    }
+
+    private static function getDirectivesHash(): string
+    {
+        return md5(self::getHardeningDirectives());
+    }
+
+    /**
+     * Schedule an automatic hardening attempt if the .htaccess is outdated
+     */
+    private static function maybeScheduleHtaccessHardening(): void
+    {
+        if (
+            !self::isApache()
+            || wp_next_scheduled(self::CRON_HOOK)
+            || self::getFailureReason() !== null
+            || !self::needsHtaccessHardening()
+        ) {
+            return;
+        }
+
+        wp_schedule_single_event(time(), self::CRON_HOOK);
+    }
+
+    /**
+     * Automatically harden the .htaccess, only if the result can be verified
+     */
+    private static function autoApplyHtaccessHardening(): void
+    {
+        if (!self::needsHtaccessHardening()) {
+            return;
+        }
+
+        try {
+            self::writeToHtaccess(self::getHardeningDirectives(), requireVerification: true);
+        } catch (Exception $e) {
+            update_network_option(null, self::FAILURE_OPTION, [
+                'hash' => self::getDirectivesHash(),
+                'reason' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * Print a notice to administrators if automatic hardening failed or never ran
      */
     private static function showHtaccessHardeningNotice()
     {
@@ -63,18 +129,34 @@ final class HardenHtaccess
             return;
         }
 
+        $reason = self::getFailureReason();
+        $scheduled = wp_next_scheduled(self::CRON_HOOK);
+        $cronStuck = $scheduled && $scheduled < time() - HOUR_IN_SECONDS;
+
+        if ($reason === null && !$cronStuck) {
+            return;
+        }
+
         $url = wp_nonce_url(add_query_arg('rhau-action', 'harden-htaccess'), 'rhau-harden-htaccess');
 
         ob_start(); ?>
-        <div class="notice notice-info">
+        <div class="notice notice-warning">
             <p>
-                <?php _e('This site should be hardened using <code>.htaccess</code> directives.', 'rh-admin-utils') ?>
-
+                <?php _e('This site could not be hardened automatically using <code>.htaccess</code> directives.', 'rh-admin-utils') ?>
+                <?php if ($reason) : ?>
+                    <br><em><?php echo wp_kses_post($reason) ?></em>
+                <?php endif; ?>
+            </p>
+            <p>
                 <a
                     class="button-primary"
                     href="<?= esc_url($url) ?>">
                     <?= __('Apply directives now', 'rh-admin-utils') ?>
                 </a>
+            </p>
+            <p>
+                <?php echo esc_html(self::getMessage('could_not_update_htaccess')) ?>
+                <?php echo self::renderCodeBlock(self::getHardeningDirectives()) ?>
             </p>
         </div>
         <?php echo ob_get_clean();
@@ -122,24 +204,6 @@ final class HardenHtaccess
     }
 
     /**
-     * Show a notice for manually applying the .htaccess hardening code
-     */
-    private static function showManualHardeningNotice(string $reason = ''): void
-    {
-        ob_start(); ?>
-        <div class="notice notice-warning is-dismissible">
-            <p>
-                <?php echo esc_html(self::getMessage('could_not_update_htaccess')) ?>
-                <?php if ($reason !== '') : ?>
-                    <br><em><?php echo wp_kses_post($reason) ?></em>
-                <?php endif; ?>
-                <?php echo self::renderCodeBlock(self::getHardeningDirectives()) ?>
-            </p>
-        </div>
-        <?php echo ob_get_clean();
-    }
-
-    /**
      * Check if we are currently on ?action=rhau-harden-site
      */
     private static function isHardenHtaccessActionUrl(): bool
@@ -157,7 +221,7 @@ final class HardenHtaccess
             return;
         }
 
-        if (!current_user_can('edit_others_posts')) {
+        if (!current_user_can('manage_options')) {
             wp_die(
                 __('Sorry, you are not allowed to harden this site.', 'rh-admin-utils'),
                 '',
@@ -173,7 +237,10 @@ final class HardenHtaccess
             self::writeToHtaccess($directives);
             add_action('admin_notices', self::showHardenSuccessNotice(...));
         } catch (Exception $e) {
-            add_action('admin_notices', fn () => self::showManualHardeningNotice($e->getMessage()));
+            update_network_option(null, self::FAILURE_OPTION, [
+                'hash' => self::getDirectivesHash(),
+                'reason' => $e->getMessage(),
+            ]);
         }
     }
 
@@ -253,7 +320,7 @@ final class HardenHtaccess
      *
      * @throws Exception
      */
-    private static function writeToHtaccess(string $directives): void
+    private static function writeToHtaccess(string $directives, bool $requireVerification = false): void
     {
         /** Ensure insert_with_markers() is declared */
         require_once ABSPATH . 'wp-admin/includes/misc.php';
@@ -267,9 +334,13 @@ final class HardenHtaccess
         /** Establish that the site responds before touching anything */
         $respondedBefore = self::siteResponds();
 
+        if ($requireVerification && !$respondedBefore) {
+            throw new Exception('The site could not request itself (loopback request), so the result could not be verified.');
+        }
+
         $backup = file_exists($htaccessFile) ? file_get_contents($htaccessFile) : null;
 
-        if (!insert_with_markers($htaccessFile, 'AdminUtils\Hardening', explode("\n", trim($directives)))) {
+        if (!insert_with_markers($htaccessFile, self::MARKER, explode("\n", trim($directives)))) {
             throw new Exception(sprintf("Could not update the <code>.htaccess</code> file"));
         }
 
@@ -282,7 +353,8 @@ final class HardenHtaccess
             );
         }
 
-        update_network_option(null, self::$htaccessHardenedOption, true);
+        delete_network_option(null, self::FAILURE_OPTION);
+        delete_network_option(null, 'rhau-hardened-v1'); // legacy
     }
 
     /**
@@ -315,6 +387,12 @@ final class HardenHtaccess
         }
 
         file_put_contents($file, $backup);
+    }
+
+    /** @return string[] */
+    private static function getHardeningDirectiveLines(): array
+    {
+        return explode("\n", trim(self::getHardeningDirectives()));
     }
 
     /**

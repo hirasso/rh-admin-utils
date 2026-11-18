@@ -111,23 +111,23 @@ msgstr ""
 msgid "If you want to go live, please <a href=\"mailto:%1$s\">notify your site administrator</a>."
 msgstr ""
 
-#: src/Hardening/HardenHtaccess.php:71
-msgid "This site should be hardened using <code>.htaccess</code> directives."
+#: src/Hardening/HardenHtaccess.php:145
+msgid "This site could not be hardened automatically using <code>.htaccess</code> directives."
 msgstr ""
 
-#: src/Hardening/HardenHtaccess.php:76
+#: src/Hardening/HardenHtaccess.php:154
 msgid "Apply directives now"
 msgstr ""
 
-#: src/Hardening/HardenHtaccess.php:117
+#: src/Hardening/HardenHtaccess.php:199
 msgid "Successfully updated the .htaccess file"
 msgstr ""
 
-#: src/Hardening/HardenHtaccess.php:118
+#: src/Hardening/HardenHtaccess.php:200
 msgid "Could not update the .htaccess file. Copy and paste manually:"
 msgstr ""
 
-#: src/Hardening/HardenHtaccess.php:162
+#: src/Hardening/HardenHtaccess.php:226
 msgid "Sorry, you are not allowed to harden this site."
 msgstr ""
 
