@@ -1,27 +1,6 @@
 # For the AGENTS
 
-This is a WordPress plugin that is served via composer + plugin-update-checker. PHP 8.4, esbuild (`tools/build.mjs`), SCSS, wp-env for local dev, changesets for releases.
-
-## Local development
-
-Local URL: derive dynamically from `pnpm env status --json`
-
-```bash
-pnpm env start
-pnpm watch          # esbuild watch with live reload
-```
-
-## Key commands
-
-```bash
-pnpm build                  # production asset build
-pnpm format                 # Prettier + PHP Pint
-composer analyse            # PHPStan static analysis
-pnpm test:pest              # Pest tests in the wp-env test environment
-pnpm test:e2e               # Playwright e2e tests (`test:e2e:ui`, `test:e2e:install`)
-pnpm test                   # Pest + fresh test env + e2e
-pnpm wp …                   # WP-CLI inside wp-env
-```
+Stack, setup, local URL and all commands: `README.md` ("Development"). This file only adds what agents need beyond it; don't repeat README content here, reference it.
 
 ## Code style
 
@@ -45,7 +24,7 @@ pnpm wp …                   # WP-CLI inside wp-env
 ## After making changes
 
 - Keep inline code comments as short as possible. Be extremely concise and sacrifice grammar for the sake of concision
-- Mark issues that are solved by the current edit as `done` (see further down, #issue-tracker and #triage-labels).
+- Issues solved by the current edit: add `Fixes #<n>` to the commit message; never close them directly.
 
 ### PHP
 
@@ -53,6 +32,7 @@ pnpm wp …                   # WP-CLI inside wp-env
 - Classes in `CamelCase`, methods / functions etc in `snake_case`
 - After making changes, run `composer analyse` and `pnpm test:pest`
 - write tests where appropriate; keep tests lean
+- Before relying on a new test, prove it fails without the change (e.g. revert the fix temporarily)
 - Keep new code DRY! Propose deduplicating existing code. Ask if unsure.
 - Prefer fewer, bigger classes: bundle related functionality in one class/file instead of many small ones. A class doing several related, contained jobs is fine
 - Prefer WordPress-native functionality over reimplementing it (e.g. `list_files()` over `glob()`).
@@ -81,6 +61,7 @@ pnpm wp …                   # WP-CLI inside wp-env
 | Path | Purpose |
 |------|---------|
 | `rh-admin-utils.php` | Plugin entry point |
+| `rh-admin-utils-helper.php` | Companion must-use plugin |
 | `src/` | PHP classes (`RH\AdminUtils\` namespace) |
 | `assets-src/` | JS + SCSS source, built by esbuild into `assets/` |
 | `lib/` | Bundled third-party libraries (plugin-update-checker) |
@@ -95,10 +76,8 @@ pnpm wp …                   # WP-CLI inside wp-env
 
 ### Issue tracker
 
-Issues and PRDs live as markdown files under `.scratch/<feature-slug>/`.
+Issues and PRDs live as GitHub issues; use `gh` (`gh issue list`, `gh issue view`, `gh issue create`). They close via `Fixes #<n>` in the commit message when pushed to the default branch; never `gh issue close`.
 
 ### Triage labels
 
-Canonical vocabulary (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`).
-
-Always move `Status: done` issues into `.scratch/done`.
+Canonical vocabulary (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`) as GitHub labels; `wontfix` issues are closed only on request.

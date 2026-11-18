@@ -38,3 +38,20 @@
 - Ships with an instance of [Plugin Update Checker](https://github.com/YahnisElsts/plugin-update-checker) to support updates from wp-admin
 - Does not rely on the WP.org plugin repository
 - Installs identically via composer or as a plugin zip, so a site can use both
+
+## Development
+
+esbuild (`tools/build.mjs`), SCSS, [wp-env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/) for local dev, [changesets](https://github.com/changesets/changesets) for releases. Local URL: `pnpm env status --json`.
+
+```bash
+pnpm env start              # start wp-env
+pnpm watch                  # esbuild watch with live reload
+pnpm build                  # production asset build
+pnpm format                 # Prettier + PHP Pint
+composer analyse            # PHPStan static analysis
+pnpm env:test start         # start the wp-env test environment
+pnpm test:pest              # Pest tests in the wp-env test environment
+pnpm test:e2e               # Playwright e2e tests (`test:e2e:ui`, `test:e2e:install`)
+pnpm test                   # Pest + fresh test env + e2e
+pnpm wp …                   # WP-CLI inside wp-env
+```
