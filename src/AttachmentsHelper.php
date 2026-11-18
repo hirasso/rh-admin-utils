@@ -14,6 +14,45 @@ class AttachmentsHelper
     {
         add_filter('ajax_query_attachments_args', [__CLASS__, 'ajax_query_attachments_args']);
         add_action('pre_get_posts', [__CLASS__, 'pre_get_posts']);
+        add_filter('acf/load_value/type=image', self::load_attachment_value(...));
+        add_filter('acf/load_value/type=file', self::load_attachment_value(...));
+        add_filter('acf/load_value/type=gallery', self::load_gallery_value(...));
+    }
+
+    /**
+     * Return null for trashed or deleted attachments in ACF image and file fields
+     */
+    private static function load_attachment_value(mixed $value): mixed
+    {
+        if (empty($value) || !is_numeric($value)) {
+            return $value;
+        }
+
+        return self::is_available((int) $value) ? $value : null;
+    }
+
+    /**
+     * Remove trashed or deleted attachments from ACF gallery fields
+     */
+    private static function load_gallery_value(mixed $value): mixed
+    {
+        if (empty($value) || !is_array($value)) {
+            return $value;
+        }
+
+        _prime_post_caches(array_map('intval', $value), false, false);
+
+        return array_values(array_filter($value, fn ($id) => self::is_available((int) $id)));
+    }
+
+    /**
+     * Check if an attachment exists and is not trashed
+     */
+    private static function is_available(int $id): bool
+    {
+        $status = get_post_status($id);
+
+        return $status !== false && $status !== 'trash';
     }
 
     /**
