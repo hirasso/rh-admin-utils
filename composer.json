@@ -63,6 +63,7 @@
     "wp-plugin/user-switching": "^1.12",
     "wp-plugin/wp-super-cache": "^3.0",
     "wp-theme/twentytwentyfive": "^1.4",
+    "yahnis-elsts/plugin-update-checker": "^5.7",
     "yoast/phpunit-polyfills": "^4.0"
   },
   "extra": {
@@ -86,12 +87,18 @@
       "constant_prefix": "RHAU_VENDOR_",
       "function_prefix": false,
       "packages": [
-        "symfony/var-dumper"
+        "symfony/var-dumper",
+        "yahnis-elsts/plugin-update-checker"
       ],
       "delete_vendor_packages": false,
       "delete_vendor_files": false,
       "include_modified_date": false,
-      "include_author": false
+      "include_author": false,
+      "exclude_from_prefix": {
+        "packages": [
+          "yahnis-elsts/plugin-update-checker"
+        ]
+      }
     }
   },
   "scripts": {

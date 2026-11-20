@@ -11,13 +11,13 @@
     {
       "description": "Disable all Composer packages except the prefixed ones",
       "matchManagers": ["composer"],
-      "matchPackageNames": ["!symfony/var-dumper"],
+      "matchPackageNames": ["!symfony/var-dumper", "!yahnis-elsts/plugin-update-checker"],
       "enabled": false
     },
     {
       "description": "The Renovate Sync workflow runs `composer prefix` on the branch",
       "matchManagers": ["composer"],
-      "matchPackageNames": ["symfony/var-dumper"],
+      "matchPackageNames": ["symfony/var-dumper", "yahnis-elsts/plugin-update-checker"],
       "groupName": "prefixed dependencies"
     },
     {
