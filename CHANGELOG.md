@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.4.1
+
+### Patch Changes
+
+- 97f3b26: Ship plugin-update-checker via Composer + Strauss instead of a hand-copied `lib/`
+
 ## 4.4.0
 
 ### Minor Changes
