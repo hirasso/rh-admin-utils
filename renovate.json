@@ -33,5 +33,5 @@
       "groupName": "bundled dependencies"
     }
   ],
-  "dependencyDashboard": false
+  "dependencyDashboard": { "enabled": false }
 }
