@@ -29,6 +29,7 @@
 - Adds a badge with a count to the admin menu for pending reviews
 - Adds a download button to TinyMCE (classic editor)
 - if WP Super Cache is installed, adds a button to the admin bar to clear the whole cache
+- Adds a WP CLI command `wp rhau test-imagick` to check which image formats Imagick can actually encode
 - Adds a WP CLI command `wp rhau acf-sync-field-groups` to sync all ACF field groups
 - Adds a WP CLI command `wp rhau simply-static run` to generate a static version of your site (requires the plugin simply-static to be installed)
 
