@@ -36,6 +36,9 @@ class Misc extends Singleton
 
         /** Don't convert :) etc. to emoji. not using `pre_option_` since it doesn't work with `__return_false` */
         add_filter('option_use_smilies', '__return_false');
+
+        /** Do not render the site icon in the admin bar */
+        add_filter('wp_admin_bar_show_site_icons', '__return_false');
     }
 
     public function after_setup_theme()
