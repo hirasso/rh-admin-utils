@@ -15,8 +15,8 @@ class WpCliCommands
         if (!rhau()->is_wp_cli()) {
             return;
         }
-        \WP_CLI::add_command('rhau do-action-save-post', [__CLASS__, 'wp_cli_do_action_save_post']);
-        \WP_CLI::add_command('rhau test-imagick', [__CLASS__, 'wp_cli_test_imagick']);
+        \WP_CLI::add_command('rhau do-action-save-post', self::wp_cli_do_action_save_post(...));
+        \WP_CLI::add_command('rhau test-imagick', self::wp_cli_test_imagick(...));
     }
 
     /**
@@ -26,7 +26,7 @@ class WpCliCommands
      *
      *     wp rhau test-imagick
      */
-    public static function wp_cli_test_imagick(): void
+    private static function wp_cli_test_imagick(): void
     {
         \WP_CLI::log('SAPI: ' . PHP_SAPI);
         \WP_CLI::log('php.ini: ' . (php_ini_loaded_file() ?: 'none'));
@@ -93,7 +93,7 @@ class WpCliCommands
      * [--type=<string>]
      * : A comma-separated list of post types to be processed
      */
-    public static function wp_cli_do_action_save_post(array $args = [], array $assoc_args = []): void
+    private static function wp_cli_do_action_save_post(array $args = [], array $assoc_args = []): void
     {
         $post_type = $assoc_args['type'] ?? null;
         if (!$post_type) {
