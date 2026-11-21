@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.5.1
+
+### Patch Changes
+
+- 237288d: Do not render the site icon in the admin bar
+
 ## 4.5.0
 
 ### Minor Changes
