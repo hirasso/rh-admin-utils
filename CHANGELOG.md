@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.5.0
+
+### Minor Changes
+
+- 54303f9: Add `wp rhau test-imagick` to check which image formats Imagick can actually encode
+
 ## 4.4.1
 
 ### Patch Changes
