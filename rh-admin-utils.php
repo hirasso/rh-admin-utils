@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace RH\AdminUtils;
 
+use RH\AdminUtils\Commands\Commands;
 use RH\AdminUtils\SimplyStatic\SimplyStatic;
 
 /** Exit if accessed directly */
@@ -109,12 +110,12 @@ ACFOembedCache::init();
 QueryOptimizer::init();
 AdminDashboard::init();
 TinyMcePlugins::init();
-WpCliCommands::init();
 SendTestEmail::init();
 ACFCodeField::init();
 SimplyStatic::init();
 ACFTextField::init();
 Misc::getInstance();
+Commands::init();
 
 /**
  * Support for manual (non-composer) updates
