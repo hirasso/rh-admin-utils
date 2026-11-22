@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.6.0
+
+### Minor Changes
+
+- 7376a99: Guard `wp media regenerate` against falling back to GD if Imagick can't encode WP's output formats
+
 ## 4.5.1
 
 ### Patch Changes
