@@ -6018,15 +6018,15 @@
         },
         {
             "name": "wp-plugin/sg-security",
-            "version": "1.6.8",
+            "version": "1.7.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/sg-security/",
-                "reference": "tags/1.6.8"
+                "reference": "tags/1.7.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/sg-security.1.6.8.zip"
+                "url": "https://downloads.wordpress.org/plugin/sg-security.1.7.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6045,7 +6045,8 @@
                 "issues": "https://wordpress.org/support/plugin/sg-security",
                 "source": "https://plugins.svn.wordpress.org/sg-security"
             },
-            "time": "2026-08-28T12:26:22+00:00"
+            "time": "2026-11-04T12:23:35+00:00",
+            "published-time": "2026-11-04T12:23:35+00:00"
         },
         {
             "name": "wp-plugin/simple-page-ordering",
@@ -6325,5 +6326,5 @@
     "platform-overrides": {
         "php": "8.4.0"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }
