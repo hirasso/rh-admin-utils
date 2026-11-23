@@ -49,7 +49,7 @@
     "phpunit/phpunit": "^11.0",
     "pronamic/advanced-custom-fields-pro": "dev-main",
     "roots/wordpress": "^7.1",
-    "symfony/var-dumper": "^7.4",
+    "symfony/var-dumper": "^8.0",
     "szepeviktor/phpstan-wordpress": "^2.0",
     "vinkla/extended-acf": "^15.0",
     "wp-cli/i18n-command": "^2.7",
@@ -63,7 +63,7 @@
     "wp-plugin/user-switching": "^1.12",
     "wp-plugin/wp-super-cache": "^3.0",
     "wp-theme/twentytwentyfive": "^1.4",
-    "yahnis-elsts/plugin-update-checker": "^5.7",
+    "yahnis-elsts/plugin-update-checker": "^6.0",
     "yoast/phpunit-polyfills": "^4.0"
   },
   "extra": {
